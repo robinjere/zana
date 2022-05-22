@@ -28,8 +28,22 @@
        <h2> Generate report </h2>
     </div> <!-- /registration-form__heading -->
      <div class="registration-form__form">
-           <form method="post" action="/report/generate">
+           <form method="post" action="/report/generate" target="_blank">
           
+
+
+            <div class="registration-space-y">   
+                  <!-- <label for="" class="form-label"></label> -->
+                  <select class="form-control" name="report_type" id="report_type">
+                      <option > Select type of report you want </option>
+                      <option value="sales"> Sales </option>
+                      <option value="expenses"> Expenses </option>
+                      <option value="items_in_stock"> Drugs in Stock </option>
+                      <option value="items_out_stock"> Drugs out of Stock </option>
+                      <option value="items_expected_to_expire"> Drugs expected to expire </option>
+                  </select>
+             </div><!-- /row -->
+
              <div class="row registration-space-y">   
                <div class="col">
                    <label for="start_date"> Start Date </label>
@@ -41,16 +55,6 @@
                 </div>
              </div><!-- /row -->
 
-            <div class="registration-space-y">   
-                  <!-- <label for="" class="form-label"></label> -->
-                  <select class="form-control" name="report_type" id="report_type">
-                      <option > Select type of report you want </option>
-                      <option value="sales"> Sales </option>
-                      <option value="expenses"> Expenses </option>
-                      <option value="items_in_stock"> Drugs in Stock </option>
-                      <option value="items_out_stock"> Drugs out of Stock </option>
-                  </select>
-             </div><!-- /row -->
 
             <div class="row mt-3">
                  <div class="col">

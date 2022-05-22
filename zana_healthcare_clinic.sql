@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2022 at 05:37 AM
+-- Generation Time: May 21, 2022 at 09:55 AM
 -- Server version: 10.4.21-MariaDB
--- PHP Version: 7.4.25
+-- PHP Version: 8.0.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `zana_healthcare_clinic`
+-- Database: `clinic-store`
 --
 
 -- --------------------------------------------------------
@@ -41,7 +41,10 @@ CREATE TABLE `expenses` (
 --
 
 INSERT INTO `expenses` (`id`, `description`, `amount`, `created_at`, `updated_at`, `user_id`) VALUES
-(3, '  2, 3plates of wali nyama na mahalage', 3000, '2021-12-17 15:13:26', '2021-12-20 00:00:00', 13);
+(3, '  2, 3plates of wali nyama na mahalage', 3000, '2021-12-17 15:13:26', '2021-12-20 00:00:00', 13),
+(5, 'nimenunua umeme', 5000, '2022-04-27 12:28:42', '2022-04-27 12:28:42', 19),
+(6, 'KUTUPA TAKA', 5000, '2022-04-27 12:57:34', '2022-04-27 12:57:34', 19),
+(7, 'nimenunua bahasha', 10000, '2022-04-28 16:01:50', '2022-04-28 16:01:50', 19);
 
 -- --------------------------------------------------------
 
@@ -55,6 +58,7 @@ CREATE TABLE `items` (
   `qty` int(8) NOT NULL,
   `buying_price` double NOT NULL,
   `selling_price` double NOT NULL,
+  `exp_date` datetime DEFAULT NULL,
   `description` varchar(60) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -65,12 +69,12 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
-(3, 'toff plus', 12, 800, 900, 'new toff plus', '2021-12-12 18:43:36', '2022-04-09 00:00:00', 0),
-(4, 'amoxilyn', 12, 800, 900, '', '2021-12-12 18:47:55', '2022-04-10 00:00:00', 0),
-(5, 'panadol', 25, 3200, 4200, 'new panadol', '2021-12-13 00:15:12', '2022-04-10 00:00:00', 0),
-(7, 'paracetamo', 13, 4000, 5000, '', '2021-12-19 16:39:58', '2022-04-10 00:00:00', 13),
-(8, 'metacaflini', 29, 400, 500, 'metacaflin is the best, there ', '2022-04-03 13:16:07', '2022-04-10 00:00:00', 19);
+INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_date`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
+(10, 'paracetamol', 50, 50, 100, NULL, '', '2022-04-27 12:50:56', '2022-04-27 00:00:00', 19),
+(11, 'ibuprofen', 50, 100, 200, NULL, '', '2022-04-27 12:51:20', '2022-04-27 00:00:00', 19),
+(12, 'LOSARTAN 50 MG (REPACE)', 100, 500, 666, NULL, '', '2022-04-27 16:29:28', '2022-04-27 00:00:00', 19),
+(13, 'cetamol', 100, 2000, 3000, NULL, '', '2022-04-28 15:57:12', '2022-04-28 00:00:00', 19),
+(15, 'paracetamol_new', 400, 500, 600, '2022-05-17 00:00:00', 'new paracetamol', '2022-05-03 16:11:25', '2022-05-14 00:00:00', 19);
 
 -- --------------------------------------------------------
 
@@ -102,8 +106,7 @@ INSERT INTO `permission` (`id`, `name`) VALUES
 (12, 'can_view_user_permission'),
 (13, 'can_view_expenses'),
 (14, 'can_add_expenses'),
-(15, 'can_generate_report'),
-(16, 'can_view_items_near_to_end');
+(15, 'can_generate_report');
 
 -- --------------------------------------------------------
 
@@ -152,49 +155,16 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `item_id`, `qty`, `dose`, `amount`, `discount`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
-(61, 8, 2, '1x2 per day', 500, 1000, '', '2022-04-03 15:18:18', '2022-04-03 15:18:18', 19),
-(62, 8, 1, '', 500, 0, '', '2022-04-03 15:23:38', '2022-04-03 15:23:38', 19),
-(63, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-03 19:01:10', '2022-04-03 19:01:10', 19),
-(64, 7, 1, '8 tablets', 5000, 0, '', '2022-04-03 19:20:31', '2022-04-03 19:20:31', 19),
-(68, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-06 06:07:00', '2022-04-06 06:07:00', 19),
-(69, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-06 06:07:00', '2022-04-06 06:07:00', 19),
-(70, 8, 1, '1x2 per day', 5000, 0, '', '2022-04-06 06:08:16', '2022-04-06 06:08:16', 19),
-(71, 8, 1, '1x2 per day', 5000, 0, '', '2022-04-06 06:09:13', '2022-04-06 06:09:13', 19),
-(73, 7, 1, '8 tablets', 5000, 0, '', '2022-04-10 05:00:10', '2022-04-10 05:00:10', 19),
-(74, 7, 1, '2 tables', 5000, 0, '', '2022-04-10 05:02:03', '2022-04-10 05:02:03', 19),
-(75, 7, 1, '2 tables', 5000, 0, '', '2022-04-10 05:02:33', '2022-04-10 05:02:33', 19),
-(77, 4, 1, '1x2 per day', 900, 0, '', '2022-04-10 05:18:39', '2022-04-10 05:18:39', 19),
-(79, 4, 1, '1x2 per day', 900, 0, '', '2022-04-10 05:24:39', '2022-04-10 05:24:39', 19),
-(80, 7, 1, '8 tablets', 5000, 0, '', '2022-04-10 06:00:00', '2022-04-10 06:00:00', 19),
-(81, 4, 1, '8 tablets', 900, 0, '', '2022-04-10 06:00:18', '2022-04-10 06:00:18', 19),
-(82, 7, 1, '8 tablets', 5000, 0, '', '2022-04-10 06:18:09', '2022-04-10 06:18:09', 19),
-(83, 4, 1, '', 900, 0, '', '2022-04-10 06:18:32', '2022-04-10 06:18:32', 19),
-(84, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-10 06:20:28', '2022-04-10 06:20:28', 19),
-(85, 4, 1, '8 tablets', 900, 0, '', '2022-04-10 06:20:44', '2022-04-10 06:20:44', 19),
-(86, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-10 06:24:05', '2022-04-10 06:24:05', 19),
-(87, 4, 1, '8 tablets', 900, 0, '', '2022-04-10 06:24:19', '2022-04-10 06:24:19', 19),
-(89, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-10 06:38:09', '2022-04-10 06:38:09', 19),
-(90, 7, 1, '2tablets', 5000, 0, '', '2022-04-10 06:38:24', '2022-04-10 06:38:24', 19),
-(91, 4, 1, '', 900, 0, '', '2022-04-10 06:38:40', '2022-04-10 06:38:40', 19),
-(93, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-10 06:40:47', '2022-04-10 06:40:47', 19),
-(95, 7, 1, '8 tablets', 5000, 0, '', '2022-04-10 06:42:36', '2022-04-10 06:42:36', 19),
-(97, 7, 1, '1x2 per day', 5000, 0, '', '2022-04-10 06:45:54', '2022-04-10 06:45:54', 19),
-(98, 8, 1, '1x2 per day', 500, 0, '', '2022-04-10 06:59:04', '2022-04-10 06:59:04', 19),
-(99, 4, 1, '', 900, 0, '', '2022-04-10 06:59:19', '2022-04-10 06:59:19', 19),
-(101, 7, 1, '8 tablets', 5000, 0, '', '2022-04-10 07:03:27', '2022-04-10 07:03:27', 19),
-(102, 8, 1, '2 tables', 500, 0, '', '2022-04-10 07:04:17', '2022-04-10 07:04:17', 19),
-(103, 8, 1, '1 tables', 500, 0, '', '2022-04-10 07:53:23', '2022-04-10 07:53:23', 19),
-(104, 7, 1, '2 tables', 5000, 0, '', '2022-04-10 07:53:39', '2022-04-10 07:53:39', 19),
-(106, 8, 1, '', 500, 0, '', '2022-04-10 07:57:38', '2022-04-10 07:57:38', 19),
-(107, 4, 1, '1x2 per day', 900, 0, '', '2022-04-10 08:01:17', '2022-04-10 08:01:17', 19),
-(108, 3, 1, '1x2 per day', 900, 0, '', '2022-04-10 08:01:29', '2022-04-10 08:01:29', 19),
-(109, 4, 1, '8 tablets', 900, 0, '', '2022-04-10 08:01:39', '2022-04-10 08:01:39', 19),
-(110, 3, 1, '2 tables', 900, 0, '', '2022-04-10 08:01:50', '2022-04-10 08:01:50', 19),
-(112, 3, 1, '2tablets', 900, 0, '', '2022-04-10 08:04:45', '2022-04-10 08:04:45', 19),
-(113, 4, 1, '2tablets', 900, 0, '', '2022-04-10 08:08:20', '2022-04-10 08:08:20', 19),
-(114, 4, 1, '2tablets', 900, 0, '', '2022-04-10 08:08:25', '2022-04-10 08:08:25', 19),
-(123, 3, 1, '1x2 per day', 900, 0, '', '2022-04-10 08:15:11', '2022-04-10 08:15:11', 19),
-(124, 8, 1, '1x2 per day', 500, 0, '', '2022-04-10 12:40:28', '2022-04-10 12:40:28', 19);
+(61, 8, 20, '6', 2000, 0, '', '2022-04-27 12:25:16', '2022-04-27 12:25:16', 19),
+(62, 9, 45, '6', 9000, 0, '', '2022-04-27 12:35:47', '2022-04-27 12:35:47', 19),
+(63, 9, 5, '', 1000, 0, '', '2022-04-27 12:39:59', '2022-04-27 12:39:59', 19),
+(64, 8, 10, '', 1000, 0, '', '2022-04-27 12:40:18', '2022-04-27 12:40:18', 19),
+(65, 10, 10, '3', 1000, 0, '', '2022-04-27 12:52:36', '2022-04-27 12:52:36', 19),
+(66, 11, 20, '6', 4000, 0, '', '2022-04-27 12:52:54', '2022-04-27 12:52:54', 19),
+(67, 10, 35, '6', 3500, 0, '', '2022-04-27 12:54:42', '2022-04-27 12:54:42', 19),
+(68, 11, 40, '6', 8000, 0, '', '2022-04-27 12:54:59', '2022-04-27 12:54:59', 19),
+(69, 13, 48, '6', 144000, 0, '', '2022-04-28 15:58:57', '2022-04-28 15:58:57', 19),
+(70, 13, 2, '3', 6000, 0, '', '2022-04-28 16:00:14', '2022-04-28 16:00:14', 19);
 
 -- --------------------------------------------------------
 
@@ -222,7 +192,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `father_name`, `sex`, `email`, `phone_number`, `address`, `password`, `is_active`, `is_info_confirmed`, `confirmed_by`) VALUES
-(19, 'Sam', 'LastOne', 'SamFather', 'Male', 'sam@gmail.com', '0755323024', 'kinondoni shamba', '$2y$10$fUzyHEnfo7YRK/OKVGBJ0Oa7HZvU4S3kRmdUyQwG6eCowMRa13UEm', 1, 1, NULL);
+(19, 'NATAI', 'DANIEL', 'REMMY', 'Male', 'natai@gmail.com', '0762504358', 'dar es salaam', '$2y$10$SdP/U6EGbSmmrUVzlL9MXuEJ4jVZFxNoU7VuN3Zs8x4Dk2Xl76eDi', 1, 1, NULL),
+(20, 'zakaria', 'batista', 'ngingo', 'Male', 'zakaria@gmail.com', '0762504358', 'dar es salaam', '$2y$10$Wzw0WwUiaIZiKWrCxF7/mOBDbW3DwkF8Q/NoejavZqCoVFYZUYPPy', 1, 1, NULL),
+(21, 'JOHN', 'KIMARO', 'REMMY', 'Male', 'doc@tz.com', '0762504358', 'NJOMBE', '$2y$10$L.QZK1zv77T8hyFzTGLI6u56qLkjK6RujE9YMUWDy9rTz/PMG1xNe', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -276,7 +248,25 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (60, 19, 13),
 (61, 19, 14),
 (62, 19, 15),
-(63, 19, 16);
+(67, 20, 1),
+(68, 20, 2),
+(69, 20, 3),
+(70, 20, 6),
+(71, 21, 1),
+(72, 21, 2),
+(73, 21, 3),
+(74, 21, 4),
+(75, 21, 5),
+(76, 21, 6),
+(77, 21, 7),
+(78, 21, 8),
+(79, 21, 9),
+(80, 21, 10),
+(81, 21, 11),
+(82, 21, 12),
+(83, 21, 13),
+(84, 21, 14),
+(85, 21, 15);
 
 -- --------------------------------------------------------
 
@@ -301,7 +291,9 @@ INSERT INTO `user_role` (`id`, `role_id`, `user_id`) VALUES
 (15, 5, 16),
 (16, 5, 17),
 (17, 2, 18),
-(18, 5, 19);
+(18, 5, 19),
+(19, 1, 20),
+(20, 3, 21);
 
 --
 -- Indexes for dumped tables
@@ -371,19 +363,19 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -395,25 +387,25 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user_permission`
 --
 ALTER TABLE `user_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

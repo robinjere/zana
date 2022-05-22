@@ -47,6 +47,8 @@
      <h2 style="padding: 0 57px;"> Update a drug in the store </h2>
   </div > <!-- /registration-form__heading -->
    <div class="registration-form__form" style="padding: 25px 57px;">
+
+     <!-- <?php print_r($item); ?> -->
          <form method="post" >
            <div class="row registration-space-y">   
            <div class="registration-space-y">
@@ -62,6 +64,9 @@
            <div class="row registration-space-y">   
              <div class="col">
                <input type="number" required  name="qty" value="<?= set_value('qty', $item['qty'])?>" class="form-control" placeholder="Quantity" aria-describedby="Quantity">
+              </div>
+              <div class="col">
+               <input type="date" required  name="exp_date" value="<?= set_value('exp_date', date('m-d-Y', (int)$item['exp_date'])) ?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
               </div>
           </div><!-- /row -->
 

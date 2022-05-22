@@ -62,6 +62,9 @@
              <div class="col">
                <input type="number" required  name="qty" value="<?= set_value('qty')?>" class="form-control" placeholder="Quantity" aria-describedby="Quantity">
               </div>
+             <div class="col">
+               <input type="date" required  name="exp_date" value="<?= set_value('exp_date')?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
+              </div>
           </div><!-- /row -->
 
           <div class="row registration-space-y">   

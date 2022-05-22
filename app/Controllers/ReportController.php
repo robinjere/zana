@@ -32,8 +32,32 @@ class ReportController extends BaseController
                  $this->items_in_stock($start_date = $data['start_date'], $end_date = $data['end_date']);
              }elseif($data['report_type'] == 'items_out_stock'){
                 $this->items_out_stock($start_date = $data['start_date'], $end_date = $data['end_date']);  
+             }elseif($data['report_type'] == 'items_expected_to_expire'){
+                 $this->items_expected_to_expire($start_date = $data['start_date'], $end_date = $data['end_date']);
              }
         }
+    }
+
+    public function items_expected_to_expire($start_date, $end_date){
+        $itemModel = new ItemModel;
+        //->where('qty !=', 0)
+        $items = $itemModel->where('DATE(exp_date) >=', $start_date)->where('DATE(exp_date) <=', $end_date)->where('qty !=', 0)->findAll();
+        // print_r($items);
+        // exit;
+        $store = new StoreController;
+
+        $data['clinic_contacts'] = $store->get_clinic_info();
+  
+        $data['items'] = $items;
+        // view('report/items_expected_to_expire', $data);
+ 
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/items_expected_to_expire', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("items_expected_to_expire.pdf", array("Attachment"=>0));   
     }
 
     public function items_out_stock($start_date, $end_date){
@@ -132,6 +156,8 @@ class ReportController extends BaseController
         $dompdf->stream("sales.pdf", array("Attachment"=>0));
  
     }
+
+
 
     private function no_data($report_type){
         return redirect()->to('report')->with('error', 'No '.$report_type.' data');

@@ -10,7 +10,7 @@
   <div class="registration-layout">
        <?php
            if(session()->get('no_out_of_stock') || session()->get('itemsNearToEnd') ){ ?>
-                <div class="alert alert-danger text-center">
+                <div class="alert alert-danger text-center" style="padding: 5px; border-bottom: 2px solid #19985b; border-radius: 0 !important;">
                   <?php if(session()->get('no_out_of_stock')){ ?>
                     <p class="mb-0"> <small>Hey!, </small> There are <?= session()->get('no_out_of_stock') ?> items out of stock <b class="text-danger"> <a  href="/store/outofstock">view here</a> </b> </p>
                     

@@ -297,6 +297,16 @@
   font-weight: 800;
   font-size: var(--lg-heading);
 }
+.panel-nav .title{  
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.panel-nav span{
+  margin-left: 11px;
+  color: #19985b;
+}
 
 .panel-nav__profile{
    color: var(--z-deep-gray);

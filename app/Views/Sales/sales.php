@@ -18,6 +18,7 @@
      <?php if(in_array('can_sale_drug', session()->get('permission'))){?>
      <li class="py-2 me-3"> <a href="searchsale">Sale a Drug </a>  </li>
      <?php } ?>
+     <li class="py-2 me-3"> <a href="#">WholeSale </a>  </li>
   </ul>
   <?php if(in_array('can_view_sales', session()->get('permission'))){?>
 
