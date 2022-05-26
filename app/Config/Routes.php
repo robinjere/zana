@@ -28,6 +28,12 @@ $routes->setAutoRoute(true);
  * Route Definitions
  * --------------------------------------------------------------------
  */
+ 
+ $routes->group('patient', function($routes){
+     $routes->get('/', 'PatientController::index', ['filter' => 'auth']);
+     $routes->get('search', 'PatientController::index', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'register', 'PatientController::register', ['filter' => 'auth']);
+ });
 
  $routes->group('store', function($routes){
      $routes->match(['post', 'get'], 'additem', 'StoreController::addItem',  ['filter' => 'auth']);

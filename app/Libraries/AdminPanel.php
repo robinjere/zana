@@ -9,11 +9,7 @@ class AdminPanel {
     public function registrationNav(){
         return view('components/registrationnav');
     }
-
-    public function footer(){
-        return view('components/footer');
-    }
-
+    
     public function noData(){
         return view('components/no-data');
     }
@@ -21,5 +17,14 @@ class AdminPanel {
     public function sideBarNavigation(){
         return view('components/sidebar-navigation');
     }
+
+    public function footer(){
+        return view('components/footer');
+    }
+
+    public function permission(){
+        return view('components/permission/permission_nav');
+    }
+
 }
     
