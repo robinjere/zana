@@ -4,18 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PatientModel extends Model
+class PatientsFileModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'patients';
+    protected $table            = 'patientsfiles';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['first_name', 'middle_name', 'sir_name', 'birth_date', 
-    'gender', 'address', 'phone_no', 'next_kin_name', 'next_kin_relationship', 'next_kin_phone', 'user_id'];
+    protected $allowedFields    = ['file_no', 'patient_id', 'payment_method'];
 
     // Dates
     protected $useTimestamps = true;
