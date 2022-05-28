@@ -34,6 +34,11 @@ $routes->setAutoRoute(true);
      $routes->get('search', 'PatientController::index', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'register', 'PatientController::register', ['filter' => 'auth']);
  });
+ $routes->group('consultation', function($routes){
+     $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);
+     $routes->get('fees', 'ConsultationController::fees', ['filter' => 'auth']);
+     $routes->match(['post','get'],'add_fee', 'ConsultationController::add_fee', ['filter' => 'auth']);
+ });
 
  $routes->group('store', function($routes){
      $routes->match(['post', 'get'], 'additem', 'StoreController::addItem',  ['filter' => 'auth']);
