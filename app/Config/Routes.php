@@ -38,6 +38,8 @@ $routes->setAutoRoute(true);
      $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);
      $routes->get('fees', 'ConsultationController::fees', ['filter' => 'auth']);
      $routes->match(['post','get'],'add_fee', 'ConsultationController::add_fee', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'update_fee/(:num)', 'ConsultationController::update_fee/$1',  ['filter' => 'auth']);
+     $routes->get('delete_fee/(:num)', 'ConsultationController::delete_fee/$1',  ['filter' => 'auth']);
  });
 
  $routes->group('store', function($routes){

@@ -172,6 +172,8 @@ class User extends BaseController
         $user = new UserModel();
         $userRole = new UserRoleModel();
 
+        $_message = 'Successful registration';
+
         $data = [];
         $data['roles'] = $role->findAll();
         helper('form');
@@ -215,6 +217,7 @@ class User extends BaseController
 
                if(isset($param_id)){
                    $newData['id'] = $param_id;
+                   $_message = 'Successful Updated';
                }
 
                $user->insert($newData);
@@ -229,7 +232,7 @@ class User extends BaseController
                //save 
 
                $session = session();
-               $session->setFlashdata('success', 'Successful registration');
+               $session->setFlashdata('success', $_message);
 
                return redirect()->to('/user/list');
 
@@ -462,9 +465,28 @@ class User extends BaseController
         }
 
         $data['userInfo'] = $userModel->find($user_id);
-        $data['permission'] = $permission->findAll();
+
+        //associate permission on a certaion group;
+        $permission_all = $permission->findAll();
+        $data['user_p'] = $this::group_permission_by('user', $permission_all);
+        $data['drug_p'] = $this::group_permission_by('drug', $permission_all);
+        $data['sale_p'] = $this::group_permission_by('sale', $permission_all);
+        $data['permission_p'] = $this::group_permission_by('permission', $permission_all);
+        $data['expenses_p'] = $this::group_permission_by('expenses', $permission_all);
+        $data['report_p'] = $this::group_permission_by('report', $permission_all);
+
         $data['user_permission'] = $userPermission->where('user_id', $user_id)->findAll();
         return view('user/permission', $data);
+    }
+
+    protected function group_permission_by(String $group_name, array $permissions){
+            $_permission_list = [];
+           foreach ($permissions as $permission) {
+               if($permission['permission_group'] == $group_name){
+                   $_permission_list[] = $permission;
+               }
+           }
+           return $_permission_list;
     }
 
     public function updateAccountInfo(){

@@ -45,4 +45,23 @@ class ConsultationFeeModel extends Model
     //       //something will go here..
     //    return $data;
     // }
+
+    public function noticeTable(){
+        $builder = $this->db->table('role');
+        $builder->join('consultation_fee', 'role.id = consultation_fee.role_id');        
+        return $builder;
+    }
+    public function DateFormat(){
+        $column = function ($row){
+            $date = date_create($row['updated_at']);
+            return date_format($date, 'd/m/Y');
+        };
+        return $column;
+    }
+    public function actionButtons(){
+        $button = function($row){
+             return ' <a href="/consultation/update_fee/'.$row['id'].'" class="badge bg-info"> Update</a> <a href="/consultation/delete_fee/'.$row['id'].'" class="badge bg-danger"> Delete </a> ';  
+        };
+        return $button;
+    }
 }

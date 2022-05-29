@@ -407,6 +407,14 @@
 /* --------------- DASHBOARD ---------------  */
 
 
+/* --------------- PERMISSION LAYOUT ---------------  */
+ .p_active{
+   color: var(--z-white) !important;
+   background: var(--z-primary) !important;
+ }
+/* --------------- PERMISSION LAYOUT ---------------  */
+
+
 /* --------------- PATIENT SCREEN ---------------  */
 
 /* --------------- PATIENT SCREEN ---------------  */

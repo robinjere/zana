@@ -77,30 +77,97 @@
   </div> <!-- /registration-form__heading -->
      <div class="registration-form__form">
          <h2 class="mb-4"> Permission Given to <?= $userInfo['first_name'] . '  '. $userInfo['last_name']  ?> </h2>
-          <div class="row" x-data="{ open: false }">
+          
+         <div class="row" x-data="{ isActive: 'user' }">
+
             <div class="col-4">
               <?= view_cell('\App\Libraries\AdminPanel::permission'); ?>
             </div><!-- /col-4 -->
             <div class="col-8">
-                  <form method="post" x-show="open">
+                  <form method="post">
                     <?php 
                         $permission_list = [];
                         foreach ($user_permission as $key => $_permission) {
                         $permission_list[] = $_permission['permission_id']; 
                         }
                     ?>
-                      <?php
-                          foreach ($permission as $p) {
-                            ?>
-                            
-                              <div class="form-check">
-                                  <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
-                                  <label class="form-check-label" for="permission<?= $p['id']; ?>">
-                                    <?= $p['name']; ?>
-                                  </label>
-                              </div>
-                        
-                        <?php } ?>
+
+                      <div x-show="isActive === 'user'" class="user_p">
+                        <?php
+                            foreach ($user_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
+                      <div x-show="isActive === 'drug'" class="drug_p">
+                        <?php
+                            foreach ($drug_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
+                      <div x-show="isActive === 'sale'" class="sale_p">
+                        <?php
+                            foreach ($sale_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
+                      <div x-show="isActive === 'expenses'" class="expenses_p">
+                        <?php
+                            foreach ($expenses_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
+                      <div x-show="isActive === 'report'" class="report_p">
+                        <?php
+                            foreach ($report_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
+
                     <button type="submit" class="btn btn-primary mt-4"> Save </button>
                   </form><!-- /form -->
             </div><!-- /col-8 -->
