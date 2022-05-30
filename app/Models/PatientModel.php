@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\PatientsFileModel;
 
 class PatientModel extends Model
 {
@@ -40,4 +41,14 @@ class PatientModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    // protected function generate_file(array $data){
+    //     $patients_file_model = new PatientsFileModel;
+    //     $p_id = $this->getInsertID();
+    //     try {
+    //         $patients_file_model->save(['patient_id' => $p_id, 'file_no' => 'MRNO/'.date('Y').'/'.$p_id]);
+    //     } catch (\Exception $e) {
+    //         echo $e->getMessage();
+    //     }
+    // }
 }

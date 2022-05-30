@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 class PatientsFileModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'patientsfiles';
+    protected $table            = 'patients_file';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_no', 'patient_id', 'payment_method'];
+    protected $allowedFields    = ['file_no', 'patient_id', 'payment_method', 'start_treatment', 'end_treatment', 'status', 'upadated_at'];
 
     // Dates
     protected $useTimestamps = true;

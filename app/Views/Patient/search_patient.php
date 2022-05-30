@@ -1,5 +1,7 @@
-<form> 
+<?php $this->extend('Patient/patient_dashboard'); ?>
 
+<?= $this->section('patient'); ?>
+<form> 
 <div class="input-group">
   <select class="form-select" aria-label="filter search">
     <option selected> Search by file number</option>
@@ -17,3 +19,5 @@
 </select> -->
 
 </form>
+
+<?= $this->endSection('patient'); ?>

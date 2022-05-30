@@ -29,6 +29,6 @@
 
 <div class="data-layout my-2 p-3 bg-white">
    <?= view_cell($PatientPanel.'::PatientNavigation'); ?>
-    Registered!!
+     <H1>clinic file</H1>
 </div>
 <?= $this->endSection(); ?>

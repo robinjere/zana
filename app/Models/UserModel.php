@@ -59,4 +59,13 @@ class UserModel extends Model
        return $data;
     }
 
+    public function get_users_doctor(){
+        $builder = $this->table('user');
+        $builder->select('user.id, user.first_name, user.last_name, user.phone_number, role.name, role.role_type, consultation_fee.amount');
+        $builder->join('user_role', 'user_role.user_id = user.id');
+        $builder->join('role', 'role.id = user_role.role_id');
+        $builder->join('consultation_fee', 'consultation_fee.role_id = role.id');
+        return $builder->get()->getResult();
+    }
+
 }

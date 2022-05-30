@@ -16,11 +16,7 @@
     <div class="message-alert"> 
         <h2 class="mb-2"> Errors occurs. </h2>
         <!-- <p> Please contact with your system admins to confirm your information </p> -->
-        <?php
-           foreach (session()->getFlashdata('validation') as $key => $error) {
-              echo '<p>'. $error .'</p>';
-           }
-        ?>
+        <?= session()->getFlashdata('validation'); ?>
     </div>
   </div><!-- box-alert -->
 

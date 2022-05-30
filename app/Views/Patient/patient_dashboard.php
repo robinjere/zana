@@ -5,6 +5,6 @@
 
 <div class="data-layout my-2 p-3 bg-white">
    <?= view_cell($PatientPanel.'::PatientNavigation'); ?>
-   <?= view_cell($PatientPanel.'::SearchPatient'); ?>
+   <?= $this->renderSection('patient'); ?>
 </div>
 <?= $this->endSection(); ?>
