@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2022 at 09:55 AM
+-- Generation Time: Jun 01, 2022 at 06:57 AM
 -- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.11
+-- PHP Version: 7.4.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,57 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `clinic-store`
+-- Database: `zana_healthcare_clinic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consultation`
+--
+
+CREATE TABLE `consultation` (
+  `id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `payment` varchar(50) NOT NULL,
+  `amount` double NOT NULL,
+  `assigned_by` int(11) NOT NULL,
+  `payment_confirmed_by` int(11) NOT NULL,
+  `consulted_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `consultation`
+--
+
+INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `assigned_by`, `payment_confirmed_by`, `consulted_by`, `created_at`, `updated_at`) VALUES
+(1, 2, 21, 'CASH', 5000, 22, 0, 0, '2022-05-30 23:02:25', '2022-05-30 23:02:25'),
+(2, 1, 21, 'CASH', 5000, 22, 0, 0, '2022-05-30 23:14:38', '2022-05-30 23:14:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consultation_fee`
+--
+
+CREATE TABLE `consultation_fee` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `consultation_fee`
+--
+
+INSERT INTO `consultation_fee` (`id`, `role_id`, `amount`, `created_at`, `updated_at`) VALUES
+(3, 3, 5000, '2022-05-28 20:21:01', '2022-05-28 20:21:01'),
+(9, 6, 8000, '2022-05-28 20:39:38', '2022-05-28 20:39:38');
 
 -- --------------------------------------------------------
 
@@ -79,34 +128,96 @@ INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `patients`
+--
+
+CREATE TABLE `patients` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(70) NOT NULL,
+  `middle_name` varchar(70) NOT NULL,
+  `sir_name` varchar(70) NOT NULL,
+  `birth_date` date NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `address` varchar(80) NOT NULL,
+  `phone_no` int(15) NOT NULL,
+  `next_kin_name` varchar(70) NOT NULL,
+  `next_kin_relationship` varchar(80) NOT NULL,
+  `next_kin_phone` int(15) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`id`, `first_name`, `middle_name`, `sir_name`, `birth_date`, `gender`, `address`, `phone_no`, `next_kin_name`, `next_kin_relationship`, `next_kin_phone`, `created_at`, `updated_at`, `user_id`) VALUES
+(8, 'ibrah', 'ibrahim', 'sir ibrahim', '2022-05-29', 'Male', 'address Dar -es - salaam', 8662334, 'ibrah next kin', 'ibrah next kin relation', 8832666, '2022-05-29 12:43:43', '2022-05-29 12:43:43', 22),
+(9, 'ibrah', 'ibrahim', 'sir ibrahim', '2022-05-29', 'Male', 'address Dar -es - salaam', 8662334, 'ibrah next kin', 'ibrah next kin relation', 8832666, '2022-05-29 12:49:43', '2022-05-29 12:49:43', 22),
+(10, 'saidPatient', 'saidMiddle', 'saidSir', '2022-05-29', 'Male', 'address Dar -es - salaam', 8662334, 'patient kin', 'inextkin father', 8832666, '2022-05-29 12:53:02', '2022-05-29 12:53:02', 22),
+(11, 'jame', 'jame Middle name', 'jame Sir', '2022-05-29', 'Male', 'address Dar -es - salaam', 8662334, 'jame next kin', 'jamee next kin relationship', 8832666, '2022-05-29 12:56:43', '2022-05-29 12:56:43', 22),
+(12, 'lingise', 'lingise middle name', 'lingise sir ', '2022-05-29', 'Male', 'address Dar -es - salaam', 8662334, 'lingise next kin', 'lingise next kin relation ship', 88423233, '2022-05-29 12:59:17', '2022-05-29 12:59:17', 22),
+(13, 'andrew', 'andrew middle name', 'andrew sir name', '2022-05-30', 'Male', 'address Dar -es - salaam', 8662334, 'andrew next kin', 'andrew next kin relation ', 8832666, '2022-05-29 20:08:02', '2022-05-29 20:08:02', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `patients_file`
+--
+
+CREATE TABLE `patients_file` (
+  `id` int(11) NOT NULL,
+  `file_no` varchar(200) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `payment_method` varchar(60) NOT NULL,
+  `start_treatment` date NOT NULL,
+  `end_treatment` date NOT NULL,
+  `status` varchar(40) NOT NULL COMMENT 'inTreatment, endTreatment',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `patients_file`
+--
+
+INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `payment_method`, `start_treatment`, `end_treatment`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'MRNO/2022/12', 12, 'CASH', '0000-00-00', '0000-00-00', '', '2022-05-29 12:59:17', '2022-05-30 23:14:38'),
+(2, 'MRNO/2022/13', 13, 'CASH', '0000-00-00', '0000-00-00', '', '2022-05-29 20:08:02', '2022-05-30 23:02:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `permission`
 --
 
 CREATE TABLE `permission` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL
+  `name` varchar(200) NOT NULL,
+  `permission_group` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `permission`
 --
 
-INSERT INTO `permission` (`id`, `name`) VALUES
-(1, 'can_register_user'),
-(2, 'can_view_users_list'),
-(3, 'can_edit_user'),
-(4, 'can_delete_user'),
-(5, 'can_view_item'),
-(6, 'can_delete_item'),
-(7, 'can_add_drug'),
-(8, 'can_edit_drug'),
-(9, 'can_view_drugs_out_of_stock'),
-(10, 'can_view_sales'),
-(11, 'can_sale_drug'),
-(12, 'can_view_user_permission'),
-(13, 'can_view_expenses'),
-(14, 'can_add_expenses'),
-(15, 'can_generate_report');
+INSERT INTO `permission` (`id`, `name`, `permission_group`) VALUES
+(1, 'can_register_user', 'user'),
+(2, 'can_view_users_list', 'user'),
+(3, 'can_edit_user', 'user'),
+(4, 'can_delete_user', 'user'),
+(5, 'can_view_drug', 'drug'),
+(6, 'can_delete_drug', 'drug'),
+(7, 'can_add_drug', 'drug'),
+(8, 'can_edit_drug', 'drug'),
+(9, 'can_view_drugs_out_of_stock', 'drug'),
+(10, 'can_view_sales', 'sale'),
+(11, 'can_sale_drug', 'sale'),
+(12, 'can_view_user_permission', 'permission'),
+(13, 'can_view_expenses', 'expenses'),
+(14, 'can_add_expenses', 'expenses'),
+(15, 'can_generate_report', 'report');
 
 -- --------------------------------------------------------
 
@@ -127,9 +238,10 @@ CREATE TABLE `role` (
 INSERT INTO `role` (`id`, `name`, `role_type`) VALUES
 (1, 'Administrator', 'admin'),
 (2, 'Receptionist', 'reception'),
-(3, 'Doctor', 'doctor'),
+(3, 'General Doctor', 'general_doctor'),
 (4, 'Pharmacist', 'pharmacy'),
-(5, 'Superuser', 'superuser');
+(5, 'Superuser', 'superuser'),
+(6, 'Specialist Doctor', 'specialist_doctor');
 
 -- --------------------------------------------------------
 
@@ -184,17 +296,19 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `is_info_confirmed` tinyint(1) NOT NULL,
-  `confirmed_by` int(11) DEFAULT NULL
+  `confirmed_by` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `father_name`, `sex`, `email`, `phone_number`, `address`, `password`, `is_active`, `is_info_confirmed`, `confirmed_by`) VALUES
-(19, 'NATAI', 'DANIEL', 'REMMY', 'Male', 'natai@gmail.com', '0762504358', 'dar es salaam', '$2y$10$SdP/U6EGbSmmrUVzlL9MXuEJ4jVZFxNoU7VuN3Zs8x4Dk2Xl76eDi', 1, 1, NULL),
-(20, 'zakaria', 'batista', 'ngingo', 'Male', 'zakaria@gmail.com', '0762504358', 'dar es salaam', '$2y$10$Wzw0WwUiaIZiKWrCxF7/mOBDbW3DwkF8Q/NoejavZqCoVFYZUYPPy', 1, 1, NULL),
-(21, 'JOHN', 'KIMARO', 'REMMY', 'Male', 'doc@tz.com', '0762504358', 'NJOMBE', '$2y$10$L.QZK1zv77T8hyFzTGLI6u56qLkjK6RujE9YMUWDy9rTz/PMG1xNe', 1, 1, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `father_name`, `sex`, `email`, `phone_number`, `address`, `password`, `is_active`, `is_info_confirmed`, `confirmed_by`, `user_id`) VALUES
+(19, 'NATAI', 'DANIEL', 'REMMY', 'Male', 'natai@gmail.com', '0762504358', 'dar es salaam', '$2y$10$SdP/U6EGbSmmrUVzlL9MXuEJ4jVZFxNoU7VuN3Zs8x4Dk2Xl76eDi', 1, 1, NULL, 0),
+(20, 'zakaria', 'batista', 'ngingo', 'Male', 'zakaria@gmail.com', '0762504358', 'dar es salaam', '$2y$10$Wzw0WwUiaIZiKWrCxF7/mOBDbW3DwkF8Q/NoejavZqCoVFYZUYPPy', 1, 1, NULL, 0),
+(21, 'JOHN', 'KIMARO', 'REMMY', 'Male', 'doc@tz.com', '0762504358', 'NJOMBE', '$2y$10$L.QZK1zv77T8hyFzTGLI6u56qLkjK6RujE9YMUWDy9rTz/PMG1xNe', 1, 1, NULL, 0),
+(22, 'John', 'Doe', 'John Father', 'Male', 'johndoe@gmail.com', '0755323024', 'kinondoni shamba', '$2y$10$Xn233/myWUw/Eb8qJzMmNeSlrRb8/SdnOUF/.8ABrsfIshSjQ/TmS', 1, 1, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -252,21 +366,27 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (68, 20, 2),
 (69, 20, 3),
 (70, 20, 6),
-(71, 21, 1),
-(72, 21, 2),
-(73, 21, 3),
-(74, 21, 4),
-(75, 21, 5),
-(76, 21, 6),
-(77, 21, 7),
-(78, 21, 8),
-(79, 21, 9),
-(80, 21, 10),
-(81, 21, 11),
-(82, 21, 12),
-(83, 21, 13),
-(84, 21, 14),
-(85, 21, 15);
+(111, 22, 1),
+(112, 22, 2),
+(113, 22, 4),
+(114, 22, 6),
+(115, 22, 7),
+(116, 22, 8),
+(117, 22, 9),
+(118, 22, 10),
+(119, 22, 11),
+(133, 21, 1),
+(134, 21, 2),
+(135, 21, 3),
+(136, 21, 4),
+(137, 21, 5),
+(138, 21, 6),
+(139, 21, 7),
+(140, 21, 8),
+(141, 21, 9),
+(142, 21, 10),
+(143, 21, 11),
+(144, 21, 15);
 
 -- --------------------------------------------------------
 
@@ -293,11 +413,29 @@ INSERT INTO `user_role` (`id`, `role_id`, `user_id`) VALUES
 (17, 2, 18),
 (18, 5, 19),
 (19, 1, 20),
-(20, 3, 21);
+(20, 3, 21),
+(21, 5, 22);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `consultation`
+--
+ALTER TABLE `consultation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `doctor_id` (`doctor_id`),
+  ADD KEY `consulted_by` (`consulted_by`);
+
+--
+-- Indexes for table `consultation_fee`
+--
+ALTER TABLE `consultation_fee`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `role_id_2` (`role_id`),
+  ADD KEY `role_id` (`role_id`);
 
 --
 -- Indexes for table `expenses`
@@ -312,6 +450,20 @@ ALTER TABLE `expenses`
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `patients`
+--
+ALTER TABLE `patients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `patients_file`
+--
+ALTER TABLE `patients_file`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_id` (`patient_id`);
 
 --
 -- Indexes for table `permission`
@@ -337,7 +489,8 @@ ALTER TABLE `sales`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `user_permission`
@@ -360,6 +513,18 @@ ALTER TABLE `user_role`
 --
 
 --
+-- AUTO_INCREMENT for table `consultation`
+--
+ALTER TABLE `consultation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `consultation_fee`
+--
+ALTER TABLE `consultation_fee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
@@ -372,6 +537,18 @@ ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `patients`
+--
+ALTER TABLE `patients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `patients_file`
+--
+ALTER TABLE `patients_file`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
@@ -381,7 +558,7 @@ ALTER TABLE `permission`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -393,19 +570,19 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `user_permission`
 --
 ALTER TABLE `user_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
