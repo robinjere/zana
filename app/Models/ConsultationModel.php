@@ -7,14 +7,22 @@ use CodeIgniter\Model;
 class ConsultationModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'consultations';
+    protected $table            = 'consultation';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'file_id',
+        'doctor_id',
+        'payment',
+        'amount',
+        'assigned_by',
+        'payment_confirmed_by',        
+        'updated_at'        
+    ];
 
     // Dates
     protected $useTimestamps = true;

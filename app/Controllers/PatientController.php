@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\PatientModel;
 use App\Models\PatientsFileModel;
 use App\Models\UserModel;
+use App\Models\ConsultationModel;
 class PatientController extends BaseController
 {
     public function index()
@@ -41,8 +42,41 @@ class PatientController extends BaseController
     }
 
     public function send_to_consultation($patient_id = ''){
+        helper('form');
         $user_model = new UserModel;
         $patientFileModel = new PatientsFileModel;
+        $consultationModel = new ConsultationModel;
+
+        if($this->request->getMethod() == 'post'){
+           $payment = '';
+
+           $file_details = [
+               'id' => $this->request->getVar('file_id'),
+               'payment_method' => $this->request->getVar('payment_method')
+            ];
+
+           $consultation = [
+               'file_id' => $this->request->getVar('file_id'),
+               'doctor_id' => $this->request->getVar('doctor_id'),
+               'payment' => $this->request->getVar('payment_method'),
+               'assigned_by' => session()->get('id')
+           ];
+
+            if($this->request->getVar('payment_method') == 'CASH'){
+              $consultation['amount'] = $this->request->getVar('amount');
+              $file_details['amount'] = $this->request->getVar('amount');
+            }else{
+              $payment = $this->request->getVar('insuarance_no');
+            }
+           try {
+               $patientFileModel->save($file_details);
+               $consultationModel->save($consultation);
+               return redirect()->to('/patient/search/')->with('success', 'Patient Sent to consultation');
+           } catch (\Exception $e) {
+              return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('errors', $e->getMessage());
+           }
+        }
+
         $data = [];
         $data['doctors'] = $user_model->get_users_doctor();
         $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();

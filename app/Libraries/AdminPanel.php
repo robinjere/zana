@@ -26,5 +26,10 @@ class AdminPanel {
         return view('components/permission/permission_nav');
     }
 
+    public function alert(array $params = []){
+        $data['validation'] = $params['validation'];
+        return view('dashboard/display_errors', $data);
+    }
+
 }
     
