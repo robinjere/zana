@@ -22,6 +22,7 @@
       $('#fees').DataTable({
         "order": [],
         "serverSide": true,
+        "searching": false,
         "ajax": {
           url: "<?= base_url('consultationcontroller/ajax_getfees') ?>",
           type: "POST"

@@ -51,6 +51,13 @@ class ConsultationFeeModel extends Model
         $builder->join('consultation_fee', 'role.id = consultation_fee.role_id');        
         return $builder;
     }
+
+    public function formatAmount(){
+        return function($row){
+            return number_format($row['amount'], 2, '.', ',').'/=';
+        };
+    }
+    
     public function DateFormat(){
         $column = function ($row){
             $date = date_create($row['updated_at']);
@@ -58,6 +65,7 @@ class ConsultationFeeModel extends Model
         };
         return $column;
     }
+
     public function actionButtons(){
         $button = function($row){
              return ' <a href="/consultation/update_fee/'.$row['id'].'" class="badge bg-info"> Update</a> <a href="/consultation/delete_fee/'.$row['id'].'" class="badge bg-danger"> Delete </a> ';  

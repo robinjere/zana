@@ -47,4 +47,50 @@ class ConsultationModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function consultationTable(){
+        $builder = $this->db->table('consultation');
+        $builder->select('consultation.id, consultation.updated_at, consultation.payment, consultation.amount, consultation.payment_confirmed_by, patients_file.patient_id, patients_file.file_no, user.first_name, user.last_name');
+        $builder->where('consultation.consulted_by', 0);
+        $builder->join('patients_file', 'consultation.file_id = patients_file.id');        
+        $builder->join('user', 'consultation.doctor_id = user.id');        
+        return $builder;
+    }
+    public function DateFormat(){
+        $column = function ($row){
+            $date = date_create($row['updated_at']);
+            return date_format($date, 'd/m/Y');
+        };
+        return $column;
+    }
+    public function doctor(){
+        $column = function($row){
+            return '<span>'. $row['last_name'] .','. $row['first_name'] .'</span>';
+        };
+        return $column;
+    }
+    public function formatAmount(){
+        return function($row){
+            return number_format($row['amount'], 2, '.', ',').'/=';
+        };
+    }
+    public function actionButtons(){
+        $button = function($row){
+            $waiting = '<span class="badge bg-info"> Waiting </span>';
+            $accept_payment = ' <a href="/consultation/accept_payment/'.$row['id'].'" class="badge bg-success"> Accept payment</a> '; 
+            $reject_payment = ' <a href="/consultation/reject_payment/'.$row['id'].'" class="badge bg-success"> Reject payment</a> '; 
+            $consult = ' <a href="/consultation/attend/'.$row['patient_id'].'" class="badge bg-success"> Consult </a> '; 
+            $showButtons = '';
+            
+            /*
+               *TODO:: restrict by role.. Cashier should accept or reject payment
+               *TODO:: Doctor can consult patient
+            */
+            if($row['payment'] == 'CASH' ){
+               $showButtons = $row['payment_confirmed_by'] == 0 ? $accept_payment : $reject_payment;
+            }
+            return $showButtons;  
+        };
+        return $button;
+    }
 }

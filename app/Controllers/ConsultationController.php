@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\RoleModel;
 use App\Models\ConsultationFeeModel;
+use App\Models\ConsultationModel;
 use monken\TablesIgniter;
 
 class ConsultationController extends BaseController
@@ -67,10 +68,27 @@ class ConsultationController extends BaseController
                 //    ->setDefaultOrder('id', 'DESC')
                 //    ->setSearch(['name'])
                    ->setOrder([ 'updated_at', 'name', 'amount'])
-                   ->setOutput([ $consultation_fee_model->DateFormat(),'name', 'amount',
+                   ->setOutput([ $consultation_fee_model->DateFormat(),'name', $consultation_fee_model->formatAmount(),
                                 $consultation_fee_model->actionButtons()
                                ]);
 
+        return $data_table->getDatatable();
+    }
+    
+    public function ajax_getconsultation(){
+        $consultation_model = new ConsultationModel();
+    
+        $data_table = new TablesIgniter();
+    
+        $data_table->setTable($consultation_model->consultationTable())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['file_no'])
+                   ->setOrder([ 'updated_at', 'file_no', 'payment', 'first_name', 'amount'])
+                   ->setOutput([ $consultation_model->DateFormat(),'file_no', 'payment',
+                                $consultation_model->doctor(), $consultation_model->formatAmount(),
+                                $consultation_model->actionButtons()
+                               ]);
+    
         return $data_table->getDatatable();
     }
 
