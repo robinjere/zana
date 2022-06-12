@@ -2,7 +2,6 @@
 
 <ul class="sidebar mt-4">
 
-   <?php print_r(session()->get('role')).', -> CURRENT USER ROLE'; ?>
    <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
         <a href="/store/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">

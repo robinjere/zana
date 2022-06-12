@@ -357,22 +357,22 @@ class User extends BaseController
 
         switch ($user_r['role_type']) {
             case 'general_doctor':
-                $this::save_permission_based_group(['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                $this::save_permission_based_group($user_id, ['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
                 break;
             case 'specialist_doctor':
-                $this::save_permission_based_group(['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                $this::save_permission_based_group($user_id, ['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
                 break;
             case 'admin':
-                $this::save_permission_based_group(['expenses','user','permission','drug', 'report', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                $this::save_permission_based_group($user_id, ['expenses','user','permission','drug', 'report', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
                 break;
             case 'reception':
-                $this::save_permission_based_group(['expenses','drug', 'patient', 'radiology']);
+                $this::save_permission_based_group($user_id, ['consultation','expenses','drug', 'patient', 'radiology']);
                 break;
             case 'cashier':
-                $this::save_permission_based_group(['expenses','drug', 'patient', 'labtest']);
+                $this::save_permission_based_group($user_id, ['consultation','expenses','drug', 'patient', 'labtest']);
                 break;
             case 'pharmacy':
-                $this::save_permission_based_group(['drug', 'patient']);
+                $this::save_permission_based_group($user_id, ['drug', 'patient']);
                 break;
             
             default:
@@ -382,12 +382,14 @@ class User extends BaseController
 
     }
 
-    protected function save_permission_based_group(array $group){
+    protected function save_permission_based_group(Int $user_id, array $group){
         $permissionModel = new PermissionModel;
+        $userPermission = new UserPermissionModel;
+        
         $all_permission = $permissionModel->get_permission_based_group($group);
         $my_perm = [];
         foreach($all_permission as $perm){
-            $my_perm[] = ['user_id' => $user_id,'permission_id' => $perm['id']];
+            $my_perm[] = ['user_id' => $user_id,'permission_id' => $perm->id];
         }
         $userPermission->saveMultiplePermission($my_perm);
     }

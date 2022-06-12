@@ -25,4 +25,8 @@ class DashboardPanel {
     public function TodaySales(){
         return view('components/recent_sales');
     } 
+
+    public function NoPermission(){
+        return view('components/permission/no_permission');
+    }
 }

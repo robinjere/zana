@@ -1,6 +1,8 @@
 <?= $this->extend('consultation/layout') ?>
 <?= $this->section('consultation') ?>
    <!-- <h1> consultation fee</h1> -->
+
+   <?php if(in_array('can_view_consultation', session()->get('permission'))){?>
    <table id="fees" class="table table-striped table-bordered">
             <thead>   
               <tr>
@@ -14,6 +16,10 @@
               </tr>
           </thead>
       </table>
+    <?php }else{
+      echo view_cell('\App\Libraries\DashboardPanel::NoPermission');
+    } ?>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
