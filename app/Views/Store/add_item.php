@@ -34,10 +34,12 @@
 <?php } ?>
 <div class="data-layout my-2 p-3 bg-white">
 
-  <ul class="data-nav d-flex">
+  <!-- <ul class="data-nav d-flex">
      <li class="py-2 me-3 "> <a href="items">Drugs in store</a>  </li>
      <li class="py-2 me-3 data-nav__active"> <a href="additem">Add Drug </a>  </li>
-  </ul>
+  </ul> -->
+
+  <?= view_cell('\App\Libraries\StorePanel::storeNav') ?>
   
 
 <div class="mb-3 registration-form" >

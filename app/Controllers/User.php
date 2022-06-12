@@ -383,6 +383,7 @@ class User extends BaseController
     }
 
     protected function save_permission_based_group(array $group){
+        $permissionModel = new PermissionModel;
         $all_permission = $permissionModel->get_permission_based_group($group);
         $my_perm = [];
         foreach($all_permission as $perm){

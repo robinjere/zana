@@ -3,6 +3,7 @@
 <ul class="sidebar mt-4">
 
    <?php print_r(session()->get('role')).', -> CURRENT USER ROLE'; ?>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
         <a href="/store/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
             <svg viewBox="0 0 30 30" fill="none">
@@ -11,6 +12,9 @@
             <span> Store </span>
         </a>
     </li>
+   <?php } ?>
+
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
         <a href="/sales/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
@@ -20,6 +24,9 @@
             <span> Sales </span>
         </a>
     </li>
+    <?php } ?>
+
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'user' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
         <a href="/user/list" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'user' ? 'sidebar__active-link': null; ?>">
@@ -30,6 +37,9 @@
             <span> Users </span>
         </a>
     </li>
+    <?php } ?>
+
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'expense' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
           <a href="/expense/list" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'expense' ? 'sidebar__active-link': null; ?>">
@@ -39,6 +49,8 @@
             <span> Expense </span>
         </a>
     </li>
+    <?php } ?>
+
     <!-- <li class="my-2">
         <a href="" class="d-flex align-items-center">
             <svg  viewBox="0 0 30 30" fill="none" >
@@ -63,7 +75,7 @@
             <span> Laboratory </span>
         </a>
     </li> -->
-
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception', 'specialist_doctor', 'general_doctor'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'patient' ? 'sidebar__active-link': null; ?>">
         <a href="/patient/search" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'patient' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -72,7 +84,10 @@
             <span> Patient </span>
         </a>
     </li>
+    <?php } ?>
 
+
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier', 'reception', 'specialist_doctor', 'general_doctor'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
         <a href="/consultation/list" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -81,8 +96,10 @@
             <span> Consultation </span>
         </a>
     </li>
+    <?php } ?>
 
-    <?php if(in_array('can_generate_report', session()->get('permission'))){?>
+    <!--if(in_array('can_generate_report', session()->get('permission'))) -->
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
         <a href="/report" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
             <svg  viewBox="0 0 30 34" fill="none">

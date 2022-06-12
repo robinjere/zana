@@ -77,7 +77,7 @@
 
     </div> <!-- /registration-form__heading -->
      <div class="registration-form__form">
-         <form method="POST" >
+         <form method="POST" action="<?= base_url('user/edit/'.$userInfo['id'])?>">
              <div class="row registration-space-y">   
                <div class="col">
                  <input type="text"  value="<?= set_value('first_name', $userInfo['first_name']); ?>" name="first_name" class="form-control" placeholder="First name" aria-describedby="firstname">

@@ -7,21 +7,12 @@
 
 <div class="data-layout my-2 p-3 bg-white">
 
-  <ul class="data-nav d-flex">
-     <li class="py-2 me-3 data-nav__active"> <a href="items">Drugs in store</a>  </li>
-       <?php if(in_array('can_add_drug', session()->get('permission'))){?>
-        <li class="py-2 me-3"> <a href="additem">Add Drug </a>  </li>
-      <?php } ?>
-       <?php if(in_array('can_view_drugs_out_of_stock', session()->get('permission'))){?>
-        <li class="py-2 me-3"> <a href="outofstock">Out of stock </a>  </li>
-      <?php } ?>
-      <?php if(in_array('can_view_items_near_to_end', session()->get('permission'))){?>
-        <li class="py-2 me-3 "> <a href="itemsneartoend">ITEMS NEAR TO END </a>  </li>
-      <?php } ?>
-  </ul>
+  <!-- display navigation  -->
+
+  <?= view_cell('\App\Libraries\StorePanel::storeNav') ?>
    
   <?php 
-     if(in_array('can_view_item', session()->get('permission'))){?>
+     if(in_array('can_view_drug', session()->get('permission'))){?>
       <table id="items" class="table table-striped table-bordered">
             <thead>   
               <tr>
