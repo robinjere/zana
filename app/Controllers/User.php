@@ -65,6 +65,8 @@ class User extends BaseController
 
     private function setUserSession($LoginUser){
         $userPermission = new UserPermissionModel;
+        $userRole = new UserRoleModel();
+        $user_role = $userRole->get_user_role($LoginUser['id']);
        $data = [
            'id' => $LoginUser['id'],
            'first_name' => $LoginUser['first_name'],
@@ -73,6 +75,7 @@ class User extends BaseController
            'isLoggedIn' => TRUE,
            'isActive' => $LoginUser['is_active'],
            'isConfirmed' => $LoginUser['is_info_confirmed'],
+           'role' => $user_role->role_type
        ];
         
        $u_permission = $userPermission->get_permissions_by($LoginUser['id']); 
@@ -142,6 +145,11 @@ class User extends BaseController
                    'user_id' => $user_id,
                ]);
                //save 
+
+                /**
+                 * Assign user permission based on role.
+                 */
+               $this::assignPermission( $this->request->getVar('role'), $user_id);
 
                $session = session();
                $session->setFlashdata('success', 'Successful registration');
@@ -225,11 +233,21 @@ class User extends BaseController
                
                //save role related to user.
                $user_role = new UserRoleModel();
+               $user_role->where('user_id',$user_id)->delete();
                $user_role->save([
                    'role_id' => $this->request->getVar('role'),
                    'user_id' => $user_id,
                ]);
                //save 
+
+               /**
+                 *  First delete permission for this user.
+                 *  Assign user permission based on role.
+                 */
+                $userPermission = new UserPermissionModel();
+                $userPermission->where('user_id',$user_id)->delete();
+  
+               $this::assignPermission($this->request->getVar('role'), $user_id);
 
                $session = session();
                $session->setFlashdata('success', $_message);
@@ -325,6 +343,53 @@ class User extends BaseController
         return view('user/registersuperuser', $data);
     }
 
+    protected function assignPermission(Int $user_role, Int $user_id ){
+        $role = new RoleModel();
+        $user = new UserModel();
+        $userPermission = new UserPermissionModel;
+        $permissionModel = new PermissionModel;
+       
+       /**
+        * find a role 
+        * assign group permission based on role -> (drug, diagnosis, procedure, patient, labtest, clinicalnote and radiology)
+        */
+        $user_r = $role->where('id', $user_role)->first();
+
+        switch ($user_r['role_type']) {
+            case 'general_doctor':
+                $this::save_permission_based_group(['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                break;
+            case 'specialist_doctor':
+                $this::save_permission_based_group(['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                break;
+            case 'admin':
+                $this::save_permission_based_group(['expenses','user','permission','drug', 'report', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
+                break;
+            case 'reception':
+                $this::save_permission_based_group(['expenses','drug', 'patient', 'radiology']);
+                break;
+            case 'cashier':
+                $this::save_permission_based_group(['expenses','drug', 'patient', 'labtest']);
+                break;
+            case 'pharmacy':
+                $this::save_permission_based_group(['drug', 'patient']);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+    }
+
+    protected function save_permission_based_group(array $group){
+        $all_permission = $permissionModel->get_permission_based_group($group);
+        $my_perm = [];
+        foreach($all_permission as $perm){
+            $my_perm[] = ['user_id' => $user_id,'permission_id' => $perm['id']];
+        }
+        $userPermission->saveMultiplePermission($my_perm);
+    }
 
     public function accountInfo(){
         $userModel = new UserModel();

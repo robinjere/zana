@@ -39,4 +39,10 @@ class PermissionModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
+
+    public function get_permission_based_group(array $group){
+       $builder = $this->db->table($this::table);
+       $builder->whereIn('permission_group', $group);
+       return $builder->get()->getResult();
+    }
 }

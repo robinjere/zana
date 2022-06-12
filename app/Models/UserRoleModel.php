@@ -39,4 +39,12 @@ class UserRoleModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
+    public function get_user_role(Int $user_id){
+        $builder = $this->db->table('user_role');
+        $builder->select('role.role_type');
+        $builder->where('user_id', $user_id);
+        $builder->join('role', 'user_role.role_id = role.id');
+        return $builder->get()->getRow();
+
+    }
 }

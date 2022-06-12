@@ -1,6 +1,8 @@
 <?php $uri = service('uri'); ?>
 
 <ul class="sidebar mt-4">
+
+   <?php print_r(session()->get('role')).', -> CURRENT USER ROLE'; ?>
     <li class="my-2  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
         <a href="/store/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
             <svg viewBox="0 0 30 30" fill="none">
