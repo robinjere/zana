@@ -20,4 +20,34 @@
 
 </form>
 
+<div class="patient_search">
+  <div class="detail">
+    <h4>Available patient | Info </h4>
+    <div class="row">
+      <div class="col">PATIENT FILE NO:</div>
+      <div class="col">IMC/2020/12</div>
+    </div>
+    <div class="row">
+      <div class="col">PATIENT NAME:</div>
+      <div class="col">JOHN, KIMWEL</div>
+    </div>
+    <div class="row">
+      <div class="col">STATUS:</div>
+      <div class="col">IN-TREATMENT | LAST VISIT 13/6/2022 </div>
+    </div>
+
+    <div class="row">
+      <div class="col"></div>
+      <div class="col">
+        <span class="badge bg-primary">Out Patient!</span>
+      </div>
+    </div>
+
+  </div> <!-- detail -->
+  <div class="row navigation g-0">
+    <div class="col"> <a href="#" class="history">PATIENT HISTORY</a> </div>
+    <div class="col"> <a href="#" class="doctor">SEND TO DOCTOR </a> </div>
+  </div>
+</div><!-- /patient_search -->
+
 <?= $this->endSection('patient'); ?>

@@ -415,6 +415,40 @@
 /* --------------- PERMISSION LAYOUT ---------------  */
 
 
-/* --------------- PATIENT SCREEN ---------------  */
 
-/* --------------- PATIENT SCREEN ---------------  */
+/* --------------- PATIENT SEARCH  WIDGET ---------------  */
+.patient_search{
+  box-shadow: 0 0 56px #e1e0e099;
+  margin-top: 2rem;
+}
+.patient_search .detail, .patient_search .navigation .history, .patient_search .navigation .doctor{
+  padding: 15px;
+}
+
+.patient_search h4{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--z-primary);
+    margin-bottom: 1rem;
+}
+.patient_search .row{
+  /* font-weight: 600; */
+  font-size: 1rem;
+}
+.patient_search .navigation{
+   font-weight: 600;
+}
+.patient_search .navigation .history, .patient_search .navigation .doctor{
+  text-decoration: none;
+  display: block;
+}
+.patient_search .navigation .history{
+  background: var(--z-gray);
+  color: black;
+}
+.patient_search .navigation .doctor{
+  background: var(--z-primary);
+  color: var(--z-white);
+  text-align: right;
+}
+/* ---------------  PATIENT SEARCH  WIDGET ---------------  */
