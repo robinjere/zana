@@ -56,12 +56,16 @@ class User extends BaseController
 
                 //redirect based on session.
                 switch (session()->get('role')) {
-                    case 'reception':
-                        return redirect()->to('/patient/search');
+                    case 'admin':
+                        return redirect()->to('/store/items');
+                        break;
+
+                    case 'superuser':
+                        return redirect()->to('/store/items');
                         break;
                     
                     default:
-                        return redirect()->to('/store/items');
+                        return redirect()->to('/patient/search');
                         break;
                 }
 

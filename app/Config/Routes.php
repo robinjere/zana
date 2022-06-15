@@ -31,7 +31,7 @@ $routes->setAutoRoute(true);
  
  $routes->group('patient', function($routes){
      $routes->get('/', 'PatientController::index', ['filter' => 'auth']);
-     $routes->get('search', 'PatientController::index', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'search', 'PatientController::index', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'register', 'PatientController::register', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'send_to_consultation/(:num)', 'PatientController::send_to_consultation/$1', ['filter' => 'auth']);
  });

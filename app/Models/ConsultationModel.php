@@ -93,4 +93,11 @@ class ConsultationModel extends Model
         };
         return $button;
     }
+
+    public function checkConsultationPayment(Int $file_id){
+        $builder = $this->db->table('consultation');
+        $builder->where('file_id', $file_id);
+        // $builder->orderBy('created_at', 'DESC');
+        return $builder->get()->getLastRow();
+    }
 }

@@ -420,8 +420,10 @@
 .patient_search{
   box-shadow: 0 0 56px #e1e0e099;
   margin-top: 2rem;
+  border-radius: inherit;
+  overflow: hidden;
 }
-.patient_search .detail, .patient_search .navigation .history, .patient_search .navigation .doctor{
+.patient_search .detail, .patient_search .navigation .history, .patient_search .navigation .doctor, .consultation-remove{
   padding: 15px;
 }
 
@@ -437,18 +439,30 @@
 }
 .patient_search .navigation{
    font-weight: 600;
+   border-radius: inherit;
 }
-.patient_search .navigation .history, .patient_search .navigation .doctor{
+.patient_search .navigation .col{
+  border-radius: inherit;
+}
+.patient_search .navigation .history, .patient_search .navigation .doctor, .patient_search .navigation .consultation-remove{
   text-decoration: none;
   display: block;
 }
 .patient_search .navigation .history{
   background: var(--z-gray);
   color: black;
+  /* border-bottom-left-radius: inherit; */
 }
 .patient_search .navigation .doctor{
   background: var(--z-primary);
   color: var(--z-white);
   text-align: right;
+  /* border-bottom-right-radius: inherit; */
+}
+.patient_search .navigation .consultation-remove{
+  background: var(--z-warning);
+  color: var(--z-white);
+  text-align: right;
+  /* border-bottom-right-radius: inherit; */
 }
 /* ---------------  PATIENT SEARCH  WIDGET ---------------  */

@@ -7,11 +7,13 @@ use App\Models\PatientModel;
 use App\Models\PatientsFileModel;
 use App\Models\UserModel;
 use App\Models\ConsultationModel;
+
 class PatientController extends BaseController
 {
     public function index()
     {
-        return view('Patient/search_patient');
+        // return view('Patient/search_patient');
+        return $this::search_patient();
     }
 
     public function register(){
@@ -30,7 +32,7 @@ class PatientController extends BaseController
                 //   session()->setFlashdata('success', 'patient registered');
                   //save patient file generated.
                   $patientFileModel = new PatientsFileModel;
-                  $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated]);
+                  $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => 'outpatient']);
                   return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('success', 'patient registered');
            } catch (\Exception $e) {
                //throw $th;
@@ -81,5 +83,41 @@ class PatientController extends BaseController
         $data['doctors'] = $user_model->get_users_doctor();
         $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();
         return view('patient/send_to_consultation', $data);
+    }
+
+    protected function search_patient(){
+        $patientModel = new PatientModel;
+        $data = [];
+
+        if($this->request->getMethod() == 'post'){
+           $filter = $this->request->getVar('filter'); // 'file_no / name
+           $searchterm = $this->request->getVar('searchterm');
+           try {
+               //code...
+              $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);
+              $data['search_by'] = $filter;
+
+              if(empty($data['patient_info'])){
+                   session()->setFlashdata('errors', 'Patient not available');
+              }else{
+                  /**
+                   * Check if patient sent to consultation -> status === 'consultation'
+                   * check if payment is cash then check if consultation fee is payed. 
+                   */
+                  $patientInfo = $data['patient_info'];
+                  $consultationModel = new ConsultationModel;
+                  
+                  if($patientInfo->status == 'consultation' && $patientInfo->payment_method == 'CASH'){
+                     $data['consultation_payment'] = $consultationModel->checkConsultationPayment($patientInfo->file_id);
+                  }
+              }
+
+           } catch (\Exception $e) {
+               //throw $th;
+               return redirect()->to('/patient/search')->with('errors', $e->getMessage());
+           }
+        }
+
+        return view('Patient/search_patient', $data);
     }
 }
