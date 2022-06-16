@@ -54,7 +54,8 @@ class PatientController extends BaseController
 
            $file_details = [
                'id' => $this->request->getVar('file_id'),
-               'payment_method' => $this->request->getVar('payment_method')
+               'payment_method' => $this->request->getVar('payment_method'),
+               'status' => 'consultation'
             ];
 
            $consultation = [
