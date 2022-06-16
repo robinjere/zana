@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\RoleModel;
 use App\Models\ConsultationFeeModel;
 use App\Models\ConsultationModel;
+use App\Models\PatientsFileModel;
 use monken\TablesIgniter;
 
 class ConsultationController extends BaseController
@@ -90,6 +91,18 @@ class ConsultationController extends BaseController
                                ]);
     
         return $data_table->getDatatable();
+    }
+
+    public function cancel_consultation(Int $consultation_id, Int $file_id){
+        $consultationModel = new ConsultationModel;
+        $patientFileModel = new PatientsFileModel;
+
+        echo 'consultation id -> '. $consultation_id; 
+        echo 'patient file -> '. $file_id; 
+        if($consultationModel->where('id', $consultation_id)->delete()){
+            $patientFileModel->save(['id' => $file_id, 'status' => 'finishTreatment']);
+        }
+        return redirect()->to('patient/search')->with('success', 'patient removed from consultation');
     }
 
 

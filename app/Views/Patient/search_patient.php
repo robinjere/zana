@@ -26,14 +26,13 @@
      print_r($patient_info);
      echo $search_by; 
      echo '<br/>  ----------------------------------------------------------------  <br/>';
-
-     print_r($consultation_payment);
      
      ?>
 
     <div class="patient_search">
       <div class="detail">
         <h4>Available patient | Info </h4>
+        <hr/>
         <div class="row">
           <div class="col">PATIENT FILE NO:</div>
           <div class="col"><?= strtoupper($patient_info->file_no); ?></div>
@@ -51,6 +50,12 @@
                case 'consultation':
                  echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
                  break;
+               case 'finishTreatment':
+                 echo $patient_info->end_treatment ? '<div class="col"> FINISH TREATMENT | '.$patient_info->end_treatment.'</div>' : '<div class="col"> FINISH TREATMENT </div>';
+                 break;
+               case 'inTreatment':
+                 echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
+                 break;
                
                default:
                  # code...
@@ -61,7 +66,7 @@
         </div>
 
         <div class="row">
-          <div class="col">PATIENT CHARACTER </div>
+          <div class="col">PATIENT CHARACTER: </div>
           <div class="col">
             <span class="badge bg-primary"><?= strtoupper($patient_info->patient_character) ?>!</span>
           </div>
@@ -82,7 +87,7 @@
              if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
               if($consultation_payment->payment_confirmed_by == 0){
                 echo '<div class="col"> 
-                        <a href="#" class="consultation-remove">REMOVE FROM CONSULTATION </a> 
+                        <a href="'. base_url('consultation/cancel/'.$consultation_payment->id.'/'.$consultation_payment->file_id).'" class="consultation-remove">CANCEL CONSULTATION </a> 
                       </div>';
                }
              }elseif ($patient_info->status == 'inTreatment') {
@@ -91,7 +96,7 @@
                     </div>';
              }elseif ($patient_info->status == 'finishTreatment') {
               echo '<div class="col"> 
-                       <a href="#" class="doctor"> SEND TO DOCTOR </a> 
+                       <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="doctor"> SEND TO DOCTOR </a> 
                     </div>';
              }
              break;

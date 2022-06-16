@@ -4,7 +4,12 @@
 <!-- <div class="d-flex justify-content-end">
   <a  class="btn btn-success" href="/patient/register/<?= $patient_info['patient_id']; ?>">Edit Patient Info</a>
 </div> -->
-<h3>Patient Generated File Number : <?= $patient_info['file_no']; ?> </h3>
+<?php
+   if($patient_info['status']){?>
+  <h3>Patient File Number : <?= $patient_info['file_no']; ?> </h3>
+<?php }else { ?>
+  <h3>Patient Generated File Number : <?= $patient_info['file_no']; ?> </h3>
+<?php } ?>
 
 <div>
    <?php print_r($patient_info); ?> 

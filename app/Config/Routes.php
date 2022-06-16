@@ -39,6 +39,7 @@ $routes->setAutoRoute(true);
  $routes->group('consultation', function($routes){
      $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);
      $routes->get('fees', 'ConsultationController::fees', ['filter' => 'auth']);
+     $routes->get('cancel/(:num)/(:num)', 'ConsultationController::cancel_consultation/$1/$2', ['filter' => 'auth']);
      $routes->match(['post','get'],'add_fee', 'ConsultationController::add_fee', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'update_fee/(:num)', 'ConsultationController::update_fee/$1',  ['filter' => 'auth']);
      $routes->get('delete_fee/(:num)', 'ConsultationController::delete_fee/$1',  ['filter' => 'auth']);

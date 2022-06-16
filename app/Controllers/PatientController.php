@@ -98,7 +98,7 @@ class PatientController extends BaseController
               $data['search_by'] = $filter;
 
               if(empty($data['patient_info'])){
-                   session()->setFlashdata('errors', 'Patient not available');
+                   session()->setFlashdata('errors', 'Unfortunately, no patient were found!, Please adjust your filter criteria.');
               }else{
                   /**
                    * Check if patient sent to consultation -> status === 'consultation'
