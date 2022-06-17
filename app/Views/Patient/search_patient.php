@@ -51,7 +51,7 @@
                  echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
                  break;
                case 'finishTreatment':
-                 echo $patient_info->end_treatment ? '<div class="col"> FINISH TREATMENT | '.$patient_info->end_treatment.'</div>' : '<div class="col"> FINISH TREATMENT </div>';
+                 echo $patient_info->end_treatment !== '0000-00-00' ? '<div class="col"> FINISH TREATMENT | '.$patient_info->end_treatment.'</div>' : '<div class="col"> CONSULTATION CONCELLEAD </div>';
                  break;
                case 'inTreatment':
                  echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
@@ -80,6 +80,9 @@
       </div> <!-- detail -->
       <div class="row navigation g-0">
          <?php 
+         $SEND_TO_DOCTOR = '<div class="col"> 
+                             <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="doctor"> SEND TO DOCTOR </a> 
+                            </div>';
          switch (session()->get('role')) {
            case 'reception':
               echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
@@ -90,14 +93,14 @@
                         <a href="'. base_url('consultation/cancel/'.$consultation_payment->id.'/'.$consultation_payment->file_id).'" class="consultation-remove">CANCEL CONSULTATION </a> 
                       </div>';
                }
+             }elseif ($patient_info->status == '') {
+              echo $SEND_TO_DOCTOR;
              }elseif ($patient_info->status == 'inTreatment') {
               echo '<div class="col"> 
                       <a href="#" class="consultation-remove"> ATTEND </a> 
                     </div>';
              }elseif ($patient_info->status == 'finishTreatment') {
-              echo '<div class="col"> 
-                       <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="doctor"> SEND TO DOCTOR </a> 
-                    </div>';
+              echo $SEND_TO_DOCTOR;
              }
              break;
            

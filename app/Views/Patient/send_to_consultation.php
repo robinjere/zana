@@ -39,7 +39,7 @@
      <div class="registration-space-y" x-show="option == 'CASH'">
        <input type="number" disabled <?= set_value('amount') ?>  step="any" name="amount" x-model="fees.filter(fee => fee.doctor_id == amount)[0].amount" class="form-control" placeholder="Consultation Fee" title="Consultation Fee" aria-describedby="Consultation Fee">
       </div>
-      <input type="hidden" disabled <?= set_value('amount') ?> name="amount" x-model="fees.filter(fee => fee.doctor_id == amount)[0].amount"/>
+      <input type="hidden" <?= set_value('amount') ?> name="amount" x-model="fees.filter(fee => fee.doctor_id == amount)[0].amount"/>
 
      <div class="registration-space-y" x-show="option !== 'CASH' && option !== null">
        <input type="text" <?= set_value('insuarance_no') ?> name="insuarance_no" value="" class="form-control" placeholder="Enter Insuarance Number" title="Insuarance Number" aria-describedby="Insuarance Number">
