@@ -55,20 +55,21 @@ class PatientController extends BaseController
            $file_details = [
                'id' => $this->request->getVar('file_id'),
                'payment_method' => $this->request->getVar('payment_method'),
-               'status' => 'consultation'
+               'status' => 'consultation',
+               'amount' => $this->request->getVar('amount')
             ];
 
            $consultation = [
                'file_id' => $this->request->getVar('file_id'),
                'doctor_id' => $this->request->getVar('doctor_id'),
                'payment' => $this->request->getVar('payment_method'),
-               'assigned_by' => session()->get('id')
+               'assigned_by' => session()->get('id'),
+               'amount' => $this->request->getVar('amount')
            ];
 
-            if($this->request->getVar('payment_method') == 'CASH'){
-              $consultation['amount'] = $this->request->getVar('amount');
-              $file_details['amount'] = $this->request->getVar('amount');
-            }else{
+            if($this->request->getVar('payment_method') !== 'CASH'){
+            //   $consultation['amount'] = $this->request->getVar('amount');
+            //   $file_details['amount'] = $this->request->getVar('amount');
               $payment = $this->request->getVar('insuarance_no');
             }
            try {
