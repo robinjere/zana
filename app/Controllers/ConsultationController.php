@@ -105,5 +105,28 @@ class ConsultationController extends BaseController
         return redirect()->to('patient/search')->with('success', 'patient removed from consultation');
     }
 
+    public function approve_payment(Int $consultation_id, String $from_panel){
+        $consultationModel = new ConsultationModel;
+        $data = ['id' => $consultation_id, 'payment_confirmed_by' => session()->get('id')];
+        $consultationModel->save($data);
+
+        if($from_panel == 'search'){
+            return redirect()->to('patient/search')->with('success', 'Consultation payment Approved!');
+        }else{
+            return redirect()->to('consultation/list')->with('success', 'Consultation payment Approved!');
+        }
+    }
+
+    public function dis_approve_payment(Int $consultation_id, String $from_panel){
+        $consultationModel = new ConsultationModel;
+        $data = ['id' => $consultation_id, 'payment_confirmed_by' => 0];
+        $consultationModel->save($data);
+        if($from_panel == 'search'){
+            return redirect()->to('patient/search')->with('errors', 'Consultation payment Disapproved!');
+        }else{
+            return redirect()->to('consultation/list')->with('errors', 'Consultation payment Disapproved!');
+        }
+    }
+
 
 }

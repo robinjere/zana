@@ -43,6 +43,8 @@ $routes->setAutoRoute(true);
      $routes->match(['post','get'],'add_fee', 'ConsultationController::add_fee', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'update_fee/(:num)', 'ConsultationController::update_fee/$1',  ['filter' => 'auth']);
      $routes->get('delete_fee/(:num)', 'ConsultationController::delete_fee/$1',  ['filter' => 'auth']);
+     $routes->get('approve_payment/(:num)/(:alpha)', 'ConsultationController::approve_payment/$1/$2', ['filter' => 'auth']);
+     $routes->get('disapprove_payment/(:num)/(:alpha)', 'ConsultationController::dis_approve_payment/$1/$2', ['filter' => 'auth']);
  });
 
  $routes->group('store', function($routes){

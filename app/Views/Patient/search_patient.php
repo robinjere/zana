@@ -103,6 +103,19 @@
               echo $SEND_TO_DOCTOR;
              }
              break;
+
+           case 'cashier': 
+            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+               print_r($consultation_payment);
+               echo $consultation_payment->payment_confirmed_by == 0 ? '
+                  <div class="col"> 
+                     <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="doctor"> APPROVE PAYMENT </a> 
+                  </div>' :
+                 '<div class="col"> 
+                     <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="consultation-remove"> DIS-APPROVE PAYMENT </a> 
+                  </div>';
+
+            }
            
            default:
              # code...

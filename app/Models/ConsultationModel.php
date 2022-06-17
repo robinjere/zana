@@ -77,8 +77,8 @@ class ConsultationModel extends Model
     public function actionButtons(){
         $button = function($row){
             $waiting = '<span class="badge bg-info"> Waiting </span>';
-            $accept_payment = ' <a href="/consultation/accept_payment/'.$row['id'].'" class="badge bg-success"> Accept payment</a> '; 
-            $reject_payment = ' <a href="/consultation/reject_payment/'.$row['id'].'" class="badge bg-success"> Reject payment</a> '; 
+            $accept_payment = ' <a href="/consultation/approve_payment/'.$row['id'].'/consultation" class="badge bg-success"> Approve payment</a> '; 
+            $reject_payment = ' <a href="/consultation/disapprove_payment/'.$row['id'].'/consultation" class="badge bg-danger"> Disapprove payment</a> '; 
             $consult = ' <a href="/consultation/attend/'.$row['patient_id'].'" class="badge bg-success"> Consult </a> '; 
             $showButtons = '';
             
