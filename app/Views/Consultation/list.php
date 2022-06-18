@@ -2,7 +2,7 @@
 <?= $this->section('consultation') ?>
    <!-- <h1> consultation fee</h1> -->
 
-   <?php if(in_array('can_view_consultation', session()->get('permission'))){?>
+   <?php if(in_array('can_view_consultation', session()->get('permission'))){  print_r(session()->get('role')); ?>
    <table id="fees" class="table table-striped table-bordered">
             <thead>   
               <tr>

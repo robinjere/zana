@@ -35,6 +35,13 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'], 'register', 'PatientController::register', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'send_to_consultation/(:num)', 'PatientController::send_to_consultation/$1', ['filter' => 'auth']);
  });
+
+ $routes->group('patientfile', function($routes){
+     $routes->get('/', 'PatientFileController::index', ['filter' => 'auth']);
+    //  $routes->match(['post', 'get'],'search', 'PatientController::index', ['filter' => 'auth']);
+ });
+
+
  
  $routes->group('consultation', function($routes){
      $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);

@@ -86,9 +86,17 @@ class ConsultationModel extends Model
                *TODO:: restrict by role.. Cashier should accept or reject payment
                *TODO:: Doctor can consult patient
             */
-            if($row['payment'] == 'CASH' ){
+            if($row['payment'] == 'CASH' && session()->get('role') == 'cashier'){
                $showButtons = $row['payment_confirmed_by'] == 0 ? $accept_payment : $reject_payment;
             }
+            
+            $doctor_role = ['specialist_doctor', 'general_doctor'];
+            if($row['payment'] == 'CASH' && in_array(session()->get('role'), $doctor_role ) && $row['payment_confirmed_by'] !== 0){
+                $showButtons = $consult;
+            }elseif ($row['payment'] != 'CASH' && in_array(session()->get('role'), $doctor_role)) {
+                $showButtons = $consult;   
+            }
+            
             return $showButtons;  
         };
         return $button;

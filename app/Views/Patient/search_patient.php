@@ -83,6 +83,15 @@
          $SEND_TO_DOCTOR = '<div class="col"> 
                              <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="doctor"> SEND TO DOCTOR </a> 
                             </div>';
+
+         $ATTEND =   '<div class="col"> 
+                         <a href="#" class="doctor"> ATTEND </a> 
+                      </div>';
+
+         $CONSULT =   '<div class="col"> 
+                         <a href="'.base_url('patientfile').'" class="doctor"> CONSULT </a> 
+                      </div>';
+
          switch (session()->get('role')) {
            case 'reception':
               echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
@@ -115,6 +124,22 @@
                      <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="consultation-remove"> DIS-APPROVE PAYMENT </a> 
                   </div>';
 
+            }
+
+           case 'specialist_doctor': 
+            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+              print_r($consultation_payment);
+              if( $consultation_payment->payment_confirmed_by != 0) {
+                echo $CONSULT;
+              }
+            }
+
+           case 'general_doctor': 
+            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+              print_r($consultation_payment);
+              if( $consultation_payment->payment_confirmed_by != 0 ) {
+                echo $CONSULT;
+              }
             }
            
            default:
