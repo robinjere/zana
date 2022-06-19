@@ -8,6 +8,6 @@ class PatientFileController extends BaseController
 {
     public function index()
     {
-        return view('patientfile/layout');
+        return view('patientfile/file');
     }
 }
