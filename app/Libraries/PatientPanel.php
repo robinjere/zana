@@ -13,7 +13,7 @@ class PatientPanel{
        return view('patientfile/filenav');
    }
 
-   public function ClinicalNote(){
-       return view('patientfile/clinicalnote');
+   public function ClinicalNote(array $patientFile){
+       return view('patientfile/clinicalnote', ['patient_file' => $patientFile]);
    }
 }

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="DataTables/datatables.min.css" />
     <link rel="stylesheet" href="/style.css" />
+    <script defer src="/customjs.js"></script>
     <script defer src="/alpinejs/cdn.js"></script>
 
 </head>

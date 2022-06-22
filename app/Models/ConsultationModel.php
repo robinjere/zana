@@ -20,7 +20,8 @@ class ConsultationModel extends Model
         'payment',
         'amount',
         'assigned_by',
-        'payment_confirmed_by',        
+        'payment_confirmed_by',    
+        'consulted_by',    
         'updated_at'        
     ];
 

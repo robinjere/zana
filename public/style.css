@@ -566,5 +566,6 @@
 .note-box .clinical-btn .btn{
   padding: 0.1rem 0.5rem !important;
 }
+[x-cloak] { display: none !important; }
 
 /* ---------------  PATIENT FILE  ---------------  */

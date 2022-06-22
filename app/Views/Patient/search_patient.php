@@ -54,7 +54,7 @@
                  echo $patient_info->end_treatment !== '0000-00-00' ? '<div class="col"> FINISH TREATMENT | '.$patient_info->end_treatment.'</div>' : '<div class="col"> CONSULTATION CONCELLEAD </div>';
                  break;
                case 'inTreatment':
-                 echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
+                 echo '<div class="col"> PATIENT IN TREATMENT  </div>';
                  break;
                
                default:
@@ -85,14 +85,16 @@
                             </div>';
 
          $ATTEND =   '<div class="col"> 
-                         <a href="#" class="doctor"> ATTEND </a> 
+                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="doctor"> ATTEND </a> 
                       </div>';
 
          $CONSULT =   '<div class="col"> 
-                         <a href="'.base_url('patientfile').'" class="doctor"> CONSULT </a> 
+                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="doctor"> CONSULT </a> 
                       </div>';
 
-         switch (session()->get('role')) {
+      
+         $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
+         switch ($role) {
            case 'reception':
               echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation
@@ -126,21 +128,23 @@
 
             }
 
-           case 'specialist_doctor': 
+           case 'doctor': 
             if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
               print_r($consultation_payment);
               if( $consultation_payment->payment_confirmed_by != 0) {
                 echo $CONSULT;
               }
+            }elseif ($patient_info->status == 'inTreatment') {
+              echo $ATTEND;
             }
 
-           case 'general_doctor': 
-            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-              print_r($consultation_payment);
-              if( $consultation_payment->payment_confirmed_by != 0 ) {
-                echo $CONSULT;
-              }
-            }
+          //  case 'general_doctor': 
+          //   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+          //     print_r($consultation_payment);
+          //     if( $consultation_payment->payment_confirmed_by != 0 ) {
+          //       echo $CONSULT;
+          //     }
+          //   }
            
            default:
              # code...
