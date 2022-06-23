@@ -26,16 +26,18 @@
       </symbol>
       </svg>
      <!-- icons -->
-   
-   <div x-cloak x-show="success== true" class="alert alert-success d-flex align-items-center" role="alert">
-      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-         <div x-text="message"></div>
-   </div>
-
+   <template x-if="success== true">
+      <div x-cloak x-show="success== true" class="alert alert-success d-flex align-items-center" role="alert">
+         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div x-text="message"></div>
+      </div>
+   </template>
+   <template x-if="(success == false ) && message != '' ">
    <div x-cloak x-show="(success == false ) && message != '' " class="alert alert-danger d-flex align-items-center" role="alert">
       <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
       <div x-text="message"></div>
    </div>
+   </template>
 
    <!-- alert message -->
    <form x-on:submit.prevent >
@@ -56,14 +58,18 @@
      </div><!-- /my-3 -->
    </form>
 
+   <div x-init="$nextTick(getClinicalNotes())">
+
+   </div>
+
 </div><!-- /clinical-note -->
 
 <script defer>
    //note data state
    function notesData(){
     return {
-     start_treatment: <?= $patient_file['start_treatment'] ?>,
-     end_treatment: <?= $patient_file['end_treatment'] ?>, 
+     start_treatment: <?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>,
+     end_treatment: <?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>, 
      addnote:false,
      current_note: '',
      notes: [],
@@ -80,6 +86,7 @@
             this.message = data.message
            if(data.success){
                 this.current_note = ''
+                this.addnote = false
            }
          //  this.notes = data
          //  this.addnote = false
@@ -87,6 +94,16 @@
        }).catch(error => console.log(error))
 
       //  this.notes = custom_addnote(this.current_note)
+     },
+     getClinicalNotes(){
+        fetch("<?= base_url('patientFileController/ajax_getclinicalnotes')?>", {
+           method: 'POST',
+           headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With':'XMLHttpRequest'},
+           body: JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment})
+        }).then(res => res.json())
+        .then(data => {
+           this.notes = data
+        })
      }
    }
 }

@@ -51,4 +51,14 @@ class PatientFileController extends BaseController
             }           
         }
     }
+    
+    public function ajax_getclinicalnotes(){
+        if($this->request->getMethod() == 'post'){
+            $clinicalNoteModel = new ClinicalNoteModel;
+            $clinicalnotes = $clinicalNoteModel->getClinicalNotes($this->request->getVar('file_id'), $this->request->getVar('start_date'), $this->request->getVar('end_date'));
+            if($clinicalnotes){
+                echo json_encode($clinicalnotes);
+            }
+        }
+    }
 }

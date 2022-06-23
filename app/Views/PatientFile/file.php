@@ -1,7 +1,10 @@
 <?= $this->extend('./patientfile/layout') ?>
 <?= $this->section('file') ?>
 
-<?php if(!empty($patient_file)){ ?>
+<?php if(!empty($patient_file)){ 
+   //if end date is null then set to current date
+   $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];
+?>
     
 <div class="file">
     <div class="file-header"> 
