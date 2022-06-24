@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 class AssignedProceduresModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'assignedprocedures';
+    protected $table            = 'assigned_procedures';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','amount','confirmed_by','created_at'];
+    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','procedure_note','amount','confirmed_by','created_at'];
 
     // Dates
     protected $useTimestamps = true;

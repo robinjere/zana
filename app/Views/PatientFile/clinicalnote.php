@@ -58,9 +58,9 @@
      </div><!-- /my-3 -->
    </form>
 
-   <div x-init="$nextTick(getClinicalNotes())">
+   <!-- <div x-init="$nextTick(getClinicalNotes())">
 
-   </div>
+   </div> -->
 
 </div><!-- /clinical-note -->
 

@@ -37,6 +37,11 @@
     <div class="file-content">
         <!-- clinical note  -->
         <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+        <!-- clinical note -->
+        
+        <!-- Procedures -->
+        <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
+        <!-- Procedures -->
     </div> <!-- /file-content -->
 </div><!-- /file -->
   <!-- <P>CLINICAL NOTE</P>

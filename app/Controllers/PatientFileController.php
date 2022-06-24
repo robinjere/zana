@@ -4,6 +4,8 @@ use App\Controllers\BaseController;
 use App\Models\PatientsFileModel;
 use App\Models\ConsultationModel;
 use App\Models\ClinicalNoteModel;
+use App\Models\ProceduresModel;
+use App\Models\AssignedProceduresModel;
 
 class PatientFileController extends BaseController
 {
@@ -60,5 +62,21 @@ class PatientFileController extends BaseController
                 echo json_encode($clinicalnotes);
             }
         }
+    }
+
+    public function ajax_assignprocedure(){
+        $assignedProceduresModel =  new AssignedProceduresModel;
+        if($this->request->getMethod() == 'post'){
+            if($assignedProceduresModel->save($this->request->getVar())){
+                echo json_encode(['success' => true, 'message' => 'Procedure assigned!']);   
+            }else{
+                echo json_encode(['success' => false, 'message' => 'Failed to assign a procedure!']); 
+            }
+        }
+    }
+    
+    public function ajax_getprocedures(){
+        $proceduresModel = new ProceduresModel;
+        echo json_encode($proceduresModel->findAll());
     }
 }
