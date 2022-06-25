@@ -40,79 +40,130 @@
 
    <!-- Assign Procedure -->
    <div><!-- procedure block -->
-      <div class="d-flex justify-content-end"> <button @click="isAssign=true" type="button" class="btn btn-primary">Assign Procedure</button> </div>
-      <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
-          <div class="row">
-             <div class="col">
-                  <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
-                   <option selected> select procedure</option>
-                   <template x-for="p in availableProcedures" :key="p.id">
-                      <option :value="p.id" x-text="p.name"></option>
-                   </template>
-                   <!-- <option value="2">Two</option>
-                   <option value="3">Three</option> -->
-                  </select>
-             </div>
-             <div class="col">
-                <div class="mb-3">
-                  <!-- <label for="" class="form-label"></label> -->
-                  <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
+      <div class="d-flex justify-content-end"> <button @click="isAssign=true" type="button" class="btn btn-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
+      
+      <template x-if="isAssign">
+         <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
+             <div class="row">
+                <div class="col">
+                     <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
+                      <option selected> select procedure</option>
+                      <template x-for="p in availableProcedures" :key="p.id">
+                         <option :value="p.id" x-text="p.name"></option>
+                      </template>
+                      <!-- <option value="2">Two</option>
+                      <option value="3">Three</option> -->
+                     </select>
+                </div>
+                <div class="col">
+                   <div class="mb-3">
+                     <!-- <label for="" class="form-label"></label> -->
+                     <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
+                   </div>
                 </div>
              </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit Procedure</button>
-      </form><!-- /form -->
+             <button type="submit" class="btn btn-primary">Submit Procedure</button>
+         </form><!-- /form -->
+      </template>
+
+      <div class="procedure-table">
+         <table id="table_procedures" class="table table-striped table-bordered">
+            <thead>   
+               <tr>
+               <!-- 'created_at', 'name', 'amount','procedure_note' -->
+                  <th scope="col">Date</th>
+                  <th scope="col">Procedure</th>
+                  <th scope="col">Procedure note</th>
+                  <th scope="col">Amount</th> 
+                  <th scope="col">Doctor</th>
+                  <th scope="col" >Action</th>
+                  <!-- <th scope="col" >update</th> -->
+               </tr>
+            </thead>
+        </table>
+      </div><!-- /procedure-table -->
+
    </div><!-- /div -->
   <!-- /Assign Procedure -->
 
 </div><!-- /procedures -->
 
-<script>
-  function proceduresData(){
-     
-    return {
-       isAssign : false,
-       showAssignBtn: true,
-       procedure: {id: '', name:'', price:0 },
-       selectedProcedure: 0,
-       procedureNote: '',
-       availableProcedures: [{id: '', name:'', price:0 }],
-       success: false, 
-       message: '',
-       filterProcedures(selectedProcedure){
-           console.log('this invoked!')
-           this.procedure = this.availableProcedures.filter(procedure => Number(procedure.id) == Number(selectedProcedure))[0]
-       },
-       getProcedures(){
-          fetch('<?= base_url('patientFileController/ajax_getprocedures')?>', {
-             headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}
-          }).then(res => res.json()).then(data => {
-            //  console.log('available procedure', data);
-            this.availableProcedures = data
-          })
-       },
-       assignProcedure(){
-         this.filterProcedures(this.selectedProcedure);
-         fetch('<?= base_url('patientFileController/ajax_assignprocedure') ?>', {
-             method: 'POST',
-             headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
-             body: JSON.stringify({
-              file_id: <?= $patient_file['id'] ?>,
-              procedure_id: Number(this.procedure.id),
-              doctor: <?= session()->get('id') ?>,
-              procedure_note: this.procedureNote,
-              amount: this.procedure.price,
-             })
-          }).then(res => res.json()).then(data => {
-               this.success = data.success
-               this.message = data.message
-               this.selectedProcedure = 0
-               this.procedureNote= ''
-               this.showAssignBtn = true
-               this.isAssign = false,
-          }).catch(error => console.log('error', error))
-       }
-    }
+<?= $this->section('script') ?>
+  <script>
 
-  }   
-</script>
+function proceduresData(){
+     
+     return {
+        startDate: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
+        endDate: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
+        isAssign: false,
+        showAssignBtn: true,
+        procedure: {id: '', name:'', price:0 },
+        selectedProcedure: 0,
+        procedureNote: '',
+        availableProcedures: [{id: '', name:'', price:0 }],
+        success: false, 
+        message: '',
+        filterProcedures(selectedProcedure){
+            console.log('this invoked!')
+            this.procedure = this.availableProcedures.filter(procedure => Number(procedure.id) == Number(selectedProcedure))[0]
+        },
+        getProcedures(){
+           fetch('<?= base_url('patientFileController/ajax_getprocedures')?>', {
+              headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}
+           }).then(res => res.json()).then(data => {
+             //  console.log('available procedure', data);
+             this.availableProcedures = data
+           })
+        },
+        assignProcedure(){
+          this.filterProcedures(this.selectedProcedure);
+          fetch('<?= base_url('patientFileController/ajax_assignprocedure') ?>', {
+              method: 'POST',
+              headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+              body: JSON.stringify({
+               file_id: <?= $patient_file['id'] ?>,
+               procedure_id: Number(this.procedure.id),
+               doctor: <?= session()->get('id') ?>,
+               procedure_note: this.procedureNote,
+               amount: this.procedure.price
+              })
+           }).then(res => res.json()).then(data => {
+                this.success = data.success
+                this.message = data.message
+                this.selectedProcedure = 0
+                this.procedureNote= ''
+                this.showAssignBtn = true
+                this.isAssign = false
+                proceduresTable()
+           }).catch(error => console.log('error', error))
+        }
+     }
+ 
+   }   
+   
+   function proceduresTable(){
+      $(document).ready(function(){
+        $('#table_procedures').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_assignedprocedure') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+   }
+
+   // initial request procedures
+   proceduresTable()
+
+  </script>
+<?= $this->endSection() ?>

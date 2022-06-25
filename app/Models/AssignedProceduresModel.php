@@ -39,4 +39,40 @@ class AssignedProceduresModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getAssignedProcedures(Int $file_id, $start_date, $end_date){
+        $builder = $this->db->table('assigned_procedures');
+        $builder->select('procedures.name, user.first_name, user.last_name, assigned_procedures.id, assigned_procedures.procedure_note, assigned_procedures.amount, assigned_procedures.confirmed_by, assigned_procedures.created_at');
+        $builder->join('procedures', 'assigned_procedures.procedure_id = procedures.id');
+        $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('DATE(assigned_procedures.created_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->where('assigned_procedures.file_id', $file_id);
+        $builder->groupEnd();
+        return $builder;
+    }
+    public function procedureDateFormat(){
+        $column = function ($row){
+            $date = date_create($row['created_at']);
+            return date_format($date, 'd/m/Y');
+        };
+        return $column;
+    }
+
+    public function procedureDoctor(){
+        return function($row){
+           return '<b>'. $row['first_name'] .', '. $row['last_name'] .'</b>';
+        };
+    }
+    public function actionButtons(){
+        return function($row){
+            return '<a class="btn btn-sm btn-danger"> delete </a>';
+        };
+    }
+    public function formatAmount(){
+        $column = function($row){
+            return number_format(floatval($row['amount'])) . '/=';
+        };
+        return $column;
+    }
 }

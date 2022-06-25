@@ -6,6 +6,8 @@ use App\Models\ConsultationModel;
 use App\Models\ClinicalNoteModel;
 use App\Models\ProceduresModel;
 use App\Models\AssignedProceduresModel;
+use monken\TablesIgniter;
+
 
 class PatientFileController extends BaseController
 {
@@ -78,5 +80,27 @@ class PatientFileController extends BaseController
     public function ajax_getprocedures(){
         $proceduresModel = new ProceduresModel;
         echo json_encode($proceduresModel->findAll());
+    }
+    public function ajax_assignedprocedure(){
+        $assignedProceduresModel =  new AssignedProceduresModel;
+        if($this->request->getMethod() == 'post'){
+
+           $file_id=$this->request->getVar('file_id');
+           $start_date=$this->request->getVar('start_date');
+           $end_date=$this->request->getVar('end_date');
+
+        //    echo json_encode(['file_id' => $file_id, 'start_date' =>  $start_date, 'end_date' => $end_date]);
+        //    exit;
+
+           $data_table = new TablesIgniter();
+           $data_table->setTable($assignedProceduresModel->getAssignedProcedures($file_id, $start_date, $end_date))
+                      ->setDefaultOrder('id', 'DESC')
+                    //   ->setSearch(['name'])
+                      ->setOrder(['created_at', 'name', 'procedure_note', 'amount', 'doctor'])
+                      ->setOutput([$assignedProceduresModel->procedureDateFormat(), 'name', 'procedure_note', $assignedProceduresModel->formatAmount(), $assignedProceduresModel->procedureDoctor(), $assignedProceduresModel->actionButtons()]);
+   
+           return $data_table->getDatatable();
+
+        }
     }
 }

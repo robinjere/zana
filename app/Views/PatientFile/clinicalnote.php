@@ -68,8 +68,8 @@
    //note data state
    function notesData(){
     return {
-     start_treatment: <?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>,
-     end_treatment: <?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>, 
+     start_treatment: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
+     end_treatment: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
      addnote:false,
      current_note: '',
      notes: [],
