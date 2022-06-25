@@ -19,4 +19,8 @@ class PatientPanel{
    public function Procedures(array $patientFile){
        return view('patientfile/procedure', ['patient_file'=> $patientFile]);
    }
+   public function Medicine(array $patientFile){
+       return view('patientfile/medicine', ['patient_file'=> $patientFile]);
+   }
+   
 }
