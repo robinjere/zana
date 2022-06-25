@@ -141,6 +141,25 @@ function proceduresData(){
      }
  
    }   
+
+   function deleteProcedure(procedure_id){
+       fetch('<?= base_url('patientFileController/ajax_deleteprocedure') ?>', {
+          method: 'post',
+          headers: {
+             Accept: 'application/json',
+             'Content-Type': 'application/json',
+             'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+             procedure_id: procedure_id
+          })
+       }).then(res => res.json()).then(data => {
+          console.log(data)
+          if(data.success){
+            proceduresTable()
+          }
+       })
+   }
    
    function proceduresTable(){
       $(document).ready(function(){

@@ -66,7 +66,7 @@ class AssignedProceduresModel extends Model
     }
     public function actionButtons(){
         return function($row){
-            return '<a class="btn btn-sm btn-danger"> delete </a>';
+            return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
         };
     }
     public function formatAmount(){

@@ -81,6 +81,16 @@ class PatientFileController extends BaseController
         $proceduresModel = new ProceduresModel;
         echo json_encode($proceduresModel->findAll());
     }
+    public function ajax_deleteprocedure(){
+       $assignedProceduresModel =  new AssignedProceduresModel;
+       if($this->request->getMethod() == 'post'){
+           if($assignedProceduresModel->where('id', $this->request->getVar('procedure_id'))->delete()){
+               echo json_encode(['success' => true, 'message' => 'successful deleted!']);
+            }else{
+               echo json_encode(['success' => false, 'message' => 'failed deleted!']);
+            }
+       }
+    }
     public function ajax_assignedprocedure(){
         $assignedProceduresModel =  new AssignedProceduresModel;
         if($this->request->getMethod() == 'post'){
