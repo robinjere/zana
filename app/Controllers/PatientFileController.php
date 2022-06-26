@@ -6,6 +6,7 @@ use App\Models\ConsultationModel;
 use App\Models\ClinicalNoteModel;
 use App\Models\ProceduresModel;
 use App\Models\AssignedProceduresModel;
+use App\Models\ItemModel;
 use monken\TablesIgniter;
 
 
@@ -113,4 +114,12 @@ class PatientFileController extends BaseController
 
         }
     }
+
+   public function ajax_searchdrug(){
+       $itemModel = new ItemModel;
+       if($this->request->getMethod() == 'post'){
+          //searchinput..
+          echo json_encode(['searchItem' => $itemModel->searchItem($this->request->getVar('searchInput')) ]);
+       }
+   }
 }

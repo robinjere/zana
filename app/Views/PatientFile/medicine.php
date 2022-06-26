@@ -1,4 +1,4 @@
-<div id="medicine" class="medicine mt-5">
+<div id="medicine" class="medicine mt-5" x-data="medicineData()">
    <h5>
         <span class='icon'>
         <svg viewBox="0 0 28 22" fill="none" >
@@ -11,28 +11,43 @@
    </h5>
 
    <div class="d-flex justify-content-end mb-3">
-     <button type="button" class="btn btn-outline-primary">Assign Drug</button>
+     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showSearchBtn" @click="showSearchInput=true">Search Drug</button>
+     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showAssignArea">Assign Drug</button>
    </div>
    <div>
      <div>
          <div class="mb-3">
            <!-- <label for="" class="form-label"></label> -->
-           <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
+           <input type="text" x-model="searchInput" @keyup="searchDrug()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
+           <template x-if="searchItems.length">
+             <ul class="list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+               <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+               <template x-for="drug in searchItems">
+                 <li @click="selectDrug(drug.id)" class="list-group-item list-group-item-action" x-text="drug.name.toUpperCase()">Active item</li>
+               </template>
+
+               <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
+               <li href="#" class="list-group-item list-group-item-action">Item</li>
+               <li href="#" class="list-group-item list-group-item-action">Item</li>
+               <li href="#" class="list-group-item list-group-item-action">Item</li> -->
+               <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
+             </ul><!-- /ul -->
+           </template>
            <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
-         </div>
-         <form >
+         </div> <!-- /mb-3 -->
+         <form  x-on:submit.prevent x-cloak x-show="showAssignArea">
            <div class="row">
            <div class="col">
                <label for="unit" class="form-label">Unit</label>
-               <input type="text" id="unit" class="form-control" placeholder="unit" value="20"/>
+               <input type="text" x-model="drug.unit" id="unit" class="form-control" placeholder="unit" value="20"/>
            </div>
            <div class="col">
                <label for="dosage" class="form-label">Dosage</label>
-               <input type="text" id="dosage" class="form-control" placeholder="unit" value="20"/>
+               <input type="text" x-model="drug.dosage" id="dosage" class="form-control" placeholder="unit" value="20"/>
            </div>
            <div class="col">
                 <label for="frequency" class="form-label">Frequency</label>
-                <select id="frequecy" class="form-control">
+                <select x-model="drug.frequency" id="frequecy" class="form-control">
                   <option>2</option>
                   <option>4</option>
                   <option>11</option>
@@ -40,20 +55,20 @@
            </div>
            <div class="col">
              <div class="mb-3">
-               <label for="route" class="form-label">Route</label>
+               <label for="route" x-model="drug.route" class="form-label">Route</label>
                <input type="text" class="form-control" name="" id="route" placeholder="Route">
              </div>
            </div>
            <div class="col">
              <div class="mb-3">
                <label for="days" class="form-label">Days</label>
-               <input type="text" class="form-control" name="" id="days" placeholder="Days">
+               <input type="text" x-model="drug.days" class="form-control" name="" id="days" placeholder="Days">
              </div>
            </div>
            <div class="col">
              <div class="mb-3">
                <label for="qty" class="form-label">Qty</label>
-               <input type="number" class="form-control" name="" id="qty" placeholder="qty">
+               <input type="number" x-model="drug.qty" class="form-control" name="" id="qty" placeholder="qty">
              </div>
            </div>
            </div> <!-- /row -->
@@ -61,7 +76,7 @@
             <div class="col">
               <div class="mb-3">
                 <label for="instruction" class="form-label">Instruction</label>
-                <textarea name="" id="instruction" class="form-control"> instrustion</textarea>
+                <textarea name="" x-model="drug.instruction" id="instruction" class="form-control"> instrustion</textarea>
               </div>
             </div>
            </div><!-- /rpw -->
@@ -70,3 +85,73 @@
    </div>
 
 </div>
+
+
+<?= $this->section('script') ?>
+<script>
+
+  function medicineData(){
+    return {
+      searchItems:[],
+      showSearchBtn: true,
+      showSearchInput: false,
+      searchInput: '',
+      showAssignArea: false,
+      drug: {
+        unit: 2,
+        dosage: '',
+        frequency: '',
+        route: 0,
+        days: 0,
+        qty: 0,
+        instruction: '',
+        id: '',
+        amount: 0,
+      },
+      searchDrug(){
+        console.log('search input typed', this.searchInput)
+        if(this.searchInput !== ''){
+          fetch('<?= base_url('patientFileController/ajax_searchdrug') ?>',{
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+              searchInput: this.searchInput
+            })
+          }).then(res => res.json()).then(data => {
+              this.searchItems = data.searchItem
+          })
+        }else{
+          this.searchItems = []
+        }
+      },
+     selectDrug(drug_id){
+        let available_drug = ''
+        available_drug = this.searchItems.filter(drug => drug.id == drug_id)[0]
+        drug = {
+          unit: available_drug.qty,
+          dosage: '',
+          frequency: '',
+          route: 0,
+          days: 0,
+          qty: 0,
+          instruction: '',
+          id: available_drug.id,
+          amount: available_drug.selling_price
+        },
+        //clear search 
+        this.searchItems = []
+        this.searchInput = available_drug.name.toUpperCase()
+    
+        this.drug = drug
+        console.log('drug available', drug)
+        
+     }
+    }
+  }
+
+</script>
+<?= $this->endSection() ?>
