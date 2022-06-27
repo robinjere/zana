@@ -254,7 +254,7 @@
               this.showSearchInput = false
               this.searchInput =  ''
               this.showAssignArea = false
-
+              medicineTable()
             }else{
               this.message = data.message
               this.success = data.success
@@ -285,6 +285,24 @@
    }
   //initial call
  medicineTable()
+
+ function deleteMedicine(medicine_id){
+  fetch('<?= base_url('patientFileController/ajax_deleteMedicine') ?>',{
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+               medicine_id: medicine_id
+            })
+          }).then(res => res.json()).then(data => {
+             if(data.success){
+               medicineTable()
+             }
+          })
+ }
 
 </script>
 <?= $this->endSection() ?>

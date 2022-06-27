@@ -135,6 +135,15 @@ class PatientFileController extends BaseController
        }
    }
 
+   public function ajax_deleteMedicine(){
+    $assignedMedicineModel = new AssignedMedicineModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedMedicineModel->where('id', $this->request->getVar('medicine_id'))->delete()){
+            echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        }
+    }
+   }
+
    public function ajax_assignedmedicine(){
     $assignedMedicineModel = new AssignedMedicineModel;
     if($this->request->getMethod() == 'post'){
