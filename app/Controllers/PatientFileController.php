@@ -6,6 +6,7 @@ use App\Models\ConsultationModel;
 use App\Models\ClinicalNoteModel;
 use App\Models\ProceduresModel;
 use App\Models\AssignedProceduresModel;
+use App\Models\AssignedMedicineModel;
 use App\Models\ItemModel;
 use monken\TablesIgniter;
 
@@ -122,4 +123,39 @@ class PatientFileController extends BaseController
           echo json_encode(['searchItem' => $itemModel->searchItem($this->request->getVar('searchInput')) ]);
        }
    }
+   
+   public function ajax_assigndrug(){
+       $assignedMedicineModel = new AssignedMedicineModel;
+       if($this->request->getMethod() == 'post'){
+         if($assignedMedicineModel->save($this->request->getVar())){
+            echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
+        }else{
+            echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
+        }
+       }
+   }
+
+   public function ajax_assignedmedicine(){
+    $assignedMedicineModel = new AssignedMedicineModel;
+    if($this->request->getMethod() == 'post'){
+
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+
+        // print_r($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date));
+        // exit;
+
+        $data_table = new TablesIgniter();
+        $data_table->setTable($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['created_at', 'name', 'dosage','route','frequency','days','qty','instruction','payed','selling_price'])
+                   ->setOutput([$assignedMedicineModel->medicineDateFormat(), 'name', 'dosage','route','frequency','days','qty','instruction','payed', $assignedMedicineModel->formatAmount(), $assignedMedicineModel->actionButtons()]);
+
+        return $data_table->getDatatable();
+
+     }
+   }
+   
 }

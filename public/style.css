@@ -568,6 +568,11 @@
 }
 [x-cloak] { display: none !important; }
 
+/* style tables */
+table thead tr th,
+table tbody tr td{
+  font-size: .95rem !important;
+}
 
 
 /* ---------------  PATIENT FILE  ---------------  */

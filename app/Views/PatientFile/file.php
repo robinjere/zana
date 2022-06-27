@@ -3,6 +3,12 @@
 
 <?php if(!empty($patient_file)){ 
    //if end date is null then set to current date
+   print_r(date('Y-m-d'));
+   echo 'Today date |>';
+   echo 'and app time zone: ';
+   
+   echo app_timezone();
+
    $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];
 ?>
     

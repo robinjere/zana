@@ -10,9 +10,39 @@
         </span>  
    </h5>
 
+   <!-- alert message -->
+
+     <!-- icons -->
+     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </symbol>
+      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </symbol>
+      <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+      </symbol>
+      </svg>
+     <!-- icons -->
+   <template x-if="success== true">
+      <div x-cloak x-show="success== true" class="alert alert-success d-flex align-items-center" role="alert">
+         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div x-text="message"></div>
+      </div>
+   </template>
+   <template x-if="(success == false ) && message != '' ">
+   <div x-cloak x-show="(success == false ) && message != '' " class="alert alert-danger d-flex align-items-center" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+      <div x-text="message"></div>
+   </div>
+   </template>
+
+   <!-- alert message -->
+
    <div class="d-flex justify-content-end mb-3">
      <button type="button" class="btn btn-outline-primary" x-cloak x-show="showSearchBtn" @click="showSearchInput=true">Search Drug</button>
-     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showAssignArea">Assign Drug</button>
+     <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign Drug</button>
    </div>
    <div>
      <div>
@@ -39,36 +69,37 @@
            <div class="row">
            <div class="col">
                <label for="unit" class="form-label">Unit</label>
-               <input type="text" x-model="drug.unit" id="unit" class="form-control" placeholder="unit" value="20"/>
+               <input type="text" disabled x-model="unit" id="unit" class="form-control" placeholder="unit" />
            </div>
            <div class="col">
                <label for="dosage" class="form-label">Dosage</label>
-               <input type="text" x-model="drug.dosage" id="dosage" class="form-control" placeholder="unit" value="20"/>
+               <input type="text" x-model="dosage" id="dosage" class="form-control" placeholder="dosage" />
            </div>
            <div class="col">
                 <label for="frequency" class="form-label">Frequency</label>
-                <select x-model="drug.frequency" id="frequecy" class="form-control">
+                <select x-model="frequency" id="frequecy" class="form-control">
+                  <option>1</option>
                   <option>2</option>
+                  <option>3</option>
                   <option>4</option>
-                  <option>11</option>
                 </select>
            </div>
            <div class="col">
              <div class="mb-3">
-               <label for="route" x-model="drug.route" class="form-label">Route</label>
-               <input type="text" class="form-control" name="" id="route" placeholder="Route">
+               <label for="route" class="form-label">Route</label>
+               <input type="text" x-model="route" class="form-control" name="" id="route" placeholder="Route">
              </div>
            </div>
            <div class="col">
              <div class="mb-3">
                <label for="days" class="form-label">Days</label>
-               <input type="text" x-model="drug.days" class="form-control" name="" id="days" placeholder="Days">
+               <input type="text" x-model="days" class="form-control" name="" id="days" placeholder="Days">
              </div>
            </div>
            <div class="col">
              <div class="mb-3">
                <label for="qty" class="form-label">Qty</label>
-               <input type="number" x-model="drug.qty" class="form-control" name="" id="qty" placeholder="qty">
+               <input type="number" x-model="qty" class="form-control" name="" id="qty" placeholder="qty">
              </div>
            </div>
            </div> <!-- /row -->
@@ -76,13 +107,33 @@
             <div class="col">
               <div class="mb-3">
                 <label for="instruction" class="form-label">Instruction</label>
-                <textarea name="" x-model="drug.instruction" id="instruction" class="form-control"> instrustion</textarea>
+                <textarea name="" x-model="instruction" id="instruction" class="form-control"> instrustion</textarea>
               </div>
             </div>
            </div><!-- /rpw -->
          </form>
      </div>
    </div>
+
+   <div class="medicine-table">
+         <table id="table_medicine" class="table table-striped table-bordered">
+            <thead>   
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Drug</th>
+                  <th scope="col">Dosage </th>
+                  <th scope="col">Route</th> 
+                  <th scope="col">Frequency</th>
+                  <th scope="col">Days</th>
+                  <th scope="col">Qty</th>
+                  <th scope="col">Instruction</th>
+                  <th scope="col">Payed</th>
+                  <th scope="col">Price/Qty</th>
+                  <th scope="col" >Action</th>
+               </tr>
+            </thead>
+        </table>
+    </div><!-- /procedure-table -->
 
 </div>
 
@@ -92,22 +143,22 @@
 
   function medicineData(){
     return {
+      success: false,
+      message: '',
       searchItems:[],
       showSearchBtn: true,
       showSearchInput: false,
       searchInput: '',
       showAssignArea: false,
-      drug: {
-        unit: 2,
-        dosage: '',
-        frequency: '',
-        route: 0,
-        days: 0,
-        qty: 0,
-        instruction: '',
-        id: '',
-        amount: 0,
-      },
+      unit: 2,
+      dosage: '',
+      frequency: '',
+      route: '',
+      days: 0,
+      qty: 0,
+      instruction: '',
+      id: 0,
+      amount: 0,
       searchDrug(){
         console.log('search input typed', this.searchInput)
         if(this.searchInput !== ''){
@@ -128,30 +179,112 @@
           this.searchItems = []
         }
       },
-     selectDrug(drug_id){
+     selectDrug(drug_id){ 
         let available_drug = ''
-        available_drug = this.searchItems.filter(drug => drug.id == drug_id)[0]
-        drug = {
-          unit: available_drug.qty,
-          dosage: '',
-          frequency: '',
-          route: 0,
-          days: 0,
-          qty: 0,
-          instruction: '',
-          id: available_drug.id,
-          amount: available_drug.selling_price
-        },
+        available_drug = this.searchItems.filter(drug => Number(drug.id) == Number(drug_id))[0]
+        
+          this.unit = Number(available_drug.qty)
+          this.dosage = ''
+          this.frequency = 1,
+          this.route = ''
+          this.days = 0
+          this.qty = 0
+          this.instruction = ''
+          this.id = Number(available_drug.id)
+          this.amount = Number(available_drug.selling_price)
+        
         //clear search 
         this.searchItems = []
+        this.showAssignArea = true;
+        this.showSearchBtn = false
+
+        // available_drug = JSON.parse(JSON.stringify(available_drug))
+        console.log('True scope drug ->', available_drug)
         this.searchInput = available_drug.name.toUpperCase()
     
-        this.drug = drug
-        console.log('drug available', drug)
+        // this.drug = _drug
+        console.log('drug available', this.drug)
         
+     },
+     assignDrug(){
+
+              let _unit = this.unit
+              let _dosage = this.dosage  
+              let _frequecy = this.frequency
+              let _route = this.route
+              let _days = this.days 
+              let _qty = this.qty
+              let _instruction = this.instruction
+              let _id = this.id
+              let _amount = this.amount
+
+        if(Number(this.unit) < Number(this.qty) || Number(this.qty) < 0 ){
+                 this.success = false,
+                 this.message = Number(this.qty) < 0 ? 'Qty could never be negative!' : 'Qty is greater than unit!'
+                 return
+        }
+
+      fetch('<?= base_url('patientFileController/ajax_assigndrug') ?>',{
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                unit : _unit,
+                dosage: _dosage,  
+                frequency: _frequecy,
+                route: _route,
+                days: _days,
+                qty: _qty,
+                instruction: _instruction,
+                drug_id: _id,
+                amount: _amount,
+                file_id: <?= $patient_file['id'] ?>,
+                doctor: <?= session()->get('id') ?>
+            })
+          }).then(res => res.json()).then(data => {
+            if(data.success){
+              this.message = data.message
+              this.success = data.success
+
+              //hide search drug and assign drug inputs,
+              this.showSearchBtn = true
+              this.showSearchInput = false
+              this.searchInput =  ''
+              this.showAssignArea = false
+
+            }else{
+              this.message = data.message
+              this.success = data.success
+            }
+          })
      }
     }
   }
+
+  function medicineTable(){
+      $(document).ready(function(){
+        $('#table_medicine').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_assignedmedicine') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+   }
+  //initial call
+ medicineTable()
 
 </script>
 <?= $this->endSection() ?>
