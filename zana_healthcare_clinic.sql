@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2022 at 05:46 AM
+-- Generation Time: Jun 28, 2022 at 05:44 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -51,6 +51,31 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (1, '1x2', 2, '0', 2, 5, 'first instruction', 10, 0, 0, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
 (3, '5x2', 3, '0', 6, 5, 'fifth instruction', 11, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
 (4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assigned_labtests`
+--
+
+CREATE TABLE `assigned_labtests` (
+  `id` int(11) NOT NULL,
+  `labtest_id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `memo` text NOT NULL,
+  `price` double NOT NULL,
+  `confirmed_by` int(11) NOT NULL,
+  `doctor` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `assigned_labtests`
+--
+
+INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `file_id`, `memo`, `price`, `confirmed_by`, `doctor`, `created_at`, `updated_at`) VALUES
+(6, 3, 9, '', 6000, 0, 31, '2022-06-28 06:30:07', '2022-06-28 06:30:07');
 
 -- --------------------------------------------------------
 
@@ -208,6 +233,31 @@ INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_
 (12, 'LOSARTAN 50 MG (REPACE)', 100, 500, 666, NULL, '', '2022-04-27 16:29:28', '2022-04-27 00:00:00', 19),
 (13, 'cetamol', 100, 2000, 3000, NULL, '', '2022-04-28 15:57:12', '2022-04-28 00:00:00', 19),
 (15, 'paracetamol_new', 400, 500, 600, '2022-05-17 00:00:00', 'new paracetamol', '2022-05-03 16:11:25', '2022-05-14 00:00:00', 19);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `labtests`
+--
+
+CREATE TABLE `labtests` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `description` varchar(250) NOT NULL,
+  `price` double NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `labtests`
+--
+
+INSERT INTO `labtests` (`id`, `name`, `description`, `price`, `created_at`, `updated_at`) VALUES
+(1, 'urinalysis-BIMA', 'Urinalysis', 3000, '2022-06-28 05:47:21', '2022-06-28 05:47:21'),
+(2, 'HB', 'HAEMOGLOBIN', 4000, '2022-06-28 05:47:21', '2022-06-28 05:47:21'),
+(3, 'RANDOM BLOOD SUGAR', 'RANDOM BLOOD SUGAR', 6000, '2022-06-28 05:47:21', '2022-06-28 05:47:21'),
+(4, 'UPT', 'URINE PREGNANCY TEST - BIMA', 7000, '2022-06-28 05:47:21', '2022-06-28 05:47:21');
 
 -- --------------------------------------------------------
 
@@ -583,6 +633,16 @@ ALTER TABLE `assignedmedicines`
   ADD KEY `drug_id` (`drug_id`);
 
 --
+-- Indexes for table `assigned_labtests`
+--
+ALTER TABLE `assigned_labtests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `labtest_id` (`labtest_id`),
+  ADD KEY `confirmed_bu` (`confirmed_by`),
+  ADD KEY `doctor` (`doctor`),
+  ADD KEY `file_id` (`file_id`);
+
+--
 -- Indexes for table `assigned_procedures`
 --
 ALTER TABLE `assigned_procedures`
@@ -630,6 +690,12 @@ ALTER TABLE `expenses`
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `labtests`
+--
+ALTER TABLE `labtests`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `patients`
@@ -706,6 +772,12 @@ ALTER TABLE `assignedmedicines`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `assigned_labtests`
+--
+ALTER TABLE `assigned_labtests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `assigned_procedures`
 --
 ALTER TABLE `assigned_procedures`
@@ -740,6 +812,12 @@ ALTER TABLE `expenses`
 --
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `labtests`
+--
+ALTER TABLE `labtests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `patients`
