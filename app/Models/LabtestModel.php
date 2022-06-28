@@ -39,4 +39,12 @@ class LabtestModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+   public function searchLabTest($searchName){
+        $builder = $this->db->table('labtests');
+        $builder->like('name', $searchName);
+     
+        return $builder->get()->getResult();
+    }
+    
 }

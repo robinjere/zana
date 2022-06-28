@@ -14,7 +14,7 @@ class AssignedLabtestModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['labtest_id', 'memo', 'price', 'confirmed_by', 'created_at'];
+    protected $allowedFields    = ['labtest_id', 'memo', 'price', 'confirmed_by', 'doctor', 'created_at'];
 
     // Dates
     protected $useTimestamps = false;

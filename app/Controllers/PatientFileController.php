@@ -8,6 +8,8 @@ use App\Models\ProceduresModel;
 use App\Models\AssignedProceduresModel;
 use App\Models\AssignedMedicineModel;
 use App\Models\ItemModel;
+use App\Models\LabtestModel;
+use App\Models\AssignedLabtestModel;
 use monken\TablesIgniter;
 
 
@@ -167,4 +169,24 @@ class PatientFileController extends BaseController
      }
    }
    
+   public function ajax_searchlabtest(){
+    $labtestModel = new LabtestModel;
+    if($this->request->getMethod() == 'post'){
+       //searchinput..
+       echo json_encode(['searchLabtest' => $labtestModel->searchLabTest($this->request->getVar('searchInput')) ]);
+    }
+   }
+
+   public function ajax_assignlabtest(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedLabtestModel->save($this->request->getVar())){
+            echo json_encode(['success' => true, 'message' => 'Successful labtest assigned to a patient!']);
+        }else{
+            echo json_encode(['success' => false, 'message' => 'Failed to assign labtest to a patient!']);
+        }
+    }
+   }
+    
+
 }
