@@ -45,13 +45,14 @@
         <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
         <!-- clinical note -->
         
+        <!-- Medicine -->
+        <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
+        <!-- Medicine -->
+        
         <!-- Procedures -->
         <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
         <!-- Procedures -->
 
-        <!-- Medicine -->
-        <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
-        <!-- Medicine -->
 
     </div> <!-- /file-content -->
 </div><!-- /file -->
