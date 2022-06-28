@@ -1,4 +1,4 @@
-<div id="laboratory_test" class="labtest mt-5" x-data="labtestData()">
+<div id="laboratory-test" class="labtest mt-5" x-data="labtestData()">
    <h5>
         <span class='icon'>
            <svg viewBox="0 0 30 26" fill="none">
@@ -66,6 +66,21 @@
         </div> <!-- /mb-3 -->
    </div>
 
+   <div class="labtest-table">
+         <table id="table_labtest" class="table table-striped table-bordered">
+            <thead>   
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Test</th>
+                  <th scope="col">Memo</th>
+                  <th scope="col">Price</th> 
+                  <th scope="col">Status</th>
+                  <th scope="col" >Action</th>
+               </tr>
+            </thead>
+        </table>
+    </div><!-- /procedure-table -->
+
 
 </div> <!-- /labtest -->
 
@@ -113,19 +128,65 @@
                 },
                 body: JSON.stringify({
                    labtest_id : selected,
+                   file_id: <?= $patient_file['id'] ?>,
                    price: this.selected.price,
                    doctor: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {
+                       if(data.success){
+                          labTestTable()
+                       }
                        this.success = data.success
                        this.message = data.message
                        this.labtests = [];
                        this.showSearchInput = false
                     //    console.log('assignlabtest', data)
+                   
              })
          },
       }
   }
+
+  
+  function labTestTable(){
+      $(document).ready(function(){
+        $('#table_labtest').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_assignedlabtest') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+   }
+  //initial call
+ labTestTable()
+
+ function deleteAssignedLabtest(assignedLabtest){
+  fetch('<?= base_url('patientFileController/ajax_deleteAssginedLabtest') ?>',{
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+               assignedLabtest: assignedLabtest
+            })
+          }).then(res => res.json()).then(data => {
+             if(data.success){
+               labTestTable()
+             }
+          })
+ }
 
   </script>
 <?= $this->endSection() ?>

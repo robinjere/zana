@@ -187,6 +187,36 @@ class PatientFileController extends BaseController
         }
     }
    }
+
+   public function ajax_assignedlabtest(){
+     $assignedLabtestModel = new AssignedLabtestModel;
+       if($this->request->getMethod() == 'post'){
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+
+        // print_r($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date));
+        // exit;
+
+        $data_table = new TablesIgniter();
+        $data_table->setTable($assignedLabtestModel->getAssignedLabtest($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['updated_at', 'name', 'memo','price'])
+                   ->setOutput([$assignedLabtestModel->labtestDateFormat(), 'name', 'memo', $assignedLabtestModel->formatPrice(), $assignedLabtestModel->status(), $assignedLabtestModel->actionButtons()]);
+
+        return $data_table->getDatatable();
+       }
+   }
+
+   public function ajax_deleteAssginedLabtest(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedLabtestModel->where('id', $this->request->getVar('assignedLabtest'))->delete()){
+            echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        }
+    }
+   }
     
 
 }
