@@ -534,14 +534,16 @@
   background: #727272 !important;
 }
 
-.clinical-note h5, .medicine h5, .procedures h5, .labtest h5{
+.clinical-note h5, .medicine h5, .procedures h5, .labtest h5,
+.diagnosis h5{
   font-weight: 600;
   font-size: var(--lg-heading);
   display: flex;
   align-items: center;
 }
 
-.clinical-note h5 .icon, .procedures h5 .icon, .medicine h5 .icon, .labtest h5 .icon{
+.clinical-note h5 .icon, .procedures h5 .icon, .medicine h5 .icon, .labtest h5 .icon,
+.diagnosis h5 .icon{
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -574,5 +576,10 @@ table tbody tr td{
   font-size: .95rem !important;
 }
 
+.selectedDiagnosis{
+  border: 1px solid var(--z-gray);
+  border-radius: 3px;
+  padding: 10px;
+}
 
 /* ---------------  PATIENT FILE  ---------------  */

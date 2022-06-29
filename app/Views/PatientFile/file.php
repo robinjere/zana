@@ -46,6 +46,10 @@
         <!-- clinical note -->
         
         <!-- labtest -->
+        <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 
+        <!-- labtest -->
+
+        <!-- labtest -->
         <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
         <!-- labtest -->
 

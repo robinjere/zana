@@ -10,6 +10,7 @@ use App\Models\AssignedMedicineModel;
 use App\Models\ItemModel;
 use App\Models\LabtestModel;
 use App\Models\AssignedLabtestModel;
+use App\Models\DiagnosesModel;
 use monken\TablesIgniter;
 
 
@@ -215,6 +216,14 @@ class PatientFileController extends BaseController
         if($assignedLabtestModel->where('id', $this->request->getVar('assignedLabtest'))->delete()){
             echo json_encode(['success'=> true, 'message' => 'successful deleted']);
         }
+    }
+   }
+
+   public function ajax_searchdiagnosis(){
+    $diagnosesModel = new DiagnosesModel;
+    if($this->request->getMethod() == 'post'){
+       //searchinput..
+       echo json_encode(['diagnosis' => $diagnosesModel->searchDiagnoses($this->request->getVar('searchInput')) ]);
     }
    }
     
