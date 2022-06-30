@@ -1,5 +1,6 @@
 <div id="clinical-note" class="clinical-note"
   x-data="notesData()"
+  x-init="getClinicalNotes()"
 >
    <h5>
         <span class='icon'>
@@ -43,7 +44,7 @@
    <form x-on:submit.prevent >
       <div class="my-3 note-box">
          <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-sm btn-success add-note" @click="addnote = true"> add clinical note </button>
+            <button class="btn btn-outline-primary add-note" @click="addnote = true"> Add clinical note </button>
          </div>
          <div class="input-note" x-cloak x-show="addnote" >
             <div class="clinical-btn">
@@ -61,6 +62,20 @@
    <!-- <div x-init="$nextTick(getClinicalNotes())">
 
    </div> -->
+
+   <div class="list-notes">
+      <template x-for="note in notes">
+        <div class="input-note">
+            <div class="clinical-btn">
+               <button class="btn btn-sm btn-primary" > edit </button>
+               <!-- <button class="btn btn-sm btn-success"> edit </button> -->
+               <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
+            </div> <!-- /clinical-btn -->
+           <!-- <label for="note" class="form-label note-desc" x-text="Added by doctor '+ note.last_name + '' + note.first_name ">Added by doctor Juma</label> -->
+           <textarea class="form-control pt-5 pb-3" x-text="note.note" placeholder="" ></textarea>
+        </div><!-- /input-note --> 
+   </template>
+ </div><!-- /list-notes -->
 
 </div><!-- /clinical-note -->
 
@@ -87,6 +102,7 @@
            if(data.success){
                 this.current_note = ''
                 this.addnote = false
+                this.getClinicalNotes()
            }
          //  this.notes = data
          //  this.addnote = false

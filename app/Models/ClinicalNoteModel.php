@@ -44,8 +44,14 @@ class ClinicalNoteModel extends Model
     //clinical notes
     public function getClinicalNotes($file_id, $start_date, $end_date){
         $builder = $this->db->table('clinicalnotes');
-        $builder->where('file_id', $file_id);
-        $builder->where('DATE(created_at) BETWEEN "'.date('Y-m-d', strtotime($start_date)).'" and "'.date('Y-m-d', strtotime($end_date)).'"');
+        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.note, user.first_name, user.last_name');
+        $builder->orderBy('clinicalnotes.id', 'DESC');
+        $builder->join('user', 'clinicalnotes.doctor = user.id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('DATE(clinicalnotes.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->where('clinicalnotes.file_id', $file_id);
+        $builder->groupEnd();
         return $builder->get()->getResult();
     }
 

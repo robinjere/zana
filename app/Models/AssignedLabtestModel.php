@@ -49,6 +49,7 @@ class AssignedLabtestModel extends Model
         $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         $builder->where('assigned_labtests.file_id', $file_id);
         $builder->groupEnd();
+       
         return $builder;
     }
 
