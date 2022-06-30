@@ -11,6 +11,7 @@ use App\Models\ItemModel;
 use App\Models\LabtestModel;
 use App\Models\AssignedLabtestModel;
 use App\Models\DiagnosesModel;
+use App\Models\AssignedDiagnosesModel;
 use monken\TablesIgniter;
 
 
@@ -226,6 +227,55 @@ class PatientFileController extends BaseController
        echo json_encode(['diagnosis' => $diagnosesModel->searchDiagnoses($this->request->getVar('searchInput')) ]);
     }
    }
+
+   public function ajax_assigndiagnosis(){
+    $assignedDiagnosesModel = new AssignedDiagnosesModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedDiagnosesModel->save($this->request->getVar())){
+            echo json_encode(['success' => true, 'message' => 'Successful diagnose assigned!']);
+        }else{
+            echo json_encode(['success' => fales, 'message' => 'Failed to assign diagnose!']);
+        }
+    }
+   }
+
+   public function ajax_workingDiagnoses(){
+       return $this->assinged_diagnoses('working');
+   }
+
+   public function ajax_finalDiagnoses(){
+       return $this->assinged_diagnoses('final');
+   }
+
+   function assinged_diagnoses($diagnoses_type){
+       
+    $assignedDiagnosesModel = new AssignedDiagnosesModel;
+    if($this->request->getMethod() == 'post'){
+     $file_id=$this->request->getVar('file_id');
+     $start_date=$this->request->getVar('start_date');
+     $end_date=$this->request->getVar('end_date');
+
+     // print_r($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date));
+     // exit;
+
+     $data_table = new TablesIgniter();
+     $data_table->setTable($assignedDiagnosesModel->getAssignedDiagnoses($file_id, $start_date, $end_date, $diagnoses_type))
+                ->setDefaultOrder('id', 'DESC')
+              //   ->setSearch(['name'])
+                ->setOrder(['updated_at'])
+                ->setOutput([$assignedDiagnosesModel->diagnosesDateFormat(), $assignedDiagnosesModel->diagnoses(), $assignedDiagnosesModel->actionButtons()]);
+
+     return $data_table->getDatatable();
+    }
+   }
     
+   public function ajax_deleteDiagnosis(){
+    $assignedDiagnosesModel = new AssignedDiagnosesModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedDiagnosesModel->where('id', $this->request->getVar('id'))->delete()){
+            echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        }
+    }
+   }
 
 }

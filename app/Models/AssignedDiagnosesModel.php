@@ -14,7 +14,7 @@ class AssignedDiagnosesModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['diagnoses_id','diagnoses_type', 'doctor', 'created_at'];
+    protected $allowedFields    = ['diagnoses_id','diagnoses_type', 'doctor', 'file_id', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;
@@ -39,4 +39,40 @@ class AssignedDiagnosesModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+  
+    public function getAssignedDiagnoses(Int $file_id, $start_date, $end_date, String $diagnoses_type){
+
+        $builder = $this->db->table('assigneddiagnoses');
+        $builder->select('assigneddiagnoses.id, assigneddiagnoses.updated_at, assigneddiagnoses.diagnoses_type, diagnoses.diagnosis_code, diagnoses.diagnosis_description');
+        $builder->join('diagnoses', 'diagnoses.id = assigneddiagnoses.diagnoses_id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('DATE(assigneddiagnoses.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->where('assigneddiagnoses.file_id', $file_id);
+        $builder->where('assigneddiagnoses.diagnoses_type', $diagnoses_type);
+        $builder->groupEnd();
+        return $builder;
+    }
+    public function diagnosesDateFormat(){
+        $column = function ($row){
+            $date = date_create($row['updated_at']);
+            return date_format($date, 'd/m/Y');
+        };
+        return $column;
+    }
+    public function diagnoses(){
+        $column = function ($row){
+            return '<span class="badge bg-success badge-sm">'. $row['diagnosis_code'] .'</span>, 
+              <span class="ml-2"> '.$row['diagnosis_description'] .'</span>';
+        };
+        return $column;
+    }
+
+    public function actionButtons(){
+        return function($row){
+            return '<button onclick="deleteDiagnose('.$row['id'].',\''. $row['diagnoses_type'] .'\') "class="btn btn-danger btn-sm"> &#9587; </button>';
+        };
+    }
+
 }

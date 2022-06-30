@@ -81,6 +81,32 @@
          </div>
    </form>
 
+   <div class="working-diagnosis">
+     <h4>Working diagnosis</h4>
+         <table id="table_working_diagnosis" class="table table-striped table-bordered">
+            <thead>   
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Diagnoses</th>
+                  <th scope="col" >Action</th>
+               </tr>
+            </thead>
+        </table>
+    </div><!-- /procedure-table -->
+
+   <div class="final-diagnosis">
+     <h4>Final diagnosis</h4>
+         <table id="table_final_diagnosis" class="table table-striped table-bordered">
+            <thead>   
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Diagnoses</th>
+                  <th scope="col" >Action</th>
+               </tr>
+            </thead>
+        </table>
+    </div><!-- /procedure-table -->
+
 <div><!-- /diagnosis -->
 
 <?= $this->section('script') ?>
@@ -100,6 +126,11 @@
           this.showDiagnosisBox = true
           this.showAssignDiagnosisBtn = false
           this.showSearch = true
+      },
+      closeDiagnosisBox(){
+          this.showDiagnosisBox = false
+          this.showAssignDiagnosisBtn = true
+          this.showSearch = false
       },
       selectDiagnoses(d_id){
         this.showSearch = false
@@ -126,9 +157,111 @@
         }
       },
       assignDiagnoses(diagnoses_type){
-           console.log('diagnoses_type', diagnoses_type)
+           if(this.selectedDiagnos){
+              fetch('<?= base_url('patientFileController/ajax_assigndiagnosis') ?>',{
+                method: 'post',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                  file_id: <?= $patient_file['id'] ?>,
+                  diagnoses_id: Number(this.selectedDiagnos.id),
+                  diagnoses_type:  diagnoses_type,
+                  doctor: <?= session()->get('id') ?>
+                })
+              }).then(res => res.json()).then(data => {
+                   this.success = data.success
+                   this.message = data.message
+                   if(this.success){
+                     switch (diagnoses_type) {
+                       case 'working':
+                           working_diagnoses()
+                         break;
+                       case 'final':
+                           final_diagnoses()
+                         break;
+                     
+                       default:
+                         break;
+                     }
+                   }
+                  this.closeDiagnosisBox()
+              })
+           }
+        
       }
     }
+  }
+
+  function working_diagnoses(){
+    $(document).ready(function(){
+        $('#table_working_diagnosis').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_workingDiagnoses') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+  }
+  working_diagnoses()
+  function final_diagnoses(){
+    $(document).ready(function(){
+        $('#table_final_diagnosis').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_finalDiagnoses') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+  }
+  final_diagnoses()
+
+  function deleteDiagnose(diagnose_id, diagnose_type){
+     fetch('<?= base_url('patientFileController/ajax_deleteDiagnosis') ?>',{
+            method: 'post',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+               id: diagnose_id
+            })
+          }).then(res => res.json()).then(data => {
+             if(data.success){
+              switch (diagnose_type) {
+                       case 'working':
+                           working_diagnoses()
+                         break;
+                       case 'final':
+                           final_diagnoses()
+                         break;
+                     
+                       default:
+                         break;
+                    }
+             }
+       })
   }
     
 </script>
