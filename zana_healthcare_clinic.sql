@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2022 at 06:33 AM
+-- Generation Time: Jun 30, 2022 at 06:07 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -32,9 +32,19 @@ CREATE TABLE `assigneddiagnoses` (
   `diagnoses_id` int(11) NOT NULL,
   `diagnoses_type` varchar(80) NOT NULL COMMENT 'working, final',
   `doctor` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `assigneddiagnoses`
+--
+
+INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `doctor`, `file_id`, `created_at`, `updated_at`) VALUES
+(4, 245, 'final', 31, 9, '2022-06-30 04:52:31', '2022-06-30 04:52:31'),
+(5, 9, 'working', 31, 9, '2022-06-30 05:46:49', '2022-06-30 05:46:49'),
+(6, 262, 'working', 31, 9, '2022-06-30 05:50:20', '2022-06-30 05:50:20');
 
 -- --------------------------------------------------------
 
@@ -64,7 +74,6 @@ CREATE TABLE `assignedmedicines` (
 
 INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `qty`, `instruction`, `drug_id`, `file_id`, `doctor`, `payed`, `created_at`, `updated_at`) VALUES
 (1, '1x2', 2, '0', 2, 5, 'first instruction', 10, 0, 0, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
-(3, '5x2', 3, '0', 6, 5, 'fifth instruction', 11, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
 (4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50');
 
 -- --------------------------------------------------------
@@ -90,7 +99,8 @@ CREATE TABLE `assigned_labtests` (
 --
 
 INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `file_id`, `memo`, `price`, `confirmed_by`, `doctor`, `created_at`, `updated_at`) VALUES
-(6, 3, 9, '', 6000, 0, 31, '2022-06-28 06:30:07', '2022-06-28 06:30:07');
+(7, 2, 9, '', 4000, 0, 31, '2022-06-30 04:00:12', '2022-06-30 04:00:12'),
+(8, 1, 9, '', 3000, 0, 31, '2022-06-30 04:12:11', '2022-06-30 04:12:11');
 
 -- --------------------------------------------------------
 
@@ -143,7 +153,9 @@ INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `u
 (3, 9, 'another clinical note here', 31, '2022-06-21 22:25:14', '2022-06-21 22:25:14'),
 (4, 9, 'Some clinical test example', 31, '2022-06-21 22:32:06', '2022-06-21 22:32:06'),
 (5, 9, 'another comment here', 31, '2022-06-22 11:09:14', '2022-06-22 11:09:14'),
-(6, 9, 'new comment ', 31, '2022-06-22 11:10:37', '2022-06-22 11:10:37');
+(6, 9, 'new comment ', 31, '2022-06-22 11:10:37', '2022-06-22 11:10:37'),
+(7, 9, 'new clinical note to this patient', 31, '2022-06-30 06:17:06', '2022-06-30 06:17:06'),
+(8, 9, 'new clinical note', 31, '2022-06-30 06:19:46', '2022-06-30 06:19:46');
 
 -- --------------------------------------------------------
 
@@ -14946,7 +14958,8 @@ INSERT INTO `user_role` (`id`, `role_id`, `user_id`) VALUES
 ALTER TABLE `assigneddiagnoses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `diagnoses_id` (`diagnoses_id`),
-  ADD KEY `doctor` (`doctor`);
+  ADD KEY `doctor` (`doctor`),
+  ADD KEY `file_id` (`file_id`);
 
 --
 -- Indexes for table `assignedmedicines`
@@ -15100,7 +15113,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `assigneddiagnoses`
 --
 ALTER TABLE `assigneddiagnoses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `assignedmedicines`
@@ -15112,7 +15125,7 @@ ALTER TABLE `assignedmedicines`
 -- AUTO_INCREMENT for table `assigned_labtests`
 --
 ALTER TABLE `assigned_labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `assigned_procedures`
@@ -15124,7 +15137,7 @@ ALTER TABLE `assigned_procedures`
 -- AUTO_INCREMENT for table `clinicalnotes`
 --
 ALTER TABLE `clinicalnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `consultation`
