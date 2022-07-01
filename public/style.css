@@ -553,22 +553,34 @@
 .note-box{
   position: relative;
 }
-.note-desc{
+
+/* .note-box .clinical-btn{
   position: absolute;
-  top:  54px;
+  top: 46px;
+  right: 14px;
+} */
+/* .note-box .clinical-btn .btn{
+  padding: 0.1rem 0.5rem !important;
+} */
+[x-cloak] { display: none !important; }
+
+/* stylish input note */
+.input-note{
+  position: relative;
+}
+
+.input-note .clinical-btn{
+  position: absolute;
+  right: 0;
+  padding: 8px;
+}
+.input-note .note-desc{
+  position: absolute;
+  top: 12px;
   left: 14px;
   font-size: 0.9rem;
   color: #898787;
 }
-.note-box .clinical-btn{
-  position: absolute;
-  top: 46px;
-  right: 14px;
-}
-.note-box .clinical-btn .btn{
-  padding: 0.1rem 0.5rem !important;
-}
-[x-cloak] { display: none !important; }
 
 /* style tables */
 table thead tr th,
@@ -581,5 +593,6 @@ table tbody tr td{
   border-radius: 3px;
   padding: 10px;
 }
+
 
 /* ---------------  PATIENT FILE  ---------------  */

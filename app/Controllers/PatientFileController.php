@@ -61,6 +61,15 @@ class PatientFileController extends BaseController
             }           
         }
     }
+
+    public function ajax_deletenote(){
+       if($this->request->getMethod() == 'post'){
+            $clinicalNoteModel = new ClinicalNoteModel;
+            if($clinicalNoteModel->where('id', $this->request->getVar('id'))->delete()){
+                echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+            }
+        }
+    }
     
     public function ajax_getclinicalnotes(){
         if($this->request->getMethod() == 'post'){

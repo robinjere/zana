@@ -49,7 +49,7 @@
          <div class="input-note" x-cloak x-show="addnote" >
             <div class="clinical-btn">
                <button class="btn btn-sm btn-success" x-show="current_note.length" @click="addCurrentNote()"> save </button>
-               <!-- <button class="btn btn-sm btn-success"> edit </button> -->
+               <button class="btn btn-sm btn-danger" x-show="!current_note.length" @click="cancelAddNote()"> &#9587; </button>
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
            <!-- <label for="note" class="form-label note-desc">Added by doctor Juma</label> -->
@@ -65,14 +65,23 @@
 
    <div class="list-notes">
       <template x-for="note in notes">
-        <div class="input-note">
+        <div class="input-note mb-2" x-data="notesEditData">
             <div class="clinical-btn">
-               <button class="btn btn-sm btn-primary" > edit </button>
-               <!-- <button class="btn btn-sm btn-success"> edit </button> -->
+               <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false"> edit </button>
+               <button class="btn btn-sm btn-success" @click="saveEditedNote(note.id)" x-cloak x-show="edit==false && prevNote.length" x-bind:disabled="saving"> 
+                  <span x-cloak x-show="!saving"> save </span> 
+                  <span x-cloak x-show="saving" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                  <span x-cloak x-show="saving"> saving.. </span>
+               </button>
+               <button class="btn btn-sm btn-danger" @click="deletePrevNote(note.id)"> 
+                  <span x-cloak x-show="!deleting"> delete </span> 
+                  <span x-cloak x-show="deleting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                  <span x-cloak x-show="deleting"> deleting.. </span>
+               </button>
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
-           <!-- <label for="note" class="form-label note-desc" x-text="Added by doctor '+ note.last_name + '' + note.first_name ">Added by doctor Juma</label> -->
-           <textarea class="form-control pt-5 pb-3" x-text="note.note" placeholder="" ></textarea>
+            <label for="note" class="form-label note-desc" x-text="'Added by doctor '+ note.last_name + ',  ' + note.first_name">Added by doctor Juma</label>
+           <textarea class="form-control pt-5 pb-3" x-bind:disabled="edit" x-text="prevNote = note.note" x-model="prevNote" placeholder="" ></textarea>
         </div><!-- /input-note --> 
    </template>
  </div><!-- /list-notes -->
@@ -80,6 +89,46 @@
 </div><!-- /clinical-note -->
 
 <script defer>
+   //edit data
+   function notesEditData(){
+      return {
+         edit: true,
+         prevNote: '',
+         saving: false,
+         deleting: false,
+         saveEditedNote(note_id){
+            if(!this.prevNote) {
+               return
+            }
+            this.saving = true,
+            fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
+               method: 'POST',
+               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+               body: JSON.stringify({id: note_id, note: this.prevNote })
+            }).then(res => res.json())
+               .then(data => {
+                  if(data.success){
+                     this.saving = false
+                     this.edit = true
+                  }
+               }).catch(error => console.log(error))
+         },
+         deletePrevNote(note_id){
+            this.deleting = true
+            fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
+               method: 'POST',
+               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+               body: JSON.stringify({id: note_id })
+            }).then(res => res.json())
+               .then(data => {
+                  if(data.success){
+                     this.deleting = false
+                     getClinicalNotes()
+                  }
+               }).catch(error => console.log(error))
+         }
+      }
+   }
    //note data state
    function notesData(){
     return {
@@ -90,6 +139,10 @@
      notes: [],
      success: false,
      message: '',
+     cancelAddNote(){
+         this.current_note = ''
+         this.addnote = false
+     },
      addCurrentNote(){
         fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
           method: 'POST',
@@ -100,9 +153,9 @@
             this.success = data.success
             this.message = data.message
            if(data.success){
-                this.current_note = ''
-                this.addnote = false
-                this.getClinicalNotes()
+              this.getClinicalNotes()
+              this.current_note = ''
+              this.addnote = false
            }
          //  this.notes = data
          //  this.addnote = false
