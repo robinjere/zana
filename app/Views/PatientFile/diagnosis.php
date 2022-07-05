@@ -107,7 +107,7 @@
         </table>
     </div><!-- /procedure-table -->
 
-<div><!-- /diagnosis -->
+</div><!-- /diagnosis -->
 
 <?= $this->section('script') ?>
 <script>

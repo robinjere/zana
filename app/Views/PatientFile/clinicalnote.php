@@ -1,5 +1,5 @@
 <div id="clinical-note" class="clinical-note"
-  x-data="notesData()"
+  x-data="$store.notesData"
   x-init="getClinicalNotes()"
 >
    <h5>
@@ -64,24 +64,24 @@
    </div> -->
 
    <div class="list-notes">
-      <template x-for="note in notes">
-        <div class="input-note mb-2" x-data="notesEditData">
+      <template x-for="_note in notes" :key="_note.id">
+        <div class="input-note mb-2" x-data="notesEditData()">
             <div class="clinical-btn">
                <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false"> edit </button>
-               <button class="btn btn-sm btn-success" @click="saveEditedNote(note.id)" x-cloak x-show="edit==false && prevNote.length" x-bind:disabled="saving"> 
+               <button class="btn btn-sm btn-success" @click="saving = true; edit = false; if($store.notesData.saveEditedNote(_note.id, _note.note)){ saving = false; edit = true; }" x-cloak x-show="edit==false && _note.note" x-bind:disabled="saving"> 
                   <span x-cloak x-show="!saving"> save </span> 
                   <span x-cloak x-show="saving" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                   <span x-cloak x-show="saving"> saving.. </span>
                </button>
-               <button class="btn btn-sm btn-danger" @click="deletePrevNote(note.id)"> 
+               <button class="btn btn-sm btn-danger" @click="$store.notesData.deletePrevNote(_note.id)"> 
                   <span x-cloak x-show="!deleting"> delete </span> 
                   <span x-cloak x-show="deleting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                   <span x-cloak x-show="deleting"> deleting.. </span>
                </button>
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
-            <label for="note" class="form-label note-desc" x-text="'Added by doctor '+ note.last_name + ',  ' + note.first_name">Added by doctor Juma</label>
-           <textarea class="form-control pt-5 pb-3" x-bind:disabled="edit" x-text="prevNote = note.note" x-model="prevNote" placeholder="" ></textarea>
+            <label for="note" class="form-label note-desc" x-text="'Added by doctor '+ _note.last_name + ',  ' + _note.first_name">Added by doctor Juma</label>
+           <textarea class="form-control pt-5 pb-3" x-bind:disabled="edit" x-text="_note.note" x-model="_note.note" placeholder="" ></textarea>
         </div><!-- /input-note --> 
    </template>
  </div><!-- /list-notes -->
@@ -89,49 +89,65 @@
 </div><!-- /clinical-note -->
 
 <script defer>
-   //edit data
+
    function notesEditData(){
       return {
          edit: true,
-         prevNote: '',
          saving: false,
-         deleting: false,
-         saveEditedNote(note_id){
-            if(!this.prevNote) {
-               return
-            }
-            this.saving = true,
-            fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
-               method: 'POST',
-               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
-               body: JSON.stringify({id: note_id, note: this.prevNote })
-            }).then(res => res.json())
-               .then(data => {
-                  if(data.success){
-                     this.saving = false
-                     this.edit = true
-                  }
-               }).catch(error => console.log(error))
-         },
-         deletePrevNote(note_id){
-            this.deleting = true
-            fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
-               method: 'POST',
-               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
-               body: JSON.stringify({id: note_id })
-            }).then(res => res.json())
-               .then(data => {
-                  if(data.success){
-                     this.deleting = false
-                     getClinicalNotes()
-                  }
-               }).catch(error => console.log(error))
-         }
+         deleting: false
       }
    }
-   //note data state
-   function notesData(){
-    return {
+   //edit data
+   // function notesEditData(){
+   //    return {
+   //       edit: true,
+   //       prevNote: '',
+   //       saving: false,
+   //       deleting: false,
+   //       updatePrevNote(_new_note){
+   //          this.prevNote = _new_note;
+   //          return _new_note;
+   //       },
+   //       saveEditedNote(note_id){
+   //          if(!this.prevNote) {
+   //             return
+   //          }
+   //          this.saving = true,
+   //          fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
+   //             method: 'POST',
+   //             headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+   //             body: JSON.stringify({id: note_id, note: this.prevNote })
+   //          }).then(res => res.json())
+   //             .then(data => {
+   //                if(data.success){
+   //                   this.saving = false
+   //                   this.edit = true
+   //                }
+   //             }).catch(error => console.log(error))
+   //       },
+   //       deletePrevNote(note_id){
+   //          this.deleting = true
+   //          note_id = Number(note_id)
+   //          console.log('note_id before delete => ', note_id)
+   //          fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
+   //             method: 'POST',
+   //             headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+   //             body: JSON.stringify({id: note_id })
+   //          }).then(res => res.json())
+   //             .then(data => {
+   //                console.log('data after deleting', data);
+   //                if(data.success){
+   //                   this.deleting = false
+   //                   getClinicalNotes()
+   //                }
+   //             })
+   //      }
+   //    }
+   // }
+
+   //store 
+document.addEventListener('alpine:init', () => {
+   Alpine.store('notesData', {
      start_treatment: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
      end_treatment: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
      addnote:false,
@@ -165,17 +181,160 @@
       //  this.notes = custom_addnote(this.current_note)
      },
      getClinicalNotes(){
+        console.error('before request', JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment}))
         fetch("<?= base_url('patientFileController/ajax_getclinicalnotes')?>", {
            method: 'POST',
            headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With':'XMLHttpRequest'},
            body: JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment})
         }).then(res => res.json())
         .then(data => {
+         //   data = data.map(singleData => ({...singleData,  edit: true, saving: false, deleting: false}))
+           console.log('GET CLINICAL NOTE IS CALLED AND DATA RETURN IS:', data)
            this.notes = data
         })
-     }
-   }
-}
+     },
+
+   //   edit: true,
+   //   saving: false,
+   //   deleting: false,
+     saveEditedNote(note_id, _edited_note){
+            // if(!this.prevNote) {
+            //    return
+            // }
+            // this.saving = true,
+            return fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
+               method: 'POST',
+               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+               body: JSON.stringify({id: note_id, note: _edited_note, doctor: <?= session()->get('id') ?> })
+            }).then(res => res.json())
+              .then(data => {
+                  if(data.success){
+                     // this.saving = false
+                     // this.edit = true
+                     // return {
+                     //    saving:false,
+                     //    edit:true
+                     // }
+                     this.getClinicalNotes()
+                     return true;
+                  }else{
+                     return false;
+                  }
+               }).catch(error => console.log(error))
+      },
+     deletePrevNote(note_id){
+            // this.deleting = true
+            note_id = Number(note_id)
+            console.log('NOTE TO DELETE => ', note_id)
+            return fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
+               method: 'POST',
+               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+               body: JSON.stringify({id: note_id })
+            }).then(res => res.json())
+               .then(data => {
+                  console.log('DELETING SUCCESSFUL', data);
+                  if(data.success){
+                     this.getClinicalNotes()
+                     // return { deleting : false}
+                     return true
+                  }else{
+                     return false
+                  }
+               })
+        }
+   })
+})
+   //note data state
+//    function notesData(){
+//     return {
+//      start_treatment: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
+//      end_treatment: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
+//      addnote:false,
+//      current_note: '',
+//      notes: [],
+//      success: false,
+//      message: '',
+//      cancelAddNote(){
+//          this.current_note = ''
+//          this.addnote = false
+//      },
+//      addCurrentNote(){
+//         fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
+//           method: 'POST',
+//           headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+//           body: JSON.stringify({file_id: <?= $patient_file['id'] ?>, doctor: <?= session()->get('id') ?>, note: this.current_note })
+//        }).then(res => res.json())
+//        .then(data => {
+//             this.success = data.success
+//             this.message = data.message
+//            if(data.success){
+//               this.getClinicalNotes()
+//               this.current_note = ''
+//               this.addnote = false
+//            }
+//          //  this.notes = data
+//          //  this.addnote = false
+//          // 
+//        }).catch(error => console.log(error))
+
+//       //  this.notes = custom_addnote(this.current_note)
+//      },
+//      getClinicalNotes(){
+//         fetch("<?= base_url('patientFileController/ajax_getclinicalnotes')?>", {
+//            method: 'POST',
+//            headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With':'XMLHttpRequest'},
+//            body: JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment})
+//         }).then(res => res.json())
+//         .then(data => {
+//            data = data.map(singleData => ({...singleData,  edit: true, saving: false, deleting: false}))
+//            console.log('data available after insertion', data)
+//            this.notes = data
+//         })
+//      },
+
+//      edit: true,
+//      saving: false,
+//      deleting: false,
+//      saveEditedNote(note_id, _edited_note){
+//             if(!this.prevNote) {
+//                return
+//             }
+//             // this.saving = true,
+//             return fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
+//                method: 'POST',
+//                headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+//                body: JSON.stringify({id: note_id, note: _edited_note, doctor: <?= session()->get('id') ?> })
+//             }).then(res => res.json())
+//               .then(data => {
+//                   if(data.success){
+//                      // this.saving = false
+//                      // this.edit = true
+//                      return {
+//                         saving:false,
+//                         edit:true
+//                      }
+//                   }
+//                }).catch(error => console.log(error))
+//       },
+//      deletePrevNote(note_id){
+//             // this.deleting = true
+//             note_id = Number(note_id)
+//             console.log('note_id before delete => ', note_id)
+//             return fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
+//                method: 'POST',
+//                headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+//                body: JSON.stringify({id: note_id })
+//             }).then(res => res.json())
+//                .then(data => {
+//                   console.log('data after deleting', data);
+//                   if(data.success){
+//                      this.getClinicalNotes()
+//                      return { deleting : false}
+//                   }
+//                })
+//         }
+//    }
+// }
 
    // add clinical note 
  const custom_addnote = async(note='') => {
