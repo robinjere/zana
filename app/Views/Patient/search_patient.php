@@ -58,7 +58,7 @@
                  break;
                
                default:
-                 # code...
+                 echo '<div class="col"> NO STATUS </div>';
                  break;
              }
           ?>
@@ -74,7 +74,7 @@
 
         <div class="row">
           <div class="col">PAYMENT METHOD:</div>
-          <div class="col"><?= strtoupper($patient_info->payment_method); ?></div>
+          <div class="col"><?= strtoupper($patient_info->payment_method) === '' ? 'NO PAYMENT METHOD' :  strtoupper($patient_info->payment_method); ?></div>
         </div>
 
       </div> <!-- detail -->

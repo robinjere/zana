@@ -13,7 +13,7 @@
     </li>
    <?php } ?>
 
-   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception'])){?>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
         <a href="/sales/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
@@ -86,7 +86,7 @@
     <?php } ?>
 
 
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier', 'reception', 'specialist_doctor', 'general_doctor'])){?>
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier', 'specialist_doctor', 'general_doctor'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
         <a href="/consultation/list" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">

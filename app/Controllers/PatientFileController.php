@@ -77,6 +77,8 @@ class PatientFileController extends BaseController
             $clinicalnotes = $clinicalNoteModel->getClinicalNotes($this->request->getVar('file_id'), $this->request->getVar('start_date'), $this->request->getVar('end_date'));
             if($clinicalnotes){
                 echo json_encode($clinicalnotes);
+            }else{
+                echo json_encode(['empty' => true, 'message' => 'There is no clinical note available']);
             }
         }
     }
