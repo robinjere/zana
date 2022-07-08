@@ -87,6 +87,12 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'],'generate', 'ReportController::generate_report', ['filter' => 'auth']);
      $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
  });
+
+ $routes->group('clinic', function($routes){
+     $routes->get('/', 'ClinicController::index', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'addclinic', 'ClinicController::addclinic', ['filter' => 'auth']);
+    //  $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
+ });
  
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.

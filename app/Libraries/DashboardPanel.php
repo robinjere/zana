@@ -18,6 +18,11 @@ class DashboardPanel {
         return view('components/sidebar_navigation');
     }
 
+    public function alert(array $params = []){
+        $data['validation'] = empty($params)? '' : $params['validation'];
+        return view('dashboard/display_errors', $data);
+    }
+    
     public function NoData(){
         return view('components/no_data');
     }
@@ -28,5 +33,9 @@ class DashboardPanel {
 
     public function NoPermission(){
         return view('components/permission/no_permission');
+    }
+
+    public function ClinicNav(){
+        return view('clinic/nav');
     }
 }

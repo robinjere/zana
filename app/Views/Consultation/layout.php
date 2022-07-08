@@ -4,7 +4,7 @@
    <h2 class="data-heading mb-3">Consultation</h2>
 
      <!-- WARNING AND ERROR AREA -->
-     <?php if(session()->has('validation')): ?>
+    <?php if(session()->has('validation')): ?>
     
     <div class="my-3 pt-3 box-alert warning-alert d-flex align-items-start" >
       <div class="icon-alert px-3"> 
@@ -14,7 +14,6 @@
       </div>
       <div class="message-alert"> 
           <h2 class="mb-2"> Errors occurs. </h2>
-          <!-- <p> Please contact with your system admins to confirm your information </p> -->
           <?= session()->getFlashdata('validation') ?>
       </div>
     </div><!-- box-alert -->
