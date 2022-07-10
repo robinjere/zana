@@ -406,6 +406,19 @@
 
 /* --------------- DASHBOARD ---------------  */
 
+/* -------------- clinics ----------  */
+.clinic-form{
+  padding: 30px 0;
+}
+.clinic-form hr{
+  margin: 0 !important;
+  background: #c1c1c1;
+}
+#clinics_wrapper .btn{
+  margin-right: 4px;
+}
+
+/* -------------- clinics --------- */
 
 /* --------------- PERMISSION LAYOUT ---------------  */
  .p_active{

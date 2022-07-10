@@ -3,8 +3,15 @@
 
      <li class="py-2 me-3 <?= $uri->getSegment(2) === '' ? 'data-nav__active': null ?>"> 
          <a href="/clinic/">Clinics</a>  
-      </li>     
-      <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addclinic' ? 'data-nav__active': null ?>"> <a href="addclinic">Add Clinic </a>  </li>
-      <li class="py-2 me-3 <?= $uri->getSegment(2) === 'editclinic' ? 'data-nav__active': null ?>"> <a href="editclinic">Edit Clinic </a>  </li>
+      </li> 
+
+      <?php
+         if($uri->getSegment(2) === 'edit'){
+             echo '<li class="py-2 me-3 data-nav__active"> <a href="#">Edit Clinic </a> </li>';
+         }else{ ?>
+            <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addclinic' ? 'data-nav__active': null ?>"> <a href="addclinic">Add Clinic </a></li>
+      <?php
+         }
+      ?>
 
   </ul>

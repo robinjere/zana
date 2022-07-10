@@ -2,15 +2,16 @@
 
 <?= $this->section('clinic'); ?>
 <?= view_cell('\App\Libraries\DashboardPanel::alert', $validation ); ?>
-
+  
+<!-- <?php print_r($clinic);  ?> -->
      <div class="clinic-form">
-           <form method="post" action="addclinic">
+           <form method="post" action="/clinic/edit/<?= $clinic['id'] ?>">
              <div class="row registration-space-y">   
                <div class="col">
-                 <input type="text" name="name" required value="<?= set_value('name')?>" class="form-control" placeholder="Clinic Name" aria-describedby="Clinic Name">
+                 <input type="text" name="name" required value="<?= set_value('name', $clinic['name'])?>" class="form-control" placeholder="Clinic Name" aria-describedby="Clinic Name">
                 </div>
                <div class="col">
-                 <input type="number" min="0"  required name="consultation_fee" value="<?= set_value('consultation_fee')?>" class="form-control" placeholder="Consultation Fee" aria-describedby="Consultation Fee">
+                 <input type="number" min="0"  required name="consultation_fee" value="<?= set_value('consultation_fee', $clinic['consultation_fee'])?>" class="form-control" placeholder="Consultation Fee" aria-describedby="Consultation Fee">
                 </div>
              </div><!-- /row -->
 

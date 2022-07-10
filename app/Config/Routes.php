@@ -91,6 +91,9 @@ $routes->setAutoRoute(true);
  $routes->group('clinic', function($routes){
      $routes->get('/', 'ClinicController::index', ['filter' => 'auth']);
      $routes->match(['post', 'get'],'addclinic', 'ClinicController::addclinic', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'edit/(:num)', 'ClinicController::editclinic/$1', ['filter' => 'auth']);
+     $routes->get('delete/(:num)', 'ClinicController::delete_clinic/$1',  ['filter' => 'auth']);
+
     //  $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
  });
  
