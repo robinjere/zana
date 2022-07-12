@@ -27,8 +27,8 @@
     <div class="registration-form__heading">
        <h2>Register User - (Fill user information) </h2>
     </div> <!-- /registration-form__heading -->
-     <div class="registration-form__form">
-           <form method="post">
+     <div class="registration-form__form" x-data="registerData()">
+           <form method="post" >
           
              <div class="row registration-space-y">   
                <div class="col">
@@ -73,10 +73,22 @@
 
             <div class="registration-space-y">   
                   <!-- <label for="" class="form-label"></label> -->
-                  <select class="form-control" name="role" id="">
+                  <select x-model="selectedRole" required class="form-control" name="role" id="roleSet">
                       <option> Select role </option>
                       <?php foreach($roles as $role): ?> 
-                        <option <?= set_value('role') == $role['id'] ? 'selected': '' ?>  value="<?= $role['id']; ?>"> <?= $role['name']; ?> </option>
+                        <option <?= set_value('role') == $role['id'] ? 'selected': '' ?>  :value="<?= $role['id']; ?>"> <?= $role['name']; ?> </option>
+                      <?php endforeach; ?> 
+                  </select>
+             </div><!-- /row -->
+           
+
+            <div x-cloak x-show=" function() { selectedClinic = '';  return availableRole.filter(singlD => Number(singlD.id) === Number(selectedRole))[0]?.name === 'Doctor'} " class="registration-space-y">   
+                  <!-- <label for="" class="form-label"></label> -->
+                  <select x-model="selectedClinic" required class="form-control" name="clinic" id="clinicSet">
+                      <option> Select clinic </option>
+                      <?php 
+                      foreach($clinic as $clinic_data): ?> 
+                        <option <?= set_value('clinic') == $clinic_data['id'] ? 'selected': '' ?>  :value="<?= $clinic_data['id']; ?>"> <?= $clinic_data['name'] ?> </option>
                       <?php endforeach; ?> 
                   </select>
              </div><!-- /row -->
@@ -110,4 +122,17 @@
 </div><!-- /registration-layout --->
 
 <?= $this->endSection('content') ?>
+
+<?= $this->section('script') ?>
+<script>
+  function registerData(){
+     return {
+        selectedRole: '',
+        selectedClinic: '',
+        availableRole:  <?=  json_encode($roles) ?>,
+        availableClinics: <?=  json_encode($clinic) ?>
+     }
+  } 
+</script>
+<?= $this->endSection() ?>
 

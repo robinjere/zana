@@ -24,6 +24,7 @@
             <th scope="col">ID</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
+            <th scope="col">Position</th>
             <th scope="col">Status</th> 
             <th scope="col">Action</th>
           </tr>

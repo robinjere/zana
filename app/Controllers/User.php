@@ -5,9 +5,11 @@ use App\Models\RoleModel;
 use App\Models\UserModel;
 use App\Models\UserRoleModel;
 use App\Models\UserAjaxModel;
+use App\Models\ClinicModel;
 
 use App\Models\PermissionModel;
 use App\Models\UserPermissionModel;
+use App\Models\ClinicDoctorsModel;
 
 use monken\TablesIgniter;
 
@@ -112,9 +114,11 @@ class User extends BaseController
     public function registration(){
         $role = new RoleModel();
         $user = new UserModel();
+        $clinicModel = new ClinicModel();
 
         $data = [];
         $data['roles'] = $role->findAll();
+        $data['clinic'] = $clinicModel->find();
         helper('form');
          
         if($this->request->getMethod() == 'post'){
@@ -159,7 +163,12 @@ class User extends BaseController
                    'role_id' => $this->request->getVar('role'),
                    'user_id' => $user_id,
                ]);
-               //save 
+               //save user to specific clinic
+               if($this->request->getVar('clinic') ){
+                   $clinicDoctorsModel = new ClinicDoctorsModel;
+                   
+                   $clinicDoctorsModel->save(['user_id' => $user_id, 'clinic_id' => $this->request->getVar('clinic')]);
+               }
 
                 /**
                  * Assign user permission based on role.
@@ -190,15 +199,20 @@ class User extends BaseController
         }
     }
 
-    public function updateUserInfo($param_id = null){
+    public function updateUserInfo($param_id){
         $role = new RoleModel();
         $user = new UserModel();
         $userRole = new UserRoleModel();
+        $clinicModel = new ClinicModel;
+        $clinicDoctorsModel = new ClinicDoctorsModel;
 
         $_message = 'Successful registration';
 
         $data = [];
-        $data['roles'] = $role->findAll();
+        $_userRole = $role->findAll(); 
+        $data['roles'] =  $_userRole;
+        $data['clinic'] = $clinicModel->find();
+
         helper('form');
          
         if($this->request->getMethod() == 'post'){
@@ -227,6 +241,7 @@ class User extends BaseController
                }
 
                $newData = [
+                'id' => $param_id,
                 'first_name' => $this->request->getVar('first_name'), 
                 'last_name' => $this->request->getVar('last_name'),
                 'father_name' => $this->request->getVar('father_name'), 
@@ -238,31 +253,56 @@ class User extends BaseController
                 'is_info_confirmed' => TRUE
                ];
 
-               if(isset($param_id)){
-                   $newData['id'] = $param_id;
-                   $_message = 'Successful Updated';
+            //    if(isset($param_id)){
+            //        $newData['id'] = $param_id;
+            //        $_message = 'Successful Updated';
+            //    }
+               if(!$user->save($newData)){
+                $_message = 'Failed to update';
                }
-
+               $_message = 'Successful Updated';
                $user->insert($newData);
-               $user_id = $user->getInsertID();
+            //    $user_id = $user->getInsertID();
                
                //save role related to user.
                $user_role = new UserRoleModel();
-               $user_role->where('user_id',$user_id)->delete();
+               $user_role->where('user_id',$param_id)->delete();
                $user_role->save([
                    'role_id' => $this->request->getVar('role'),
-                   'user_id' => $user_id,
+                   'user_id' => $param_id,
                ]);
-               //save 
+               //save clinic relateb by user.
+            //    print_r($this->request->getVar());
+               $__userRole = '';
+               foreach ($_userRole as $r) {
+                  if($r['id'] == $this->request->getVar('role')){
+                    $__userRole = $r;
+                    break;
+                  }
+               }
+            //   print_r($__userRole);
+             if($__userRole['role_type'] == 'doctor'){
+                    $usrClinic =  $clinicDoctorsModel->where('user_id', $param_id)->first();
+                    // print_r($user_id);
+                    // print_r($usrClinic);
+                    // exit;
+                    if(empty($usrClinic)){
+                        $clinicDoctorsModel->save(['user_id' => $param_id, 'clinic_id' => $this->request->getVar('clinic')]);
+                    }else{
+                        $clinicDoctorsModel->save(['id' => $usrClinic['id'], 'clinic_id' => $this->request->getVar('clinic')]);
+                    }
+              }else{
+                $clinicDoctorsModel->where('user_id', $param_id)->delete();
+              }
 
                /**
                  *  First delete permission for this user.
                  *  Assign user permission based on role.
                  */
                 $userPermission = new UserPermissionModel();
-                $userPermission->where('user_id',$user_id)->delete();
+                $userPermission->where('user_id',$param_id)->delete();
   
-               $this::assignPermission($this->request->getVar('role'), $user_id);
+               $this::assignPermission($this->request->getVar('role'), $param_id);
 
                $session = session();
                $session->setFlashdata('success', $_message);
@@ -275,6 +315,11 @@ class User extends BaseController
         if(isset($param_id)){
             $data['userInfo'] = $user->find($param_id);
             $data['userRole'] = $userRole->where('user_id', $param_id)->first();
+            $__userClinic = $clinicDoctorsModel->where('user_id', $param_id)->first();
+            $data['userClinic'] = empty($__userClinic)? ['clinic_id' => ''] : $__userClinic;
+            // print_r($param_id);
+            // print_r('userClinic');
+            // exit;
         }else{
             return view('user/registration', $data);
         }
@@ -371,7 +416,7 @@ class User extends BaseController
         $user_r = $role->where('id', $user_role)->first();
 
         switch ($user_r['role_type']) {
-            case 'general_doctor':
+            case 'doctor':
                 $this::save_permission_based_group($user_id, ['consultation', 'drug', 'diagnosis', 'procedure', 'patient', 'labtest', 'clinicalnote', 'radiology']);
                 break;
             case 'specialist_doctor':
@@ -609,6 +654,7 @@ class User extends BaseController
                    ->setSearch(['first_name','last_name'])
                    ->setOrder(['id', 'first_name', 'last_name'])
                    ->setOutput(["id", "first_name", "last_name",
+                                $model->getUserPosition(),
                                 $model->getUsersStatus(),
                                 $model->getButtonUserView()
                                ]);
