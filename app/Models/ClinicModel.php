@@ -74,4 +74,12 @@ class ClinicModel extends Model
                     <a href="'. base_url('/clinic/edit/'. $row['id']).'" class="btn btn-sm btn-success"> Edit </button>';
         };
     }
+
+    public function getDoctors($clinic_id){
+          $builder = $this->db->table('user');
+          $builder->select('user.id, user.first_name, user.last_name,');
+          $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
+          $builder->where('clinic_doctors.clinic_id', $clinic_id);
+          return $builder->get()->getResult();
+    }
 }

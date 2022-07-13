@@ -7,6 +7,7 @@ use App\Models\PatientModel;
 use App\Models\PatientsFileModel;
 use App\Models\UserModel;
 use App\Models\ConsultationModel;
+use App\Models\ClinicModel;
 
 class PatientController extends BaseController
 {
@@ -48,6 +49,7 @@ class PatientController extends BaseController
         $user_model = new UserModel;
         $patientFileModel = new PatientsFileModel;
         $consultationModel = new ConsultationModel;
+        $clinicModel = new ClinicModel;
 
         if($this->request->getMethod() == 'post'){
            $payment = '';
@@ -83,6 +85,7 @@ class PatientController extends BaseController
 
         $data = [];
         $data['doctors'] = $user_model->get_users_doctor();
+        $data['clinics'] = $clinicModel->find();
         $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();
         return view('patient/send_to_consultation', $data);
     }

@@ -271,8 +271,9 @@ class User extends BaseController
                    'role_id' => $this->request->getVar('role'),
                    'user_id' => $param_id,
                ]);
+               
                //save clinic relateb by user.
-            //    print_r($this->request->getVar());
+              //print_r($this->request->getVar());
                $__userRole = '';
                foreach ($_userRole as $r) {
                   if($r['id'] == $this->request->getVar('role')){

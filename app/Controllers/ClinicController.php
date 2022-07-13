@@ -108,4 +108,12 @@ class ClinicController extends BaseController
 
         return $data_table->getDatatable();
     }
+
+    public function ajax_getDoctors(){
+        $clinicModel = new ClinicModel;
+        if($this->request->getMethod() == 'post'){
+            $_doctors = $clinicModel->getDoctors($this->request->getVar('clinic_id'));
+             echo json_encode($_doctors); 
+        }
+    }
 }
