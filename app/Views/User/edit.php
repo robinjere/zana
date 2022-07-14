@@ -29,7 +29,6 @@
     </div> <!-- /registration-form__heading -->
      <div class="registration-form__form" x-data="registerData()">
            <form method="post">
-             <!-- <?= print_r($userInfo) ?> -->
              <div class="row registration-space-y">   
                <div class="col">
                  <input type="text" name="first_name" value="<?= set_value('first_name', $userInfo['first_name'])?>" class="form-control" placeholder="First name" aria-describedby="firstname">

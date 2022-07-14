@@ -74,7 +74,7 @@
             <span> Laboratory </span>
         </a>
     </li> -->
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception', 'specialist_doctor', 'general_doctor'])){?>
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception', 'doctor'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'patient' ? 'sidebar__active-link': null; ?>">
         <a href="/patient/search" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'patient' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -86,7 +86,7 @@
     <?php } ?>
 
 
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier', 'specialist_doctor', 'general_doctor'])){?>
+    <!-- <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier', 'doctor'])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
         <a href="/consultation/list" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'consultation' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -95,7 +95,7 @@
             <span> Consultation </span>
         </a>
     </li>
-    <?php } ?>
+    <?php } ?> -->
 
     <!--if(in_array('can_generate_report', session()->get('permission'))) -->
     <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?>

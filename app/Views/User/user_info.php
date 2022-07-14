@@ -72,7 +72,7 @@
            </nav>
       
          <div class="d-flex align-items-center">
-           <a href="/user/list" class="me-2 btn btn-outline-primary btn-rounded"> Back </a>
+           <a href="#" onclick="window.history.back()" class="me-2 btn btn-outline-primary btn-rounded"> Back </a>
          </div>
 
     </div> <!-- /registration-form__heading -->

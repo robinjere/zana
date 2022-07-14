@@ -72,6 +72,20 @@
           <div class="col"><?= strtoupper($patient_info->payment_method) === '' ? 'NO PAYMENT METHOD' :  strtoupper($patient_info->payment_method); ?></div>
         </div>
 
+        <?php 
+        
+            if(isset($consultation_payment)){
+                $_PAID = $consultation_payment->payment_confirmed_by == 0 ? '<span class="badge bg-danger">NOT PAID!</span>' : '<span class="badge bg-primary"> PAID</span>';
+                if($consultation_payment->payment == 'CASH'){?>
+                    <div class="row">
+                        <div class="col">CONSULTATION FEE:</div>
+                        <div class="col"><?= $_PAID ?> </div>
+                    </div>
+                <?php
+                }    
+            }
+        ?>
+
       </div> <!-- detail -->
       <div class="row navigation g-0">
          <?php 
@@ -88,8 +102,9 @@
                       </div>';
 
       
-         $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
-         switch ($role) {
+        //  $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
+         print_r('-----------------'.session()->get('role').'---------------');
+         switch (session()->get('role')) {
            case 'reception':
               echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation
@@ -111,27 +126,28 @@
              break;
 
            case 'cashier': 
-            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-               print_r($consultation_payment);
-               echo $consultation_payment->payment_confirmed_by == 0 ? '
-                  <div class="col"> 
-                     <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="doctor"> APPROVE PAYMENT </a> 
-                  </div>' :
-                 '<div class="col"> 
-                     <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="consultation-remove"> DIS-APPROVE PAYMENT </a> 
-                  </div>';
+                  if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+                    print_r($consultation_payment);
+                    echo $consultation_payment->payment_confirmed_by == 0 ? '
+                        <div class="col"> 
+                          <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="doctor"> APPROVE PAYMENT </a> 
+                        </div>' :
+                      '<div class="col"> 
+                          <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="consultation-remove"> DIS-APPROVE PAYMENT </a> 
+                        </div>';
 
-            }
+                  }
+               break;
 
            case 'doctor': 
-            if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-              print_r($consultation_payment);
-              if( $consultation_payment->payment_confirmed_by != 0) {
-                echo $CONSULT;
-              }
-            }elseif ($patient_info->status == 'inTreatment') {
-              echo $ATTEND;
-            }
+                  if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+                    print_r($consultation_payment);
+                    if( $consultation_payment->payment_confirmed_by != 0) {
+                      echo $CONSULT;
+                    }
+                  }elseif ($patient_info->status == 'inTreatment') {
+                    echo $ATTEND;
+                  }
 
           //  case 'general_doctor': 
           //   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){

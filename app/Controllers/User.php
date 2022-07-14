@@ -234,11 +234,6 @@ class User extends BaseController
                 //code..
                $the_user = $user->find($param_id);
                $myPass  = '';
-               if(!empty($this->request->getVar('password'))){
-                  $myPass = $this->request->getVar('password');
-               }else{
-                  $myPass = $the_user['password'];
-               }
 
                $newData = [
                 'id' => $param_id,
@@ -248,10 +243,17 @@ class User extends BaseController
                 'sex' => $this->request->getVar('sex'), 
                 'phone_number' => $this->request->getVar('phone_number'), 
                 'address' =>  $this->request->getVar('address'), 
-                'password' => $myPass,
                 'is_active' => TRUE, 
                 'is_info_confirmed' => TRUE
                ];
+
+             if(!empty($this->request->getVar('password'))){
+                $newData['password'] = $this->request->getVar('password');
+                echo 'password is not empty';
+             }
+
+            //    print_r($newData);
+            //    exit;
 
             //    if(isset($param_id)){
             //        $newData['id'] = $param_id;
@@ -261,7 +263,6 @@ class User extends BaseController
                 $_message = 'Failed to update';
                }
                $_message = 'Successful Updated';
-               $user->insert($newData);
             //    $user_id = $user->getInsertID();
                
                //save role related to user.
