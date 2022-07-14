@@ -45,6 +45,7 @@ class PatientController extends BaseController
     }
 
     public function send_to_consultation($patient_id = ''){
+        $data = [];
         helper('form');
         $user_model = new UserModel;
         $patientFileModel = new PatientsFileModel;
@@ -52,41 +53,56 @@ class PatientController extends BaseController
         $clinicModel = new ClinicModel;
 
         if($this->request->getMethod() == 'post'){
-           $payment = '';
 
-           $file_details = [
-               'id' => $this->request->getVar('file_id'),
-               'payment_method' => $this->request->getVar('payment_method'),
-               'status' => 'consultation',
-               'amount' => $this->request->getVar('amount')
+            $rules = [
+                'file_id' => 'required',
+                'payment_method' => 'required',
+                'amount' => 'required',
+                'clinic' => 'required',
+                'doctor_id' => 'required'
             ];
+             if($this->request->getVar('payment_method') !== 'CASH'){
+                $rules['insuarance_no'] = 'required';
+             }
 
-           $consultation = [
-               'file_id' => $this->request->getVar('file_id'),
-               'doctor_id' => $this->request->getVar('doctor_id'),
-               'payment' => $this->request->getVar('payment_method'),
-               'assigned_by' => session()->get('id'),
-               'amount' => $this->request->getVar('amount')
-           ];
-
-            if($this->request->getVar('payment_method') !== 'CASH'){
-            //   $consultation['amount'] = $this->request->getVar('amount');
-            //   $file_details['amount'] = $this->request->getVar('amount');
-              $payment = $this->request->getVar('insuarance_no');
+            if(!$this->validate($rules)){
+                $data['validation'] = $this->validator;
+            }else{
+                $payment = '';
+     
+                $file_details = [
+                    'id' => $this->request->getVar('file_id'),
+                    'payment_method' => $this->request->getVar('payment_method'),
+                    'status' => 'consultation',
+                    'clinic' =>  $this->request->getVar('clinic')
+                 ];
+     
+                $consultation = [
+                    'file_id' => $this->request->getVar('file_id'),
+                    'doctor_id' => $this->request->getVar('doctor_id'),
+                    'payment' => $this->request->getVar('payment_method'),
+                    'assigned_by' => session()->get('id'),
+                    'amount' => $this->request->getVar('amount')
+                ];
+     
+                 if(!empty($this->request->getVar('insuarance_no'))){
+                   $file_details['insuarance_no'] = $this->request->getVar('insuarance_no');
+                 }
+     
+                try {
+                    $patientFileModel->save($file_details);
+                    $consultationModel->save($consultation);
+                    return redirect()->to('/patient/search/')->with('success', 'Patient Sent to consultation');
+                } catch (\Exception $e) {
+                   return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('errors', $e->getMessage());
+                }
             }
-           try {
-               $patientFileModel->save($file_details);
-               $consultationModel->save($consultation);
-               return redirect()->to('/patient/search/')->with('success', 'Patient Sent to consultation');
-           } catch (\Exception $e) {
-              return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('errors', $e->getMessage());
-           }
         }
 
-        $data = [];
         $data['doctors'] = $user_model->get_users_doctor();
         $data['clinics'] = $clinicModel->find();
         $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();
+        
         return view('patient/send_to_consultation', $data);
     }
 

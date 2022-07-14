@@ -14,7 +14,7 @@ class PatientsFileModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_no', 'patient_id', 'payment_method', 'start_treatment', 'end_treatment', 'status', 'patient_character', 'upadated_at'];
+    protected $allowedFields    = ['file_no', 'patient_id', 'clinic', 'payment_method', 'start_treatment', 'end_treatment', 'status', 'patient_character', 'upadated_at'];
 
     // Dates
     protected $useTimestamps = true;

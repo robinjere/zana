@@ -22,12 +22,7 @@
 
 <?php
 
-   if(isset($patient_info)){
-     print_r($patient_info);
-     echo $search_by; 
-     echo '<br/>  ----------------------------------------------------------------  <br/>';
-     
-     ?>
+   if(isset($patient_info)){ ?>
 
     <div class="patient_search">
       <div class="detail">
