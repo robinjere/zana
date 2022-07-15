@@ -485,6 +485,23 @@
 /* ---------------  PATIENT SEARCH  WIDGET ---------------  */
 
 /* ---------------  PATIENT FILE  ---------------  */
+
+/* TOP NAV  */
+.file-top-menu{
+  padding: 0 2rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background:var(--z-lighter-gray);
+  z-index: 99;
+}
+
+.file-top-menu .button-nav > .btn{
+  margin-left: 5px;
+  font-size: .9rem;
+}
+/* TOP NAV  */
+
 .file-nav{
   list-style-type: none;
   padding: 0;

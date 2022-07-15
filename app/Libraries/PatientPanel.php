@@ -9,6 +9,10 @@ class PatientPanel{
        return view('patient/search_patient');
    }
 
+   public function PatientFileTopMenu(){
+      return view('patientfile/topMenu');
+   }
+
    public function PatientFileNav(){
        return view('patientfile/filenav');
    }

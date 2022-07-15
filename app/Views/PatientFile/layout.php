@@ -8,25 +8,9 @@
   <?= view_cell($Dashboard.'::TopNavigation') ?>
 
   <div class="registration-layout">
-
+    <?= view_cell('\App\Libraries\PatientPanel::PatientFileTopMenu') ?>
       <div class="container">
-        <div class="row">
-            <div class="col-3">
-                <!-- side bar  -->
-                    <?= view_cell('\App\Libraries\PatientPanel::PatientFileNav') ?>
-                <!-- side bar navigation  -->
-            </div><!-- col-3 -->
-
-            <div class="col-9">
-                 <div class="mt-4">
-                  <!-- patient file  -->
-                   <?= $this->renderSection('file') ?>
-                  <!-- patient file  -->
-                 </div> <!-- /mt-4 -->
-            </div><!-- /col-9 -->
-
-        </div><!-- /row -->
-         
+           <?= $this->renderSection('file') ?>         
       </div><!-- /container -->
   </div> <!-- panel-layout -->
 
