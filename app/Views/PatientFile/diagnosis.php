@@ -53,31 +53,28 @@
                  <span class="ml-2" x-text="selectedDiagnos.diagnosis_description.toUpperCase()"></span>
               </div>
            </template>
-               
-           <input type="text" x-show="showSearch" x-cloak  x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">
-               <template x-show="showSearch" x-cloak x-if="diagnosis.length">
-                 <ul class="list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
-                   <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-                   <template x-for="d in diagnosis">
-                     <li @click="selectDiagnoses(d.id)" class="list-group-item list-group-item-action">
-                         <span class="badge bg-success badge-sm" x-text="d.diagnosis_code.toUpperCase()"></span>, 
-                         <span class="ml-2" x-text="d.diagnosis_description.toLowerCase()"></span>
-                     </li>
-                   </template>
-    
-                   <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
-                   <li href="#" class="list-group-item list-group-item-action">Item</li>
-                   <li href="#" class="list-group-item list-group-item-action">Item</li>
-                   <li href="#" class="list-group-item list-group-item-action">Item</li> -->
-                   <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
-                 </ul><!-- /ul -->
-               </template>
+              <div class="search_box">
+                <input type="text" x-show="showSearch" x-cloak  x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">
+                 <template x-show="showSearch" x-cloak x-if="diagnosis.length">
+                   <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+                     <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                     <template x-for="d in diagnosis">
+                       <li @click="selectDiagnoses(d.id)" class="list-group-item list-group-item-action">
+                           <span class="badge bg-success badge-sm" x-text="d.diagnosis_code.toUpperCase()"></span>, 
+                           <span class="ml-2" x-text="d.diagnosis_description.toLowerCase()"></span>
+                       </li>
+                     </template>
+                   </ul><!-- /ul -->
+                 </template>
+              </div> <!-- /search_box -->
                <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
            
          </div> <!-- /mb-3 -->
-         <div class="d-flex justify-content-between mb-3">
-            <button type="button" class="btn btn-primary"  @click="assignDiagnoses('working')">Working Diagnoses</button>
-            <button type="button" class="btn btn-success"  @click="assignDiagnoses('final')">Final Diagnoses</button>
+         <div class="search_box">
+           <div class="w-100 d-flex justify-content-between mb-3">
+              <button type="button" class="btn btn-primary"  @click="assignDiagnoses('working')">Working Diagnoses</button>
+              <button type="button" class="btn btn-success"  @click="assignDiagnoses('final')">Final Diagnoses</button>
+           </div>
          </div>
    </form>
 

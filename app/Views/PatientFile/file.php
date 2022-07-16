@@ -41,26 +41,37 @@
     </div><!-- file-header -->
    <hr class="divider"/>
     <div class="file-content">
-        <!-- clinical note  -->
-        <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
-        <!-- clinical note -->
+
+        <div class="mt-2">
+            <!-- clinical note  -->
+            <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+            <!-- clinical note -->
+        </div>
+
+        <div class="mt-2">
+            <!-- labtest -->
+            <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 
+            <!-- labtest -->
+        </div>
         
-        <!-- labtest -->
-        <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 
-        <!-- labtest -->
+        <div class="mt-2">
+            <!-- labtest -->
+            <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
+            <!-- labtest -->
+        </div>
 
-        <!-- labtest -->
-        <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
-        <!-- labtest -->
 
-        <!-- Medicine -->
-        <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
-        <!-- Medicine -->
+        <div class="mt-2">
+            <!-- Medicine -->
+            <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
+            <!-- Medicine -->
+        </div>
 
-        <!-- Procedures -->
-        <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
-        <!-- Procedures -->
-
+        <div class="mt-2">
+            <!-- Procedures -->
+            <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
+            <!-- Procedures -->
+        </div>
 
     </div> <!-- /file-content -->
 </div><!-- /file -->

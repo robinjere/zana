@@ -47,21 +47,23 @@
    <div>
        <div class="mb-3">
            <!-- <label for="" class="form-label"></label> -->
-           <input type="text" x-model="searchInput" @keyup="searchLabTest()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
-           <template x-if="labtests.length">
-             <ul class="list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
-               <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-               <template x-for="test in labtests">
-                 <li @click="selectLabTest(test.id)" class="list-group-item list-group-item-action" x-text="test.name.toUpperCase()">Active item</li>
-               </template>
-
-               <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
-               <li href="#" class="list-group-item list-group-item-action">Item</li>
-               <li href="#" class="list-group-item list-group-item-action">Item</li>
-               <li href="#" class="list-group-item list-group-item-action">Item</li> -->
-               <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
-             </ul><!-- /ul -->
-           </template>
+           <div class="search_box">
+              <input type="text" x-model="searchInput" @keyup="searchLabTest()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
+              <template x-if="labtests.length">
+                <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+                  <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                  <template x-for="test in labtests">
+                    <li @click="selectLabTest(test.id)" class="list-group-item list-group-item-action" x-text="test.name.toUpperCase()">Active item</li>
+                  </template>
+   
+                  <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
+                  <li href="#" class="list-group-item list-group-item-action">Item</li>
+                  <li href="#" class="list-group-item list-group-item-action">Item</li>
+                  <li href="#" class="list-group-item list-group-item-action">Item</li> -->
+                  <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
+                </ul><!-- /ul -->
+              </template>
+           </div> <!-- /search_box -->
            <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
         </div> <!-- /mb-3 -->
    </div>

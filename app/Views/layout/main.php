@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="/assets/icons/zana-icon.png" type="image/png">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="animate.css/animate.min.css" />
     <link rel="stylesheet" href="/style.css" />
     <script defer src="/customjs.js"></script>
     <script defer src="/alpinejs/cdn.js"></script>

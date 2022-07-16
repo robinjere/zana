@@ -40,10 +40,13 @@
 
    <!-- Assign Procedure -->
    <div><!-- procedure block -->
-      <div class="d-flex justify-content-end"> <button @click="isAssign=true" type="button" class="btn btn-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
+      <div class="d-flex justify-content-end"> <button @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
       
       <template x-if="isAssign">
          <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
+            <div class="d-flex justify-content-end mb-2">
+               <button type="submit" class="btn btn-primary">Submit Procedure</button>
+            </div>
              <div class="row">
                 <div class="col">
                      <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
@@ -62,7 +65,7 @@
                    </div>
                 </div>
              </div>
-             <button type="submit" class="btn btn-primary">Submit Procedure</button>
+             
          </form><!-- /form -->
       </template>
 

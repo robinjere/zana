@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2022 at 06:07 AM
+-- Generation Time: Jul 15, 2022 at 06:08 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -43,7 +43,6 @@ CREATE TABLE `assigneddiagnoses` (
 
 INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `doctor`, `file_id`, `created_at`, `updated_at`) VALUES
 (4, 245, 'final', 31, 9, '2022-06-30 04:52:31', '2022-06-30 04:52:31'),
-(5, 9, 'working', 31, 9, '2022-06-30 05:46:49', '2022-06-30 05:46:49'),
 (6, 262, 'working', 31, 9, '2022-06-30 05:50:20', '2022-06-30 05:50:20');
 
 -- --------------------------------------------------------
@@ -74,7 +73,9 @@ CREATE TABLE `assignedmedicines` (
 
 INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `qty`, `instruction`, `drug_id`, `file_id`, `doctor`, `payed`, `created_at`, `updated_at`) VALUES
 (1, '1x2', 2, '0', 2, 5, 'first instruction', 10, 0, 0, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
-(4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50');
+(4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
+(5, '1x2', 2, '6', 0, 1, 'inisianewfr', 10, 9, 31, 0, '2022-06-30 17:57:12', '2022-06-30 17:57:12'),
+(6, '1x2', 1, '1x2', 4, 2, 'new assigned drug', 12, 9, 31, 0, '2022-07-01 04:58:35', '2022-07-01 04:58:35');
 
 -- --------------------------------------------------------
 
@@ -144,18 +145,57 @@ CREATE TABLE `clinicalnotes` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `clinicalnotes`
+-- Table structure for table `clinics`
 --
 
-INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `updated_at`) VALUES
-(2, 9, 'mokojo test', 31, '2022-06-21 21:52:59', '2022-06-21 21:52:59'),
-(3, 9, 'another clinical note here', 31, '2022-06-21 22:25:14', '2022-06-21 22:25:14'),
-(4, 9, 'Some clinical test example', 31, '2022-06-21 22:32:06', '2022-06-21 22:32:06'),
-(5, 9, 'another comment here', 31, '2022-06-22 11:09:14', '2022-06-22 11:09:14'),
-(6, 9, 'new comment ', 31, '2022-06-22 11:10:37', '2022-06-22 11:10:37'),
-(7, 9, 'new clinical note to this patient', 31, '2022-06-30 06:17:06', '2022-06-30 06:17:06'),
-(8, 9, 'new clinical note', 31, '2022-06-30 06:19:46', '2022-06-30 06:19:46');
+CREATE TABLE `clinics` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `consultation_fee` double NOT NULL,
+  `user` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clinics`
+--
+
+INSERT INTO `clinics` (`id`, `name`, `consultation_fee`, `user`, `created_at`, `updated_at`) VALUES
+(1, 'general doctor', 6000, 25, '2022-07-08 19:39:46', '2022-07-10 04:32:49'),
+(3, 'Pediatric', 9000, 25, '2022-07-10 04:53:56', '2022-07-10 04:54:23'),
+(4, 'oncology', 7000, 25, '2022-07-10 04:55:55', '2022-07-10 04:55:55'),
+(5, 'o/gynecology', 8000, 25, '2022-07-10 04:56:24', '2022-07-10 04:56:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic_doctors`
+--
+
+CREATE TABLE `clinic_doctors` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `clinic_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clinic_doctors`
+--
+
+INSERT INTO `clinic_doctors` (`id`, `user_id`, `clinic_id`, `created_at`, `updated_at`) VALUES
+(1, 33, 3, '2022-07-12 05:15:15', '2022-07-12 05:15:15'),
+(2, 37, 3, '2022-07-12 06:53:35', '2022-07-12 06:53:35'),
+(3, 38, 4, '2022-07-12 06:54:00', '2022-07-12 06:54:00'),
+(4, 39, 1, '2022-07-12 07:12:52', '2022-07-12 07:12:52'),
+(6, 45, 3, '2022-07-12 20:38:19', '2022-07-14 19:00:34'),
+(7, 31, 1, '2022-07-14 18:46:50', '2022-07-14 20:03:25'),
+(10, 66, 0, '2022-07-14 19:42:21', '2022-07-14 19:42:21');
 
 -- --------------------------------------------------------
 
@@ -182,7 +222,8 @@ CREATE TABLE `consultation` (
 
 INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `assigned_by`, `payment_confirmed_by`, `consulted_by`, `created_at`, `updated_at`) VALUES
 (7, 8, 31, 'NHIF', 5000, 30, 0, 0, '2022-06-16 21:17:45', '2022-06-16 21:17:45'),
-(8, 9, 31, 'CASH', 5000, 30, 32, 31, '2022-06-16 21:21:07', '2022-06-16 22:16:19');
+(8, 9, 31, 'CASH', 5000, 30, 32, 31, '2022-06-16 21:21:07', '2022-06-16 22:16:19'),
+(10, 10, 45, 'CASH', 9000, 30, 66, 31, '2022-07-14 06:56:41', '2022-07-14 19:43:48');
 
 -- --------------------------------------------------------
 
@@ -14617,7 +14658,9 @@ CREATE TABLE `patients` (
 
 INSERT INTO `patients` (`id`, `first_name`, `middle_name`, `sir_name`, `birth_date`, `gender`, `address`, `phone_no`, `next_kin_name`, `next_kin_relationship`, `next_kin_phone`, `created_at`, `updated_at`, `user_id`) VALUES
 (17, 'Jose', 'teminiz', 'joseph', '2021-08-03', 'Male', 'Tabata, Dar es salaam', 8662334, 'joseph', 'relative', 8832666, '2022-06-16 20:08:27', '2022-06-16 20:08:27', 30),
-(18, 'andrew', 'mosh', 'moshi', '2021-09-30', 'Male', 'arusha', 8662334, 'Jame', 'relative', 8832666, '2022-06-16 21:20:44', '2022-06-16 21:20:44', 30);
+(18, 'andrew', 'mosh', 'moshi', '2021-09-30', 'Male', 'arusha', 8662334, 'Jame', 'relative', 8832666, '2022-06-16 21:20:44', '2022-06-16 21:20:44', 30),
+(19, 'ibr', 'ib-last', 'IbrahimSir', '2022-06-28', 'Male', 'kino', 8662334, 'ibrahim next', 'jame next kin relation', 8832666, '2022-06-30 17:15:30', '2022-06-30 17:15:30', 30),
+(20, 'jame', 'john', 'dass', '2022-06-30', 'Male', 'kinondoni shamba', 8662334, 'joseph', 'inextkin father', 8832666, '2022-06-30 17:29:48', '2022-06-30 17:29:48', 30);
 
 -- --------------------------------------------------------
 
@@ -14629,6 +14672,7 @@ CREATE TABLE `patients_file` (
   `id` int(11) NOT NULL,
   `file_no` varchar(200) NOT NULL,
   `patient_id` int(11) NOT NULL,
+  `clinic` int(11) NOT NULL,
   `payment_method` varchar(60) NOT NULL,
   `insuarance_no` varchar(200) NOT NULL,
   `start_treatment` date NOT NULL,
@@ -14643,9 +14687,11 @@ CREATE TABLE `patients_file` (
 -- Dumping data for table `patients_file`
 --
 
-INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `payment_method`, `insuarance_no`, `start_treatment`, `end_treatment`, `status`, `patient_character`, `created_at`, `updated_at`) VALUES
-(8, 'MRNO/2022/17', 17, 'NHIF', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-06-16 20:08:27', '2022-06-16 21:17:45'),
-(9, 'MRNO/2022/18', 18, 'CASH', '', '2022-06-21', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-16 21:20:44', '2022-06-21 22:34:27');
+INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_method`, `insuarance_no`, `start_treatment`, `end_treatment`, `status`, `patient_character`, `created_at`, `updated_at`) VALUES
+(8, 'MRNO/2022/17', 17, 0, 'NHIF', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-06-16 20:08:27', '2022-06-16 21:17:45'),
+(9, 'MRNO/2022/18', 18, 0, 'CASH', '', '2022-06-21', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-16 21:20:44', '2022-06-21 22:34:27'),
+(10, 'MRNO/2022/19', 19, 3, 'CASH', '', '2022-07-15', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-30 17:15:30', '2022-07-15 07:06:53'),
+(11, 'MRNO/2022/20', 20, 0, '', '', '0000-00-00', '0000-00-00', '', 'outpatient', '2022-06-30 17:29:48', '2022-06-30 17:29:48');
 
 -- --------------------------------------------------------
 
@@ -14745,7 +14791,8 @@ INSERT INTO `role` (`id`, `name`, `role_type`) VALUES
 (4, 'Pharmacist', 'pharmacy'),
 (5, 'Superuser', 'superuser'),
 (6, 'Specialist Doctor', 'specialist_doctor'),
-(7, 'Cashier', 'cashier');
+(7, 'Cashier', 'cashier'),
+(8, 'Doctor', 'doctor');
 
 -- --------------------------------------------------------
 
@@ -14810,9 +14857,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `father_name`, `sex`, `email`, `phone_number`, `address`, `password`, `is_active`, `is_info_confirmed`, `confirmed_by`, `user_id`) VALUES
 (25, 'john', 'doe', 'doe father', 'Male', 'johndoe@gmail.com', '0755323024', 'address Dar -es - salaam', '$2y$10$h0E5hUSRzh6e0u3I.URgnepNK136O3CmBRCbnRBcg6O7ivKRoSr.O', 1, 1, NULL, 0),
-(30, 'rec', 'rec last name', 'rec father name', 'Female', 'rec@gmail.com', '0754230326', 'address Dar -es - salaam', '$2y$10$TiEDOpaqXll0jbUxFuXSC.9/JKh8aKhZvZzCM6LIp1k5FMhvlpOS2', 1, 1, NULL, 0),
-(31, 'doc', 'doctor', 'doctor father', 'Male', 'doctor@gmail.com', '3201763925', 'mbezi, goba', '$2y$10$QQvrp52R4cyeKZTrxCB2FOnAsW7ESQtW0N1iezDylVVp7fJKAtlPS', 1, 1, NULL, 0),
-(32, 'cashier', 'cashier lastname', 'cashier father', 'Female', 'cashier@gmail.com', '3201763925', 'mwenge', '$2y$10$RVQNFGzUgh/IHfZfzm0nd.YCzVOqW2gzvqX.3lfHl9I2nDVPWLCMO', 1, 1, NULL, 0);
+(30, 'rec', 'rec last name', 'rec father name', 'Female', 'rec@gmail.com', '0754230326', 'address Dar -es - salaam', '$2y$10$XygOYzedk2iZDSsnexf.lODPfphlhjIIZ8CO9HMlmINYHUrQyOOO.', 1, 1, NULL, 0),
+(31, 'doc', 'doctor', 'doctor father', 'Male', 'doctor@gmail.com', '3201763925', 'mbezi, goba', '$2y$10$1K5SfokI9N14mn9CROJfROA2w5QBmgYR3Sw/oXLQcLEkVLPrPVMqG', 1, 1, NULL, 0),
+(45, 'sam', 'sam-last', 'sam-father', 'Male', 'sam@gmail.com', '0783664623', 'mbezi', '$2y$10$LSfBPyTD7I.4EUfRgIjWne0VF2gehdVCWwQp3lpjoq8grfvxyXVfq', 1, 1, NULL, 0),
+(66, 'cashier', 'cashier lastname', 'cashier father', 'Male', 'cashier@gmail.com', '0984772433', 'Tabata, Dar es salaam', '$2y$10$zgqzTJFNIM2l4MC0wyUokeoMT6tgDyoEAqcL1B08h1J9RmyCNIMHK', 1, 1, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -14867,64 +14915,90 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (178, 25, 34),
 (179, 25, 35),
 (180, 25, 36),
-(194, 30, 5),
-(195, 30, 6),
-(196, 30, 7),
-(197, 30, 8),
-(198, 30, 9),
-(199, 30, 13),
-(200, 30, 14),
-(201, 30, 22),
-(202, 30, 23),
-(203, 30, 24),
-(204, 30, 31),
-(205, 30, 32),
-(206, 30, 33),
-(207, 30, 34),
-(208, 30, 35),
-(209, 30, 36),
-(210, 31, 5),
-(211, 31, 6),
-(212, 31, 7),
-(213, 31, 8),
-(214, 31, 9),
-(215, 31, 16),
-(216, 31, 17),
-(217, 31, 18),
-(218, 31, 19),
-(219, 31, 20),
-(220, 31, 21),
-(221, 31, 22),
-(222, 31, 23),
-(223, 31, 24),
-(224, 31, 25),
-(225, 31, 26),
-(226, 31, 27),
-(227, 31, 28),
-(228, 31, 29),
-(229, 31, 30),
-(230, 31, 31),
-(231, 31, 32),
-(232, 31, 33),
-(233, 31, 34),
-(234, 31, 35),
-(235, 31, 36),
-(236, 32, 5),
-(237, 32, 6),
-(238, 32, 7),
-(239, 32, 8),
-(240, 32, 9),
-(241, 32, 13),
-(242, 32, 14),
-(243, 32, 22),
-(244, 32, 23),
-(245, 32, 24),
-(246, 32, 25),
-(247, 32, 26),
-(248, 32, 27),
-(249, 32, 34),
-(250, 32, 35),
-(251, 32, 36);
+(766, 45, 5),
+(767, 45, 6),
+(768, 45, 7),
+(769, 45, 8),
+(770, 45, 9),
+(771, 45, 16),
+(772, 45, 17),
+(773, 45, 18),
+(774, 45, 19),
+(775, 45, 20),
+(776, 45, 21),
+(777, 45, 22),
+(778, 45, 23),
+(779, 45, 24),
+(780, 45, 25),
+(781, 45, 26),
+(782, 45, 27),
+(783, 45, 28),
+(784, 45, 29),
+(785, 45, 30),
+(786, 45, 31),
+(787, 45, 32),
+(788, 45, 33),
+(789, 45, 34),
+(790, 45, 35),
+(791, 45, 36),
+(902, 30, 5),
+(903, 30, 6),
+(904, 30, 7),
+(905, 30, 8),
+(906, 30, 9),
+(907, 30, 13),
+(908, 30, 14),
+(909, 30, 22),
+(910, 30, 23),
+(911, 30, 24),
+(912, 30, 31),
+(913, 30, 32),
+(914, 30, 33),
+(915, 30, 34),
+(916, 30, 35),
+(917, 30, 36),
+(918, 66, 5),
+(919, 66, 6),
+(920, 66, 7),
+(921, 66, 8),
+(922, 66, 9),
+(923, 66, 13),
+(924, 66, 14),
+(925, 66, 22),
+(926, 66, 23),
+(927, 66, 24),
+(928, 66, 25),
+(929, 66, 26),
+(930, 66, 27),
+(931, 66, 34),
+(932, 66, 35),
+(933, 66, 36),
+(934, 31, 5),
+(935, 31, 6),
+(936, 31, 7),
+(937, 31, 8),
+(938, 31, 9),
+(939, 31, 16),
+(940, 31, 17),
+(941, 31, 18),
+(942, 31, 19),
+(943, 31, 20),
+(944, 31, 21),
+(945, 31, 22),
+(946, 31, 23),
+(947, 31, 24),
+(948, 31, 25),
+(949, 31, 26),
+(950, 31, 27),
+(951, 31, 28),
+(952, 31, 29),
+(953, 31, 30),
+(954, 31, 31),
+(955, 31, 32),
+(956, 31, 33),
+(957, 31, 34),
+(958, 31, 35),
+(959, 31, 36);
 
 -- --------------------------------------------------------
 
@@ -14944,9 +15018,10 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`id`, `role_id`, `user_id`) VALUES
 (24, 5, 25),
-(29, 2, 30),
-(30, 3, 31),
-(31, 7, 32);
+(65, 8, 45),
+(71, 2, 30),
+(72, 7, 66),
+(73, 8, 31);
 
 --
 -- Indexes for dumped tables
@@ -14997,6 +15072,21 @@ ALTER TABLE `clinicalnotes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `file_id` (`file_id`),
   ADD KEY `doctor` (`doctor`);
+
+--
+-- Indexes for table `clinics`
+--
+ALTER TABLE `clinics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `clinic_doctors`
+--
+ALTER TABLE `clinic_doctors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clinic_id` (`clinic_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `consultation`
@@ -15054,7 +15144,8 @@ ALTER TABLE `patients`
 ALTER TABLE `patients_file`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `file_no` (`file_no`),
-  ADD KEY `patient_id` (`patient_id`);
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `clinic` (`clinic`);
 
 --
 -- Indexes for table `permission`
@@ -15119,31 +15210,43 @@ ALTER TABLE `assigneddiagnoses`
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
 --
 ALTER TABLE `assigned_labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `assigned_procedures`
 --
 ALTER TABLE `assigned_procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `clinicalnotes`
 --
 ALTER TABLE `clinicalnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `clinics`
+--
+ALTER TABLE `clinics`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `clinic_doctors`
+--
+ALTER TABLE `clinic_doctors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `consultation`
 --
 ALTER TABLE `consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `consultation_fee`
@@ -15179,13 +15282,13 @@ ALTER TABLE `labtests`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `patients_file`
 --
 ALTER TABLE `patients_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `permission`
@@ -15203,7 +15306,7 @@ ALTER TABLE `procedures`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -15215,19 +15318,19 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `user_permission`
 --
 ALTER TABLE `user_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=960;
 
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

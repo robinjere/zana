@@ -1,4 +1,8 @@
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ------------------------------ LOGIN SCREEN  ------------------------------ */
 .login, .login__bg--image {
   min-height: calc(100vh - 45px);
@@ -501,6 +505,23 @@
   font-size: .9rem;
 }
 /* TOP NAV  */
+.open-menu{
+  transform: translate3d(0, 0, 0) !important;
+  opacity: 100 !important;
+  transition-duration: .2s;
+}
+.file-side-nav{
+   background: var(--z-white);
+   padding: 2rem;
+   position: absolute;
+   z-index: 999;
+   min-width: 24rem;
+   top: 70px;
+   box-shadow: 0 0 3px #dbd7d7;
+   transform: translate3d(-660px, -50px, 5px);
+   opacity: 0;
+   transition-duration: .2s;
+}
 
 .file-nav{
   list-style-type: none;
@@ -583,9 +604,23 @@
   border-radius: 50%;
   margin-right: .5rem;
 }
-
+.add-note{
+  
+}
 .note-box{
   position: relative;
+}
+
+.search_box{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search_box > *{
+    max-width: 47rem;
+    margin-top: 2rem;
 }
 
 /* .note-box .clinical-btn{
