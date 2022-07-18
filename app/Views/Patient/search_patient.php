@@ -2,14 +2,18 @@
 
 <?= $this->section('patient'); ?>
 <form method="post"> 
-<div class="input-group">
-  <select name="filter" class="form-select" aria-label="filter search">
-    <option selected value="file_no"> Search by file number</option>
-    <option value="name">Search by patient name</option>
-  </select>
-  <input type="search" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
-  <button type="submit" class="btn btn-success" type="button">Search</button>
-</div>
+
+  <div class="search_box">
+    <div class="input-group">
+      <!-- <select name="filter" class="form-select" aria-label="filter search">
+        <option selected value="file_no"> Search by file number</option>
+        <option value="name">Search by patient name</option>
+      </select> -->
+      <input type="search" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
+      <button type="submit" class="btn btn-success" type="button">Search</button>
+    </div><!-- /input-group -->
+  </div><!-- /search_box -->
+
 <!-- genereate file no when register a patient  -->
 <!-- if patient is  -->
 <!-- <select class="form-select" aria-label="filter">
@@ -22,9 +26,9 @@
 
 <?php
 
-   if(isset($patient_info)){  print_r($patient_info); ?>
-
-   
+   if(isset($patient_info)){  
+    // print_r($patient_info);
+   ?>
 
     <div class="patient_search">
       <div class="detail">
@@ -74,8 +78,7 @@
           <div class="col"><?= strtoupper($patient_info->payment_method) === '' ? 'NO PAYMENT METHOD' :  strtoupper($patient_info->payment_method); ?></div>
         </div>
 
-        <?php 
-        
+        <?php         
             if(isset($consultation_payment)){
                 $_PAID = $consultation_payment->payment_confirmed_by == 0 ? '<span class="badge bg-danger">NOT PAID!</span>' : '<span class="badge bg-primary"> PAID</span>';
                 if($consultation_payment->payment == 'CASH'){?>
@@ -105,8 +108,8 @@
 
       
         //  $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
-         print_r('-----------------'.session()->get('role').'---------------');
-         switch (session()->get('role')) {
+        //  print_r('-----------------'.session()->get('role').'---------------');
+         switch (strtolower(session()->get('role'))) {
            case 'reception':
               echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation

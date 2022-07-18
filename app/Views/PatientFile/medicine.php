@@ -50,6 +50,11 @@
            <!-- <label for="" class="form-label"></label> -->
            <div class="search_box">
              <input type="text" x-model="searchInput" @keyup="searchDrug()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
+             
+             <div x-cloak x-show="loading" class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div><!-- /spinner-border -->
+
              <template x-if="searchItems.length">
                <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-height: 170px;">
                  <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
@@ -89,7 +94,16 @@
            <div class="col">
              <div class="mb-3">
                <label for="route" class="form-label">Route</label>
-               <input type="text" x-model="route" class="form-control" name="" id="route" placeholder="Route">
+               <select x-model="route" id="route" class="form-control">
+                  <option>IV</option>
+                  <option>IM</option>
+                  <option>ORAL</option>
+                  <option>SC</option>
+                  <option>Topical</option>
+                  <option>Drops</option>
+                  <option>Per Rectal</option>
+                  <option>Per Vaginal</option>
+                </select>
              </div>
            </div>
            <div class="col">
@@ -145,6 +159,7 @@
 
   function medicineData(){
     return {
+      loading: false,
       success: false,
       message: '',
       searchItems:[],
@@ -164,6 +179,7 @@
       searchDrug(){
         console.log('search input typed', this.searchInput)
         if(this.searchInput !== ''){
+          this.loading = true;
           fetch('<?= base_url('patientFileController/ajax_searchdrug') ?>',{
             method: 'post',
             headers: {
@@ -175,6 +191,7 @@
               searchInput: this.searchInput
             })
           }).then(res => res.json()).then(data => {
+              this.loading = false;
               this.searchItems = data.searchItem
           })
         }else{

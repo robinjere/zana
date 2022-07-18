@@ -1,5 +1,5 @@
 
-html {
+html, body {
   scroll-behavior: smooth;
 }
 
@@ -512,7 +512,6 @@ html {
 }
 .file-side-nav{
    background: var(--z-white);
-   padding: 2rem;
    position: absolute;
    z-index: 999;
    min-width: 24rem;
@@ -525,8 +524,23 @@ html {
 
 .file-nav{
   list-style-type: none;
-  padding: 0;
+  /* padding: 0; */
+  padding: 2rem;
   margin-top: 1rem;
+}
+
+.file-exit{
+  padding: 2rem;
+  border-top: 1px solid black;
+}
+.file-exit a{ text-decoration: none; }
+.file-exit .icon{}
+.file-exit .link-title{
+  margin-left: 10px;
+ 
+  font-size: var(--sm-heading);
+  color: #000000;
+
 }
 
 .file-nav li{
@@ -589,6 +603,39 @@ html {
   background: #727272 !important;
 }
 
+
+.final-diagnosis h4, .working-diagnosis h4{
+ font-size: var(--lg-heading);
+ font-weight: 500;
+ padding-left: 4rem;
+}
+.final-diagnosis, .working-diagnosis{
+  position: relative;
+}
+.line1, .line2{
+  position: absolute;
+  width: 3rem;
+  height: 2px;
+  top: 32px;
+  background: black;
+}
+
+.present_diagnosis{
+  position: relative;
+  border: 1px solid var(--z-gray);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.present_diagnosis .selectedDiagnosis {
+  /* border: 1px solid var(--z-gray); */
+  border-bottom: 1px solid gray;
+  padding-bottom: 1rem;
+}
+.close-btn{
+  position: absolute;
+  top: -15px;
+  right: -17px;
+}
 .clinical-note h5, .medicine h5, .procedures h5, .labtest h5,
 .diagnosis h5{
   font-weight: 600;

@@ -111,8 +111,16 @@ class PatientController extends BaseController
         $data = [];
 
         if($this->request->getMethod() == 'post'){
-           $filter = $this->request->getVar('filter'); // 'file_no / name
+        //    $filter = $this->request->getVar('filter'); // 'file_no / name
+            //check if a search term contain number. 
+        
            $searchterm = $this->request->getVar('searchterm');
+           $filter = '';
+           if (preg_match('~[0-9]+~', $searchterm)) {
+            $filter = 'file_no';
+          }else{
+            $filter = 'name';
+          }
            try {
                //code...
               $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);

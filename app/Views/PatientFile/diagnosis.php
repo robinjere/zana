@@ -46,16 +46,14 @@
 
    <form x-on:submit.prevent x-cloak x-show="showDiagnosisBox">
      <div class="mb-3">
-           <!-- <label for="" class="form-label"></label> -->
-           <template x-if="selectedDiagnos">
-              <div classs="selectedDiagnosis p4">
-                 <span class="badge bg-success badge-sm" x-text="selectedDiagnos.diagnosis_code.toUpperCase()"></span>, 
-                 <span class="ml-2" x-text="selectedDiagnos.diagnosis_description.toUpperCase()"></span>
-              </div>
-           </template>
+
               <div class="search_box">
-                <input type="text" x-show="showSearch" x-cloak  x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">
-                 <template x-show="showSearch" x-cloak x-if="diagnosis.length">
+                <input type="text" x-show="showSearch" x-cloak  x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">   
+                <div x-cloak x-show="loading" class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                 </div><!-- /spinner-border -->
+
+                <template x-show="showSearch" x-cloak x-if="diagnosis.length">
                    <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
                      <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
                      <template x-for="d in diagnosis">
@@ -71,15 +69,28 @@
            
          </div> <!-- /mb-3 -->
          <div class="search_box">
-           <div class="w-100 d-flex justify-content-between mb-3">
-              <button type="button" class="btn btn-primary"  @click="assignDiagnoses('working')">Working Diagnoses</button>
-              <button type="button" class="btn btn-success"  @click="assignDiagnoses('final')">Final Diagnoses</button>
-           </div>
-         </div>
+          <div class="w-100">
+            <template x-if="selectedDiagnos">
+                <div class="present_diagnosis">
+                  <button class="btn btn-danger btn-sm close-btn" @click="selectedDiagnos=''">&#9587;</button>
+                  <div classs="selectedDiagnosis p4">
+                     <span class="badge bg-success badge-sm" x-text="selectedDiagnos.diagnosis_code.toUpperCase()"></span>, 
+                     <span class="ml-2" x-text="selectedDiagnos.diagnosis_description.toUpperCase()"></span>
+                  </div>
+                  <div class="d-flex  align-items-center mt-3">
+                     <button type="button" class="btn btn-sm btn-primary"  @click="assignDiagnoses('working')">Assign to working Diagnoses</button>
+                     <span> - </span> <span class="badge bg-primary"> OR </span> <span> - </span> 
+                     <button type="button" class="btn btn-sm btn-success"  @click="assignDiagnoses('final')">Assign to final Diagnoses</button>
+                  </div>
+                </div>
+             </template>
+          </div><!-- /w-100 -->
+         </div><!-- /search_box -->
    </form>
 
    <div class="working-diagnosis">
-     <h4>Working diagnosis</h4>
+    <span class="line1"></span>
+     <h4 class="py-4">Working diagnosis</h4>
          <table id="table_working_diagnosis" class="table table-striped table-bordered">
             <thead>   
                <tr>
@@ -92,7 +103,8 @@
     </div><!-- /procedure-table -->
 
    <div class="final-diagnosis">
-     <h4>Final diagnosis</h4>
+    <span class="line2"></span>
+     <h4 class="py-4">Final diagnosis</h4>
          <table id="table_final_diagnosis" class="table table-striped table-bordered">
             <thead>   
                <tr>
@@ -111,6 +123,7 @@
 
   function diagnosisData(){
     return {
+      loading: false,
       success: false,
       message: '', 
       showDiagnosisBox: false,
@@ -136,6 +149,7 @@
       },
       searchDiagnosis(){
         if(this.searchInput !== ''){
+          this.loading = true;
           fetch('<?= base_url('patientFileController/ajax_searchdiagnosis') ?>',{
             method: 'post',
             headers: {
@@ -148,6 +162,7 @@
             })
           }).then(res => res.json()).then(data => {
               this.diagnosis = data.diagnosis
+              this.loading = false;
           })
         }else{
           this.diagnosis = []
@@ -175,9 +190,11 @@
                      switch (diagnoses_type) {
                        case 'working':
                            working_diagnoses()
+                           this.selectedDiagnos = ''
                          break;
                        case 'final':
                            final_diagnoses()
+                           this.selectedDiagnos = ''
                          break;
                      
                        default:

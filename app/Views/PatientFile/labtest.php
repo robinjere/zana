@@ -49,6 +49,11 @@
            <!-- <label for="" class="form-label"></label> -->
            <div class="search_box">
               <input type="text" x-model="searchInput" @keyup="searchLabTest()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
+                 
+              <div x-cloak x-show="loading" class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div><!-- /spinner-border -->
+
               <template x-if="labtests.length">
                 <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
                   <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
@@ -91,6 +96,7 @@
 
   function labtestData(){
       return {
+         loading: false,
          success: false,
          message: '',
          showSearchBtn: true,
@@ -100,6 +106,7 @@
          searchLabTest(){
 
           if(this.searchInput !== ''){
+            this.loading = true;
             fetch('<?= base_url('patientFileController/ajax_searchlabtest') ?>',{
                 method: 'post',
                 headers: {
@@ -112,6 +119,7 @@
                 })
               }).then(res => res.json()).then(data => {
                 this.labtests = data.searchLabtest
+                this.loading = false
              })
             }else{
             this.labtests = []

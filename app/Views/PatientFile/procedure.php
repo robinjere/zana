@@ -40,12 +40,12 @@
 
    <!-- Assign Procedure -->
    <div><!-- procedure block -->
-      <div class="d-flex justify-content-end"> <button @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
+      <div class="d-flex justify-content-end"> <button @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-outline-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
       
       <template x-if="isAssign">
          <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
             <div class="d-flex justify-content-end mb-2">
-               <button type="submit" class="btn btn-primary">Submit Procedure</button>
+               <button type="submit" class="btn btn-outline-primary">Submit Procedure</button>
             </div>
              <div class="row">
                 <div class="col">

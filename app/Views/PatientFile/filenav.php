@@ -59,4 +59,17 @@
     </a></li>
 </ul>
 
+  <div class="file-exit">
+    <a href="/patient/search">
+      <span class="icon">
+         <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+           <path d="M1 5H19M5 9L1 5L5 9ZM1 5L5 1L1 5Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+         </svg>
+       </span> <!-- /span -->
+       <span class="link-title">
+         Exit File
+       </span>
+    </a>
+  </div><!-- /file-exit -->
+
 </div><!-- file-nav-container -->
