@@ -239,7 +239,7 @@ html, body {
 .registration-form__form{
   border-radius: 10px;
   padding: 57px;
-  background: #FFFFFF;
+  /* background: #FFFFFF; */
 }
 .registration-space-y{
   margin-bottom: 24px;
@@ -382,6 +382,7 @@ html, body {
    color: var(--z-black);
    font-size: var(--sm-heading);
    font-family: var(--font-family);
+   text-align: center;
  }
  .data-nav{
    list-style: none;
@@ -485,6 +486,16 @@ html, body {
   color: var(--z-white);
   text-align: right;
   /* border-bottom-right-radius: inherit; */
+}
+.p-info{
+    BACKGROUND: WHITE;
+    PADDING: 19PX;
+    BORDER-RADIUS: 5PX;
+}
+
+.p-info .row{
+  border-bottom: 2px solid #f7f0ea;
+  margin-bottom: 5px;
 }
 /* ---------------  PATIENT SEARCH  WIDGET ---------------  */
 
@@ -666,8 +677,9 @@ html, body {
 }
 
 .search_box > *{
-    max-width: 47rem;
-    margin-top: 2rem;
+    /* max-width: 47rem; */
+    max-width: 25rem;
+    /* margin-top: 2rem; */
 }
 
 /* .note-box .clinical-btn{

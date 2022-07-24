@@ -16,7 +16,7 @@ class PatientModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['first_name', 'middle_name', 'sir_name', 'birth_date', 
-    'gender', 'address', 'phone_no', 'next_kin_name', 'next_kin_relationship', 'next_kin_phone', 'user_id'];
+    'gender', 'address', 'phone_no', 'next_kin_name', 'next_kin_relationship', 'next_kin_phone', 'pcharacter', 'user_id'];
 
     // Dates
     protected $useTimestamps = true;

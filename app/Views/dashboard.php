@@ -7,13 +7,13 @@
   <div class="registration-layout">
       <div class="container">
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <!-- side bar navigation  -->
                 <?= view_cell('App\Libraries\AdminPanel::sideBarNavigation') ?>
                 <!-- side bar navigation  -->
             </div><!-- col-3 -->
 
-            <div class="col-10">
+            <div class="col-9">
                  <div class="mt-4">
                   <!-- data list  -->
                       <?= $this->renderSection('data'); ?>

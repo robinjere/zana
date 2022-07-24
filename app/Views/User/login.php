@@ -5,18 +5,18 @@
   <!-- <div class="position-absolute login__bg">
     <img src="/assets/login-bg.jpg" class="login__bg--image"/> 
   </div> -->
-    <div class="heading-block">
+    <!-- <div class="heading-block">
       <h1 class="bg-white login-heading text-uppercase text-center my-4">Welcome to <?= $clinic['name'] ?></h1>
-    </div><!-- /heading-block --> 
+    </div>/heading-block  -->
 
   <div class="position-relative w-100">
     <div class="container login-layout mb-2">
 
         <div class="d-flex flex-column justify-start py-20 px-14 login__form">
-          <!-- <div class="login__form--header login-form-space-y ">
+          <div class="login__form--header login-form-space-y mb-4">
                <h4 class="text-uppercase"> login </h4>
                <span> </span>
-          </div> -->
+          </div>
 
           <!-- form -->
           <form method="post" >

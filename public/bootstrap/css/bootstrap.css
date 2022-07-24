@@ -46,7 +46,8 @@
   /* custom colors zana-health-care */
 
   --z-success : #98F16E;
-  --z-lighter-gray : #F8F8FB;
+  /* --z-lighter-gray : #F8F8FB; */
+  --z-lighter-gray : #F7F0EA;
   --z-gray : #E9EAED;
   --z-soft-gray : #B6B6B6;
   --z-black : #20243D;

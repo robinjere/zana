@@ -23,22 +23,34 @@ class PatientController extends BaseController
         $data = [];
 
         if($this->request->getMethod() === 'post'){
-           $form_data = $this->request->getVar();
-           $form_data['user_id'] = session()->get('id');
-           try {
-                  $patientModel->save($form_data);
-                  //generate file number MRNO/YEAR_OF_REGISTRATION/PATIENT_ID
-                  $patient_id = $patientModel->getInsertID();
-                  $file_generated = 'MRNO/'.date('Y').'/'.$patient_id;
-                //   session()->setFlashdata('success', 'patient registered');
-                  //save patient file generated.
-                  $patientFileModel = new PatientsFileModel;
-                  $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => 'outpatient']);
-                  return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('success', 'patient registered');
-           } catch (\Exception $e) {
-               //throw $th;
-               session()->setFlashdata('validation', $e->getMessage());
-           }
+            $rules = [
+                'first_name' => 'required',
+                'sir_name' => 'required',
+                'birth_date' => 'required',
+                'gender' => 'required',
+                'pcharacter' => 'required'
+            ];
+
+            if(!$this->validate($rules)){
+                $data['validation'] = $this->validator;
+            }else{
+                $form_data = $this->request->getVar();
+                $form_data['user_id'] = session()->get('id');
+                try {
+                       $patientModel->save($form_data);
+                       //generate file number MRNO/YEAR_OF_REGISTRATION/PATIENT_ID
+                       $patient_id = $patientModel->getInsertID();
+                       $file_generated = 'MRNO/'.date('Y').'/'.$patient_id;
+                       //session()->setFlashdata('success', 'patient registered');
+                       //save patient file generated.
+                       $patientFileModel = new PatientsFileModel;
+                       $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => $form_data['pcharacter']]);
+                       return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('success', 'patient registered');
+                } catch (\Exception $e) {
+                    //throw $th;
+                    session()->setFlashdata('validation', $e->getMessage());
+                }
+            }
         }
 
         return view('Patient/register', $data);
@@ -49,6 +61,7 @@ class PatientController extends BaseController
         helper('form');
         $user_model = new UserModel;
         $patientFileModel = new PatientsFileModel;
+        $patientModel = new PatientModel;
         $consultationModel = new ConsultationModel;
         $clinicModel = new ClinicModel;
 
@@ -92,7 +105,7 @@ class PatientController extends BaseController
                 try {
                     $patientFileModel->save($file_details);
                     $consultationModel->save($consultation);
-                    return redirect()->to('/patient/search/')->with('success', 'Patient Sent to consultation');
+                    return redirect()->to('/patient/search/')->with('success', 'Patient Sent to Doctor');
                 } catch (\Exception $e) {
                    return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('errors', $e->getMessage());
                 }
@@ -102,6 +115,7 @@ class PatientController extends BaseController
         $data['doctors'] = $user_model->get_users_doctor();
         $data['clinics'] = $clinicModel->find();
         $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();
+        $data['patient_profile'] = $patientModel->where('id', $patient_id)->first();
         
         return view('patient/send_to_consultation', $data);
     }

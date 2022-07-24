@@ -1,17 +1,17 @@
 <?= $this->extend('Dashboard/main'); ?>
 <?= $this->section('data'); ?>
    <?php $PatientPanel = '\App\Libraries\PatientPanel';  ?>
-   <h2 class="data-heading mb-3">Patient</h2>
-
+   <?php $uri = service('uri'); ?>
+   <h2 class="data-heading mb-3"> <?php echo $uri->getSegment(2) === 'send_to_consultation' ? 'Send to Doctor' : 'Search Patient'; ?> </h2>
 
    <!-- DISPLAY SUCCESS MESSAG  -->
-<?php if(session()->get('success')): ?>
-              <div class="alert alert-success" role="alert" style="max-width: 20rem;"> 
-                 <?= session()->get('success'); ?>
-              </div>
-<?php endif; ?>
-<!-- DISPLAY SUCCESS MESSAG  -->
-<!-- ERRORS -->
+    <?php if(session()->get('success')): ?>
+        <div class="alert alert-success" role="alert" style="max-width: 20rem;"> 
+            <?= session()->get('success'); ?>
+        </div><!-- /alert -->
+    <?php endif; ?>
+ <!-- DISPLAY SUCCESS MESSAG  -->
+ <!-- ERRORS -->
  <!-- WARNING AND ERROR AREA -->
  <?php if(isset($validation) && !is_string($validation)): ?>
     
@@ -48,9 +48,8 @@
  <?php endif; ?>
    <!-- ERRORS -->
 
-
-<div class="data-layout my-2 p-3 bg-white">
-   <?= view_cell($PatientPanel.'::PatientNavigation'); ?>
+<div class="data-layout my-2 p-3 ">
    <?= $this->renderSection('patient'); ?>
-</div>
+</div><!-- /data-layout -->
+
 <?= $this->endSection(); ?>

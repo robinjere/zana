@@ -10,8 +10,8 @@
         <option value="name">Search by patient name</option>
       </select> -->
       <input type="search" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
-      <button type="submit" class="btn btn-success" type="button">Search</button>
     </div><!-- /input-group -->
+    <button type="submit" class="btn btn-rounded btn-success mt-2" type="button">SEARCH PATIENT </button>
   </div><!-- /search_box -->
 
 <!-- genereate file no when register a patient  -->
@@ -30,7 +30,7 @@
     // print_r($patient_info);
    ?>
 
-    <div class="patient_search">
+    <div class="patient_search bg-white">
       <div class="detail">
         <h4>Available patient | Info </h4>
         <hr/>
