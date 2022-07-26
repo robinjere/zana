@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2022 at 06:04 AM
+-- Generation Time: Jul 26, 2022 at 05:48 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -44,7 +44,12 @@ CREATE TABLE `assigneddiagnoses` (
 INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `doctor`, `file_id`, `created_at`, `updated_at`) VALUES
 (4, 245, 'final', 31, 9, '2022-06-30 04:52:31', '2022-06-30 04:52:31'),
 (6, 262, 'working', 31, 9, '2022-06-30 05:50:20', '2022-06-30 05:50:20'),
-(7, 7, 'working', 31, 12, '2022-07-15 20:48:09', '2022-07-15 20:48:09');
+(7, 7, 'working', 31, 12, '2022-07-15 20:48:09', '2022-07-15 20:48:09'),
+(11, 86, 'final', 31, 10, '2022-07-17 04:37:50', '2022-07-17 04:37:50'),
+(12, 135, 'final', 31, 10, '2022-07-17 05:50:28', '2022-07-17 05:50:28'),
+(13, 399, 'working', 31, 10, '2022-07-17 05:52:18', '2022-07-17 05:52:18'),
+(16, 8, 'working', 31, 10, '2022-07-17 05:58:21', '2022-07-17 05:58:21'),
+(17, 7, 'final', 31, 9, '2022-07-24 16:23:39', '2022-07-24 16:23:39');
 
 -- --------------------------------------------------------
 
@@ -77,7 +82,7 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-06-27 04:40:50'),
 (5, '1x2', 2, '6', 0, 1, 'inisianewfr', 10, 9, 31, 0, '2022-06-30 17:57:12', '2022-06-30 17:57:12'),
 (6, '1x2', 1, '1x2', 4, 2, 'new assigned drug', 12, 9, 31, 0, '2022-07-01 04:58:35', '2022-07-01 04:58:35'),
-(7, '', 1, '', 0, 0, '', 12, 10, 31, 0, '2022-07-16 06:34:26', '2022-07-16 06:34:26');
+(8, '1x2', 1, 'Topical', 1, 2, 'follow instruction', 11, 10, 31, 0, '2022-07-17 15:01:07', '2022-07-17 15:01:07');
 
 -- --------------------------------------------------------
 
@@ -104,7 +109,9 @@ CREATE TABLE `assigned_labtests` (
 INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `file_id`, `memo`, `price`, `confirmed_by`, `doctor`, `created_at`, `updated_at`) VALUES
 (7, 2, 9, '', 4000, 0, 31, '2022-06-30 04:00:12', '2022-06-30 04:00:12'),
 (8, 1, 9, '', 3000, 0, 31, '2022-06-30 04:12:11', '2022-06-30 04:12:11'),
-(10, 4, 12, '', 7000, 0, 31, '2022-07-15 20:48:45', '2022-07-15 20:48:45');
+(10, 4, 12, '', 7000, 0, 31, '2022-07-15 20:48:45', '2022-07-15 20:48:45'),
+(11, 4, 10, '', 7000, 0, 31, '2022-07-17 14:41:06', '2022-07-17 14:41:06'),
+(12, 1, 9, '', 3000, 0, 31, '2022-07-24 17:32:03', '2022-07-24 17:32:03');
 
 -- --------------------------------------------------------
 
@@ -157,8 +164,8 @@ CREATE TABLE `clinicalnotes` (
 
 INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `updated_at`) VALUES
 (56, 12, 'seeen the pt from OPD \nthe Pt have complein  of hert pain\n', 31, '2022-07-15 20:47:22', '2022-07-15 20:47:22'),
-(57, 10, 'test stomach', 31, '2022-07-16 06:22:28', '2022-07-16 06:22:28'),
-(58, 10, 'check what kind of food he has eaten', 31, '2022-07-16 06:22:49', '2022-07-16 06:23:12');
+(58, 10, 'check what kind of food he has eaten', 31, '2022-07-16 06:22:49', '2022-07-16 06:23:12'),
+(59, 9, 'dhec', 31, '2022-07-24 18:11:23', '2022-07-24 18:11:23');
 
 -- --------------------------------------------------------
 
@@ -239,7 +246,9 @@ INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `
 (7, 8, 31, 'NHIF', 5000, 30, 0, 0, '2022-06-16 21:17:45', '2022-06-16 21:17:45'),
 (8, 9, 31, 'CASH', 5000, 30, 32, 31, '2022-06-16 21:21:07', '2022-06-16 22:16:19'),
 (10, 10, 45, 'CASH', 9000, 30, 66, 31, '2022-07-14 06:56:41', '2022-07-14 19:43:48'),
-(11, 12, 45, 'CASH', 9000, 30, 66, 31, '2022-07-15 20:30:27', '2022-07-15 20:41:18');
+(11, 12, 45, 'CASH', 9000, 30, 66, 31, '2022-07-15 20:30:27', '2022-07-15 20:41:18'),
+(12, 13, 45, 'CASH', 9000, 30, 0, 0, '2022-07-18 18:07:51', '2022-07-18 18:07:51'),
+(13, 15, 31, 'CASH', 6000, 30, 0, 0, '2022-07-24 12:48:08', '2022-07-24 12:48:08');
 
 -- --------------------------------------------------------
 
@@ -14663,6 +14672,7 @@ CREATE TABLE `patients` (
   `next_kin_name` varchar(70) NOT NULL,
   `next_kin_relationship` varchar(80) NOT NULL,
   `next_kin_phone` int(15) NOT NULL,
+  `pcharacter` varchar(60) NOT NULL COMMENT 'inpatient,outpatient,outsider\r\n',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) NOT NULL
@@ -14672,12 +14682,14 @@ CREATE TABLE `patients` (
 -- Dumping data for table `patients`
 --
 
-INSERT INTO `patients` (`id`, `first_name`, `middle_name`, `sir_name`, `birth_date`, `gender`, `address`, `phone_no`, `next_kin_name`, `next_kin_relationship`, `next_kin_phone`, `created_at`, `updated_at`, `user_id`) VALUES
-(17, 'Jose', 'teminiz', 'joseph', '2021-08-03', 'Male', 'Tabata, Dar es salaam', 8662334, 'joseph', 'relative', 8832666, '2022-06-16 20:08:27', '2022-06-16 20:08:27', 30),
-(18, 'andrew', 'mosh', 'moshi', '2021-09-30', 'Male', 'arusha', 8662334, 'Jame', 'relative', 8832666, '2022-06-16 21:20:44', '2022-06-16 21:20:44', 30),
-(19, 'ibr', 'ib-last', 'IbrahimSir', '2022-06-28', 'Male', 'kino', 8662334, 'ibrahim next', 'jame next kin relation', 8832666, '2022-06-30 17:15:30', '2022-06-30 17:15:30', 30),
-(20, 'jame', 'john', 'dass', '2022-06-30', 'Male', 'kinondoni shamba', 8662334, 'joseph', 'inextkin father', 8832666, '2022-06-30 17:29:48', '2022-06-30 17:29:48', 30),
-(21, 'zakaria', 'zaka-middle', 'zaka-sir', '2022-07-13', 'Male', 'Tegeta,', 8662334, 'happy', 'happy', 8832666, '2022-07-15 20:25:08', '2022-07-15 20:25:08', 30);
+INSERT INTO `patients` (`id`, `first_name`, `middle_name`, `sir_name`, `birth_date`, `gender`, `address`, `phone_no`, `next_kin_name`, `next_kin_relationship`, `next_kin_phone`, `pcharacter`, `created_at`, `updated_at`, `user_id`) VALUES
+(17, 'Jose', 'teminiz', 'joseph', '2021-08-03', 'Male', 'Tabata, Dar es salaam', 8662334, 'joseph', 'relative', 8832666, '', '2022-06-16 20:08:27', '2022-06-16 20:08:27', 30),
+(18, 'andrew', 'mosh', 'moshi', '2021-09-30', 'Male', 'arusha', 8662334, 'Jame', 'relative', 8832666, '', '2022-06-16 21:20:44', '2022-06-16 21:20:44', 30),
+(19, 'ibr', 'ib-last', 'IbrahimSir', '2022-06-28', 'Male', 'kino', 8662334, 'ibrahim next', 'jame next kin relation', 8832666, '', '2022-06-30 17:15:30', '2022-06-30 17:15:30', 30),
+(20, 'jame', 'john', 'dass', '2022-06-30', 'Male', 'kinondoni shamba', 8662334, 'joseph', 'inextkin father', 8832666, '', '2022-06-30 17:29:48', '2022-06-30 17:29:48', 30),
+(21, 'zakaria', 'zaka-middle', 'zaka-sir', '2022-07-13', 'Male', 'Tegeta,', 8662334, 'happy', 'happy', 8832666, '', '2022-07-15 20:25:08', '2022-07-15 20:25:08', 30),
+(22, 'haji', 'haji_middle', 'haji_sir', '2022-07-18', 'Male', 'Tabata, Dar es salaam', 8662334, 'haj', 'father', 8832666, '', '2022-07-18 18:05:25', '2022-07-18 18:05:25', 30),
+(24, 'Joph', 'Joph_middle', 'Joph_sir', '2022-07-21', 'Male', 'kinondoni shamba', 8662334, 'Joph_nextkin', 'uncle', 8832666, 'outpatient', '2022-07-24 09:58:14', '2022-07-24 09:58:14', 30);
 
 -- --------------------------------------------------------
 
@@ -14709,7 +14721,9 @@ INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_m
 (9, 'MRNO/2022/18', 18, 0, 'CASH', '', '2022-06-21', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-16 21:20:44', '2022-06-21 22:34:27'),
 (10, 'MRNO/2022/19', 19, 3, 'CASH', '', '2022-07-15', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-30 17:15:30', '2022-07-15 07:06:53'),
 (11, 'MRNO/2022/20', 20, 0, '', '', '0000-00-00', '0000-00-00', '', 'outpatient', '2022-06-30 17:29:48', '2022-06-30 17:29:48'),
-(12, 'MRNO/2022/21', 21, 3, 'CASH', '', '2022-07-15', '0000-00-00', 'inTreatment', 'outpatient', '2022-07-15 20:25:08', '2022-07-15 20:42:04');
+(12, 'MRNO/2022/21', 21, 3, 'CASH', '', '2022-07-15', '0000-00-00', 'inTreatment', 'outpatient', '2022-07-15 20:25:08', '2022-07-15 20:42:04'),
+(13, 'MRNO/2022/22', 22, 3, 'CASH', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-07-18 18:05:25', '2022-07-18 18:07:51'),
+(15, 'MRNO/2022/24', 24, 1, 'CASH', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-07-24 09:58:14', '2022-07-24 12:48:08');
 
 -- --------------------------------------------------------
 
@@ -14785,6 +14799,52 @@ INSERT INTO `procedures` (`id`, `name`, `price`) VALUES
 (1, 'Diagnostic Laparascopy', 6000),
 (2, 'Diagnostic Hysteroscopy', 5000),
 (3, 'Intrauterine Insemination(IUI)', 9000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rad_investigation`
+--
+
+CREATE TABLE `rad_investigation` (
+  `id` int(11) NOT NULL,
+  `test_name` varchar(200) NOT NULL,
+  `price` double NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rad_investigation`
+--
+
+INSERT INTO `rad_investigation` (`id`, `test_name`, `price`, `created_at`, `updated_at`) VALUES
+(1, 'X-rays', 6000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(2, 'Ultrasound Scan', 8000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(3, 'DEXA', 9000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(4, 'MRI Scan', 10000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(5, 'Magnetic Resonance Angiography(MRA)', 3000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(6, 'Angiography', 4000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
+(7, 'CT scan', 20000, '2022-07-26 05:53:37', '2022-07-26 05:53:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rad_results`
+--
+
+CREATE TABLE `rad_results` (
+  `id` int(11) NOT NULL,
+  `rad_id` int(11) NOT NULL,
+  `result` text NOT NULL,
+  `ranges` varchar(50) NOT NULL,
+  `unit` varchar(40) NOT NULL,
+  `level` varchar(50) NOT NULL,
+  `attachment` varchar(70) NOT NULL,
+  `paid` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -15196,6 +15256,19 @@ ALTER TABLE `procedures`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `rad_investigation`
+--
+ALTER TABLE `rad_investigation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rad_results`
+--
+ALTER TABLE `rad_results`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rad_id` (`rad_id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -15240,19 +15313,19 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `assigneddiagnoses`
 --
 ALTER TABLE `assigneddiagnoses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
 --
 ALTER TABLE `assigned_labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `assigned_procedures`
@@ -15264,7 +15337,7 @@ ALTER TABLE `assigned_procedures`
 -- AUTO_INCREMENT for table `clinicalnotes`
 --
 ALTER TABLE `clinicalnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `clinics`
@@ -15282,7 +15355,7 @@ ALTER TABLE `clinic_doctors`
 -- AUTO_INCREMENT for table `consultation`
 --
 ALTER TABLE `consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `consultation_fee`
@@ -15318,13 +15391,13 @@ ALTER TABLE `labtests`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `patients_file`
 --
 ALTER TABLE `patients_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `permission`
@@ -15337,6 +15410,18 @@ ALTER TABLE `permission`
 --
 ALTER TABLE `procedures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `rad_investigation`
+--
+ALTER TABLE `rad_investigation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `rad_results`
+--
+ALTER TABLE `rad_results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`

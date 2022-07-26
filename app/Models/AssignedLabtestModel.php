@@ -69,7 +69,7 @@ class AssignedLabtestModel extends Model
     
     public function status(){
         return function($row){
-           return '<span class="badge badge-sm bg-danger"> Not payed </span>';
+           return '<span class="badge badge-sm bg-danger"> Not paid </span>';
         };
     }
     public function actionButtons(){

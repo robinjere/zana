@@ -88,33 +88,41 @@
          </div><!-- /search_box -->
    </form>
 
-   <div class="working-diagnosis">
-    <span class="line1"></span>
-     <h4 class="py-4">Working diagnosis</h4>
-         <table id="table_working_diagnosis" class="table table-striped table-bordered">
-            <thead>   
-               <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Diagnoses</th>
-                  <th scope="col" >Action</th>
-               </tr>
-            </thead>
-        </table>
-    </div><!-- /procedure-table -->
+   <div class="row">
+    <div class="col">
+        <div class="working-diagnosis">
+        <span class="line1"></span>
+        <h4 class="py-4">Working diagnosis</h4>
+            <table id="table_working_diagnosis" class="table table-striped table-bordered">
+                <thead>   
+                  <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Diagnoses</th>
+                      <th scope="col" >Action</th>
+                  </tr>
+                </thead>
+            </table>
+        </div><!-- /procedure-table -->
+    </div><!-- /col -->
+    <div class="col">
+        <div class="final-diagnosis">
+        <span class="line2"></span>
+        <h4 class="py-4">Final diagnosis</h4>
+            <table id="table_final_diagnosis" class="table table-striped table-bordered">
+                <thead>   
+                  <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Diagnoses</th>
+                      <th scope="col" >Action</th>
+                  </tr>
+                </thead>
+            </table>
+        </div><!-- /procedure-table -->
+    </div><!-- /col -->
+   </div><!-- /row -->
 
-   <div class="final-diagnosis">
-    <span class="line2"></span>
-     <h4 class="py-4">Final diagnosis</h4>
-         <table id="table_final_diagnosis" class="table table-striped table-bordered">
-            <thead>   
-               <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Diagnoses</th>
-                  <th scope="col" >Action</th>
-               </tr>
-            </thead>
-        </table>
-    </div><!-- /procedure-table -->
+
+
 
 </div><!-- /diagnosis -->
 

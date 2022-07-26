@@ -509,6 +509,7 @@ html, body {
   top: 0;
   background:var(--z-lighter-gray);
   z-index: 99;
+  box-shadow: 0 2px 4px #e3e0e0;
 }
 
 .file-top-menu .button-nav > .btn{

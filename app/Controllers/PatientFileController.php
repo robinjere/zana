@@ -11,6 +11,7 @@ use App\Models\ItemModel;
 use App\Models\LabtestModel;
 use App\Models\AssignedLabtestModel;
 use App\Models\DiagnosesModel;
+use App\Models\RadInvestigationModel;
 use App\Models\AssignedDiagnosesModel;
 use monken\TablesIgniter;
 
@@ -286,6 +287,14 @@ class PatientFileController extends BaseController
         if($assignedDiagnosesModel->where('id', $this->request->getVar('id'))->delete()){
             echo json_encode(['success'=> true, 'message' => 'successful deleted']);
         }
+    }
+   }
+
+   public function ajax_searchradiology(){
+    $radInvestigationModel = new RadInvestigationModel;
+    if($this->request->getMethod() == 'post'){
+       //searchinput..
+       echo json_encode(['searchRadiology' => $radInvestigationModel->searchradiology($this->request->getVar('searchInput')) ]);
     }
    }
 
