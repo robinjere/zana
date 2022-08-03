@@ -11,7 +11,7 @@
       </select> -->
       <input type="search" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
     </div><!-- /input-group -->
-    <button type="submit" class="btn btn-rounded btn-success mt-2" type="button">SEARCH PATIENT </button>
+    <button type="submit" class="btn btn-rounded btn-success mt-3" type="button">SEARCH PATIENT </button>
   </div><!-- /search_box -->
 
 <!-- genereate file no when register a patient  -->
@@ -92,59 +92,72 @@
         ?>
 
       </div> <!-- detail -->
-      <div class="row navigation g-0">
+      <div class="row navigation g-0" style="padding: 9px;">
          <?php 
-         $SEND_TO_DOCTOR = '<div class="col"> 
-                             <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="doctor"> SEND TO DOCTOR </a> 
+         $SEND_TO_DOCTOR = '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                             <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="btn btn-primary btn-sm"> SEND TO DOCTOR </a> 
                             </div>';
 
-         $ATTEND =   '<div class="col"> 
-                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="doctor"> ATTEND </a> 
+         $ATTEND =   '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-primary btn-sm"> ATTEND </a> 
                       </div>';
 
-         $CONSULT =   '<div class="col"> 
-                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="doctor"> CONSULT </a> 
+         $CONSULT =   '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-primary btn-sm"> CONSULT </a> 
                       </div>';
+          
+                      
+                      
+        $CANCEL_CONSULTATION = '';
+        $APPROVE_PAYMENT = '';
+        $DIS_APPROVE = '';
+          
+        if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
+
+          $CANCEL_CONSULTATION = '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                                     <a href="'. base_url('consultation/cancel/'.$consultation_payment->id.'/'.$consultation_payment->file_id).'" class="btn btn-danger btn-sm">CANCEL CONSULTATION </a> 
+                                  </div>';
+  
+          $APPROVE_PAYMENT =  '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                                  <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="btn btn-primary btn-sm"> APPROVE PAYMENT </a> 
+                               </div>';
+  
+          $DIS_APPROVE =  '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+                              <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="btn btn-danger btn-sm"> DIS-APPROVE PAYMENT </a> 
+                         </div>';
+        }
+
 
       
         //  $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
         //  print_r('-----------------'.session()->get('role').'---------------');
          switch (strtolower(session()->get('role'))) {
            case 'reception':
-              echo '<div class="col"> <a href="#" class="history">EDIT PATIENT INFO</a> </div>';
+              echo '<div class="col d-flex align-items-center action-btn"> <a href="#" class="btn btn-success btn-sm">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation
              if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
               if($consultation_payment->payment_confirmed_by == 0){
-                echo '<div class="col"> 
-                        <a href="'. base_url('consultation/cancel/'.$consultation_payment->id.'/'.$consultation_payment->file_id).'" class="consultation-remove">CANCEL CONSULTATION </a> 
-                      </div>';
+                echo $CANCEL_CONSULTATION;
                }
              }elseif ($patient_info->status == '') {
               echo $SEND_TO_DOCTOR;
              }elseif ($patient_info->status == 'inTreatment') {
-              echo '<div class="col"> 
-                      <a href="#" class="consultation-remove"> ATTEND </a> 
-                    </div>';
+              echo $ATTEND;
              }elseif ($patient_info->status == 'finishTreatment') {
               echo $SEND_TO_DOCTOR;
              }
              break;
 
            case 'cashier': 
+                echo '<div class="col"> </div>';
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
                     print_r($consultation_payment);
-                    echo $consultation_payment->payment_confirmed_by == 0 ? '
-                        <div class="col"> 
-                          <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="doctor"> APPROVE PAYMENT </a> 
-                        </div>' :
-                      '<div class="col"> 
-                          <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="consultation-remove"> DIS-APPROVE PAYMENT </a> 
-                        </div>';
-
+                    echo $consultation_payment->payment_confirmed_by == 0 ? $APPROVE_PAYMENT : $DIS_APPROVE;
                   }
                break;
 
            case 'doctor': 
+                  echo '<div class="col"> </div>';
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
                     print_r($consultation_payment);
                     if( $consultation_payment->payment_confirmed_by != 0) {
@@ -154,13 +167,19 @@
                     echo $ATTEND;
                   }
 
-          //  case 'general_doctor': 
-          //   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-          //     print_r($consultation_payment);
-          //     if( $consultation_payment->payment_confirmed_by != 0 ) {
-          //       echo $CONSULT;
-          //     }
-          //   }
+                  break;
+
+           case 'lab': 
+             echo '<div class="col"> </div>';
+              // print_r($consultation_payment);
+              if(isset($consultation_payment) &&  $consultation_payment->payment_confirmed_by != 0 ){
+                // print_r($consultation_payment);
+                  echo $ATTEND;;
+              }elseif ($patient_info->status == 'inTreatment') {
+                  echo $ATTEND;;
+              }
+
+            break;
            
            default:
              # code...

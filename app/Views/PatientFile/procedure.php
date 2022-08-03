@@ -1,14 +1,63 @@
 <div id="procedure" class="procedures mt-5" x-data="proceduresData()" x-init="getProcedures()">
-   <h5>
-        <span class='icon'>
-         <svg  viewBox="0 0 24 24" fill="none">
-            <path d="M9 12H15M9 16H15M17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H12.586C12.8512 3.00006 13.1055 3.10545 13.293 3.293L18.707 8.707C18.8946 8.89449 18.9999 9.1488 19 9.414V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-         </svg>
-        </span> 
-        <span>
-          Procedures
-        </span>  
-   </h5>
+ 
+   <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5>
+           <span class='icon'>
+            <svg  viewBox="0 0 24 24" fill="none">
+               <path d="M9 12H15M9 16H15M17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H12.586C12.8512 3.00006 13.1055 3.10545 13.293 3.293L18.707 8.707C18.8946 8.89449 18.9999 9.1488 19 9.414V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+           </span> 
+           <span>
+             Procedures
+           </span>  
+      </h5>
+     
+      <?php if(session()->get('role') == 'doctor'){?>
+         <!-- Button trigger modal -->
+         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId" @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-outline-primary" x-show="showAssignBtn">Assign Procedure</button> 
+      <?php } ?>   
+
+      <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
+      
+      <!-- Modal -->
+      <div class="modal fade" id="ProcedureModalId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Assign Procedure</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">                       
+      
+                           <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
+                           <option selected> select procedure</option>
+                           <template x-for="p in availableProcedures" :key="p.id">
+                              <option :value="p.id" x-text="p.name"></option>
+                           </template>
+                           <!-- <option value="2">Two</option>
+                           <option value="3">Three</option> -->
+                           </select>
+                  
+                           <div class="mt-2">
+                              <!-- <label for="" class="form-label"></label> -->
+                              <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
+                           </div>
+
+               </div><!-- /modal-body -->
+               <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-secondary" >Close</button>
+                  <button type="button" class="btn btn-primary">Save</button> -->
+                  <button type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Submit Procedure</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- /Modal -->
+      </form><!-- /form -->
+      
+
+   </div><!-- /d-flex -->
+
 
    <!-- alert message -->
      <!-- icons -->
@@ -39,35 +88,8 @@
    <!-- alert message -->
 
    <!-- Assign Procedure -->
-   <div><!-- procedure block -->
-      <div class="d-flex justify-content-end"> <button @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-outline-primary" x-show="showAssignBtn">Assign Procedure</button> </div>
+   <div><!-- procedure block -->      
       
-      <template x-if="isAssign">
-         <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
-            <div class="d-flex justify-content-end mb-2">
-               <button type="submit" class="btn btn-outline-primary">Submit Procedure</button>
-            </div>
-             <div class="row">
-                <div class="col">
-                     <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
-                      <option selected> select procedure</option>
-                      <template x-for="p in availableProcedures" :key="p.id">
-                         <option :value="p.id" x-text="p.name"></option>
-                      </template>
-                      <!-- <option value="2">Two</option>
-                      <option value="3">Three</option> -->
-                     </select>
-                </div>
-                <div class="col">
-                   <div class="mb-3">
-                     <!-- <label for="" class="form-label"></label> -->
-                     <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
-                   </div>
-                </div>
-             </div>
-             
-         </form><!-- /form -->
-      </template>
 
       <div class="procedure-table">
          <table id="table_procedures" class="table table-striped table-bordered">
@@ -78,6 +100,7 @@
                   <th scope="col">Procedure</th>
                   <th scope="col">Procedure note</th>
                   <th scope="col">Amount</th> 
+                  <th scope="col">Status</th> 
                   <th scope="col">Doctor</th>
                   <th scope="col" >Action</th>
                   <!-- <th scope="col" >update</th> -->

@@ -1,4 +1,5 @@
 <div id="diagnosis" class="diagnosis mt-5" x-data="diagnosisData()">
+  <div class="d-flex justify-content-between align-items-center ">
    <h5>
         <span class='icon'>
            <svg  viewBox="0 0 24 24" fill="none">
@@ -9,6 +10,77 @@
           Diagnosis
         </span>  
    </h5>
+   
+   <!-- Button trigger modal -->
+   <?php if(session()->get('role') == 'doctor'){ ?>
+     <div class="d-flex justify-content-end mb-3">
+       <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DiagnosisModelId" @click="openDiagnosisBox()">Assign Diagnosis</button>
+     </div><!-- /d-flex -->
+   <?php } ?>
+   
+   <!-- Modal -->
+   <div class="modal fade" id="DiagnosisModelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Assign Diagnosis</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form x-on:submit.prevent x-cloak x-show="showDiagnosisBox">
+              <div class="mb-3">
+                    <input type="text" x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">   
+                      <div class="d-flex justify-content-center align-items-center mt-2">
+                        <div x-cloak x-show="loading" class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div><!-- /spinner-border -->
+                      </div><!-- /d-flex -->
+                    <template x-show="showSearch" x-cloak x-if="diagnosis.length">
+                      <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+                        <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                        <template x-for="d in diagnosis">
+                          <li @click="selectDiagnoses(d.id)" class="list-group-item list-group-item-action">
+                              <span class="badge bg-success badge-sm" x-text="d.diagnosis_code.toUpperCase()"></span>, 
+                              <span class="ml-2" x-text="d.diagnosis_description.toLowerCase()"></span>
+                          </li>
+                        </template>
+                      </ul><!-- /ul -->
+                    </template>
+              </div> <!-- /mb-3 -->
+
+              <div class="mb-3">
+                <!-- <label for="" class="form-label"></label> -->
+                <textarea class="form-control" x-model="diagnosis_note" id="" rows="3" placeholder="Clinical note on Diagnosis"></textarea>
+              </div>
+              
+                  <!-- <template x-if="selectedDiagnos">
+                      <div class="present_diagnosis">
+                        <button class="btn btn-danger btn-sm close-btn" @click="selectedDiagnos=''">&#9587;</button>
+                        <div classs="selectedDiagnosis p4">
+                          <span class="badge bg-success badge-sm" x-text="selectedDiagnos.diagnosis_code.toUpperCase()"></span>, 
+                          <span class="ml-2" x-text="selectedDiagnos.diagnosis_description.toUpperCase()"></span>
+                        </div>
+                        <div class="d-flex  align-items-center mt-3">
+                          <button type="button" class="btn btn-sm btn-primary"  @click="assignDiagnoses('working')">working Diagnoses</button>
+                          <span> - </span> <span class="badge bg-primary"> OR </span> <span> - </span> 
+                          <button type="button" class="btn btn-sm btn-success"  @click="assignDiagnoses('final')">final Diagnoses</button>
+                        </div>
+                      </div>
+                  </template> -->
+              
+          </form><!-- /form -->
+        </div><!-- /modal-body -->
+        <div class="modal-footer d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" @click="assignDiagnoses('working')">working Diagnoses</button>
+          <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal" @click="assignDiagnoses('final')">final Diagnoses</button>
+        </div>
+      </div>
+    </div><!-- /modal-dialog -->
+   </div><!-- /modal -->
+  <!-- /Modal -->
+
+  </div><!-- /d-flex -->
+
 
    <!-- alert message -->
 
@@ -40,56 +112,12 @@
 
    <!-- alert message -->
 
-   <div class="d-flex justify-content-end mb-3">
-     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showAssignDiagnosisBtn" @click="openDiagnosisBox()">Assign Diagnosis</button>
-   </div>
+  
 
-   <form x-on:submit.prevent x-cloak x-show="showDiagnosisBox">
-     <div class="mb-3">
-
-              <div class="search_box">
-                <input type="text" x-show="showSearch" x-cloak  x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">   
-                <div x-cloak x-show="loading" class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                 </div><!-- /spinner-border -->
-
-                <template x-show="showSearch" x-cloak x-if="diagnosis.length">
-                   <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
-                     <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-                     <template x-for="d in diagnosis">
-                       <li @click="selectDiagnoses(d.id)" class="list-group-item list-group-item-action">
-                           <span class="badge bg-success badge-sm" x-text="d.diagnosis_code.toUpperCase()"></span>, 
-                           <span class="ml-2" x-text="d.diagnosis_description.toLowerCase()"></span>
-                       </li>
-                     </template>
-                   </ul><!-- /ul -->
-                 </template>
-              </div> <!-- /search_box -->
-               <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
-           
-         </div> <!-- /mb-3 -->
-         <div class="search_box">
-          <div class="w-100">
-            <template x-if="selectedDiagnos">
-                <div class="present_diagnosis">
-                  <button class="btn btn-danger btn-sm close-btn" @click="selectedDiagnos=''">&#9587;</button>
-                  <div classs="selectedDiagnosis p4">
-                     <span class="badge bg-success badge-sm" x-text="selectedDiagnos.diagnosis_code.toUpperCase()"></span>, 
-                     <span class="ml-2" x-text="selectedDiagnos.diagnosis_description.toUpperCase()"></span>
-                  </div>
-                  <div class="d-flex  align-items-center mt-3">
-                     <button type="button" class="btn btn-sm btn-primary"  @click="assignDiagnoses('working')">Assign to working Diagnoses</button>
-                     <span> - </span> <span class="badge bg-primary"> OR </span> <span> - </span> 
-                     <button type="button" class="btn btn-sm btn-success"  @click="assignDiagnoses('final')">Assign to final Diagnoses</button>
-                  </div>
-                </div>
-             </template>
-          </div><!-- /w-100 -->
-         </div><!-- /search_box -->
-   </form>
+   
 
    <div class="row">
-    <div class="col">
+    <div class="col-6">
         <div class="working-diagnosis">
         <span class="line1"></span>
         <h4 class="py-4">Working diagnosis</h4>
@@ -98,13 +126,16 @@
                   <tr>
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
-                      <th scope="col" >Action</th>
+                      <th scope="col">Diagnoses Note </th>
+                      <?php if(session()->get('role') == 'doctor'){?>
+                        <th scope="col" >Action</th>
+                      <?php } ?>
                   </tr>
                 </thead>
             </table>
-        </div><!-- /procedure-table -->
-    </div><!-- /col -->
-    <div class="col">
+        </div><!-- /working-diagnosis -->
+    </div><!-- /col-6 -->
+    <div class="col-6">
         <div class="final-diagnosis">
         <span class="line2"></span>
         <h4 class="py-4">Final diagnosis</h4>
@@ -113,12 +144,15 @@
                   <tr>
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
-                      <th scope="col" >Action</th>
+                      <th scope="col">Diagnoses Note </th>
+                      <?php if(session()->get('role') == 'doctor'){?>
+                        <th scope="col" >Action</th>
+                      <?php } ?>
                   </tr>
                 </thead>
             </table>
-        </div><!-- /procedure-table -->
-    </div><!-- /col -->
+        </div><!-- /final-diagnosis -->
+    </div><!-- /col-6 -->
    </div><!-- /row -->
 
 
@@ -140,6 +174,7 @@
       showSearch: true,
       diagnosis: [],
       selectedDiagnos: '',
+      diagnosis_note: '',
       openDiagnosisBox(){
           this.showDiagnosisBox = true
           this.showAssignDiagnosisBtn = false
@@ -154,6 +189,7 @@
         this.showSearch = false
         this.selectedDiagnos = this.diagnosis.filter(_d => Number(_d.id) == Number(d_id))[0]
         this.diagnosis = []
+        this.searchInput = this.selectedDiagnos.diagnosis_description.toUpperCase()
       },
       searchDiagnosis(){
         if(this.searchInput !== ''){
@@ -189,6 +225,7 @@
                   file_id: <?= $patient_file['id'] ?>,
                   diagnoses_id: Number(this.selectedDiagnos.id),
                   diagnoses_type:  diagnoses_type,
+                  diagnoses_note: this.diagnosis_note,
                   doctor: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {

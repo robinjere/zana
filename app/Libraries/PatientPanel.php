@@ -29,8 +29,14 @@ class PatientPanel{
    public function Labtest(array $patientFile){
        return view('patientfile/labtest', ['patient_file'=> $patientFile]);
    }
+   public function Radiology(array $patientFile){
+       return view('patientfile/radiology', ['patient_file'=> $patientFile]);
+   }
    public function Diagnoses(array $patientFile){
        return view('patientfile/diagnosis', ['patient_file'=> $patientFile]);
+   }
+   public function GeneralExamination(array $patientFile){
+       return view('patientfile/generalExamination', ['patient_file'=> $patientFile]);
    }
    
 }

@@ -1,4 +1,5 @@
 <div id="medicine" class="medicine mt-5" x-data="medicineData()">
+  <div class="d-flex justify-content-between align-items-center mb-2">
    <h5>
         <span class='icon'>
         <svg viewBox="0 0 28 22" fill="none" >
@@ -10,69 +11,44 @@
         </span>  
    </h5>
 
-   <!-- alert message -->
+   <!-- Button trigger modal -->
+   <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true">Search Drug</button>
+   
+   <!-- Modal -->
+   <div class="modal fade" id="MedicineModelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 80%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Assign Drug</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="">
+               <div class="d-flex justify-content-center align-items-center">
+                 <input type="text" x-model="searchInput" @keyup="searchDrug()" style="max-width: 40%;" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
+               </div><!-- /d-flex -->
+              
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <div x-cloak x-show="loading" class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                </div><!-- /spinner-border -->
+              </div><!-- /d-flex -->
 
-     <!-- icons -->
-     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-      </symbol>
-      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
-         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-      </symbol>
-      <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-      </symbol>
-      </svg>
-     <!-- icons -->
-   <template x-if="success== true">
-      <div x-cloak x-show="success== true" class="alert alert-success d-flex align-items-center" role="alert">
-         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-            <div x-text="message"></div>
-      </div>
-   </template>
-   <template x-if="(success == false ) && message != '' ">
-   <div x-cloak x-show="(success == false ) && message != '' " class="alert alert-danger d-flex align-items-center" role="alert">
-      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-      <div x-text="message"></div>
-   </div>
-   </template>
+              <div class="d-flex justify-content-center align-items-center">
+                <template x-if="searchItems.length">
+                  <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-width:40%; max-height: 170px;">
+                    <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                    <template x-for="drug in searchItems">
+                      <li @click="selectDrug(drug.id)" class="list-group-item list-group-item-action" x-text="drug.name.toUpperCase()">Active item</li>
+                    </template>
+                  </ul><!-- /ul -->
+                </template>
+              </div><!-- /d-flex -->
 
-   <!-- alert message -->
 
-   <div class="d-flex justify-content-end mb-3">
-     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showSearchBtn" @click="showSearchInput=true">Search Drug</button>
-     <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign Drug</button>
-   </div>
-   <div>
-     <div>
-         <div class="mb-3">
-           <!-- <label for="" class="form-label"></label> -->
-           <div class="search_box">
-             <input type="text" x-model="searchInput" @keyup="searchDrug()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
-             
-             <div x-cloak x-show="loading" class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
-              </div><!-- /spinner-border -->
+          </div> <!-- /mb-3 -->
 
-             <template x-if="searchItems.length">
-               <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-height: 170px;">
-                 <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-                 <template x-for="drug in searchItems">
-                   <li @click="selectDrug(drug.id)" class="list-group-item list-group-item-action" x-text="drug.name.toUpperCase()">Active item</li>
-                 </template>
-  
-                 <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
-                 <li href="#" class="list-group-item list-group-item-action">Item</li>
-                 <li href="#" class="list-group-item list-group-item-action">Item</li>
-                 <li href="#" class="list-group-item list-group-item-action">Item</li> -->
-                 <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
-               </ul><!-- /ul -->
-             </template>
-           </div><!-- /search_box -->
-           <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
-         </div> <!-- /mb-3 -->
-         <form  x-on:submit.prevent x-cloak x-show="showAssignArea">
+          <form  x-on:submit.prevent x-cloak x-show="showAssignArea">
            <div class="row">
            <div class="col">
                <label for="unit" class="form-label">Unit</label>
@@ -121,15 +97,66 @@
            </div> <!-- /row -->
            <div class="row">
             <div class="col">
-              <div class="mb-3">
+              
                 <label for="instruction" class="form-label">Instruction</label>
                 <textarea name="" x-model="instruction" id="instruction" class="form-control"> instrustion</textarea>
-              </div>
+              
             </div>
            </div><!-- /rpw -->
          </form>
-     </div>
+          
+        </div><!-- /modal-body -->
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" @click="assignDrug()">Assign Drug</button>
+          <!-- <button type="button" class="btn btn-primary">Save</button> -->
+        </div>
+      </div>
+    </div>
    </div>
+    <!-- Modal -->
+
+  </div><!-- /d-flex -->
+   
+
+   <!-- alert message -->
+
+     <!-- icons -->
+     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+      </symbol>
+      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </symbol>
+      <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+      </symbol>
+      </svg>
+     <!-- icons -->
+   <template x-if="success== true">
+      <div x-cloak x-show="success== true" class="alert alert-success d-flex align-items-center" role="alert">
+         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div x-text="message"></div>
+      </div>
+   </template>
+   <template x-if="(success == false ) && message != '' ">
+   <div x-cloak x-show="(success == false ) && message != '' " class="alert alert-danger d-flex align-items-center" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+      <div x-text="message"></div>
+   </div>
+   </template>
+
+   <!-- alert message -->
+
+   <!-- <div class="d-flex justify-content-end mb-3">
+    
+   </div> -->
+   <!-- <div>
+     <div>
+
+     </div>
+   </div> -->
 
    <div class="medicine-table">
          <table id="table_medicine" class="table table-striped table-bordered">
@@ -143,7 +170,7 @@
                   <th scope="col">Days</th>
                   <th scope="col">Qty</th>
                   <th scope="col">Instruction</th>
-                  <th scope="col">Payed</th>
+                  <th scope="col">Paid</th>
                   <th scope="col">Price/Qty</th>
                   <th scope="col" >Action</th>
                </tr>
@@ -170,7 +197,7 @@
       unit: 2,
       dosage: '',
       frequency: '',
-      route: '',
+      route: 'IV',
       days: 0,
       qty: 0,
       instruction: '',

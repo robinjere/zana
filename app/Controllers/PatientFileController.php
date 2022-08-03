@@ -12,6 +12,7 @@ use App\Models\LabtestModel;
 use App\Models\AssignedLabtestModel;
 use App\Models\DiagnosesModel;
 use App\Models\RadInvestigationModel;
+use App\Models\RadResult;
 use App\Models\AssignedDiagnosesModel;
 use monken\TablesIgniter;
 
@@ -48,7 +49,9 @@ class PatientFileController extends BaseController
 
     protected function patient_file(Int $file_id){
         $patientsFileModel = new PatientsFileModel;
+        
         $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
+        $data['patient_file'] = $patientsFileModel->patientFile($file_id);
         return view('patientfile/file', $data);
     }
 
@@ -124,8 +127,8 @@ class PatientFileController extends BaseController
            $data_table->setTable($assignedProceduresModel->getAssignedProcedures($file_id, $start_date, $end_date))
                       ->setDefaultOrder('id', 'DESC')
                     //   ->setSearch(['name'])
-                      ->setOrder(['created_at', 'name', 'procedure_note', 'amount', 'doctor'])
-                      ->setOutput([$assignedProceduresModel->procedureDateFormat(), 'name', 'procedure_note', $assignedProceduresModel->formatAmount(), $assignedProceduresModel->procedureDoctor(), $assignedProceduresModel->actionButtons()]);
+                      ->setOrder(['created_at', 'name', 'procedure_note', 'amount', 'status', 'doctor'])
+                      ->setOutput([$assignedProceduresModel->procedureDateFormat(), 'name', 'procedure_note', $assignedProceduresModel->formatAmount(), $assignedProceduresModel->status(), $assignedProceduresModel->procedureDoctor(), $assignedProceduresModel->actionButtons()]);
    
            return $data_table->getDatatable();
 
@@ -216,8 +219,8 @@ class PatientFileController extends BaseController
         $data_table->setTable($assignedLabtestModel->getAssignedLabtest($file_id, $start_date, $end_date))
                    ->setDefaultOrder('id', 'DESC')
                  //   ->setSearch(['name'])
-                   ->setOrder(['updated_at', 'name', 'memo','price'])
-                   ->setOutput([$assignedLabtestModel->labtestDateFormat(), 'name', 'memo', $assignedLabtestModel->formatPrice(), $assignedLabtestModel->status(), $assignedLabtestModel->actionButtons()]);
+                   ->setOrder(['updated_at', 'name','price'])
+                   ->setOutput([$assignedLabtestModel->labtestDateFormat(), 'name', $assignedLabtestModel->formatPrice(), $assignedLabtestModel->status(), $assignedLabtestModel->actionButtons()]);
 
         return $data_table->getDatatable();
        }
@@ -246,7 +249,7 @@ class PatientFileController extends BaseController
         if($assignedDiagnosesModel->save($this->request->getVar())){
             echo json_encode(['success' => true, 'message' => 'Successful diagnose assigned!']);
         }else{
-            echo json_encode(['success' => fales, 'message' => 'Failed to assign diagnose!']);
+            echo json_encode(['success' => false, 'message' => 'Failed to assign diagnose!']);
         }
     }
    }
@@ -275,7 +278,7 @@ class PatientFileController extends BaseController
                 ->setDefaultOrder('id', 'DESC')
               //   ->setSearch(['name'])
                 ->setOrder(['updated_at'])
-                ->setOutput([$assignedDiagnosesModel->diagnosesDateFormat(), $assignedDiagnosesModel->diagnoses(), $assignedDiagnosesModel->actionButtons()]);
+                ->setOutput([$assignedDiagnosesModel->diagnosesDateFormat(), $assignedDiagnosesModel->diagnoses(), 'diagnoses_note', $assignedDiagnosesModel->actionButtons()]);
 
      return $data_table->getDatatable();
     }
@@ -295,6 +298,95 @@ class PatientFileController extends BaseController
     if($this->request->getMethod() == 'post'){
        //searchinput..
        echo json_encode(['searchRadiology' => $radInvestigationModel->searchradiology($this->request->getVar('searchInput')) ]);
+    }
+   }
+
+   public function ajax_assignRadiology(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+       if($radResultModel->save([
+            'rad_id' => $this->request->getVar('rad_id'), 
+            'file_id' => $this->request->getVar('file_id'), 
+            'doctor' => $this->request->getVar('doctor')
+        ])){
+            echo json_encode(['success'=> true, 'message' => 'successful radiology assigned!']);
+        }else{
+           echo json_encode(['success'=> false, 'message' => 'failed to assign radiology!']);
+       }
+    }
+   }
+
+   public function ajax_assignedRadiology(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+   
+        $data_table = new TablesIgniter();
+        $data_table->setTable($radResultModel->getAssignedResult($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['updated_at'])
+                   ->setOutput([$radResultModel->radiologyDateFormat(), 'test_name', $radResultModel->formatPrice(), $radResultModel->status(), $radResultModel->actionButtons()]);
+   
+        return $data_table->getDatatable();
+       }
+   }
+
+   public function ajax_labtestResults(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+   
+        $data_table = new TablesIgniter();
+        $data_table->setTable($assignedLabtestModel->getLabtestResult($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['updated_at'])
+                   ->setOutput(['name', 'result', 'ranges', 'unit', 'level', 'attachment',$assignedLabtestModel->labtestDateFormat(), $assignedLabtestModel->updateLabtestResult()]);
+   
+        return $data_table->getDatatable();
+       }
+   }
+
+   public function ajax_getLabtestResult(){
+    $labtestResult = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+       $labtest_id = $this->request->getVar('labtest_id');
+       $result = $labtestResult->where('labtest_id', $labtest_id)->first();
+       echo json_encode(['result' => $result ]);
+    }
+   }
+
+   public function ajax_radiologyResults(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+   
+        $data_table = new TablesIgniter();
+        $data_table->setTable($radResultModel->getRadiologyResults($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['updated_at'])
+                   ->setOutput(['test_name', 'result', 'ranges', 'unit', 'level', 'attachment',$radResultModel->radiologyDateFormat(), $radResultModel->updateRadResult()]);
+   
+        return $data_table->getDatatable();
+       }
+   }
+
+   public function ajax_deleteAssignedRadiology(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        if($radResultModel->where('id', $this->request->getVar('assignedRadiology'))->delete()){
+            echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'failed to delete assigned radiology!']);
+        }
     }
    }
 

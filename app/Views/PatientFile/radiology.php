@@ -1,16 +1,107 @@
-<div id="laboratory-test" class="labtest mt-5" x-data="radiologyData()">
-   <h5>
-        <span class='icon'>
-           <svg viewBox="0 0 30 26" fill="none">
-             <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-           </svg>
-        </span> 
-        <span>
-          Radiology
-        </span>  
-   </h5>
-    <!-- alert message -->
+<div id="radiology" class="labtest mt-5" x-data="radiologyData()">
+   <div class="d-flex justify-content-between align-items-center">
+      <h5>
+           <span class='icon'>
+              <svg viewBox="0 0 30 26" fill="none">
+                <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+           </span> 
+           <span>
+             Radiology
+           </span>  
+      </h5>
 
+       <div class="d-flex justify-content-end mb-3">
+         <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
+         <!-- bootstrap5 Model -->
+               <!-- Button trigger modal -->
+               <button type="button" onclick="radiologyResults()" class="btn btn-outline-primary" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#radiologyResults">
+                  View Result
+               </button>
+               <?php if(session()->get('role') == 'doctor'){ ?>
+                  <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#radiologyId">
+                     Assign Radiology
+                  </button>
+               <?php } ?>
+
+               <!-- Modal -->
+               <div class="modal fade" id="radiologyId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title">Assign Radiology </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <input type="text" x-model="searchInput" @keyup="searchRadiology()" class="form-control" name="" id="" aria-describedby="helpId" placeholder="Search Radiology">
+                     
+                        <div class="d-flex justify-content-center align-items-center">
+                           <div x-cloak x-show="loading" class="mt-2 spinner-border" role="status">
+                                 <span class="visually-hidden">Loading...</span>
+                           </div><!-- /spinner-border -->
+                        </div> <!-- /d-flex -->
+         
+                        <template x-if="radiology.length">
+                           <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+                              <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                              <template x-for="rad in radiology">
+                                 <li @click="selectRadiology(rad.id)" data-bs-dismiss="modal" class="list-group-item list-group-item-action" x-text="rad.test_name.toUpperCase()"> </li>
+                              </template>          
+                           </ul><!-- /ul -->
+                        </template>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <!-- <button type="button" class="btn btn-primary">Save</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- End bootstrap5 Model -->
+               
+               <!-- Modal -->
+               <div class="modal fade" id="radiologyResults" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                  <div class="modal-dialog" style="max-width: 82%;" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title">Patient Result</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <div class="labtest-table">
+                              <table id="table_radiologyResult" class="table table-striped table-bordered">
+                                       <thead>   
+                                          <tr>
+                                             <th scope="col">Test name</th>
+                                             <th scope="col">Result</th>
+                                             <th scope="col">Ranges</th> 
+                                             <th scope="col">Unit</th>
+                                             <th scope="col">Level</th>
+                                             <th scope="col">Attachment</th>
+                                             <th scope="col">Ordered on</th>
+                                             <?php if(session()->get('role')== 'lab'){?>
+                                                <th scope="col" >Action</th>
+                                             <?php } ?>
+                                          </tr>
+                                       </thead>
+                                 </table>
+                              </div><!-- /procedure-table -->
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <!-- <button type="button" class="btn btn-primary">Save</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </div><!-- modal -->
+               <!-- End Modal -->
+               
+
+
+         </div><!-- /d-flex -->
+   </div> <!-- d-flex -->
+
+    <!-- alert message -->
      <!-- icons -->
      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -39,47 +130,15 @@
 
    <!-- alert message -->
 
-   <div class="d-flex justify-content-end mb-3">
-     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showSearchBtn" @click="showSearchInput=true">Assign Radiology</button>
-     <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
-   </div>
-
-   <div>
-       <div class="mb-3">
-           <!-- <label for="" class="form-label"></label> -->
-           <div class="search_box">
-              <input type="text" x-model="searchInput" @keyup="searchRadiology()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
-                 
-              <div x-cloak x-show="loading" class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
-              </div><!-- /spinner-border -->
-
-              <template x-if="labtests.length">
-                <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
-                  <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-                  <template x-for="test in labtests">
-                    <li @click="selectLabTest(test.id)" class="list-group-item list-group-item-action" x-text="test.name.toUpperCase()">Active item</li>
-                  </template>
    
-                  <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li> -->
-                  <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
-                </ul><!-- /ul -->
-              </template>
-           </div> <!-- /search_box -->
-           <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
-        </div> <!-- /mb-3 -->
-   </div>
 
    <div class="labtest-table">
-         <table id="table_labtest" class="table table-striped table-bordered">
+         <table id="table_radiology" class="table table-striped table-bordered">
             <thead>   
                <tr>
                   <th scope="col">Date</th>
                   <th scope="col">Test name</th>
-                  <th scope="col">Doctor Report</th>
+                  <!-- <th scope="col">Doctor Report</th> -->
                   <th scope="col">Price</th> 
                   <th scope="col">Status</th>
                   <th scope="col" >Action</th>
@@ -88,13 +147,13 @@
         </table>
     </div><!-- /procedure-table -->
 
-
 </div> <!-- /labtest -->
+
 
 <?= $this->section('script') ?>
 <script>
 
-  function ladiologyData(){
+  function radiologyData(){
       return {
          loading: false,
          success: false,
@@ -102,7 +161,7 @@
          showSearchBtn: true,
          showAssignArea: false,
          searchInput: '',
-         showSearchInput: false,
+         showSearchInput: true,
          searchRadiology(){
 
           if(this.searchInput !== ''){
@@ -120,16 +179,18 @@
               }).then(res => res.json()).then(data => {
                 this.radiology = data.searchRadiology
                 this.loading = false
+               //  console.log('from server:', data)
+               //  console.log('this radiology:', this.radiology)
              })
             }else{
-            this.labtests = []
+            this.radiology = []
            }
          },
          radiology: [],
          selected: '',
-         selectLabTest(selected){
-            this.selected = this.labtests.filter(lab => Number(lab.id) == Number(selected))[0]
-            fetch('<?= base_url('patientFileController/ajax_assignlabtest') ?>',{
+         selectRadiology(selected){
+            this.selected = this.radiology.filter(rad => Number(rad.id) == Number(selected))[0]
+            fetch('<?= base_url('patientFileController/ajax_assignRadiology') ?>',{
                 method: 'post',
                 headers: {
                 Accept: 'application/json',
@@ -137,36 +198,34 @@
                 'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: JSON.stringify({
-                   labtest_id : selected,
+                   rad_id : selected,
                    file_id: <?= $patient_file['id'] ?>,
-                   price: this.selected.price,
                    doctor: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {
                        if(data.success){
-                          labTestTable()
+                        radiologyTable()
                        }
                        this.success = data.success
                        this.message = data.message
                        this.labtests = [];
                        this.showSearchInput = false
                     //    console.log('assignlabtest', data)
-                   
              })
          },
       }
   }
 
   
-  function labTestTable(){
+  function radiologyTable(){
       $(document).ready(function(){
-        $('#table_labtest').DataTable({
+        $('#table_radiology').DataTable({
           "order": [],
           "destroy": true,   
           "searching": false,
           "serverSide": true,
           "ajax": {
-            url: "<?= base_url('patientFileController/ajax_assignedlabtest') ?>",
+            url: "<?= base_url('patientFileController/ajax_assignedRadiology') ?>",
             type: "POST",
             data: {
               file_id: <?= $patient_file['id'] ?>,
@@ -178,10 +237,30 @@
       });
    }
   //initial call
- labTestTable()
+  radiologyTable()
 
- function deleteAssignedLabtest(assignedLabtest){
-  fetch('<?= base_url('patientFileController/ajax_deleteAssginedLabtest') ?>',{
+  function radiologyResults(){
+      $(document).ready(function(){
+        $('#table_radiologyResult').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_radiologyResults') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+   }
+
+ function deleteAssignedRadiology(assignedRadiology){
+  fetch('<?= base_url('patientFileController/ajax_deleteAssignedRadiology') ?>',{
             method: 'post',
             headers: {
               Accept: 'application/json',
@@ -189,11 +268,11 @@
               'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
-               assignedLabtest: assignedLabtest
+               assignedRadiology: assignedRadiology
             })
           }).then(res => res.json()).then(data => {
              if(data.success){
-               labTestTable()
+               radiologyTable()
              }
           })
  }

@@ -14,7 +14,7 @@ class AssignedDiagnosesModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['diagnoses_id','diagnoses_type', 'doctor', 'file_id', 'created_at'];
+    protected $allowedFields    = ['diagnoses_id','diagnoses_type','diagnoses_note', 'doctor', 'file_id', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;
@@ -44,7 +44,7 @@ class AssignedDiagnosesModel extends Model
     public function getAssignedDiagnoses(Int $file_id, $start_date, $end_date, String $diagnoses_type){
 
         $builder = $this->db->table('assigneddiagnoses');
-        $builder->select('assigneddiagnoses.id, assigneddiagnoses.updated_at, assigneddiagnoses.diagnoses_type, diagnoses.diagnosis_code, diagnoses.diagnosis_description');
+        $builder->select('assigneddiagnoses.id, assigneddiagnoses.updated_at, assigneddiagnoses.diagnoses_type, assigneddiagnoses.diagnoses_note, diagnoses.diagnosis_code, diagnoses.diagnosis_description');
         $builder->join('diagnoses', 'diagnoses.id = assigneddiagnoses.diagnoses_id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -71,7 +71,9 @@ class AssignedDiagnosesModel extends Model
 
     public function actionButtons(){
         return function($row){
-            return '<button onclick="deleteDiagnose('.$row['id'].',\''. $row['diagnoses_type'] .'\') "class="btn btn-danger btn-sm"> &#9587; </button>';
+            if(session()->get('role') == 'doctor'){
+                return '<button onclick="deleteDiagnose('.$row['id'].',\''. $row['diagnoses_type'] .'\') "class="btn btn-danger btn-sm"> &#9587; </button>';
+            }
         };
     }
 

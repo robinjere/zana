@@ -4,20 +4,26 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PatientsFileModel extends Model
+class GeneralExaminationModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'patients_file';
+    protected $table            = 'generalexaminations';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_no', 'patient_id', 'clinic', 'payment_method', 'start_treatment', 'end_treatment', 'status', 'patient_character', 'upadated_at'];
+    protected $allowedFields    = [
+        'pressure', 'temperature', 'pulse_rate', 'weight',
+        'height','body_mass','body_surface_area',
+        'body_mass_comment','saturation_of_oxygen',
+        'respiratory_rate','description','patient_file',
+        'updated_at'
+    ];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -39,11 +45,4 @@ class PatientsFileModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function patientFile(Int $file_id){
-       $builder = $this->db->table('patients_file');
-       $builder->where('patients_file.id', $file_id);
-       $builder->join('patients', 'patients_file.patient_id = patients.id');
-       return $builder->get()->getRow();
-    }
 }

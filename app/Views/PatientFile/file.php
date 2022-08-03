@@ -2,12 +2,14 @@
 <?= $this->section('file') ?>
 
 <?php if(!empty($patient_file)){ 
-   //if end date is null then set to current date
+//if end date is null then set to current date
 //    print_r(date('Y-m-d'));
 //    echo 'Today date |>';
 //    echo 'and app time zone: ';
    
 //    echo app_timezone();
+ 
+//   print_r($patient_file); 
 
    $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];
 ?>
@@ -37,37 +39,52 @@
                  </div><!-- /row -->
              </div><!-- /col-8 -->
             </div><!-- file-status --> 
-            <!-- <?php print_r($patient_file); ?> -->
+             <?php print_r($patient_file); ?>
     </div><!-- file-header -->
    <hr class="divider"/>
     <div class="file-content">
 
-        <div class="mt-2">
-            <!-- clinical note  -->
-            <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
-            <!-- clinical note -->
+        <div class="mt-2 section-style">
+            <div class="row">
+                <div class="col-6">
+                    <!-- clinical note  -->
+                    <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+                    <!-- clinical note -->
+                </div><!-- /col-6 -->
+                <div class="col-6">
+                    <!-- clinical note  -->
+                    <?= view_cell('\App\Libraries\PatientPanel::GeneralExamination', $patient_file) ?>
+                    <!-- clinical note -->
+                </div><!-- /col-6 -->
+            </div>
         </div>
 
-        <div class="mt-2">
+        <div class="mt-2 section-style">
             <!-- labtest -->
             <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 
             <!-- labtest -->
         </div>
         
-        <div class="mt-2">
+        <div class="mt-2 section-style">
             <!-- labtest -->
             <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
             <!-- labtest -->
         </div>
 
+        <div class="mt-2 section-style">
+            <!-- labtest -->
+            <?= view_cell('\App\Libraries\PatientPanel::Radiology', $patient_file) ?> 
+            <!-- labtest -->
+        </div>
 
-        <div class="mt-2">
+
+        <div class="mt-2 section-style">
             <!-- Medicine -->
             <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
             <!-- Medicine -->
         </div>
 
-        <div class="mt-2">
+        <div class="mt-2 section-style">
             <!-- Procedures -->
             <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
             <!-- Procedures -->

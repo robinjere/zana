@@ -74,7 +74,7 @@
             <span> Laboratory </span>
         </a>
     </li> -->
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception', 'doctor'])){?>
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier', 'reception', 'doctor', 'lab'])){?>
     <li class="my-2  <?= $uri->getSegment(2) === 'search' ? 'sidebar__active-link': null; ?>">
         <a href="/patient/search" class="d-flex align-items-center  <?= $uri->getSegment(2) === 'search' ? 'sidebar__active-link': null; ?>">
            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">

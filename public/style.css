@@ -437,7 +437,7 @@ html, body {
 /* --------------- PATIENT SEARCH  WIDGET ---------------  */
 .patient_search{
   box-shadow: 0 0 56px #e1e0e099;
-  margin-top: 2rem;
+  margin-top: 1rem;
   border-radius: inherit;
   overflow: hidden;
 }
@@ -599,20 +599,31 @@ html, body {
 
 /* file content */
 .file{
-  background-color: var(--z-white);
+  /* background-color: var(--z-white); */
+  font-size: var(--xs-heading);
 }
+
 .file-header h3{
   font-size: var(--lg-heading);
   font-weight: 500;
   margin-bottom: 1rem;
 }
 
-.file-header, .file-content{
+.file-header{
   padding: 2rem;
 }
 
 .file .divider{
   background: #727272 !important;
+}
+
+.section-style{
+  background: var(--z-white);
+  padding: 2rem;
+}
+
+.action-btn{
+  background: #f3f5f3;
 }
 
 
@@ -723,5 +734,14 @@ table tbody tr td{
   padding: 10px;
 }
 
-
+/* general-examination */
+.unit{ color: red; }
+.examination-form label{
+    font-size: .79rem;
+    font-weight: 500;
+}
+.examination-form input{
+  font-size: var(--xs-heading);
+}
+/* general-examination */
 /* ---------------  PATIENT FILE  ---------------  */

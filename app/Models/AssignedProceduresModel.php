@@ -59,11 +59,18 @@ class AssignedProceduresModel extends Model
         return $column;
     }
 
+    public function status(){
+        return function($row){
+            return $row['confirmed_by'] != 0 ? '<span class="badge bg-success badge-sm"> Paid </span>' : '<span class="badge bg-danger badge-sm"> not Paid </span>';
+        };
+    }
+
     public function procedureDoctor(){
         return function($row){
            return '<b>'. $row['first_name'] .', '. $row['last_name'] .'</b>';
         };
     }
+
     public function actionButtons(){
         return function($row){
             return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';

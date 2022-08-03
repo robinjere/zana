@@ -1,14 +1,100 @@
 <div id="laboratory-test" class="labtest mt-5" x-data="labtestData()">
-   <h5>
-        <span class='icon'>
-           <svg viewBox="0 0 30 26" fill="none">
-             <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-           </svg>
-        </span> 
-        <span>
-          Laboratory Test
-        </span>  
-   </h5>
+   <div class="d-flex justify-content-between align-items-center">
+      <h5>
+           <span class='icon'>
+              <svg viewBox="0 0 30 26" fill="none">
+                <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+           </span> 
+           <span>
+             Laboratory Test
+           </span>  
+      </h5>
+
+      <div class="d-flex justify-content-end mb-3">
+            <button type="button" onclick="labTestResults()" class="btn btn-outline-primary" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#lab_Results">
+                        View Result
+            </button>
+
+        <?php if(session()->get('role') == 'doctor'){ ?>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
+          <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
+        <?php } ?>
+   </div>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="customLabTest" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Assign Lab Test</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                     <div class="mb-3">
+                           <input type="text" x-model="searchInput" @keyup="searchLabTest()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
+                           <div class="d-flex justify-content-center align-items-center mt-2">
+                              <div x-cloak x-show="loading" class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                              </div><!-- /spinner-border -->
+                           </div><!-- /d-flex -->
+
+                           <template x-if="labtests.length">
+                              <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
+                                 <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                                 <template x-for="test in labtests">
+                                 <li @click="selectLabTest(test.id)" data-bs-dismiss="modal" class="list-group-item list-group-item-action" x-text="test.name.toUpperCase()">Active item</li>
+                                 </template>
+                              </ul><!-- /ul -->
+                           </template>
+                     </div> <!-- /mb-3 -->
+               </div><!-- modal-body -->
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>      
+    <!-- /End-Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="lab_Results" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                  <div class="modal-dialog" style="max-width: 82%;" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title">Patient Result</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <div class="labtest-table">
+                              <table id="table_labtestResult" class="table table-striped table-bordered">
+                                       <thead>   
+                                          <tr>
+                                             <th scope="col">Test name</th>
+                                             <th scope="col">Result</th>
+                                             <th scope="col">Ranges</th> 
+                                             <th scope="col">Unit</th>
+                                             <th scope="col">Level</th>
+                                             <th scope="col">Attachment</th>
+                                             <th scope="col">Ordered on</th>
+                                             <?php if(session()->get('role')== 'lab'){ ?>
+                                                <th scope="col" >Action</th>
+                                             <?php } ?>
+                                          </tr>
+                                       </thead>
+                                 </table>
+                              </div><!-- /procedure-table -->
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <!-- <button type="button" class="btn btn-primary">Save</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </div><!-- modal -->
+               <!-- End Modal -->
+      
+   </div><!-- /d-flex -->
     <!-- alert message -->
 
      <!-- icons -->
@@ -39,39 +125,6 @@
 
    <!-- alert message -->
 
-   <div class="d-flex justify-content-end mb-3">
-     <button type="button" class="btn btn-outline-primary" x-cloak x-show="showSearchBtn" @click="showSearchInput=true">Assign LabTest</button>
-     <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
-   </div>
-
-   <div>
-       <div class="mb-3">
-           <!-- <label for="" class="form-label"></label> -->
-           <div class="search_box">
-              <input type="text" x-model="searchInput" @keyup="searchLabTest()" x-cloak x-show="showSearchInput" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search lab test">
-                 
-              <div x-cloak x-show="loading" class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
-              </div><!-- /spinner-border -->
-
-              <template x-if="labtests.length">
-                <ul class="w-100 list-group mt-1" style="overflow-y: scroll; max-height: 170px;">
-                  <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
-                  <template x-for="test in labtests">
-                    <li @click="selectLabTest(test.id)" class="list-group-item list-group-item-action" x-text="test.name.toUpperCase()">Active item</li>
-                  </template>
-   
-                  <!-- <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li>
-                  <li href="#" class="list-group-item list-group-item-action">Item</li> -->
-                  <!-- <a href="#" class="list-group-item list-group-item-action disabled">Disabled item</a> -->
-                </ul><!-- /ul -->
-              </template>
-           </div> <!-- /search_box -->
-           <!-- <small id="helpId" class="form-text text-muted">search drug </small> -->
-        </div> <!-- /mb-3 -->
-   </div>
 
    <div class="labtest-table">
          <table id="table_labtest" class="table table-striped table-bordered">
@@ -79,7 +132,6 @@
                <tr>
                   <th scope="col">Date</th>
                   <th scope="col">Test</th>
-                  <th scope="col">Memo</th>
                   <th scope="col">Price</th> 
                   <th scope="col">Status</th>
                   <th scope="col" >Action</th>
@@ -87,6 +139,69 @@
             </thead>
         </table>
     </div><!-- /procedure-table -->
+
+    <!-- add or updated  labtest result  -->
+
+    <!-- Button trigger modal -->
+    
+    <!-- Modal -->
+    <div class="modal fade mt-3" id="addLabtestResult_" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">Add or Update Labtest Result </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             <div class="d-flex justify-content-center align-items-center mt-2">
+                <div x-cloak x-show="loading" class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                </div><!-- /spinner-border -->
+              </div><!-- /d-flex -->
+              <template x-if="!loading && labtestResult.id != ''">  
+               
+               <form @submit.prevent="submitResult()" method="post" enctype="multipart/form-data" >           
+                 <div class="mb-3">
+                   <label for="result_" class="form-label">Result</label>                 
+                    <textarea class="form-control" x-model="labtestResult.result" id="result_" rows="3"></textarea>
+                 </div>
+                 <div class="mb-3">
+                   <label for="_ranges" class="form-label">Ranges</label>
+                   <select x-model="labtestResult.ranges"  class="form-control" name="" id="_ranges" placeholder="Ranges">
+                     <option value="62.00 - 115.00 (µmol/L)">62.00 - 115.00 (µmol/L)</option>
+                     <option value="44.20 - 107.00 (µmol/L)">44.20 - 107.00 (µmol/L)</option>
+                   </select>
+                 </div>
+                 <div class="mb-3">
+                   <label for="_unit" class="form-label"> Unit</label>
+                   <input type="text" class="form-control" x-model="labtestResult.unit" id="_unit"  placeholder="Unit" />
+                 </div>
+                 <div class="mb-3">
+                   <label for="_level" class="form-label">Level</label>
+                   <select x-model="labtestResult.level" class="form-control" id="_level" placeholder="Level" >
+                     <option value="high"> High </option>
+                     <option value="medium"> Medium </option>
+                     <option value="low"> Low </option>
+                   </select>
+                 </div>
+                 <div class="mb-3">
+                  <label for="attachment_" class="form-label">Attachment</label>
+                  <input type="file" class="form-control" x-model="labtestResult.attachment" id="attachment_" placeholder="Attachment" aria-describedby="attachementHelp">
+                  <div id="attachementHelp" class="form-text">upload file here</div>
+                </div>
+                </form> <!-- /form-post -->
+              </template>
+            </div><!-- /modal-body -->
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary">Verify Result</button>
+            </div>
+         </div>
+      </div>
+    </div>
+    
+    
+    <!-- end -> add or updated  labtest result  -->
 
 
 </div> <!-- /labtest -->
@@ -154,6 +269,43 @@
                    
              })
          },
+         labtestResult: {
+            id: '',
+            result: '',
+            ranges: '',
+            unit: '',
+            level: '',
+            attachment: '',
+         },
+         getLabTestResult(labtestId){
+              this.success = false;
+              this.loading = true;
+              fetch('<?= base_url('patientFileController/ajax_getLabtestResult') ?>',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                   labtest_id : labtestId
+                })
+              }).then(res => res.json()).then(data => {
+                       data = data.result
+                       console.log('result ----> data', data); 
+                       this.loading = false;
+                       this.labtestResult.id = data.id 
+                       this.labtestResult.result = data.result
+                       this.labtestResult.ranges = data.ranges
+                       this.labtestResult.unit = data.unit
+                       this.labtestResult.level = data.level
+                       this.labtestResult.attachment = data.attachment
+                     //   console.log('labtest result after', data);
+             })
+         },
+         addLabTestResult(){
+
+         }
       }
   }
 
@@ -197,6 +349,30 @@
              }
           })
  }
+
+ function labTestResults(){
+      $(document).ready(function(){
+        $('#table_labtestResult').DataTable({
+          "order": [],
+          "destroy": true,   
+          "searching": false,
+          "serverSide": true,
+          "ajax": {
+            url: "<?= base_url('patientFileController/ajax_labtestResults') ?>",
+            type: "POST",
+            data: {
+              file_id: <?= $patient_file['id'] ?>,
+              start_date: '<?= $patient_file['start_treatment'] ?>',
+              end_date: '<?= $patient_file['end_treatment'] ?>'
+            }
+          }
+        });
+      });
+   }
+
+   function addLabTestResult(labtestId){
+
+   }
 
   </script>
 <?= $this->endSection() ?>
