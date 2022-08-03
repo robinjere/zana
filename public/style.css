@@ -534,6 +534,15 @@ html, body {
    transition-duration: .2s;
 }
 
+.file-info{
+  color: #df0505;
+  padding: 31px 0 14px !important;
+  margin: 0 !important;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.15555rem;
+}
+
 .file-nav{
   list-style-type: none;
   /* padding: 0; */
@@ -610,7 +619,7 @@ html, body {
 }
 
 .file-header{
-  padding: 2rem;
+  padding: 2rem 2rem 0;
 }
 
 .file .divider{

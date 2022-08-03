@@ -11,12 +11,31 @@
  
 //   print_r($patient_file); 
 
+                $patient_file = [
+                    'id' => $patient_file->id,
+                    'file_no' => $patient_file->file_no,
+                    'patient_id' => $patient_file->patient_id,
+                    'name' => $patient_file->name,
+                    'payment_method' => $patient_file->payment_method,
+                    'insuarance_no' => $patient_file->insuarance_no,
+                    'start_treatment' => $patient_file->start_treatment,
+                    'end_treatment' => $patient_file->end_treatment,
+                    'status' => $patient_file->status,
+                    'patient_character' => $patient_file->patient_character,
+                    'first_name' => $patient_file->first_name,
+                    'middle_name' => $patient_file->middle_name,
+                    'sir_name' => $patient_file->sir_name,
+                    'birth_date' => $patient_file->birth_date,
+                    'gender' => $patient_file->gender
+                ];
+
+
    $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];
 ?>
     
 <div class="file">
     <div class="file-header"> 
-        <h3>FILE NO: IMC/2022/22 </h3>
+        <!-- <h3>FILE NO: <?= $patient_file['file_no'] ?></h3> -->
          <div class="file-status row">
              <div class="col-4">
                 <!-- <span class="badge bg-secondary"> current treatment </span> -->
@@ -39,9 +58,12 @@
                  </div><!-- /row -->
              </div><!-- /col-8 -->
             </div><!-- file-status --> 
-             <?php print_r($patient_file); ?>
+             <!-- -->
+             <p class="file-info">
+                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>, CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>
+             </p>
     </div><!-- file-header -->
-   <hr class="divider"/>
+   <hr class="divider" style="margin: 0!important; "/>
     <div class="file-content">
 
         <div class="mt-2 section-style">

@@ -1,3 +1,4 @@
+
 <div id="clinical-note" class="clinical-note"
   x-data="$store.notesData"
   x-init="getClinicalNotes()"

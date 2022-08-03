@@ -50,8 +50,10 @@ class PatientFileController extends BaseController
     protected function patient_file(Int $file_id){
         $patientsFileModel = new PatientsFileModel;
         
-        $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
+        // $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
+        
         $data['patient_file'] = $patientsFileModel->patientFile($file_id);
+
         return view('patientfile/file', $data);
     }
 

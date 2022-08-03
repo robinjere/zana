@@ -287,7 +287,7 @@
             data: {
               file_id: <?= $patient_file['id'] ?>,
               start_date: '<?= $patient_file['start_treatment'] ?>',
-              end_date: '<?= $patient_file['end_treatment'] ?>'
+              end_date: '<?= $patient_file['end_treatment']?>'
             }
           }
         });
