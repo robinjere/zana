@@ -3,6 +3,10 @@ html, body {
   scroll-behavior: smooth;
 }
 
+body{
+  background: var(--z-lighter-gray);
+}
+
 /* ------------------------------ LOGIN SCREEN  ------------------------------ */
 .login, .login__bg--image {
   min-height: calc(100vh - 45px);
@@ -45,6 +49,7 @@ html, body {
   padding: 60px 40px;
   max-width: 28rem;
   width: 100%;
+  background: var(--z-white);
 }
 .login__form > input{
   font-family: var(--font-family) !important;
@@ -201,6 +206,7 @@ html, body {
 /* FOOTER  */
 
 /* --------------- REGISTRATION ---------------  */
+.nav-link
 .registration-nav{
   padding: 26px;
   background: #FFFFFF;
@@ -223,6 +229,12 @@ html, body {
 .registration-form__heading{
   padding: 10px;
 }
+
+.registration-form__heading .nav-link{
+  color: #373a4e;
+  font-weight: 600;
+}
+
 .not-active{
   color: var(--z-deep-gray) !important;
 }
@@ -239,7 +251,7 @@ html, body {
 .registration-form__form{
   border-radius: 10px;
   padding: 57px;
-  /* background: #FFFFFF; */
+  background: var(--z-white);
 }
 .registration-space-y{
   margin-bottom: 24px;
@@ -292,7 +304,7 @@ html, body {
 
 /* ----- profile -----  */
 .panel-nav{
-    padding: 16px;
+    /* padding: 16px; */
     background: #FFFFFF;
     box-shadow: 0px 2px 4px rgb(0 0 0 / 4%);
 }
@@ -303,9 +315,9 @@ html, body {
 }
 .panel-nav .title{  
   font-size: 1.5rem;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 .panel-nav span{
   margin-left: 11px;
@@ -339,13 +351,16 @@ html, body {
   list-style-type: none;
   padding: 0;
 }
+.side-nav-color{
+  background-color: var(--z-deep-gray);
+}
 .sidebar svg{
  width: 27px; 
  height: 27px; 
- stroke: var(--z-deep-gray);
+ stroke: var(--z-white);
 }
 .sidebar a{
-  color: var(--z-deep-gray);
+  color: var(--z-white);
   font-size: var(--sm-heading);
   font-weight: 600;
   text-decoration: none;
@@ -355,7 +370,7 @@ html, body {
   margin-left: 12px;
 }
 .sidebar li{
-  border: 1px solid #c1c1c1;
+  /* border: 1px solid #c1c1c1; */
   padding: 6px;
 }
 
@@ -375,6 +390,7 @@ html, body {
 
  .data-layout{
   border-radius: 10px;
+  background-color: var(--z-white);
  }
 
  .data-heading{
@@ -382,7 +398,6 @@ html, body {
    color: var(--z-black);
    font-size: var(--sm-heading);
    font-family: var(--font-family);
-   text-align: center;
  }
  .data-nav{
    list-style: none;
@@ -393,18 +408,27 @@ html, body {
    text-decoration: none;
    font-size: var(--xs-heading);
    text-transform: uppercase;
-   font-weight: 400;
-   color: var(--z-primary);
+   font-weight: 800;
+   color: var(--z-success);
  }
  
  .data-nav li a:hover{
    color: var(--z-black);
  }
  .data-nav__active{
-   border-bottom: 2px solid var(--z-primary);
+   border-bottom: 2px solid var(--z-success);
+   /* border: 2px solid var(--z-deep-gray); */
+   /* padding: 10px; */
+   border-radius: 8px;
  }
  .data-nav__active a{
    color: var(--z-black) !important;
+ }
+
+ ._topnavigation{
+  background: var(--z-deep-gray);
+  margin-top: 2rem;
+  padding-top: 5px;
  }
 
  
@@ -452,7 +476,7 @@ html, body {
 .patient_search h4{
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--z-primary);
+    color: var(--z-success);
     margin-bottom: 1rem;
 }
 .patient_search .row{
@@ -507,9 +531,19 @@ html, body {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background:var(--z-lighter-gray);
+  background:var(--z-deep-gray);
   z-index: 99;
   box-shadow: 0 2px 4px #e3e0e0;
+}
+
+.page-item.active .page-link {
+  background-color: #373a4e !important;
+  border-color: #373a4e !important;
+}
+
+.table-header{
+  background: var(--z-deep-gray);
+  color:var(--z-white);
 }
 
 .file-top-menu .button-nav > .btn{
@@ -535,7 +569,7 @@ html, body {
 }
 
 .file-info{
-  color: #df0505;
+  color: #198754;
   padding: 31px 0 14px !important;
   margin: 0 !important;
   font-weight: 700;
@@ -620,6 +654,7 @@ html, body {
 
 .file-header{
   padding: 2rem 2rem 0;
+  background-color: var(--z-white);
 }
 
 .file .divider{
@@ -638,8 +673,8 @@ html, body {
 
 .final-diagnosis h4, .working-diagnosis h4{
  font-size: var(--lg-heading);
- font-weight: 500;
- padding-left: 4rem;
+ font-weight: 600;
+ /* padding-left: 4rem; */
 }
 .final-diagnosis, .working-diagnosis{
   position: relative;
@@ -670,7 +705,7 @@ html, body {
 }
 .clinical-note h5, .medicine h5, .procedures h5, .labtest h5,
 .diagnosis h5{
-  font-weight: 600;
+  font-weight: 900;
   font-size: var(--lg-heading);
   display: flex;
   align-items: center;

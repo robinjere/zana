@@ -15,6 +15,7 @@
 </form> -->
 
 <ul class="file-nav">
+<?php if(in_array(session()->get('role'), ['doctor'])){?>
     <li><a href="#clinical-note" @click="close()">
         <span class='icon'>
             <svg  viewBox="0 0 24 24" fill="none" >
@@ -23,6 +24,9 @@
         </span>
         <span class="link-title">Clinical Note</span> 
     </a></li>
+  <?php } ?>
+
+<?php if(in_array(session()->get('role'), ['doctor'])){?>
     <li><a href="#diagnosis" @click="close()">
         <span class="icon">
           <svg  viewBox="0 0 24 24" fill="none">
@@ -31,6 +35,9 @@
         </span>
         <span class="link-title"> Diagnosis </span>
     </a></li>
+<?php } ?>
+
+<?php if(in_array(session()->get('role'), ['doctor', 'lab', 'cashier'])){?>
     <li><a href="#laboratory-test" @click="close()">
          <span class="icon">
             <svg viewBox="0 0 30 26" fill="none">
@@ -39,6 +46,20 @@
          </span>
          <span class="link-title"> Laboratory Test </span>
     </a></li>
+<?php } ?>
+
+<?php if(in_array(session()->get('role'), ['doctor','reception', 'cashier'])){?>
+    <li><a href="#radiology" @click="close()">
+         <span class="icon">
+            <svg viewBox="0 0 30 26" fill="none">
+             <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+         </span>
+         <span class="link-title"> Radiology </span>
+    </a></li>
+<?php } ?>
+
+<?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
     <li><a href="#medicine" @click="close()">
          <span class="icon">
              <svg viewBox="0 0 28 22" fill="none" >
@@ -47,6 +68,9 @@
           </span> 
          <span class="link-title">Medicine</span>
     </a></li>
+<?php } ?>
+
+<?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
     <li><a href="#procedure" @click="close()">
         <span class="icon">
           <svg viewBox="0 0 24 24" fill="none">
@@ -58,6 +82,8 @@
         </span>
     </a></li>
 </ul>
+
+<?php } ?>
 
   <div class="file-exit">
     <a href="/patient/search">

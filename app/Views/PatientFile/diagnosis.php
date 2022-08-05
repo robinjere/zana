@@ -1,4 +1,4 @@
-<div id="diagnosis" class="diagnosis mt-5" x-data="diagnosisData()">
+<div id="diagnosis" class="diagnosis" x-data="diagnosisData()">
   <div class="d-flex justify-content-between align-items-center ">
    <h5>
         <span class='icon'>
@@ -14,7 +14,7 @@
    <!-- Button trigger modal -->
    <?php if(session()->get('role') == 'doctor'){ ?>
      <div class="d-flex justify-content-end mb-3">
-       <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DiagnosisModelId" @click="openDiagnosisBox()">Assign Diagnosis</button>
+       <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#DiagnosisModelId" @click="openDiagnosisBox()">Assign Diagnosis</button>
      </div><!-- /d-flex -->
    <?php } ?>
    
@@ -119,11 +119,11 @@
    <div class="row">
     <div class="col-6">
         <div class="working-diagnosis">
-        <span class="line1"></span>
+        <!-- <span class="line1"></span> -->
         <h4 class="py-4">Working diagnosis</h4>
             <table id="table_working_diagnosis" class="table table-striped table-bordered">
                 <thead>   
-                  <tr>
+                  <tr class="table-header">
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
                       <th scope="col">Diagnoses Note </th>
@@ -137,11 +137,11 @@
     </div><!-- /col-6 -->
     <div class="col-6">
         <div class="final-diagnosis">
-        <span class="line2"></span>
+        <!-- <span class="line2"></span> -->
         <h4 class="py-4">Final diagnosis</h4>
             <table id="table_final_diagnosis" class="table table-striped table-bordered">
                 <thead>   
-                  <tr>
+                  <tr class="table-header">
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
                       <th scope="col">Diagnoses Note </th>

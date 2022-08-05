@@ -44,13 +44,13 @@
              <div class="col-8">
                  <div class="row">
                      <div class="col d-flex justify-content-end">
-                         <span class="badge bg-secondary from"> From </span>
+                         <span class="badge bg-warning from"> From </span>
                      </div>
                      <div class="col">
                             <span class="date"> <?= date('F j, Y', strtotime($patient_file['start_treatment'])) ?></span>
                      </div>
                      <div class="col d-flex justify-content-end">
-                         <span class="badge bg-secondary from"> To </span>
+                         <span class="badge bg-warning from"> To </span>
                      </div>
                      <div class="col">
                          <span class="date"> <?= $patient_file['end_treatment'] == '0000-00-00'? date('F j, Y'): date('F j, Y', strtotime($patient_file['end_treatment'])) ?> </span>
@@ -66,6 +66,8 @@
    <hr class="divider" style="margin: 0!important; "/>
     <div class="file-content">
 
+    <?php if(in_array(session()->get('role'), ['doctor','radiology'])){?>
+        
         <div class="mt-2 section-style">
             <div class="row">
                 <div class="col-6">
@@ -81,38 +83,58 @@
             </div>
         </div>
 
+    <?php } ?>
+
+   <?php if(in_array(session()->get('role'), ['doctor'])){?>
         <div class="mt-2 section-style">
             <!-- labtest -->
             <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 
             <!-- labtest -->
         </div>
+    <?php } ?>
         
-        <div class="mt-2 section-style">
-            <!-- labtest -->
-            <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
-            <!-- labtest -->
-        </div>
-
-        <div class="mt-2 section-style">
-            <!-- labtest -->
-            <?= view_cell('\App\Libraries\PatientPanel::Radiology', $patient_file) ?> 
-            <!-- labtest -->
-        </div>
-
-
-        <div class="mt-2 section-style">
-            <!-- Medicine -->
-            <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
-            <!-- Medicine -->
-        </div>
-
+    
+    <div class="mt-2 section-style">
+        <div class="row">
+            <div class="col-6"> 
+                
+                <?php if(in_array(session()->get('role'), ['doctor', 'lab', 'cashier'])){?>
+                    
+                        <!-- labtest -->
+                        <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
+                        <!-- labtest -->
+                       <?php } ?>
+            
+               </div><!-- /col-6 -->
+                <div class="col-6"> 
+                    <?php if(in_array(session()->get('role'), ['doctor', 'reception', 'cashier'])){?>
+                    
+                            <!-- labtest -->
+                            <?= view_cell('\App\Libraries\PatientPanel::Radiology', $patient_file) ?> 
+                            <!-- labtest -->
+                    
+                    <?php } ?>
+                </div> <!-- /col-6 -->
+        </div><!-- ./row -->
+     </div><!-- /section-style -->
+        
+        <?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
+            <div class="mt-2 section-style">
+                <!-- Medicine -->
+                <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
+                <!-- Medicine -->
+            </div>
+        <?php } ?>
+        
+    <?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
         <div class="mt-2 section-style">
             <!-- Procedures -->
             <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>
             <!-- Procedures -->
         </div>
+    <?php } ?>
 
-    </div> <!-- /file-content -->
+  </div> <!-- /file-content -->
 </div><!-- /file -->
   <!-- <P>CLINICAL NOTE</P>
   <P> WORKING DIAGNOSIS </P>

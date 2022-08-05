@@ -15,7 +15,7 @@
             Clinical Note
           </span>  
      </h5>
-     <button class="btn btn-sm btn-outline-primary add-note" @click="addnote = true"> Add clinical note </button>
+     <button class="btn btn-sm btn-success add-note" @click="addnote = true"> Add clinical note </button>
   </div><!-- d-flex -->
 
    <!-- alert message -->

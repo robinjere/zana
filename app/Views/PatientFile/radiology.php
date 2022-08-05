@@ -1,4 +1,4 @@
-<div id="radiology" class="labtest mt-5" x-data="radiologyData()">
+<div id="radiology" class="labtest" x-data="radiologyData()">
    <div class="d-flex justify-content-between align-items-center">
       <h5>
            <span class='icon'>
@@ -15,11 +15,14 @@
          <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
          <!-- bootstrap5 Model -->
                <!-- Button trigger modal -->
-               <button type="button" onclick="radiologyResults()" class="btn btn-outline-primary" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#radiologyResults">
-                  View Result
-               </button>
+               <?php if(in_array(session()->get('role'), ['doctor'])){ ?>
+                  <button type="button" onclick="radiologyResults()" class="btn-sm btn btn-outline-success" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#radiologyResults">
+                     View Result
+                  </button>
+               <?php } ?>
+
                <?php if(session()->get('role') == 'doctor'){ ?>
-                  <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#radiologyId">
+                  <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#radiologyId">
                      Assign Radiology
                   </button>
                <?php } ?>
@@ -71,7 +74,7 @@
                         <div class="labtest-table">
                               <table id="table_radiologyResult" class="table table-striped table-bordered">
                                        <thead>   
-                                          <tr>
+                                          <tr class="table-header">
                                              <th scope="col">Test name</th>
                                              <th scope="col">Result</th>
                                              <th scope="col">Ranges</th> 
@@ -135,7 +138,7 @@
    <div class="labtest-table">
          <table id="table_radiology" class="table table-striped table-bordered">
             <thead>   
-               <tr>
+               <tr class="table-header">
                   <th scope="col">Date</th>
                   <th scope="col">Test name</th>
                   <!-- <th scope="col">Doctor Report</th> -->

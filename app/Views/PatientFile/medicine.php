@@ -1,4 +1,4 @@
-<div id="medicine" class="medicine mt-5" x-data="medicineData()">
+<div id="medicine" class="medicine" x-data="medicineData()">
   <div class="d-flex justify-content-between align-items-center mb-2">
    <h5>
         <span class='icon'>
@@ -12,7 +12,9 @@
    </h5>
 
    <!-- Button trigger modal -->
-   <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true">Search Drug</button>
+   <?php if(session()->get('role') == 'doctor'){ ?>
+    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true">Search Drug</button>
+   <?php } ?>
    
    <!-- Modal -->
    <div class="modal fade" id="MedicineModelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -103,12 +105,12 @@
               
             </div>
            </div><!-- /rpw -->
-         </form>
+        </form>
           
         </div><!-- /modal-body -->
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" @click="assignDrug()">Assign Drug</button>
+          <button type="button" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal" @click="assignDrug()">Assign Drug</button>
           <!-- <button type="button" class="btn btn-primary">Save</button> -->
         </div>
       </div>
@@ -161,7 +163,7 @@
    <div class="medicine-table">
          <table id="table_medicine" class="table table-striped table-bordered">
             <thead>   
-               <tr>
+               <tr class="table-header">
                   <th scope="col">Date</th>
                   <th scope="col">Drug</th>
                   <th scope="col">Dosage </th>

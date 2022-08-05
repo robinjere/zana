@@ -1,4 +1,4 @@
-<div id="laboratory-test" class="labtest mt-5" x-data="labtestData()">
+<div id="laboratory-test" class="labtest" x-data="labtestData()">
    <div class="d-flex justify-content-between align-items-center">
       <h5>
            <span class='icon'>
@@ -12,12 +12,14 @@
       </h5>
 
       <div class="d-flex justify-content-end mb-3">
-            <button type="button" onclick="labTestResults()" class="btn btn-outline-primary" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#lab_Results">
+          <?php if(in_array(session()->get('role'), ['doctor', 'lab'])){ ?>
+            <button type="button" onclick="labTestResults()" class="btn btn-sm btn-outline-success" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#lab_Results">
                         View Result
             </button>
+          <?php } ?>
 
         <?php if(session()->get('role') == 'doctor'){ ?>
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
+            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
           <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
         <?php } ?>
    </div>
@@ -69,7 +71,7 @@
                         <div class="labtest-table">
                               <table id="table_labtestResult" class="table table-striped table-bordered">
                                        <thead>   
-                                          <tr>
+                                          <tr class="table-header">
                                              <th scope="col">Test name</th>
                                              <th scope="col">Result</th>
                                              <th scope="col">Ranges</th> 
@@ -129,7 +131,7 @@
    <div class="labtest-table">
          <table id="table_labtest" class="table table-striped table-bordered">
             <thead>   
-               <tr>
+               <tr class="table-header">
                   <th scope="col">Date</th>
                   <th scope="col">Test</th>
                   <th scope="col">Price</th> 

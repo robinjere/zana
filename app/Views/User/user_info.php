@@ -67,12 +67,12 @@
            <nav class="nav justify-content-center|justify-content-end">
              <a class="nav-link active"  href="<?= base_url() ?>/user/info/<?= $userInfo['id']; ?>"> User Information </a>  
              <?php if(in_array('can_view_user_permission', session()->get('permission'))){?>
-                  <a class="nav-link not-active" href="<?= base_url() ?>/user/permission/<?= $userInfo['id']; ?>"> User Permission  </a>  
+                  <a class="nav-link not-active" style="font-weight: 600;"  href="<?= base_url() ?>/user/permission/<?= $userInfo['id']; ?>"> User Permission  </a>  
              <?php } ?>
            </nav>
       
          <div class="d-flex align-items-center">
-           <a href="#" onclick="window.history.back()" class="me-2 btn btn-outline-primary btn-rounded"> Back </a>
+           <a href="#" onclick="window.history.back()" class="me-2 btn btn-outline-success btn-sm"> Back </a>
          </div>
 
     </div> <!-- /registration-form__heading -->
@@ -134,11 +134,11 @@
             <div class="row mt-3">
                  <div class="col">
                                
-                     <a href="/user/list" class="btn btn-warning btn-rounded"> Cancel </a>
+                     <a href="/user/list" class="btn btn-warning btn-sm"> Cancel </a>
                 </div>
                  <div class="col d-flex justify-content-end">
                    <?php if(session()->get('id') === $userInfo['id']): ?>
-                      <button class="btn btn-primary btn-rounded" style="width: 8rem;"> Update </button>
+                      <button class="btn btn-success btn-sm" style="width: 8rem;"> Update </button>
                    <?php endif; ?>
                 </div>
             </div><!-- /row -->

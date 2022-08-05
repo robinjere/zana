@@ -11,7 +11,7 @@
   <div class="registration-layout">
     <?= view_cell('\App\Libraries\PatientPanel::PatientFileTopMenu') ?>
     
-      <div class="container">
+      <div class="container" style="padding-left:0; padding-right:0;">
            <?= $this->renderSection('file') ?>         
       </div><!-- /container -->
   </div> <!-- panel-layout -->

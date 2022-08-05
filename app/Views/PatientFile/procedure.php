@@ -1,4 +1,4 @@
-<div id="procedure" class="procedures mt-5" x-data="proceduresData()" x-init="getProcedures()">
+<div id="procedure" class="procedures" x-data="proceduresData()" x-init="getProcedures()">
  
    <div class="d-flex justify-content-between align-items-center mb-2">
       <h5>
@@ -14,7 +14,7 @@
      
       <?php if(session()->get('role') == 'doctor'){?>
          <!-- Button trigger modal -->
-         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId" @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-outline-primary" x-show="showAssignBtn">Assign Procedure</button> 
+         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId" @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
       <?php } ?>   
 
       <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
@@ -47,7 +47,7 @@
                <div class="modal-footer">
                   <!-- <button type="button" class="btn btn-secondary" >Close</button>
                   <button type="button" class="btn btn-primary">Save</button> -->
-                  <button type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Submit Procedure</button>
+                  <button type="submit" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Submit Procedure</button>
                </div>
             </div>
          </div>
@@ -94,7 +94,7 @@
       <div class="procedure-table">
          <table id="table_procedures" class="table table-striped table-bordered">
             <thead>   
-               <tr>
+               <tr class="table-header">
                <!-- 'created_at', 'name', 'amount','procedure_note' -->
                   <th scope="col">Date</th>
                   <th scope="col">Procedure</th>

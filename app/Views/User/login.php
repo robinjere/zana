@@ -69,7 +69,7 @@
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
             <div class="mt-4 d-flex justify-content-center align-items-center">
-              <button type="submit" class="w-75 btn btn-outline-primary btn-rounded mt-3">Login</button>
+              <button type="submit" class="w-75 btn btn-success mt-3">Login</button>
             </div>
             <!-- <a href="/account/forgot" class="d-flex justify-content-end forgot-password-link"> 
               <div class="align-self-end form-text d-flex align-items-center">

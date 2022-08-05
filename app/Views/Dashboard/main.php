@@ -25,7 +25,7 @@
 
       <div class="container">
         <div class="row">
-            <div class="col-2">
+            <div class="col-2 side-nav-color" >
                 <!-- side bar navigation  -->
                 <?= view_cell($Dashboard.'::SideBarNavigation') ?>
                 <!-- side bar navigation  -->

@@ -1,6 +1,9 @@
 <?php $this->extend('Patient/patient_dashboard'); ?>
 
 <?= $this->section('patient'); ?>
+
+<?= view_cell('\App\Libraries\PatientPanel::PatientNavigation') ?>
+
 <form method="post"> 
 
   <div class="search_box">
@@ -10,8 +13,8 @@
         <option value="name">Search by patient name</option>
       </select> -->
       <input type="search" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
+      <button type="submit" class="btn btn-success" style="margin-left: 1rem;" type="button">Search  </button>
     </div><!-- /input-group -->
-    <button type="submit" class="btn btn-rounded btn-success mt-3" type="button">SEARCH PATIENT </button>
   </div><!-- /search_box -->
 
 <!-- genereate file no when register a patient  -->
@@ -32,7 +35,7 @@
 
     <div class="patient_search bg-white">
       <div class="detail">
-        <h4>Available patient | Info </h4>
+        <h4>Patient Info </h4>
         <hr/>
         <div class="row">
           <div class="col">PATIENT FILE NO:</div>
@@ -94,19 +97,17 @@
       </div> <!-- detail -->
       <div class="row navigation g-0" style="padding: 9px;">
          <?php 
-         $SEND_TO_DOCTOR = '<div class="col d-flex justify-content-end align-items-center action-btn"> 
-                             <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="btn btn-primary btn-sm"> SEND TO DOCTOR </a> 
+         $SEND_TO_DOCTOR = '<div class="col d-flex justify-content-end align-items-center"> 
+                             <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="btn btn-success btn-sm"> SEND TO DOCTOR </a> 
                             </div>';
 
-         $ATTEND =   '<div class="col d-flex justify-content-end align-items-center action-btn"> 
-                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-primary btn-sm"> ATTEND </a> 
+         $ATTEND =   '<div class="col d-flex justify-content-end align-items-center"> 
+                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND </a> 
                       </div>';
 
-         $CONSULT =   '<div class="col d-flex justify-content-end align-items-center action-btn"> 
-                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-primary btn-sm"> CONSULT </a> 
+         $CONSULT =   '<div class="col d-flex justify-content-end align-items-center"> 
+                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND  </a> 
                       </div>';
-          
-                      
                       
         $CANCEL_CONSULTATION = '';
         $APPROVE_PAYMENT = '';
@@ -114,16 +115,16 @@
           
         if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
 
-          $CANCEL_CONSULTATION = '<div class="col d-flex justify-content-end align-items-center action-btn"> 
+          $CANCEL_CONSULTATION = '<div class="col d-flex justify-content-end align-items-center"> 
                                      <a href="'. base_url('consultation/cancel/'.$consultation_payment->id.'/'.$consultation_payment->file_id).'" class="btn btn-danger btn-sm">CANCEL CONSULTATION </a> 
                                   </div>';
   
-          $APPROVE_PAYMENT =  '<div class="col d-flex justify-content-end align-items-center action-btn"> 
-                                  <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="btn btn-primary btn-sm"> APPROVE PAYMENT </a> 
+          $APPROVE_PAYMENT =  '<div class="col d-flex justify-content-end align-items-center"> 
+                                  <a href="'.base_url('consultation/approve_payment/'.$consultation_payment->id.'/search').'" class="btn btn-success btn-sm"> APPROVE PAYMENT </a> 
                                </div>';
   
-          $DIS_APPROVE =  '<div class="col d-flex justify-content-end align-items-center action-btn"> 
-                              <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="btn btn-danger btn-sm"> DIS-APPROVE PAYMENT </a> 
+          $DIS_APPROVE =  '<div class="col d-flex justify-content-end align-items-center"> 
+                              <a href="'.base_url('consultation/disapprove_payment/'.$consultation_payment->id.'/search').'" class="btn btn-danger btn-sm"> CANCEL PAYMENT </a> 
                          </div>';
         }
 
@@ -133,7 +134,7 @@
         //  print_r('-----------------'.session()->get('role').'---------------');
          switch (strtolower(session()->get('role'))) {
            case 'reception':
-              echo '<div class="col d-flex align-items-center action-btn"> <a href="#" class="btn btn-success btn-sm">EDIT PATIENT INFO</a> </div>';
+              echo '<div class="col d-flex align-items-center"> <a href="#" class="btn btn-outline-success btn-sm">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation
              if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
               if($consultation_payment->payment_confirmed_by == 0){
@@ -153,6 +154,8 @@
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
                     print_r($consultation_payment);
                     echo $consultation_payment->payment_confirmed_by == 0 ? $APPROVE_PAYMENT : $DIS_APPROVE;
+                  }elseif ($patient_info->status == 'inTreatment') {
+                    echo $ATTEND;
                   }
                break;
 

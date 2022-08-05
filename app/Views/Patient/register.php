@@ -52,6 +52,8 @@
 
 <div class="data-layout my-2 p-3 ">
 
+<?= view_cell('\App\Libraries\PatientPanel::PatientNavigation') ?>
+
    <div class="registration-form__form" >
            <form method="post" action="/patient/register" >
              <div class="row registration-space-y">   
@@ -61,20 +63,18 @@
                <div class="col">
                  <input type="text" name="middle_name"  value="<?= set_value('middle_name')?>" class="form-control" placeholder="Middle name" aria-describedby="Middle name">
                 </div>
-             </div><!-- /row -->
-
-            <div class="row registration-space-y">   
                 <div class="col">
                    <input type="text" name="sir_name" required value="<?= set_value('sir_name')?>" class="form-control" placeholder="Sir name" aria-describedby="Sir name">
                 </div>
+             </div><!-- /row -->
+
+            <div class="row registration-space-y">   
+           
                 <div class="col">
                     <input type="date" required title="Date of Birth" name="birth_date" value="<?= set_value('birth_date') ?>" class="form-control" placeholder="Date of Birth" aria-describedby="Date of Birth">
                     <small style="font-size: 11px; margin-left: 10px;"> <i>Date of Birth</i> </small>
                 </div>
-            </div><!-- /row -->
-
-            <div class="row registration-space-y">   
-              <div class="col d-flex align-items-center">
+                <div class="col">
                 <div class="w-100" >
                   <select class="form-control" name="gender" id="gender">
                     <option value=""> Select Gender</option>
@@ -83,26 +83,21 @@
                   </select>
                 </div>
               </div> <!-- /col -->
-      
               <div class="col">
                  <input type="text" name="phone_no" value="<?= set_value('phone_no') ?>"  class="form-control" placeholder="Phone number" aria-describedby="Phone number">
                </div>
-            </div> <!-- /row -->
+            </div><!-- /row -->
 
             <div class="row registration-space-y">
-                <div class="col">
-                    <div class="w-100" >
-                        <select class="form-control" name="pcharacter" id="pcharacter">
-                          <option value=""> Is Outpatient / Outsider? </option>
-                          <option value="outpatient" <?= set_value('pcharacter') == 'outpatient'? 'selected': '' ?> >OutPatient</option>
-                          <option value="outsider" <?= set_value('pcharacter') == 'outsider'? 'selected': '' ?>>Outsider</option>
-                        </select>
-                      </div>
-                  
-                </div><!-- /col -->
                   <div class="col">
                     <input type="text" required name="address" value="<?= set_value('address') ?>" class="form-control" placeholder="Address" aria-describedby="address">
                   </div>
+                  <div class="col">
+                    <input type="text" required name="nationality" value="<?= set_value('nationality') ?>" class="form-control" placeholder="Nationality" aria-describedby="nationality">
+                </div><!-- /col -->
+                  <div class="col">
+                    <input type="email" required name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="email" aria-describedby="email">
+                </div><!-- /col -->
             </div>
 
 
@@ -111,13 +106,11 @@
                 <!-- <span class=line""> </span> -->
                 <div class="row"> 
                     <div class="col">
-                      <input type="text" required name="next_kin_name" value="<?= set_value('next_kin_name') ?>" class="form-control" placeholder="next kin name"  aria-describedby="next kin name">
+                      <input type="text" required name="next_kin_name" value="<?= set_value('next_kin_name') ?>" class="form-control" placeholder="next kin full name"  aria-describedby="next kin full name">
                     </div>
                     <div class="col">
-                      <input type="text" required name="next_kin_relationship" value="<?= set_value('next_kin_relationship') ?>" class="form-control" placeholder="next kin relationshipd"  aria-describedby="next kin relationship">
+                      <input type="text" required name="next_kin_relationship" value="<?= set_value('next_kin_relationship') ?>" class="form-control" placeholder="next kin relationship "  aria-describedby="next kin relationship">
                     </div>
-                </div>
-                <div class="row mt-3"> 
                     <div class="col">
                       <input type="text" required name="next_kin_phone" value="<?= set_value('next_kin_phone') ?>" class="form-control" placeholder="next kin phone number"  aria-describedby="next kin phone number">
                     </div>
@@ -125,12 +118,29 @@
                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div> <!-- /registration-space-y -->
 
+            <div class="registration-space-y">
+                <label for="pcharacter" class="form-label"> <i> Select patient character</i> </label>
+                <div class="row">
+                  <div class="col">
+                    <div class="w-100" >
+                            <select class="form-control" name="pcharacter" id="pcharacter">
+                              <option value=""> Is Outpatient / Outsider? </option>
+                              <option value="outpatient" <?= set_value('pcharacter') == 'outpatient'? 'selected': '' ?> >OutPatient</option>
+                              <option value="outsider" <?= set_value('pcharacter') == 'outsider'? 'selected': '' ?>>Outsider</option>
+                            </select>
+                    </div>
+                  </div><!-- /col-6 -->
+                  <div class="col"></div>
+                  <div class="col"></div>
+                </div>
+           </div> <!-- /registration-space-y -->
+
             <div class="row mt-6">
                  <div class="col">
-                     <a href="/patient/search" class="btn btn-warning btn-rounded"> Cancel </a>
+                     <a href="/patient/search" class="btn btn-warning btn-sm"> Cancel </a>
                 </div>
                  <div class="col d-flex justify-content-end">
-                     <button class="btn btn-primary btn-rounded" style="width: 8rem;"> Register </button>
+                     <button class="btn btn-success btn-sm " style="width: 8rem;"> Register </button>
                 </div>
             </div><!-- /row -->
          </form><!-- /form -->

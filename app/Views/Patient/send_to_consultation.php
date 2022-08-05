@@ -49,30 +49,7 @@
            <?= strtoupper($patient_profile['phone_no']) ?>
       </div><!-- /col -->
   </div><!-- /row -->
-  <div class="row">
-      <div class="col">
-        NEXT KIN NAME:
-      </div><!-- /col -->
-      <div class="col">
-           <?= strtoupper($patient_profile['next_kin_name']) ?>
-      </div><!-- /col -->
-  </div><!-- /row -->
-  <div class="row">
-      <div class="col">
-        NEXT KIN RELATIONSHIP:
-      </div><!-- /col -->
-      <div class="col">
-           <?= strtoupper($patient_profile['next_kin_relationship']) ?>
-      </div><!-- /col -->
-  </div><!-- /row -->
-  <div class="row">
-      <div class="col">
-        NEXT KIN PHONE:
-      </div><!-- /col -->
-      <div class="col">
-           <?= strtoupper($patient_profile['next_kin_phone']) ?>
-      </div><!-- /col -->
-  </div><!-- /row -->
+
   <div class="row">
       <div class="col">
         PATIENT CHARACTER:
@@ -162,10 +139,10 @@
       
     <div class="row mt-6">
         <div class="col">
-            <a href="/patient/search" class="btn btn-warning btn-rounded"> Cancel </a>
+            <a href="/patient/search" class="btn btn-warning btn-sm"> Cancel </a>
         </div>
         <div class="col d-flex justify-content-end">
-            <button class="btn btn-primary btn-rounded"> Send to Doctor </button>
+            <button class="btn btn-success btn-sm"> Send to Doctor </button>
        </div>
    </div><!-- /row -->
 

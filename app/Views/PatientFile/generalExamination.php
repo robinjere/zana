@@ -73,6 +73,9 @@
         <!-- <label for="" class="form-label"></label> -->
         <textarea class="form-control" x-model="examination.description" rows="3" placeholder="Description"></textarea>
       </div>
+      <div class="d-flex justify-content-end align-items-center">
+        <button class="btn btn-success btn-sm  mt-2"> Save </button>
+      </div>
 
    </form>
 
