@@ -2,12 +2,15 @@
 <?= $this->section('content') ?>
 
 <div class="position-relative d-flex flex-column align-items-center justify-content-center vw-100 login overflow-hidden">
-  <!-- <div class="position-absolute login__bg">
+  <div class="position-absolute login__bg">
     <img src="/assets/login-bg.jpg" class="login__bg--image"/> 
-  </div> -->
+  </div>
     <!-- <div class="heading-block">
       <h1 class="bg-white login-heading text-uppercase text-center my-4">Welcome to <?= $clinic['name'] ?></h1>
     </div>/heading-block  -->
+    <div class="mb-4 d-flex" style="z-index: 99;">
+      <img src="<?= getenv('CLIENT_LOGO') ?>" alt="logo">
+    </div><!-- /d-flex -->
 
   <div class="position-relative w-100">
     <div class="container login-layout mb-2">
@@ -107,6 +110,7 @@
     </div>  <!-- /position-relative -->
 
   </div>
+  <p class="login-copy"> &copy; Allright reserved </p>
 </div>
 
   <div class="position-relative">

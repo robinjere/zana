@@ -2,7 +2,7 @@
 <div class="panel-nav">
     <div class="d-flex justify-content-between align-items-center">
         <!-- <h1 class="mb-0"> <?= getenv('CLINIC_NAME') ?> </h1> -->
-        <h1 class="mb-0 title"> <img src="<?= getenv('APP_AUTHOR') ?>" style="width: 14%;" alt="zana healthcare"> </h1>
+        <h1 class="mb-0 title"> <img src="<?= getenv('CLIENT_LOGO') ?>" style="height:54px;" alt="zana healthcare"> </h1>
     
         <div class="panel-nav__profile d-flex align-items-center">
              <div class="profile-icon"> 

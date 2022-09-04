@@ -1,5 +1,6 @@
 <div id="general-examination" class="clinical-note"
-  x-data="generalExamination()"
+  x-data="$store.generalExamination"
+  x-init="initialExamination()"
 >
    <h5>
         <span class='icon'>
@@ -12,69 +13,69 @@
         </span>  
    </h5>
 
-   <form action="" method="post" class="examination-form mt-2" style="margin-top: 1.7rem !important; padding: 10px; background: #e9ecef;">
+   <form x-on:submit.prevent action="" method="post" class="examination-form mt-2" style="margin-top: 1.7rem !important; padding: 10px; background: #e9ecef;">
 
       <div class="row mb-2">
         <div class="col-6">
           <label for="pressureInp" class="form-label">Pressure:(mmHg)</label>
-          <input type="text" class="form-control" x-model="examination.pressure" id="pressureInp" aria-describedby="helpId" placeholder="Pressure"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.pressure" id="pressureInp" aria-describedby="helpId" placeholder="Pressure"/>
         </div><!-- /col-6 -->
         <div class="col-6">
         <label for="temperatureInp" class="form-label">Temperature (oC)</label>
-        <input type="text" class="form-control" x-model="examination.temperature" id="temperatureInp" aria-describedby="helpId" placeholder="Temperature"/>
+        <input type="text" class="form-control" :disabled="canEdit" x-model="examination.temperature" id="temperatureInp" aria-describedby="helpId" placeholder="Temperature"/>
         </div><!--- /col-6 -->
       </div><!-- /row -->
 
       <div class="row mb-2">
         <div class="col-6">
           <label for="pulseRateInp" class="form-label">Pulse rate: <span class="unit">(b/min)</span> </label>
-          <input type="text" class="form-control" x-model="examination.pulse_rate" id="pulseRateInp"  placeholder="Pulse rate"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.pulse_rate" id="pulseRateInp"  placeholder="Pulse rate"/>
         </div><!-- /col-6 -->
         <div class="col-6">
         <label for="weightInp" class="form-label">Weight: <span class="unit">(Kg)</span></label>
-        <input type="text" class="form-control" x-model="examination.weight" id="weightInp" placeholder="Weight"/>
+        <input type="text" class="form-control" :disabled="canEdit" x-model="examination.weight" id="weightInp" placeholder="Weight"/>
         </div><!--- /col-6 -->
       </div><!-- /row -->
 
       <div class="row mb-2">
         <div class="col-6">
           <label for="heightInp" class="form-label">Height: <span class="unit">(cm)</span> </label>
-          <input type="text" class="form-control" x-model="examination.height" id="heightInp"  placeholder="Height"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.height" id="heightInp"  placeholder="Height"/>
         </div><!-- /col-6 -->
         <div class="col-6">
           <label for="bodyMassInp" class="form-label">Body mass Index: <span class="unit">(Kg/n)</span></label>
-          <input type="text" class="form-control" x-model="examination.body_mass" id="bodyMassInp" placeholder="Body mass Index"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.body_mass" id="bodyMassInp" placeholder="Body mass Index"/>
         </div><!--- /col-6 -->
       </div><!-- /row -->
 
       <div class="row mb-2">
         <div class="col-6">
           <label for="bodySurfaceInp" class="form-label">Body surface area: <span class="unit">(cmkg)</span> </label>
-          <input type="text" class="form-control" x-model="examination.body_surface_area" id="bodySurfaceInp"  placeholder="Body surface area"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.body_surface_area" id="bodySurfaceInp"  placeholder="Body surface area"/>
         </div><!-- /col-6 -->
         <div class="col-6">
           <label for="body_mass_comment" class="form-label">Body Mass Index Comment: <span class="unit">(Kg/n)</span></label>
-          <input type="text" class="form-control" x-model="examination.body_mass_comment" id="body_mass_comment" placeholder="Body Mass Index Comment"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.body_mass_comment" id="body_mass_comment" placeholder="Body Mass Index Comment"/>
         </div><!--- /col-6 -->
       </div><!-- /row -->
 
       <div class="row mb-2">
         <div class="col-6">
           <label for="saturation_of_oxygen" class="form-label">Saturation of Oxygen: <span class="unit">(%)</span> </label>
-          <input type="text" class="form-control" x-model="examination.saturation_of_oxygen" id="saturation_of_oxygen"  placeholder="Saturation of Oxygen"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.saturation_of_oxygen" id="saturation_of_oxygen"  placeholder="Saturation of Oxygen"/>
         </div><!-- /col-6 -->
         <div class="col-6">
           <label for="respiratory_rate" class="form-label">Respiratory Rate: <span class="unit">(cycles/min)</span></label>
-          <input type="text" class="form-control" x-model="examination.respiratory_rate" id="respiratory_rate" placeholder="Respiratory Rate"/>
+          <input type="text" class="form-control" :disabled="canEdit" x-model="examination.respiratory_rate" id="respiratory_rate" placeholder="Respiratory Rate"/>
         </div><!--- /col-6 -->
       </div><!-- /row -->
 
       <div class="">
         <!-- <label for="" class="form-label"></label> -->
-        <textarea class="form-control" x-model="examination.description" rows="3" placeholder="Description"></textarea>
+        <textarea class="form-control" :disabled="canEdit" x-model="examination.description" rows="3" placeholder="Description"></textarea>
       </div>
       <div class="d-flex justify-content-end align-items-center">
-        <button class="btn btn-success btn-sm  mt-2"> Save </button>
+        <button @click="assignGeneralExamination()" class="btn btn-success btn-sm  mt-2"> Save </button>
       </div>
 
    </form>
@@ -83,12 +84,17 @@
 
 
 <?= $this->section('script') ?>
-<script> 
- function generalExamination(){
-    return {
+<script defer> 
+//store 
+document.addEventListener('alpine:init', () => {
+   Alpine.store('generalExamination', {
       loading: false,
       success: false,
       message: '', 
+      canEdit: <?= json_encode(in_array(session()->get('role'), ['doctor', 'nurse']) ? !true : !false ) ?>,
+      start_treatment: <?= json_encode($patient_file['start_treatment']) ?>,
+      end_treatment: <?= json_encode($patient_file['end_treatment']) ?>,
+
       examination: {
         pressure:'',
         temperature:'',
@@ -100,11 +106,79 @@
         body_mass_comment:'',
         saturation_of_oxygen:'',
         respiratory_rate:'',
-        description:'',
-        patient_file: ''
+        description:''
+      },
+      assignGeneralExamination(){
+        fetch('<?= base_url('patientFileController/ajax_assignExamination') ?>', {
+                  method: 'post',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify({
+                    patient_file: <?= $patient_file['id'] ?>,
+                    start_treatment: this.start_treatment,
+                    end_treatment: this.end_treatment,
+                    added_by: <?= session()->get('id') ?>,
+                    pressure:this.examination.pressure,
+                    temperature:this.examination.temperature,
+                    pulse_rate:this.examination.pulse_rate,
+                    weight:this.examination.weight,
+                    height:this.examination.height,
+                    body_mass:this.examination.body_mass,
+                    body_surface_area:this.examination.body_surface_area,
+                    body_mass_comment:this.examination.body_mass_comment,
+                    saturation_of_oxygen:this.examination.saturation_of_oxygen,
+                    respiratory_rate:this.examination.respiratory_rate,
+                    description:this.examination.description
+                  })
+         }).then(res => res.json()).then(data => {
+          // console.log('examination after sent', data);
+            this.examination.pressure = data.pressure,
+            this.examination.temperature = data.temperature,
+            this.examination.pulse_rate = data.pulse_rate,
+            this.examination.weight = data.weight,
+            this.examination.height = data.height,
+            this.examination.body_mass = data.body_mass,
+            this.examination.body_surface_area = data.body_surface_area,
+            this.examination.body_mass_comment = data.body_mass_comment,
+            this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
+            this.examination.respiratory_rate = data.respiratory_rate,
+            this.examination.description = data.description
+         })
+      },
+      initialExamination(){
+        fetch('<?= base_url('patientFileController/ajax_Examination') ?>', {
+                  method: 'post',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify({
+                    patient_file: <?= $patient_file['id'] ?>,
+                    start_treatment: this.start_treatment,
+                    end_treatment: this.end_treatment
+                  })
+         }).then(res => res.json()).then(data => {
+              console.log('available examination', data);
+              console.log('examination To UPDATE!', this.examination);
+            this.examination.pressure = data.pressure,
+            this.examination.temperature = data.temperature,
+            this.examination.pulse_rate = data.pulse_rate,
+            this.examination.weight = data.weight,
+            this.examination.height = data.height,
+            this.examination.body_mass = data.body_mass,
+            this.examination.body_surface_area = data.body_surface_area,
+            this.examination.body_mass_comment = data.body_mass_comment,
+            this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
+            this.examination.respiratory_rate = data.respiratory_rate,
+            this.examination.description = data.description
+         })
       }
       
-    }
- }
+    })
+ })
 </script>
 <?= $this->endSection('script') ?>

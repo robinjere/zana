@@ -14,6 +14,7 @@ use App\Models\DiagnosesModel;
 use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
 use App\Models\AssignedDiagnosesModel;
+use App\Models\GeneralExaminationModel;
 use monken\TablesIgniter;
 
 
@@ -389,6 +390,40 @@ class PatientFileController extends BaseController
         }else{
             echo json_encode(['success'=> false, 'message' => 'failed to delete assigned radiology!']);
         }
+    }
+   }
+
+   public function ajax_assignExamination(){
+      $generalExaminationModel = new GeneralExaminationModel;
+      if($this->request->getMethod() == 'post'){
+        $availableExamination = $generalExaminationModel->checkIfExaminationEntered($this->request->getVar('patient_file'), $this->request->getVar('start_treatment'), $this->request->getVar('end_treatment'));
+        // echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        $isEmpty = true;
+        if(!empty($availableExamination)){
+          $isEmpty = false;  
+          $newExamination = $this->request->getVar();
+          
+          $newExamination->id = $availableExamination->id;
+          if($generalExaminationModel->save($newExamination)){
+            $this->ajax_Examination();
+            // echo json_encode(['success'=> true, 'message' => 'updated!', 'availableExamination' => $newExamination]);  
+          }
+        //   echo json_encode(['availableExamination' => $availableExamination, 'empty_examination' => $isEmpty]);
+        }else{
+            if($generalExaminationModel->save($this->request->getVar())){
+                $this->ajax_Examination();
+                // echo json_encode(['success'=> true, 'message' => 'Examination saved!']);  
+            }
+        }
+        
+      }
+   }
+
+   public function ajax_Examination(){
+    $generalExaminationModel = new GeneralExaminationModel;
+    if($this->request->getMethod() == 'post'){
+        $availableExamination = $generalExaminationModel->getExamination($this->request->getVar('patient_file'), $this->request->getVar('start_treatment'), $this->request->getVar('end_treatment'));
+        echo json_encode($availableExamination);
     }
    }
 

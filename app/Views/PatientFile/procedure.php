@@ -14,10 +14,10 @@
      
       <?php if(session()->get('role') == 'doctor'){?>
          <!-- Button trigger modal -->
-         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId" @click="isAssign=true; showAssignBtn=false" type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
+         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId"  type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
       <?php } ?>   
 
-      <form x-on:submit.prevent="assignProcedure()" x-show="isAssign">
+      
       
       <!-- Modal -->
       <div class="modal fade" id="ProcedureModalId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -27,6 +27,7 @@
                   <h5 class="modal-title">Assign Procedure</h5>
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
+               <form x-on:submit.prevent="assignProcedure()" >
                <div class="modal-body">                       
       
                            <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
@@ -49,11 +50,12 @@
                   <button type="button" class="btn btn-primary">Save</button> -->
                   <button type="submit" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Submit Procedure</button>
                </div>
+               </form><!-- /form -->
             </div>
          </div>
       </div>
       <!-- /Modal -->
-      </form><!-- /form -->
+      
       
 
    </div><!-- /d-flex -->

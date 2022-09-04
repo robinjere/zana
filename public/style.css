@@ -25,6 +25,10 @@ body{
   font-weight: 700;
   color: var(--z-primary);
 }
+
+.login-copy{
+  z-index: 99;
+}
 @media screen and (min-width: 40rem) {
   .login-layout{
     display: flex;
@@ -295,7 +299,6 @@ body{
 }
 
 /* error and warning  */
-
 /* --------------- REGISTRATION ---------------  */
 
 
@@ -304,7 +307,7 @@ body{
 
 /* ----- profile -----  */
 .panel-nav{
-    /* padding: 16px; */
+    padding: 2px 16px; 
     background: #FFFFFF;
     box-shadow: 0px 2px 4px rgb(0 0 0 / 4%);
 }
@@ -550,6 +553,10 @@ body{
   margin-left: 5px;
   font-size: .9rem;
 }
+
+.tox-statusbar__text-container{
+  display: none !important;
+}
 /* TOP NAV  */
 .open-menu{
   transform: translate3d(0, 0, 0) !important;
@@ -755,15 +762,19 @@ body{
 
 .input-note .clinical-btn{
   position: absolute;
-  right: 0;
   padding: 8px;
+  z-index: 6;
+  top: 3px;
+  right: 9px;
 }
 .input-note .note-desc{
   position: absolute;
-  top: 12px;
+  bottom: -5px;
   left: 14px;
+  padding: 0 14px;
   font-size: 0.9rem;
   color: #898787;
+  z-index: 6;
 }
 
 /* style tables */

@@ -79,7 +79,7 @@
       <template x-for="_note in notes" :key="_note.id">
         <div class="input-note mb-2" x-data="notesEditData()">
             <div class="clinical-btn">
-               <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false"> edit </button>
+               <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false;"> edit </button>
                <button class="btn btn-sm btn-success" @click="saving = true; edit = false; if($store.notesData.saveEditedNote(_note.id, _note.note)){ saving = false; edit = true; }" x-cloak x-show="edit==false && _note.note" x-bind:disabled="saving"> 
                   <span x-cloak x-show="!saving"> save </span> 
                   <span x-cloak x-show="saving" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -93,7 +93,7 @@
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
             <label for="note" class="form-label note-desc" style="background: #e9ecef;" x-text="'Added by doctor '+ _note.last_name + ',  ' + _note.first_name">Added by doctor Juma</label>
-           <textarea class="form-control pt-5 pb-3" x-bind:disabled="edit" x-text="_note.note" x-model="_note.note" placeholder="" ></textarea>
+           <textarea class="form-control pt-5 pb-3" :id="'edit-note'+_note.id;" x-bind:disabled="edit"  x-text="_note.note; openEditor('edit-note'+_note.id);" x-model="_note.note" placeholder="" ></textarea>
         </div><!-- /input-note --> 
    </template>
  </div><!-- /list-notes -->
@@ -225,7 +225,7 @@ document.addEventListener('alpine:init', () => {
    let data = ''
    try {
 
-      const response = await fetch(
+    const response = await fetch(
       "<?= base_url('patientFileController/addnote') ?>",
        {
           method: 'POST',
@@ -245,6 +245,14 @@ document.addEventListener('alpine:init', () => {
    //   })
 
      console.log('file loaded..', data);
+  }
+
+  //clinical note
+  tinymce.init({selector:'#note'});
+   
+  function openEditor(_selector){
+     console.log('selected', _selector);
+     tinymce.init({selector:'#'+_selector});
   }
   
 </script>
