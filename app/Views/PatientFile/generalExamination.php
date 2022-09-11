@@ -162,8 +162,8 @@ document.addEventListener('alpine:init', () => {
                     end_treatment: this.end_treatment
                   })
          }).then(res => res.json()).then(data => {
-              console.log('available examination', data);
-              console.log('examination To UPDATE!', this.examination);
+              // console.log('available examination', data);
+              // console.log('examination To UPDATE!', this.examination);
             this.examination.pressure = data.pressure,
             this.examination.temperature = data.temperature,
             this.examination.pulse_rate = data.pulse_rate,

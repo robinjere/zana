@@ -80,7 +80,6 @@ class GeneralExaminationModel extends Model
         $builder->join('patients_file', 'patients_file.id = general_examination.patient_file');
         
         //  -------------- **** ---------- //
-
         $builder->groupStart();
         
         $builder->where('general_examination.patient_file', $file_id);
@@ -93,7 +92,6 @@ class GeneralExaminationModel extends Model
         }
 
         // --------- **** ------  //
-
         $builder->groupEnd();
         return $builder->get()->getRow();
     }

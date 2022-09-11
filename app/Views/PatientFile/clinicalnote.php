@@ -147,7 +147,7 @@ document.addEventListener('alpine:init', () => {
       //  this.notes = custom_addnote(this.current_note)
      },
      getClinicalNotes(){
-        console.error('before request', JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment}))
+      //   console.error('before request', JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment}))
         fetch("<?= base_url('patientFileController/ajax_getclinicalnotes')?>", {
            method: 'POST',
            headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With':'XMLHttpRequest'},
@@ -163,7 +163,7 @@ document.addEventListener('alpine:init', () => {
               this.notes = data
            }
          //   data = data.map(singleData => ({...singleData,  edit: true, saving: false, deleting: false}))
-           console.log('GET CLINICAL NOTE IS CALLED AND DATA RETURN IS:', data)
+        //   console.log('GET CLINICAL NOTE IS CALLED AND DATA RETURN IS:', data)
         })
      },
 
@@ -198,14 +198,14 @@ document.addEventListener('alpine:init', () => {
      deletePrevNote(note_id){
             // this.deleting = true
             note_id = Number(note_id)
-            console.log('NOTE TO DELETE => ', note_id)
+            // console.log('NOTE TO DELETE => ', note_id)
             return fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
                method: 'POST',
                headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
                body: JSON.stringify({id: note_id })
             }).then(res => res.json())
                .then(data => {
-                  console.log('DELETING SUCCESSFUL', data);
+                  // console.log('DELETING SUCCESSFUL', data);
                   if(data.success){
                      this.getClinicalNotes()
                      // return { deleting : false}
@@ -244,7 +244,7 @@ document.addEventListener('alpine:init', () => {
    //          return data;
    //   })
 
-     console.log('file loaded..', data);
+   //   console.log('file loaded..', data);
   }
 
   //clinical note

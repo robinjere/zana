@@ -18,6 +18,23 @@
             </button>
           <?php } ?>
 
+          <?php if(session()->get('role') == 'cashier'){ ?>
+            <template x-if="itermsForPrinting.length"> 
+               <form target="_blank" action="<?= base_url()?>/generaterisit" method="post">
+                  <input type="hidden" name="risitType" value="labtest"/>
+                  <input type="hidden" name="fileId" value="<?= $patient_file['id'] ?>"/>
+                  <input type="hidden" name="fileNo" value="<?= $patient_file['file_no'] ?>"/>
+                  <input type="hidden" name="fullName" value="<?= $patient_file['first_name'].' '.$patient_file['middle_name'] .', '. $patient_file['sir_name'] ?>"/>
+                  <input type="hidden" name="start_treatment" value="<?= $patient_file['start_treatment'] ?>"/>
+                  <input type="hidden" name="end_treatment" value="<?= $patient_file['end_treatment'] ?>"/>
+                  <input type="hidden" name="printList" :value=" JSON.stringify(itermsForPrinting); "/>
+                  <button type="submit" class="btn btn-sm btn-success">
+                              Generate risit
+                  </button>
+               </form>
+            </template>
+          <?php } ?>
+
         <?php if(session()->get('role') == 'doctor'){ ?>
             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
           <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
@@ -162,7 +179,7 @@
               </div><!-- /d-flex -->
               <template x-if="!loading && labtestResult.id != ''">  
                
-               <form @submit.prevent="submitResult()" method="post" enctype="multipart/form-data" >           
+               <form @submit.prevent="addLabTestResult()" method="post" enctype="multipart/form-data" >           
                  <div class="mb-3">
                    <label for="result_" class="form-label">Result</label>                 
                     <textarea class="form-control" x-model="labtestResult.result" id="result_" rows="3"></textarea>
@@ -196,7 +213,7 @@
             </div><!-- /modal-body -->
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary">Verify Result</button>
+               <button type="button" @click="addLabTestResult()" class="btn btn-primary">Verify Result</button>
             </div>
          </div>
       </div>
@@ -245,7 +262,9 @@
          labtests: [],
          selected: '',
          selectLabTest(selected){
+            console.log('selected labtest', selected)
             this.selected = this.labtests.filter(lab => Number(lab.id) == Number(selected))[0]
+
             fetch('<?= base_url('patientFileController/ajax_assignlabtest') ?>',{
                 method: 'post',
                 headers: {
@@ -282,6 +301,7 @@
          getLabTestResult(labtestId){
               this.success = false;
               this.loading = true;
+            //   console.log('Get lab Test Result', labtestId)
               fetch('<?= base_url('patientFileController/ajax_getLabtestResult') ?>',{
                 method: 'post',
                 headers: {
@@ -306,7 +326,113 @@
              })
          },
          addLabTestResult(){
+              this.success = false;
+              this.loading = true;
+              let labResult = {};
+            
+              fetch('<?= base_url('patientFileController/ajax_addLabTestResult') ?>', {
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                  id:      this.labtestResult.id, 
+                  result:  this.labtestResult.result,
+                  ranges:  this.labtestResult.ranges,
+                  unit:    this.labtestResult.unit,
+                  level:   this.labtestResult.level
+                })
+              }).then(res => res.json()).then(data => {
+                     //   console.log('after added result ----> data', data); 
+                     //   console.log('yaan ----> data', data); 
+                       this.loading = false;
 
+                       this.labtestResult.id = ''
+                       this.labtestResult.result = ''
+                       this.labtestResult.ranges = ''
+                       this.labtestResult.unit = ''
+                       this.labtestResult.level = ''
+                       this.labtestResult.attachment = ''
+
+                       //call labtest result..
+                       let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('lab_Results')) // Returns a Bootstrap modal instance
+                       let modal2 = bootstrap.Modal.getOrCreateInstance(document.getElementById('addLabtestResult_')) // Returns a Bootstrap modal instance
+                       // Show or hide:
+
+                       modal.show();
+                       labTestResults();
+                       modal2.hide();
+
+                     // console.log('labtest result after', data);
+             })
+         },
+         confirmPaymentLabTestResult(labtestId){
+            fetch('<?= base_url('patientFileController/confirmPaymentLabTestResult') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: labtestId,
+                        confirmed_by: <?= session()->get('id') ?>
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                        labTestTable()
+                        this.addItemToPrint(labtestId)
+                     }
+                  })
+         },
+         unconfirmPaymentLabTestResult(labtestId){
+            fetch('<?= base_url('patientFileController/confirmPaymentLabTestResult') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: labtestId,
+                        confirmed_by: 0
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                        labTestTable()
+                        this.removeItemToPrint(labtestId)
+                     }
+                  })
+         },
+
+         itermsForPrinting: [],
+
+         //add item in print list 
+         addItemToPrint(ItemId){
+            if(Array.isArray(this.itermsForPrinting) && !this.itermsForPrinting.length){
+               this.itermsForPrinting.push(ItemId)
+            }else{
+               this.itermsForPrinting.map((element, index, arr) => {
+                  console.log('each element', element);
+                  console.log('each index', index);
+                  console.log('each arr', arr);
+                  if(arr[index] !== ItemId){
+                     this.itermsForPrinting.push(ItemId)
+                  }
+               });
+            }
+            
+            console.log('items added to print list', this.itermsForPrinting)
+         },
+
+         //remove item in print list
+         removeItemToPrint(ItemId){
+            if(Array.isArray(this.itermsForPrinting)){
+               this.itermsForPrinting = this.itermsForPrinting.filter(iterm => (iterm !== ItemId))
+            }
+         console.log('items to print after one iterm removed', this.itermsForPrinting)
          }
       }
   }
@@ -315,10 +441,18 @@
   function labTestTable(){
       $(document).ready(function(){
         $('#table_labtest').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+            'print'
+            // { extend: 'print', exportOptions:
+            //     { columns: ':visible' }
+            // }
+           ],
           "order": [],
           "destroy": true,   
           "searching": false,
           "serverSide": true,
+          "ordering": false,
           "ajax": {
             url: "<?= base_url('patientFileController/ajax_assignedlabtest') ?>",
             type: "POST",
@@ -352,6 +486,8 @@
           })
  }
 
+ 
+
  function labTestResults(){
       $(document).ready(function(){
         $('#table_labtestResult').DataTable({
@@ -372,9 +508,11 @@
       });
    }
 
-   function addLabTestResult(labtestId){
+   // function addLabTestResult(labtestId){
 
-   }
+   // }
+
+   
 
   </script>
 <?= $this->endSection() ?>

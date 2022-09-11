@@ -43,7 +43,7 @@ class RadResult extends Model
     public function getAssignedResult($file_id, $start_date, $end_date){
         $builder = $this->db->table('rad_results');
         $builder->select('rad_results.id, rad_results.updated_at, rad_results.paid, rad_investigation.test_name, rad_investigation.price');
-        $builder->join('rad_investigation', 'rad_results.id = rad_investigation.id');
+        $builder->join('rad_investigation', 'rad_results.rad_id = rad_investigation.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
         $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
@@ -56,7 +56,7 @@ class RadResult extends Model
     public function getRadiologyResults($file_id, $start_date, $end_date){
         $builder = $this->db->table('rad_results');
         $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_results.ranges, rad_results.unit, rad_results.level, rad_results.attachment');
-        $builder->join('rad_investigation', 'rad_results.id = rad_investigation.id');
+        $builder->join('rad_investigation', 'rad_investigation.id = rad_results.rad_id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
         $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');

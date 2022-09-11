@@ -206,6 +206,7 @@
                    doctor: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {
+                 console.log('radiology sent', data);
                        if(data.success){
                         radiologyTable()
                        }
@@ -223,7 +224,7 @@
   function radiologyTable(){
       $(document).ready(function(){
         $('#table_radiology').DataTable({
-          "order": [],
+          "ordering": false,
           "destroy": true,   
           "searching": false,
           "serverSide": true,

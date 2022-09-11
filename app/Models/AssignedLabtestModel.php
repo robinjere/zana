@@ -82,7 +82,11 @@ class AssignedLabtestModel extends Model
     
     public function status(){
         return function($row){
-           return '<span class="badge badge-sm bg-danger"> Not paid </span>';
+            if($row['confirmed_by'] != 0){
+                return '<span class="badge badge-sm bg-success"> paid </span>';
+            }else{
+                return '<span class="badge badge-sm bg-danger"> Not paid </span>';
+            }
         };
     }
       
@@ -100,7 +104,26 @@ class AssignedLabtestModel extends Model
             if(session()->get('role') == 'lab'){
                 return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> add result </button>';
             }
+            if(in_array(session()->get('role'), ['cashier','reception'])){
+                if($row['confirmed_by'] != 0){
+                    return '<button @click="unconfirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
+                }else{
+                    return '<button @click="confirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
+                }
+            }
         };
+    }
+
+    public function paidLabtest($labtestList){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.price, assigned_labtests.confirmed_by, assigned_labtests.doctor');
+        $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->whereIn('assigned_labtests.id', $labtestList);
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
     }
 
 }

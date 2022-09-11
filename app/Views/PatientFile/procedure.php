@@ -192,7 +192,7 @@ function proceduresData(){
    function proceduresTable(){
       $(document).ready(function(){
         $('#table_procedures').DataTable({
-          "order": [],
+          "ordering": false,
           "destroy": true,   
           "searching": false,
           "serverSide": true,

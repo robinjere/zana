@@ -150,10 +150,10 @@ class PatientFileController extends BaseController
        $assignedMedicineModel = new AssignedMedicineModel;
        if($this->request->getMethod() == 'post'){
          if($assignedMedicineModel->save($this->request->getVar())){
-            echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
-        }else{
-            echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
-        }
+                echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
+          }else{
+                echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
+          }
        }
    }
 
@@ -234,6 +234,28 @@ class PatientFileController extends BaseController
     if($this->request->getMethod() == 'post'){
         if($assignedLabtestModel->where('id', $this->request->getVar('assignedLabtest'))->delete()){
             echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        }
+    }
+   }
+
+   public function confirmPaymentLabTestResult(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedLabtestModel->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+
+   public function unconfirmPaymentLabTestResult(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedLabtestModel->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
         }
     }
    }
@@ -359,8 +381,21 @@ class PatientFileController extends BaseController
     $labtestResult = new AssignedLabtestModel;
     if($this->request->getMethod() == 'post'){
        $labtest_id = $this->request->getVar('labtest_id');
-       $result = $labtestResult->where('labtest_id', $labtest_id)->first();
+       $result = $labtestResult->where('id', $labtest_id)->first();
        echo json_encode(['result' => $result ]);
+    //    echo json_encode(['result' => $this->request->getVar('labtest_id') ]);
+    }
+   }
+
+   //labtest result
+   public function ajax_addLabTestResult(){
+    $labtestResult = new AssignedLabtestModel;
+    if($this->request->getMethod() == 'post'){
+    //   $labtest_id = $this->request->getVar('labtest_id');
+    //   $result = $labtestResult->('labtest_id', $labtest_id)->first();
+      if($labtestResult->save($this->request->getVar())){
+          echo json_encode(['success'=> true, 'message' => 'successful lab test result added!']);
+      }
     }
    }
 

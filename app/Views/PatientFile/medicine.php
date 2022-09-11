@@ -315,7 +315,7 @@
   function medicineTable(){
       $(document).ready(function(){
         $('#table_medicine').DataTable({
-          "order": [],
+          "ordering":false,
           "destroy": true,   
           "searching": false,
           "serverSide": true,

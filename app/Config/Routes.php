@@ -44,7 +44,9 @@ $routes->setAutoRoute(true);
     //  $routes->get('(:num)', 'PatientFileController::pfile/$1');
  });
 
-
+ $routes->group('generaterisit', function($routes){
+     $routes->match(['post', 'get'], '/', 'GenerateRisitController::generate', ['filter' => 'auth']);
+ });
  
  $routes->group('consultation', function($routes){
      $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);

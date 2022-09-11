@@ -800,3 +800,53 @@ table tbody tr td{
 }
 /* general-examination */
 /* ---------------  PATIENT FILE  ---------------  */
+
+
+
+
+/* ---------------  RISIT   ---------------  */
+.p-risit{
+  max-width: 50%;
+}
+
+.p-risit .title{
+  text-transform: uppercase;
+  font-size: var(--lg-heading) !important;
+  font-weight: 800;
+}
+
+.p-risit .table th, .p-risit .table td{
+  font-size: .9rem !important;
+}
+
+.p-risit .p-details{
+  font-size: .9rem;
+}
+.p-risit .p-details td{
+  padding: 0 0 !important;
+}  
+
+.p-risit .clinic-contacts{
+  font-size: .8rem;
+  margin-bottom: .8rem;
+}
+
+@media print {
+  .print-btn {
+    display: none;
+  }
+  .p-risit{
+    max-width: 100%;
+  }
+  .card {
+    border: none;
+    background-color: transparent;
+
+    @page {
+      size: a5 landscape;
+     }
+  }
+}
+
+/* ---------------  RISIT   ---------------  */
+
