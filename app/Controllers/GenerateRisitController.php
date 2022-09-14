@@ -47,6 +47,9 @@ class GenerateRisitController extends BaseController
          $assignedLabtestModel = new AssignedLabtestModel;
         //  $_labtest = $assignedLabtestModel->whereIn('id', json_decode($this->request->getVar('printList')))->find();
         $_labtest = $assignedLabtestModel->paidLabtest(json_decode($this->request->getVar('printList')));
+
+        $assignedLabtestModel->mark_printed_risit(json_decode($this->request->getVar('printList')));
+        
         $data['labtest'] = $_labtest;
         //  echo '<pre>';
         //  print_r($_labtest);
@@ -55,4 +58,5 @@ class GenerateRisitController extends BaseController
         //  return View('risit/labtest');
          return view('Risit/labtest', $data);
     }
+
 }

@@ -14,7 +14,7 @@ class AssignedLabtestModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['labtest_id', 'file_id', 'result', 'ranges','unit', 'level', 'attachment', 'price', 'confirmed_by', 'doctor', 'created_at'];
+    protected $allowedFields    = ['labtest_id', 'file_id', 'result', 'ranges','unit', 'level', 'attachment', 'price', 'confirmed_by', 'doctor', 'printed', 'created_at'];
 
     // Dates
     protected $useTimestamps = false;
@@ -42,7 +42,7 @@ class AssignedLabtestModel extends Model
 
     public function getAssignedLabtest($file_id, $start_date, $end_date){
         $builder = $this->db->table('assigned_labtests');
-        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.price, assigned_labtests.confirmed_by, assigned_labtests.doctor');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.price, assigned_labtests.confirmed_by, assigned_labtests.doctor, assigned_labtests.printed');
         $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -55,7 +55,7 @@ class AssignedLabtestModel extends Model
 
     public function getLabtestResult($file_id, $start_date, $end_date){
         $builder = $this->db->table('assigned_labtests');
-        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, assigned_labtests.attachment');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, assigned_labtests.attachment, assigned_labtests.printed');
         $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -98,18 +98,18 @@ class AssignedLabtestModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(session()->get('role') == 'doctor'){
+            if(in_array(session()->get('role'), ['doctor', 'reception']) && $row['confirmed_by'] == 0){
                 return '<button onclick="deleteAssignedLabtest('.$row['id'].')" class="badge badge-sm bg-danger"> delete </button>';
             }
             if(session()->get('role') == 'lab'){
                 return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> add result </button>';
             }
-            if(in_array(session()->get('role'), ['cashier','reception'])){
-                if($row['confirmed_by'] != 0){
-                    return '<button @click="unconfirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
-                }else{
-                    return '<button @click="confirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
-                }
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+                    if($row['confirmed_by'] != 0){
+                        return '<button @click="unconfirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
+                    }else{
+                        return '<button @click="confirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
+                    }
             }
         };
     }
@@ -124,6 +124,12 @@ class AssignedLabtestModel extends Model
         $builder->groupEnd();
        
         return $builder->get()->getResult();
+    }
+
+    public function mark_printed_risit($labtestList){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->whereIn('id', $labtestList);
+        return $builder->update(['printed' => true ]);
     }
 
 }

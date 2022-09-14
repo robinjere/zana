@@ -4,7 +4,8 @@ html, body {
 }
 
 body{
-  background: var(--z-lighter-gray);
+  /* background: var(--z-lighter-gray); */
+  background-color: var(--z-lighter-gray) !important;
 }
 
 /* ------------------------------ LOGIN SCREEN  ------------------------------ */
@@ -29,6 +30,7 @@ body{
 .login-copy{
   z-index: 99;
 }
+
 @media screen and (min-width: 40rem) {
   .login-layout{
     display: flex;

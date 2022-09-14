@@ -35,7 +35,7 @@
             </template>
           <?php } ?>
 
-        <?php if(session()->get('role') == 'doctor'){ ?>
+        <?php if(in_array(session()->get('role'), ['doctor','reception'])){ ?>
             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
           <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
         <?php } ?>
@@ -262,7 +262,7 @@
          labtests: [],
          selected: '',
          selectLabTest(selected){
-            console.log('selected labtest', selected)
+            // console.log('selected labtest', selected)
             this.selected = this.labtests.filter(lab => Number(lab.id) == Number(selected))[0]
 
             fetch('<?= base_url('patientFileController/ajax_assignlabtest') ?>',{
@@ -314,7 +314,7 @@
                 })
               }).then(res => res.json()).then(data => {
                        data = data.result
-                       console.log('result ----> data', data); 
+                     //   console.log('result ----> data', data); 
                        this.loading = false;
                        this.labtestResult.id = data.id 
                        this.labtestResult.result = data.result
@@ -415,16 +415,16 @@
                this.itermsForPrinting.push(ItemId)
             }else{
                this.itermsForPrinting.map((element, index, arr) => {
-                  console.log('each element', element);
-                  console.log('each index', index);
-                  console.log('each arr', arr);
+                  // console.log('each element', element);
+                  // console.log('each index', index);
+                  // console.log('each arr', arr);
                   if(arr[index] !== ItemId){
                      this.itermsForPrinting.push(ItemId)
                   }
                });
             }
             
-            console.log('items added to print list', this.itermsForPrinting)
+            // console.log('items added to print list', this.itermsForPrinting)
          },
 
          //remove item in print list
@@ -432,7 +432,7 @@
             if(Array.isArray(this.itermsForPrinting)){
                this.itermsForPrinting = this.itermsForPrinting.filter(iterm => (iterm !== ItemId))
             }
-         console.log('items to print after one iterm removed', this.itermsForPrinting)
+         // console.log('items to print after one iterm removed', this.itermsForPrinting)
          }
       }
   }
@@ -511,8 +511,15 @@
    // function addLabTestResult(labtestId){
 
    // }
-
+   document.addEventListener('visibilitychange', function(){
+      if(document.hidden){
+         // console.log('Browser tab is hidden!');
+      }else{
+         // console.log('Browset tab is showen!');
+         labTestTable()
+      }
+   })
+ 
    
-
   </script>
 <?= $this->endSection() ?>

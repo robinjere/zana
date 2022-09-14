@@ -15,7 +15,7 @@
                     'id' => $patient_file->id,
                     'file_no' => $patient_file->file_no,
                     'patient_id' => $patient_file->patient_id,
-                    'name' => $patient_file->name,
+                    'name' => isset($patient_file->name) ? $patient_file->name : '',
                     'payment_method' => $patient_file->payment_method,
                     'insuarance_no' => $patient_file->insuarance_no,
                     'start_treatment' => $patient_file->start_treatment,
@@ -60,7 +60,7 @@
             </div><!-- file-status --> 
              <!-- -->
              <p class="file-info">
-                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>, CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>
+                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>,  CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>
              </p>
     </div><!-- file-header -->
    <hr class="divider" style="margin: 0!important; "/>
@@ -98,7 +98,7 @@
         <div class="row">
             <div class="col-6"> 
                 
-                <?php if(in_array(session()->get('role'), ['doctor', 'lab', 'cashier'])){?>
+                <?php if(in_array(session()->get('role'), ['doctor', 'lab', 'cashier', 'reception'])){?>
                     
                         <!-- labtest -->
                         <?= view_cell('\App\Libraries\PatientPanel::Labtest', $patient_file) ?> 
@@ -118,7 +118,7 @@
         </div><!-- ./row -->
      </div><!-- /section-style -->
         
-        <?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
+        <?php if(in_array(session()->get('role'), ['doctor', 'cashier']) && $patient_file['patient_character'] !== 'outsider'){?>
             <div class="mt-2 section-style">
                 <!-- Medicine -->
                 <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 
@@ -126,7 +126,7 @@
             </div>
         <?php } ?>
         
-    <?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
+    <?php if(in_array(session()->get('role'), ['doctor', 'cashier']) && $patient_file['patient_character'] !== 'outsider'){?>
         <div class="mt-2 section-style">
             <!-- Procedures -->
             <?= view_cell('\App\Libraries\PatientPanel::Procedures', $patient_file) ?>

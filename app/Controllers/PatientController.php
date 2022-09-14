@@ -36,6 +36,7 @@ class PatientController extends BaseController
             }else{
                 $form_data = $this->request->getVar();
                 $form_data['user_id'] = session()->get('id');
+              
                 try {
                        $patientModel->save($form_data);
                        //generate file number MRNO/YEAR_OF_REGISTRATION/PATIENT_ID
@@ -43,17 +44,58 @@ class PatientController extends BaseController
                        $file_generated = 'MRNO/'.date('Y').'/'.$patient_id;
                        //session()->setFlashdata('success', 'patient registered');
                        //save patient file generated.
+                       // print_r($patient_id);
+                       // exit;
+                       
                        $patientFileModel = new PatientsFileModel;
                        $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => $form_data['pcharacter']]);
+                       if($form_data['pcharacter'] == 'outsider'){
+                           return redirect()->to('/patient/outsider/'.$patient_id)->with('success', 'patient registered');
+                       }
                        return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('success', 'patient registered');
                 } catch (\Exception $e) {
                     //throw $th;
+                    print_r($e->getMessage());
+                    exit;
                     session()->setFlashdata('validation', $e->getMessage());
                 }
             }
         }
 
         return view('Patient/register', $data);
+    }
+
+    public function outsider($patient_id =""){
+        $data = [];
+        helper('form');
+        $user_model = new UserModel;
+        $patientFileModel = new PatientsFileModel;
+        $patientModel = new PatientModel;
+        // $consultationModel = new ConsultationModel;
+        $clinicModel = new ClinicModel;
+
+        // $data['doctors'] = $user_model->get_users_doctor();
+        $data['clinics'] = $clinicModel->find();
+        $data['patient_info'] = $patientFileModel->where('patient_id', $patient_id)->first();
+        $data['patient_profile'] = $patientModel->where('id', $patient_id)->first();
+        
+        return view('patient/outsider', $data);
+    }
+
+    public function outsider_start_treatment(){
+        $patientFileModel = new PatientsFileModel;
+        if($this->request->getMethod() == 'post'){
+            // print_r($this->request->getVar());
+            $_updateFile = [
+               'id' => $this->request->getVar('file_id'),
+               'payment_method' => $this->request->getVar('payment_method'),
+               'start_treatment' => $this->request->getVar('start_treatment'),
+               'status' => $this->request->getVar('status'),
+            ];
+            if($patientFileModel->save($_updateFile)){
+                return redirect()->to('/patient/outsider/'.$this->request->getVar('patient_id'))->with('success', 'outsider started treament');
+            }
+        }
     }
 
     public function send_to_consultation($patient_id = ''){

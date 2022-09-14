@@ -54,7 +54,7 @@ class PatientModel extends Model
 
     public function searchPatient(String $filter, String $searchterm){
         $builder = $this->db->table('patients');
-        $builder->select('patients.id, patients.first_name, patients.middle_name, patients.sir_name, patients_file.id as file_id, patients_file.file_no, patients_file.payment_method, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character');
+        $builder->select('patients.id,  patients.first_name, patients.middle_name, patients.sir_name, patients_file.id as file_id, patients_file.patient_id, patients_file.file_no, patients_file.payment_method, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character');
         if($filter == 'name'){
             $builder->like('patients.first_name', $searchterm);
             $builder->orLike('patients.middle_name', $searchterm);

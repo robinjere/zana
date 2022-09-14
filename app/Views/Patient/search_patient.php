@@ -72,7 +72,7 @@
         <div class="row">
           <div class="col">PATIENT CHARACTER: </div>
           <div class="col">
-            <span class="badge bg-primary"><?= strtoupper($patient_info->patient_character) ?>!</span>
+            <span class="badge bg-primary"><?= strtoupper($patient_info->patient_character) ?></span>
           </div>
         </div>
 
@@ -94,6 +94,7 @@
             }
         ?>
 
+   
       </div> <!-- detail -->
       <div class="row navigation g-0" style="padding: 9px;">
          <?php 
@@ -112,6 +113,10 @@
         $CANCEL_CONSULTATION = '';
         $APPROVE_PAYMENT = '';
         $DIS_APPROVE = '';
+
+        $START_TREATMENT = '
+           
+        ';
           
         if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
 
@@ -140,13 +145,25 @@
               if($consultation_payment->payment_confirmed_by == 0){
                 echo $CANCEL_CONSULTATION;
                }
-             }elseif ($patient_info->status == '') {
+             }elseif ($patient_info->status == '' && $patient_info->patient_character !== 'outsider') {
               echo $SEND_TO_DOCTOR;
-             }elseif ($patient_info->status == 'inTreatment') {
+             }elseif ($patient_info->status == 'inTreatment' && $patient_info->patient_character == 'outsider') {
               echo $ATTEND;
              }elseif ($patient_info->status == 'finishTreatment') {
               echo $SEND_TO_DOCTOR;
-             }
+             }elseif ($patient_info->status == '' || $patient_info->status == 'finishTreatment') {   ?>
+             <div class="col d-flex justify-content-end align-items-center">                       
+              <form method="post" action="<?= base_url('patient/outsider_start_treatment') ?>">
+                <input type="hidden" name="file_id" value="<?=$patient_info->file_id ?>"/>
+                <input type="hidden" name="patient_id" value="<?= $patient_info->patient_id  ?>"/>
+                <input type="hidden" name="payment_method" value="CASH"/>
+                <input type="hidden" name="start_treatment" value="<?= date('Y-m-d') ?>"/>
+                <input type="hidden" name="status" value="inTreatment"/>
+                <input type="submit" value="START TREATMENT" class="btn btn-success btn-sm"/>
+              </form>
+             </div>
+
+          <?php  }
              break;
 
            case 'cashier': 
@@ -157,6 +174,7 @@
                   }elseif ($patient_info->status == 'inTreatment') {
                     echo $ATTEND;
                   }
+
                break;
 
            case 'doctor': 
@@ -166,7 +184,7 @@
                     if( $consultation_payment->payment_confirmed_by != 0) {
                       echo $CONSULT;
                     }
-                  }elseif ($patient_info->status == 'inTreatment') {
+                  }elseif ($patient_info->status == 'inTreatment' && $patient_info->patient_character !== 'outsider') {
                     echo $ATTEND;
                   }
 

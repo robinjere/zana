@@ -21,7 +21,7 @@
                   </button>
                <?php } ?>
 
-               <?php if(session()->get('role') == 'doctor'){ ?>
+               <?php if(in_array(session()->get('role'), ['doctor','reception'])){ ?>
                   <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#radiologyId">
                      Assign Radiology
                   </button>

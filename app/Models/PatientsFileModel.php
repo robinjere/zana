@@ -40,13 +40,21 @@ class PatientsFileModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function patientFile(Int $file_id){
+    public function patientFile(Int $file_id, String $character = ''){
        $builder = $this->db->table('patients_file');
-       $builder->select('patients_file.id, patients_file.file_no, patients_file.patient_id, patients_file.payment_method, patients_file.insuarance_no, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character,
-                         patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender, clinics.name');
+       if($character === ''){
+           $builder->select('patients_file.id, patients_file.file_no, patients_file.patient_id, patients_file.payment_method, patients_file.insuarance_no, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character,
+           patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender, clinics.name');
+        }else{
+            $builder->select('patients_file.id, patients_file.file_no, patients_file.patient_id, patients_file.payment_method, patients_file.insuarance_no, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character,
+            patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender');
+        }
+      
        $builder->where('patients_file.id', $file_id);
        $builder->join('patients', 'patients_file.patient_id = patients.id');
-       $builder->join('clinics', 'patients_file.clinic = clinics.id');
+       if($character === ''){
+           $builder->join('clinics', 'patients_file.clinic = clinics.id');
+       }
        return $builder->get()->getRow();
     }
 }

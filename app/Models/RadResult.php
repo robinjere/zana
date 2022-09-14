@@ -88,7 +88,7 @@ class RadResult extends Model
     }
     public function actionButtons(){
         return function($row){
-            if(strtolower(session()->get('role')) == 'doctor'){
+            if(in_array(strtolower(session()->get('role')),['doctor','reception'])){
                 return '<button onclick="deleteAssignedRadiology('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
         };

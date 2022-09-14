@@ -52,8 +52,16 @@ class PatientFileController extends BaseController
         $patientsFileModel = new PatientsFileModel;
         
         // $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
+        $_patient = $patientsFileModel->where('id', $file_id)->first();
+        // print_r($_patient); exit;
+        if($_patient['patient_character'] === 'outsider'){
+            $data['patient_file'] = $patientsFileModel->patientFile($file_id, 'outsider');
+        }else{
+            $data['patient_file'] = $patientsFileModel->patientFile($file_id, '');
+        }
         
-        $data['patient_file'] = $patientsFileModel->patientFile($file_id);
+        // print_r($data['patient_file']);
+        // exit;
 
         return view('patientfile/file', $data);
     }
