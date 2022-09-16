@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\AssignedLabtestModel;
+use App\Models\RadResult;
 
 use App\Controllers\BaseController;
 
@@ -28,7 +29,7 @@ class GenerateRisitController extends BaseController
                     break;
 
                 case 'radiology':
-                    # code...
+                    return $this::radiologyRisit();
                     break;
                 
                 default:
@@ -57,6 +58,26 @@ class GenerateRisitController extends BaseController
 
         //  return View('risit/labtest');
          return view('Risit/labtest', $data);
+    }
+
+    protected function radiologyRisit(){
+         $data = [
+           'file_no' => $this->request->getVar('fileNo'),
+           'full_name' =>  $this->request->getVar('fullName')
+         ]; 
+         $assignedRadResult = new RadResult;
+        //  $_labtest = $assignedLabtestModel->whereIn('id', json_decode($this->request->getVar('printList')))->find();
+        $_radiology = $assignedRadResult->paidRadiology(json_decode($this->request->getVar('printList')));
+
+        $assignedRadResult->mark_printed_risit(json_decode($this->request->getVar('printList')));
+        
+        $data['radiology'] = $_radiology;
+        //  echo '<pre>';
+        //  print_r($_labtest);
+        //  echo '</pre>';
+
+        //  return View('risit/labtest');
+         return view('Risit/radiology', $data);
     }
 
 }

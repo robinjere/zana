@@ -14,7 +14,7 @@ class RadResult extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['rad_id','result','ranges','unit','level','attachment','paid','file_id','doctor','updated_at'];
+    protected $allowedFields    = ['rad_id','result','ranges','unit','level','attachment','confirmed_by','file_id','doctor','printed','updated_at'];
 
     // Dates
     protected $useTimestamps = false;
@@ -42,7 +42,7 @@ class RadResult extends Model
 
     public function getAssignedResult($file_id, $start_date, $end_date){
         $builder = $this->db->table('rad_results');
-        $builder->select('rad_results.id, rad_results.updated_at, rad_results.paid, rad_investigation.test_name, rad_investigation.price');
+        $builder->select('rad_results.id, rad_results.updated_at, rad_results.confirmed_by, rad_results.printed, rad_investigation.test_name, rad_investigation.price');
         $builder->join('rad_investigation', 'rad_results.rad_id = rad_investigation.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -55,7 +55,7 @@ class RadResult extends Model
 
     public function getRadiologyResults($file_id, $start_date, $end_date){
         $builder = $this->db->table('rad_results');
-        $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_results.ranges, rad_results.unit, rad_results.level, rad_results.attachment');
+        $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_results.ranges, rad_results.unit, rad_results.level, rad_results.attachment, rad_results.printed');
         $builder->join('rad_investigation', 'rad_investigation.id = rad_results.rad_id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -83,13 +83,20 @@ class RadResult extends Model
     
     public function status(){
         return function($row){
-            return $row['paid'] ? '<span class="badge badge-sm bg-success"> Paid </span>' : '<span class="badge badge-sm bg-danger"> notPaid </span>';
+            return $row['confirmed_by'] != 0 ? '<span class="badge badge-sm bg-success"> Paid </span>' : '<span class="badge badge-sm bg-danger"> notPaid </span>';
         };
     }
     public function actionButtons(){
         return function($row){
             if(in_array(strtolower(session()->get('role')),['doctor','reception'])){
                 return '<button onclick="deleteAssignedRadiology('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            }
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+                if($row['confirmed_by'] != 0){
+                    return '<button @click="unconfirmPaymentRadiology('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
+                }else{
+                    return '<button @click="confirmPaymentRadiology('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
+                }
             }
         };
     }
@@ -99,5 +106,23 @@ class RadResult extends Model
                 return '<button onclick="updateRadResult('.$row['id'].')" class="badge badge-sm  bg-success"> Update </button>';
             }
         };
+    }
+
+    public function paidRadiology($labtestList){
+        $builder = $this->db->table('rad_results');
+        $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_investigation.price, rad_results.confirmed_by, rad_results.doctor');
+        $builder->join('rad_investigation', 'rad_investigation.id = rad_results.rad_id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->whereIn('rad_results.id', $labtestList);
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
+    }
+
+    public function mark_printed_risit($labtestList){
+        $builder = $this->db->table('rad_results');
+        $builder->whereIn('id', $labtestList);
+        return $builder->update(['printed' => true ]);
     }
 }

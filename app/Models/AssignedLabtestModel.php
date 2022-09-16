@@ -101,7 +101,7 @@ class AssignedLabtestModel extends Model
             if(in_array(session()->get('role'), ['doctor', 'reception']) && $row['confirmed_by'] == 0){
                 return '<button onclick="deleteAssignedLabtest('.$row['id'].')" class="badge badge-sm bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'lab'){
+            if(session()->get('role') == 'lab' && $row['confirmed_by'] != 0){
                 return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> add result </button>';
             }
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){

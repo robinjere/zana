@@ -268,6 +268,30 @@ class PatientFileController extends BaseController
     }
    }
 
+   //radiology
+   public function confirmPaymentRadiology(){
+
+    $assignedRadResult = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        if($assignedRadResult->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+
+   public function unconfirmPaymentRadiology(){
+    $assignedRadResult = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        if($assignedRadResult->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+
    public function ajax_searchdiagnosis(){
     $diagnosesModel = new DiagnosesModel;
     if($this->request->getMethod() == 'post'){
