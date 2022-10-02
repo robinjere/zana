@@ -189,8 +189,8 @@ class PatientFileController extends BaseController
         $data_table->setTable($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date))
                    ->setDefaultOrder('id', 'DESC')
                  //   ->setSearch(['name'])
-                   ->setOrder(['created_at', 'name', 'dosage','route','frequency','days','qty','instruction','payed','selling_price'])
-                   ->setOutput([$assignedMedicineModel->medicineDateFormat(), 'name', 'dosage','route','frequency','days','qty','instruction','payed', $assignedMedicineModel->formatAmount(), $assignedMedicineModel->actionButtons()]);
+                   ->setOrder(['created_at', 'name', 'dosage','route','frequency','days','qty','instruction','paid','selling_price'])
+                   ->setOutput([$assignedMedicineModel->medicineDateFormat(), 'name', 'dosage','route','frequency','days','qty','instruction',$assignedMedicineModel->isPaid(), $assignedMedicineModel->formatAmount(), $assignedMedicineModel->actionButtons()]);
 
         return $data_table->getDatatable();
 
@@ -257,10 +257,25 @@ class PatientFileController extends BaseController
     }
    }
 
+  
+
    public function unconfirmPaymentLabTestResult(){
     $assignedLabtestModel = new AssignedLabtestModel;
     if($this->request->getMethod() == 'post'){
         if($assignedLabtestModel->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+
+   //medicine
+   public function confirmPaymentMedicine(){
+    $assignedMedicine = new AssignedMedicineModel;
+    if($this->request->getMethod() == 'post'){
+        
+        if($assignedMedicine->save($this->request->getVar())){
             echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
         }else{
             echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);

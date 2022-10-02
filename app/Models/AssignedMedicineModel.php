@@ -14,7 +14,7 @@ class AssignedMedicineModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','payed', 'created_at'];
+    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','confirmed_by', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;
@@ -43,7 +43,7 @@ class AssignedMedicineModel extends Model
     public function getAssignedMedicine(Int $file_id, $start_date, $end_date){
 
             $builder = $this->db->table('assignedmedicines');
-            $builder->select('assignedmedicines.id, assignedmedicines.created_at, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.payed');
+            $builder->select('assignedmedicines.id, assignedmedicines.created_at, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
             $builder->join('items', 'assignedmedicines.drug_id = items.id');
             // $builder->join('user', 'assigned_procedures.doctor = user.id');
             $builder->groupStart();
@@ -66,9 +66,43 @@ class AssignedMedicineModel extends Model
         return $column;
     }
 
+    public function isPaid(){
+        return function ($row){
+            return $row['confirmed_by'] == 0 ? 'not paid' : 'paid';
+        };
+    }
+
     public function actionButtons(){
         return function($row){
-            return '<button onclick="deleteMedicine('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0){
+                return '<button onclick="deleteMedicine('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            }
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+                if($row['confirmed_by'] != 0){
+                    return '<button @click="unconfirmPaymentMedicine('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
+                }else{
+                    return '<button @click="confirmPaymentMedicine('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
+                }
+            }
         };
+    }
+
+    
+    public function paidMedicine($medicineList){
+        $builder = $this->db->table('assignedmedicines');
+        $builder->select('assignedmedicines.id, assignedmedicines.updated_at, items.name, assignedmedicines.dosage, assignedmedicines.qty, assignedmedicines.instruction, items.selling_price, assignedmedicines.confirmed_by');
+        $builder->join('items', 'assignedmedicines.drug_id = items.id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->whereIn('assignedmedicines.id', $medicineList);
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
+    }
+
+    public function mark_printed_risit($medicineList){
+        $builder = $this->db->table('assignedmedicines');
+        $builder->whereIn('id', $medicineList);
+        return $builder->update(['printed' => true ]);
     }
 }
