@@ -61,6 +61,7 @@ class PatientModel extends Model
             $builder->orLike('patients.sir_name', $searchterm);
         }elseif ($filter == 'file_no') {
             $builder->like('patients_file.file_no', $searchterm);
+            $builder->orLike('patients.phone_no', $searchterm);
         }
         $builder->join('patients_file', 'patients.id = patients_file.patient_id');
      

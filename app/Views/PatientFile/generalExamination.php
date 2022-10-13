@@ -135,17 +135,19 @@ document.addEventListener('alpine:init', () => {
                   })
          }).then(res => res.json()).then(data => {
           // console.log('examination after sent', data);
-            this.examination.pressure = data.pressure,
-            this.examination.temperature = data.temperature,
-            this.examination.pulse_rate = data.pulse_rate,
-            this.examination.weight = data.weight,
-            this.examination.height = data.height,
-            this.examination.body_mass = data.body_mass,
-            this.examination.body_surface_area = data.body_surface_area,
-            this.examination.body_mass_comment = data.body_mass_comment,
-            this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
-            this.examination.respiratory_rate = data.respiratory_rate,
-            this.examination.description = data.description
+            if(data){
+              this.examination.pressure = data.pressure,
+              this.examination.temperature = data.temperature,
+              this.examination.pulse_rate = data.pulse_rate,
+              this.examination.weight = data.weight,
+              this.examination.height = data.height,
+              this.examination.body_mass = data.body_mass,
+              this.examination.body_surface_area = data.body_surface_area,
+              this.examination.body_mass_comment = data.body_mass_comment,
+              this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
+              this.examination.respiratory_rate = data.respiratory_rate,
+              this.examination.description = data.description
+            }
          })
       },
       initialExamination(){
@@ -164,17 +166,19 @@ document.addEventListener('alpine:init', () => {
          }).then(res => res.json()).then(data => {
               // console.log('available examination', data);
               // console.log('examination To UPDATE!', this.examination);
-            this.examination.pressure = data.pressure,
-            this.examination.temperature = data.temperature,
-            this.examination.pulse_rate = data.pulse_rate,
-            this.examination.weight = data.weight,
-            this.examination.height = data.height,
-            this.examination.body_mass = data.body_mass,
-            this.examination.body_surface_area = data.body_surface_area,
-            this.examination.body_mass_comment = data.body_mass_comment,
-            this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
-            this.examination.respiratory_rate = data.respiratory_rate,
-            this.examination.description = data.description
+              if(data){
+                this.examination.pressure = data.pressure,
+                this.examination.temperature = data.temperature,
+                this.examination.pulse_rate = data.pulse_rate,
+                this.examination.weight = data.weight,
+                this.examination.height = data.height,
+                this.examination.body_mass = data.body_mass,
+                this.examination.body_surface_area = data.body_surface_area,
+                this.examination.body_mass_comment = data.body_mass_comment,
+                this.examination.saturation_of_oxygen = data.saturation_of_oxygen,
+                this.examination.respiratory_rate = data.respiratory_rate,
+                this.examination.description = data.description
+              }
          })
       }
       

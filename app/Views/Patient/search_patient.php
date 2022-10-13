@@ -41,12 +41,12 @@
           <div class="col">PATIENT FILE NO:</div>
           <div class="col"><?= strtoupper($patient_info->file_no); ?></div>
         </div>
-        <?php if($search_by == 'name'){?>
+        
         <div class="row">
           <div class="col">PATIENT NAME:</div>
           <div class="col"><?= strtoupper($patient_info->sir_name).', '. strtoupper($patient_info->first_name); ?></div>
         </div>
-        <?php } ?>
+      
         <div class="row">
           <div class="col">STATUS:</div>
           <?php
@@ -55,7 +55,8 @@
                  echo '<div class="col"> PATIENT WAIT FOR CONSULTATION </div>';
                  break;
                case 'finishTreatment':
-                 echo $patient_info->end_treatment !== '0000-00-00' ? '<div class="col"> FINISH TREATMENT | '.$patient_info->end_treatment.'</div>' : '<div class="col"> CONSULTATION CONCELLEAD </div>';
+                   $date = date_create($patient_info->end_treatment);
+                 echo $patient_info->end_treatment !== '0000-00-00' ? '<div class="col"> FINISH TREATMENT ON '. date_format($date, 'd F, Y').'</div>' : '<div class="col"> CONSULTATION CANCELED </div>';
                  break;
                case 'inTreatment':
                  echo '<div class="col"> PATIENT IN TREATMENT  </div>';
@@ -97,7 +98,7 @@
    
       </div> <!-- detail -->
       <div class="row navigation g-0" style="padding: 9px;">
-         <?php 
+       <?php 
          $SEND_TO_DOCTOR = '<div class="col d-flex justify-content-end align-items-center"> 
                              <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="btn btn-success btn-sm"> SEND TO DOCTOR </a> 
                             </div>';
@@ -114,10 +115,8 @@
         $APPROVE_PAYMENT = '';
         $DIS_APPROVE = '';
 
-        $START_TREATMENT = '
-           
-        ';
-          
+        $START_TREATMENT = '';
+    
         if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
 
           $CANCEL_CONSULTATION = '<div class="col d-flex justify-content-end align-items-center"> 
@@ -134,10 +133,16 @@
         }
 
 
-      
         //  $role = in_array(session()->get('role'), ['specialist_doctor','general_doctor']) ? 'doctor' :  session()->get('role');
         //  print_r('-----------------'.session()->get('role').'---------------');
          switch (strtolower(session()->get('role'))) {
+
+           case 'pharmacy' : 
+              if ($patient_info->status == 'inTreatment') {
+                 echo $ATTEND;
+              }
+
+            break;
            case 'reception':
               echo '<div class="col d-flex align-items-center"> <a href="#" class="btn btn-outline-success btn-sm">EDIT PATIENT INFO</a> </div>';
             //if patient sent to consultation
@@ -169,7 +174,7 @@
            case 'cashier': 
                 echo '<div class="col"> </div>';
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-                    print_r($consultation_payment);
+                    // print_r($consultation_payment);
                     echo $consultation_payment->payment_confirmed_by == 0 ? $APPROVE_PAYMENT : $DIS_APPROVE;
                   }elseif ($patient_info->status == 'inTreatment') {
                     echo $ATTEND;
@@ -180,7 +185,7 @@
            case 'doctor': 
                   echo '<div class="col"> </div>';
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
-                    print_r($consultation_payment);
+                    // print_r($consultation_payment);
                     if( $consultation_payment->payment_confirmed_by != 0) {
                       echo $CONSULT;
                     }

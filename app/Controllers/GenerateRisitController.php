@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\AssignedLabtestModel;
 use App\Models\AssignedMedicineModel;
+use App\Models\AssignedProceduresModel;
 use App\Models\RadResult;
 
 use App\Controllers\BaseController;
@@ -36,6 +37,10 @@ class GenerateRisitController extends BaseController
                 case 'medicine':
                     return $this::medicineRisit();
                     break;
+
+                case 'procedure':
+                    return $this::procedureRisit();
+                    break;
                 
                 default:
                     # code...
@@ -63,6 +68,29 @@ class GenerateRisitController extends BaseController
 
         //  return View('risit/labtest');
          return view('Risit/labtest', $data);
+    }
+
+    protected function procedureRisit(){
+
+         //TODO::
+         $data = [
+            'file_no' => $this->request->getVar('fileNo'),
+            'full_name' =>  $this->request->getVar('fullName')
+          ]; 
+          $assignedProceduresModel = new AssignedProceduresModel;
+         //  $_labtest = $assignedLabtestModel->whereIn('id', json_decode($this->request->getVar('printList')))->find();
+         $_procedure = $assignedProceduresModel->paidProcedure(json_decode($this->request->getVar('printList')));
+ 
+         $assignedProceduresModel->mark_printed_risit(json_decode($this->request->getVar('printList')));
+         
+         $data['procedureList'] = $_procedure;
+        //   echo '<pre>';
+        // //   print_r($_labtest);
+        //   echo '</pre>';
+        //   exit;
+        
+          return view('Risit/procedure', $data);
+
     }
 
     protected function medicineRisit(){

@@ -13,7 +13,7 @@
     </li>
    <?php } ?>
 
-   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier'])){?>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
         <a href="/sales/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
@@ -38,7 +38,7 @@
     </li>
     <?php } ?>
 
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'pharmacy', 'cashier'])){?>
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'expense' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
           <a href="/expense/list" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'expense' ? 'sidebar__active-link': null; ?>">

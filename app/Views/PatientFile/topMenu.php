@@ -20,10 +20,12 @@
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
             <button type="button" class="btn btn-success"> SEND TO OTHER CLINIC </button>
          <?php } ?>
-         <!-- <?php if(in_array(session()->get('role'), ['doctor'])){?> 
-             <button type="button" class="btn btn-success"> FINISH TREATMENT </button>
-         <?php } ?> -->
-         <?php if(in_array(session()->get('role'), ['doctor', 'radiology'])){?> 
+         <?php if(in_array(session()->get('role'), ['pharmacy'])){?> 
+            <!-- $patient_file['id'] -->
+           
+             <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
+         <?php } ?>
+         <?php if(in_array(session()->get('role'), ['doctor', 'radiology', 'pharmacy'])){?> 
            <button type="button" class="btn btn-success"> PATIENT HISTORY </button>
          <?php } ?>
       </div>

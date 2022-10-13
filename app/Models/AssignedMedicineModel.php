@@ -14,7 +14,7 @@ class AssignedMedicineModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','confirmed_by', 'created_at'];
+    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','confirmed_by', 'taken', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;
@@ -43,7 +43,7 @@ class AssignedMedicineModel extends Model
     public function getAssignedMedicine(Int $file_id, $start_date, $end_date){
 
             $builder = $this->db->table('assignedmedicines');
-            $builder->select('assignedmedicines.id, assignedmedicines.created_at, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
+            $builder->select('assignedmedicines.id, assignedmedicines.created_at, assignedmedicines.taken, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
             $builder->join('items', 'assignedmedicines.drug_id = items.id');
             // $builder->join('user', 'assigned_procedures.doctor = user.id');
             $builder->groupStart();
@@ -68,7 +68,7 @@ class AssignedMedicineModel extends Model
 
     public function isPaid(){
         return function ($row){
-            return $row['confirmed_by'] == 0 ? 'not paid' : 'paid';
+            return $row['confirmed_by'] == 0 ? '<span class="badge bg-success badge-sucesss"> not paid </span>' : '<span class="badge bg-success badge-sucesss" > paid </span> ';
         };
     }
 
@@ -76,6 +76,13 @@ class AssignedMedicineModel extends Model
         return function($row){
             if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0){
                 return '<button onclick="deleteMedicine('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            }
+            if(session()->get('role') == 'pharmacy' &&  $row['confirmed_by'] != 0){
+                if($row['taken'] == 0 ){
+                    return '<button @click="taken('.$row['id'].')" class="badge badge-sm bg-danger"> not taken </button>';
+                }else{
+                    return '<button @click="nottaken('.$row['id'].')" class="badge badge-sm bg-success"> taken </button>';
+                }
             }
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
                 if($row['confirmed_by'] != 0){

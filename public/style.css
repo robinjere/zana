@@ -771,8 +771,10 @@ body{
 }
 .input-note .note-desc{
   position: absolute;
-  bottom: -5px;
-  left: 14px;
+  /* bottom: -5px;
+  left: 14px; */
+  top: 11px;
+  left: 1px;
   padding: 0 14px;
   font-size: 0.9rem;
   color: #898787;

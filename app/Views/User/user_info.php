@@ -134,7 +134,7 @@
             <div class="row mt-3">
                  <div class="col">
                                
-                     <a href="/user/list" class="btn btn-warning btn-sm"> Cancel </a>
+                     <a onclick="window.history.back()" class="btn btn-warning btn-sm"> Cancel </a>
                 </div>
                  <div class="col d-flex justify-content-end">
                    <?php if(session()->get('id') === $userInfo['id']): ?>

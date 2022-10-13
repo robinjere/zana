@@ -42,6 +42,7 @@ $routes->setAutoRoute(true);
      $routes->get('(:num)', 'PatientFileController::index/$1', ['filter' => 'auth']);
      $routes->get('consult/(:num)', 'PatientFileController::consult/$1', ['filter' => 'auth']);
      $routes->get('attend/(:num)', 'PatientFileController::attend/$1', ['filter' => 'auth']);
+     $routes->get('finish/(:num)', 'PatientFileController::finishTreatment/$1', ['filter' => 'auth']);
     //  $routes->match(['post', 'get'],'search', 'PatientController::index', ['filter' => 'auth']);
     //  $routes->get('(:num)', 'PatientFileController::pfile/$1');
  });

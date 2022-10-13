@@ -17,6 +17,22 @@
          <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId"  type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
       <?php } ?>   
 
+      <?php if(session()->get('role') == 'cashier'){ ?>
+            <template x-if="itermsForPrinting.length"> 
+               <form target="_blank" action="<?= base_url()?>/generaterisit" method="post">
+                  <input type="hidden" name="risitType" value="procedure"/>
+                  <input type="hidden" name="fileId" value="<?= $patient_file['id'] ?>"/>
+                  <input type="hidden" name="fileNo" value="<?= $patient_file['file_no'] ?>"/>
+                  <input type="hidden" name="fullName" value="<?= $patient_file['first_name'].' '.$patient_file['middle_name'] .', '. $patient_file['sir_name'] ?>"/>
+                  <input type="hidden" name="start_treatment" value="<?= $patient_file['start_treatment'] ?>"/>
+                  <input type="hidden" name="end_treatment" value="<?= $patient_file['end_treatment'] ?>"/>
+                  <input type="hidden" name="printList" :value=" JSON.stringify(itermsForPrinting); "/>
+                  <button type="submit" class="btn btn-sm btn-success">
+                              Generate risit
+                  </button>
+               </form>
+            </template>
+     <?php } ?>
       
       
       <!-- Modal -->
@@ -165,7 +181,73 @@ function proceduresData(){
                 this.isAssign = false
                 proceduresTable()
            }).catch(error => console.log('error', error))
-        }
+        },
+        confirmPaymentProcedure(procedureId){
+            fetch('<?= base_url('patientFileController/confirmPaymentProcedure') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: procedureId,
+                        confirmed_by: <?= session()->get('id') ?>
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                        proceduresTable()
+                        this.addItemToPrint(procedureId)
+                     }
+                  })
+         },
+         unconfirmPaymentProcedure(procedureId){
+            fetch('<?= base_url('patientFileController/confirmPaymentProcedure') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: procedureId,
+                        confirmed_by: 0
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                        proceduresTable()
+                        this.removeItemToPrint(procedureId)
+                     }
+                  })
+         },
+
+         itermsForPrinting: [],
+
+         //add item in print list 
+         addItemToPrint(ItemId){
+            if(Array.isArray(this.itermsForPrinting) && !this.itermsForPrinting.length){
+               this.itermsForPrinting.push(ItemId)
+            }else{
+               this.itermsForPrinting.map((element, index, arr) => {
+                  // console.log('each element', element);
+                  // console.log('each index', index);
+                  // console.log('each arr', arr);
+                  if(arr[index] !== ItemId){
+                     this.itermsForPrinting.push(ItemId)
+                  }
+               });
+            }
+            
+            // console.log('items added to print list', this.itermsForPrinting)
+         },
+
+         //remove item in print list
+         removeItemToPrint(ItemId){
+            if(Array.isArray(this.itermsForPrinting)){
+               this.itermsForPrinting = this.itermsForPrinting.filter(iterm => (iterm !== ItemId))
+            }
+         // console.log('items to print after one iterm removed', this.itermsForPrinting)
+         }
      }
  
    }   
@@ -188,6 +270,7 @@ function proceduresData(){
           }
        })
    }
+   
    
    function proceduresTable(){
       $(document).ready(function(){

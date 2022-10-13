@@ -96,7 +96,7 @@
                     <input type="text" required name="nationality" value="<?= set_value('nationality') ?>" class="form-control" placeholder="Nationality" aria-describedby="nationality">
                 </div><!-- /col -->
                   <div class="col">
-                    <input type="email" required name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="email" aria-describedby="email">
+                    <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="email" aria-describedby="email">
                 </div><!-- /col -->
             </div>
 

@@ -60,10 +60,10 @@ class GeneralExaminationModel extends Model
         $builder->where('general_examination.patient_file', $file_id);
         // $builder->where('DATE(patients_file.start_treatment) >=', $start_treatment);
         // $builder->where('DATE(patients_file.end_treatment) <=', $end_treatment );
-        $builder->where('DATE(patients_file.start_treatment) >=', date('Y-m-d', strtotime($start_treatment)));
+        $builder->where('DATE(general_examination.updated_at) >=', date('Y-m-d', strtotime($start_treatment)));
         
-        if(strtotime($end_treatment) < strtotime(date("Y-m-d"))){
-            $builder->where('DATE(patients_file.end_treatment) <=', date('Y-m-d', strtotime($end_treatment)));
+        if(strtotime($end_treatment) <= strtotime(date("Y-m-d"))){
+            $builder->where('DATE(general_examination.updated_at) <=', date('Y-m-d', strtotime($end_treatment)));
         }
 
         // --------- **** ------  //
@@ -85,10 +85,10 @@ class GeneralExaminationModel extends Model
         $builder->where('general_examination.patient_file', $file_id);
         // $builder->where('DATE(patients_file.start_treatment) >=', $start_treatment);
         // $builder->where('DATE(patients_file.end_treatment) <=', $end_treatment );
-        $builder->where('DATE(patients_file.start_treatment) >=', date('Y-m-d', strtotime($start_treatment)));
+        $builder->where('DATE(general_examination.updated_at) >=', date('Y-m-d', strtotime($start_treatment)));
         
-        if(strtotime($end_treatment) < strtotime(date("Y-m-d"))){
-            $builder->where('DATE(patients_file.end_treatment) <=', date('Y-m-d', strtotime($end_treatment)));
+        if(strtotime($end_treatment) <= strtotime(date("Y-m-d"))){
+            $builder->where('DATE(general_examination.updated_at) <=', date('Y-m-d', strtotime($end_treatment)));
         }
 
         // --------- **** ------  //

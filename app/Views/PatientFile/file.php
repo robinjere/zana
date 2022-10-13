@@ -1,36 +1,30 @@
 <?= $this->extend('./patientfile/layout') ?>
 <?= $this->section('file') ?>
 
-<?php if(!empty($patient_file)){ 
-//if end date is null then set to current date
-//    print_r(date('Y-m-d'));
-//    echo 'Today date |>';
-//    echo 'and app time zone: ';
-   
-//    echo app_timezone();
- 
-//   print_r($patient_file); 
+<?php if(!empty($patient_file)){
+//    echo $patient_file->id;
+//     print_r($patient_file);
+//     exit;
+    
+$patient_file = [
+        'id' => $patient_file->id,
+        'file_no' => $patient_file->file_no,
+        'patient_id' => $patient_file->patient_id,
+        'name' => isset($patient_file->name) ? $patient_file->name : '',
+        'payment_method' => $patient_file->payment_method,
+        'insuarance_no' => $patient_file->insuarance_no,
+        'start_treatment' => $patient_file->start_treatment,
+        'end_treatment' => $patient_file->end_treatment,
+        'status' => $patient_file->status,
+        'patient_character' => $patient_file->patient_character,
+        'first_name' => $patient_file->first_name,
+        'middle_name' => $patient_file->middle_name,
+        'sir_name' => $patient_file->sir_name,
+        'birth_date' => $patient_file->birth_date,
+        'gender' => $patient_file->gender
+];
+$patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];    
 
-                $patient_file = [
-                    'id' => $patient_file->id,
-                    'file_no' => $patient_file->file_no,
-                    'patient_id' => $patient_file->patient_id,
-                    'name' => isset($patient_file->name) ? $patient_file->name : '',
-                    'payment_method' => $patient_file->payment_method,
-                    'insuarance_no' => $patient_file->insuarance_no,
-                    'start_treatment' => $patient_file->start_treatment,
-                    'end_treatment' => $patient_file->end_treatment,
-                    'status' => $patient_file->status,
-                    'patient_character' => $patient_file->patient_character,
-                    'first_name' => $patient_file->first_name,
-                    'middle_name' => $patient_file->middle_name,
-                    'sir_name' => $patient_file->sir_name,
-                    'birth_date' => $patient_file->birth_date,
-                    'gender' => $patient_file->gender
-                ];
-
-
-   $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];
 ?>
     
 <div class="file">
@@ -63,7 +57,7 @@
                 <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>,  CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>
              </p>
     </div><!-- file-header -->
-   <hr class="divider" style="margin: 0!important; "/>
+   <hr class="divider" style="margin: 0 !important; "/>
     <div class="file-content">
 
     <?php if(in_array(session()->get('role'), ['doctor','radiology'])){?>
@@ -118,7 +112,7 @@
         </div><!-- ./row -->
      </div><!-- /section-style -->
         
-        <?php if(in_array(session()->get('role'), ['doctor', 'cashier']) && $patient_file['patient_character'] !== 'outsider'){?>
+        <?php if(in_array(session()->get('role'), ['doctor', 'pharmacy', 'cashier']) && $patient_file['patient_character'] !== 'outsider'){?>
             <div class="mt-2 section-style">
                 <!-- Medicine -->
                 <?= view_cell('\App\Libraries\PatientPanel::Medicine', $patient_file) ?> 

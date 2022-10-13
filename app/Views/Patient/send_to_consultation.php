@@ -142,7 +142,7 @@
             <a href="/patient/search" class="btn btn-warning btn-sm"> Cancel </a>
         </div>
         <div class="col d-flex justify-content-end">
-            <button class="btn btn-success btn-sm"> Send to Doctor </button>
+            <button class="btn btn-success btn-sm"> Submit Payment </button>
        </div>
    </div><!-- /row -->
 

@@ -44,7 +44,7 @@ class PatientsFileModel extends Model
        $builder = $this->db->table('patients_file');
        if($character === ''){
            $builder->select('patients_file.id, patients_file.file_no, patients_file.patient_id, patients_file.payment_method, patients_file.insuarance_no, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character,
-           patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender, clinics.name');
+           patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender, clinics.name, clinics.consultation_fee');
         }else{
             $builder->select('patients_file.id, patients_file.file_no, patients_file.patient_id, patients_file.payment_method, patients_file.insuarance_no, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character,
             patients.first_name, patients.middle_name, patients.sir_name, patients.birth_date, patients.gender');

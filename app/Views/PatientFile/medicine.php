@@ -326,6 +326,44 @@
             }
           })
      },
+     taken(medicineId){
+            fetch('<?= base_url('patientFileController/takenMedicine') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: medicineId,
+                        taken: true
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                      medicineTable()
+                        this.addItemToPrint(medicineId)
+                     }
+                  })
+         },
+         nottaken(medicineId){
+            fetch('<?= base_url('patientFileController/takenMedicine') ?>',{
+                     method: 'post',
+                     headers: {
+                     Accept: 'application/json',
+                     'Content-Type': 'application/json',
+                     'X-Requested-With': 'XMLHttpRequest'
+                     },
+                     body: JSON.stringify({
+                        id: medicineId,
+                        taken: false
+                     })
+                  }).then(res => res.json()).then(data => {
+                     if(data.success){
+                      medicineTable()
+                        this.addItemToPrint(medicineId)
+                     }
+                  })
+         },
      confirmPaymentMedicine(medicineId){
             fetch('<?= base_url('patientFileController/confirmPaymentMedicine') ?>',{
                      method: 'post',

@@ -93,7 +93,7 @@
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
             <label for="note" class="form-label note-desc" style="background: #e9ecef;" x-text="'Added by doctor '+ _note.last_name + ',  ' + _note.first_name">Added by doctor Juma</label>
-           <textarea class="form-control pt-5 pb-3" :id="'edit-note'+_note.id;" x-bind:disabled="edit"  x-text="_note.note; openEditor('edit-note'+_note.id);" x-model="_note.note" placeholder="" ></textarea>
+           <textarea class="form-control pt-5 pb-3" :id="'edit-note'+_note.id;" x-bind:disabled="edit"  x-text="_note.note; " x-model="_note.note" placeholder="" ></textarea>
         </div><!-- /input-note --> 
    </template>
  </div><!-- /list-notes -->
@@ -194,7 +194,8 @@ document.addEventListener('alpine:init', () => {
                      return false;
                   }
                }).catch(error => console.log(error))
-      },
+     },
+
      deletePrevNote(note_id){
             // this.deleting = true
             note_id = Number(note_id)
@@ -248,12 +249,12 @@ document.addEventListener('alpine:init', () => {
   }
 
   //clinical note
-  tinymce.init({selector:'#note'});
-   
-  function openEditor(_selector){
-     console.log('selected', _selector);
-     tinymce.init({selector:'#'+_selector});
-  }
+//   tinymce.init({selector:'#note'});
+// openEditor('edit-note'+_note.id);
+//   function openEditor(_selector){
+//      console.log('selected', _selector);
+//      tinymce.init({selector:'#'+_selector});
+//   }
   
 </script>
 

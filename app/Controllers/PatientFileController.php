@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\PatientsFileModel;
+use App\Models\PatientHistoryModel;
 use App\Models\ConsultationModel;
 use App\Models\ClinicalNoteModel;
 use App\Models\ProceduresModel;
@@ -39,7 +40,7 @@ class PatientFileController extends BaseController
 
         $data = [];
         $consultationModel->save($consultation);
-        $patientsFileModel->save(['id' => $file_id, 'start_treatment' => date('Y/m/d'), 'status' => 'inTreatment']);
+        $patientsFileModel->save(['id' => $file_id, 'start_treatment' => date('Y/m/d'), 'end_treatment' => '', 'status' => 'inTreatment']);
         //load patient file
         return $this::patient_file($file_id);
     }
@@ -53,16 +54,13 @@ class PatientFileController extends BaseController
         
         // $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
         $_patient = $patientsFileModel->where('id', $file_id)->first();
-        // print_r($_patient); exit;
+        
         if($_patient['patient_character'] === 'outsider'){
             $data['patient_file'] = $patientsFileModel->patientFile($file_id, 'outsider');
         }else{
             $data['patient_file'] = $patientsFileModel->patientFile($file_id, '');
         }
-        
-        // print_r($data['patient_file']);
-        // exit;
-
+        // print_r($_patient); exit;
         return view('patientfile/file', $data);
     }
 
@@ -123,6 +121,34 @@ class PatientFileController extends BaseController
             }
        }
     }
+
+    public function finishTreatment($patientFile){
+        $patientsFileModel = new PatientsFileModel;
+        $patientHistoryModel = new PatientHistoryModel;
+        // $date = date_create(now());
+        // $date = date_format($date, 'd/m/Y');
+            $patient_file = [
+                'id' => $patientFile,
+                'end_treatment' => date('Y-m-d'),
+                'status' => 'finishTreatment'
+            ];
+            $phistory = $patientsFileModel->where('id', $patientFile)->first();
+            $createHistory = [
+                'file_id' => $patientFile, 
+                'start_treatment' => $phistory['start_treatment'],
+                'end_treatment' => date('Y-m-d'),
+                'status' => 'finishTreatment',
+                'payment_method' => $phistory['payment_method'],
+                'insuarance_no' => $phistory['insuarance_no'],
+                'pcharacter' => $phistory['patient_character'] 
+            ];
+        //save patient history first
+        $patientHistoryModel->save($createHistory);
+        $patientsFileModel->save($patient_file);
+
+        return redirect()->to('/patient/search/')->with('success', 'patient finished!');
+    }
+
     public function ajax_assignedprocedure(){
         $assignedProceduresModel =  new AssignedProceduresModel;
         if($this->request->getMethod() == 'post'){
@@ -156,7 +182,18 @@ class PatientFileController extends BaseController
    
    public function ajax_assigndrug(){
        $assignedMedicineModel = new AssignedMedicineModel;
+       $itemModel = new ItemModel;
        if($this->request->getMethod() == 'post'){
+
+        //TODO :: detuct qty of drugs in store.
+        $qty = $this->request->getVar('qty');
+        $drug_id = $this->request->getVar('drug_id');
+
+        $_item = $itemModel->first($drug_id);
+        $new_qty = $_item['qty'] - $qty;
+
+        $itemModel->save(['id' => $drug_id, 'qty' => $new_qty]);
+
          if($assignedMedicineModel->save($this->request->getVar())){
                 echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
           }else{
@@ -257,8 +294,7 @@ class PatientFileController extends BaseController
     }
    }
 
-  
-
+   
    public function unconfirmPaymentLabTestResult(){
     $assignedLabtestModel = new AssignedLabtestModel;
     if($this->request->getMethod() == 'post'){
@@ -283,6 +319,17 @@ class PatientFileController extends BaseController
     }
    }
 
+   public function takenMedicine(){
+    $assignedMedicine = new AssignedMedicineModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedMedicine->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'medicine taken!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'medicine not taken!']);
+        }
+    }
+   }
+
    //radiology
    public function confirmPaymentRadiology(){
 
@@ -300,6 +347,29 @@ class PatientFileController extends BaseController
     $assignedRadResult = new RadResult;
     if($this->request->getMethod() == 'post'){
         if($assignedRadResult->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+
+   //confirm and unconfirm procedures..
+   public function confirmPaymentProcedure(){
+    $assignedProceduresModel = new AssignedProceduresModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedProceduresModel->save($this->request->getVar())){
+            echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
+        }else{
+            echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
+        }
+    }
+   }
+   
+   public function unconfirmPaymentProcedure(){
+    $assignedProceduresModel = new AssignedProceduresModel;
+    if($this->request->getMethod() == 'post'){
+        if($assignedProceduresModel->save($this->request->getVar())){
             echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
         }else{
             echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);

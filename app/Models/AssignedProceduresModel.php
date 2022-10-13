@@ -42,7 +42,7 @@ class AssignedProceduresModel extends Model
 
     public function getAssignedProcedures(Int $file_id, $start_date, $end_date){
         $builder = $this->db->table('assigned_procedures');
-        $builder->select('procedures.name, user.first_name, user.last_name, assigned_procedures.id, assigned_procedures.procedure_note, assigned_procedures.amount, assigned_procedures.confirmed_by, assigned_procedures.created_at');
+        $builder->select('procedures.name, user.first_name, user.last_name, assigned_procedures.id, assigned_procedures.procedure_note, assigned_procedures.amount, assigned_procedures.confirmed_by, assigned_procedures.printed, assigned_procedures.created_at');
         $builder->join('procedures', 'assigned_procedures.procedure_id = procedures.id');
         $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -73,7 +73,16 @@ class AssignedProceduresModel extends Model
 
     public function actionButtons(){
         return function($row){
-            return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0){
+                return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            }
+            if(session()->get('role') == 'cashier' && $row['printed'] == 0){
+                if($row['confirmed_by'] != 0){
+                    return '<button @click="unconfirmPaymentProcedure('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
+                }else{
+                    return '<button @click="confirmPaymentProcedure('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
+                }
+            }
         };
     }
     public function formatAmount(){
@@ -82,4 +91,23 @@ class AssignedProceduresModel extends Model
         };
         return $column;
     }
+
+    public function paidProcedure($procedureList){
+        $builder = $this->db->table('assigned_procedures');
+        $builder->select('assigned_procedures.id, assigned_procedures.updated_at, procedures.name, assigned_procedures.amount, assigned_procedures.confirmed_by, assigned_procedures.printed');
+        $builder->join('procedures', 'procedures.id = assigned_procedures.procedure_id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->whereIn('assigned_procedures.id', $procedureList);
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
+    }
+
+    public function mark_printed_risit($procedureList){
+        $builder = $this->db->table('assigned_procedures');
+        $builder->whereIn('id', $procedureList);
+        return $builder->update(['printed' => true ]);
+    }
+
 }
