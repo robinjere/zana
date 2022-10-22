@@ -15,7 +15,9 @@
             Clinical Note
           </span>  
      </h5>
-     <button class="btn btn-sm btn-success add-note" @click="addnote = true"> Add clinical note </button>
+     <?php if(!$patient_file['ishistory']){ ?>
+      <button class="btn btn-sm btn-success add-note" @click="addnote = true"> Add clinical note </button>
+     <?php }; ?>
   </div><!-- d-flex -->
 
    <!-- alert message -->
@@ -79,17 +81,21 @@
       <template x-for="_note in notes" :key="_note.id">
         <div class="input-note mb-2" x-data="notesEditData()">
             <div class="clinical-btn">
+              <?php if(!$patient_file['ishistory']){ ?>
                <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false;"> edit </button>
+               <?php }; ?>
                <button class="btn btn-sm btn-success" @click="saving = true; edit = false; if($store.notesData.saveEditedNote(_note.id, _note.note)){ saving = false; edit = true; }" x-cloak x-show="edit==false && _note.note" x-bind:disabled="saving"> 
                   <span x-cloak x-show="!saving"> save </span> 
                   <span x-cloak x-show="saving" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                   <span x-cloak x-show="saving"> saving.. </span>
                </button>
+               <?php if(!$patient_file['ishistory']){ ?>
                <button class="btn btn-sm btn-danger" @click="$store.notesData.deletePrevNote(_note.id)"> 
                   <span x-cloak x-show="!deleting"> delete </span> 
                   <span x-cloak x-show="deleting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                   <span x-cloak x-show="deleting"> deleting.. </span>
                </button>
+               <?php }; ?>
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
             <label for="note" class="form-label note-desc" style="background: #e9ecef;" x-text="'Added by doctor '+ _note.last_name + ',  ' + _note.first_name">Added by doctor Juma</label>

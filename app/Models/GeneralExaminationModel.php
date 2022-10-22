@@ -19,7 +19,8 @@ class GeneralExaminationModel extends Model
         'height','body_mass','body_surface_area',
         'body_mass_comment','saturation_of_oxygen',
         'respiratory_rate','description','patient_file','added_by',
-        'updated_at'
+        'updated_at',
+        'treatment_ended'
     ];
 
     // Dates

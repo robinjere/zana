@@ -75,7 +75,9 @@
         <textarea class="form-control" :disabled="canEdit" x-model="examination.description" rows="3" placeholder="Description"></textarea>
       </div>
       <div class="d-flex justify-content-end align-items-center">
+       <?php if(!$patient_file['ishistory']){ ?>
         <button @click="assignGeneralExamination()" class="btn btn-success btn-sm  mt-2"> Save </button>
+        <?php } ?>
       </div>
 
    </form>

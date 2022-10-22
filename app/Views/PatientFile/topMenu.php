@@ -26,7 +26,7 @@
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
          <?php if(in_array(session()->get('role'), ['doctor', 'radiology', 'pharmacy'])){?> 
-           <button type="button" class="btn btn-success"> PATIENT HISTORY </button>
+           <a href="<?= base_url('patientfile/history/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
          <?php } ?>
       </div>
    </div><!-- /d-flex> -->

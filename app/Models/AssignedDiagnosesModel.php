@@ -14,7 +14,7 @@ class AssignedDiagnosesModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['diagnoses_id','diagnoses_type','diagnoses_note', 'doctor', 'file_id', 'created_at'];
+    protected $allowedFields    = ['diagnoses_id','diagnoses_type','diagnoses_note', 'doctor', 'file_id', 'created_at','treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;

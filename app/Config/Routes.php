@@ -32,7 +32,9 @@ $routes->setAutoRoute(true);
  $routes->group('patient', function($routes){
      $routes->get('/', 'PatientController::index', ['filter' => 'auth']);
      $routes->match(['post', 'get'],'search', 'PatientController::index', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'ajax_search', 'PatientController::ajax_searchPatient', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'register', 'PatientController::register', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'edit/(:num)', 'PatientController::edit_patient/$1', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'send_to_consultation/(:num)', 'PatientController::send_to_consultation/$1', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'outsider/(:num)', 'PatientController::outsider/$1', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'outsider_start_treatment', 'PatientController::outsider_start_treatment', ['filter' => 'auth']);
@@ -43,8 +45,8 @@ $routes->setAutoRoute(true);
      $routes->get('consult/(:num)', 'PatientFileController::consult/$1', ['filter' => 'auth']);
      $routes->get('attend/(:num)', 'PatientFileController::attend/$1', ['filter' => 'auth']);
      $routes->get('finish/(:num)', 'PatientFileController::finishTreatment/$1', ['filter' => 'auth']);
-    //  $routes->match(['post', 'get'],'search', 'PatientController::index', ['filter' => 'auth']);
-    //  $routes->get('(:num)', 'PatientFileController::pfile/$1');
+     $routes->match(['post', 'get'], 'history', 'PatientFileController::viewHistory', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'history/(:num)', 'PatientFileController::history/$1', ['filter' => 'auth']);
  });
 
  $routes->group('generaterisit', function($routes){

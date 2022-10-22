@@ -65,6 +65,15 @@ class PatientModel extends Model
         }
         $builder->join('patients_file', 'patients.id = patients_file.patient_id');
      
+        return $builder->get()->getResult();
+    }
+
+    public function searchPatientById(Int $patient_id){
+        $builder = $this->db->table('patients');
+        $builder->select('patients.id,  patients.first_name, patients.middle_name, patients.sir_name, patients_file.id as file_id, patients_file.patient_id, patients_file.file_no, patients_file.payment_method, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character');
+        $builder->where('patients.id', $patient_id);
+        $builder->join('patients_file', 'patients.id = patients_file.patient_id');
+     
         return $builder->get()->getRow();
     }
 }

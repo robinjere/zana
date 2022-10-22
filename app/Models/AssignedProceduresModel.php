@@ -14,7 +14,7 @@ class AssignedProceduresModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','procedure_note','amount','confirmed_by','created_at'];
+    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','procedure_note','amount','confirmed_by','created_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;

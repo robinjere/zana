@@ -21,7 +21,10 @@ $patient_file = [
         'middle_name' => $patient_file->middle_name,
         'sir_name' => $patient_file->sir_name,
         'birth_date' => $patient_file->birth_date,
-        'gender' => $patient_file->gender
+        'gender' => $patient_file->gender,
+        'history' => isset($history) ? $history : 'Current treatment',
+        'ishistory' => isset($history) ? true : false
+
 ];
 $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];    
 
@@ -33,7 +36,7 @@ $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' 
          <div class="file-status row">
              <div class="col-4">
                 <!-- <span class="badge bg-secondary"> current treatment </span> -->
-                <b> Current treatment </b>
+                <b> <?= $patient_file['history'] ?> </b>
              </div> <!-- /col-4 -->
              <div class="col-8">
                  <div class="row">

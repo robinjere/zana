@@ -854,3 +854,53 @@ table tbody tr td{
 
 /* ---------------  RISIT   ---------------  */
 
+/* ---------------  PATIENT HISTORY FILTER   ---------------  */
+.history{
+  margin-top: 2rem;
+}
+.history ._back{
+    text-decoration: none;
+    color:var(--z-warning);
+    padding: 8px;
+    display: inline-block;
+}
+.history-form{
+  background: #FFFFFF;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.history-form .header{
+  border-bottom: 1px solid #000000;
+}
+.history-form h4, .visits h5{
+  font-weight: 900;
+  font-size: var(--lg-heading);
+}
+.history-form h5{
+  font-weight: 700;
+  font-size: 1rem;
+}
+.visits{
+ margin-top: 1rem;
+ margin-bottom: 2rem;
+}
+.visits h5{
+  padding-left: 10px; 
+}
+.visit input[type="submit"]:hover{
+    z-index: 2;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.patientSearchList{
+  margin-top: 5px;
+}
+.patientSearchList a:hover{
+  z-index: 2;
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+/* ---------------  PATIENT HISTORY FILTER   ---------------  */
+

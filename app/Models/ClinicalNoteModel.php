@@ -14,7 +14,7 @@ class ClinicalNoteModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id','note','doctor','created_at', 'updated_at'];
+    protected $allowedFields    = ['file_id','note','doctor','created_at', 'updated_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;

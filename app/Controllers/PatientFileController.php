@@ -46,7 +46,41 @@ class PatientFileController extends BaseController
     }
 
     public function attend($file_id){
-       return $this::patient_file($file_id);
+       $data['patient_file']  = $this::patient_file($file_id);
+       return view('patientfile/file', $data);
+    }
+
+    public function viewHistory(){
+        if($this->request->getMethod() == 'post'){
+            // echo '<pre>';
+            // print_r($this->request->getVar());
+            // echo '</pre>';
+            // exit;
+            $patient_file  = $this::patient_file($this->request->getVar('file_id'));
+            $patient_file->start_treatment = $this->request->getVar('start_treatment'); 
+            $patient_file->end_treatment = $this->request->getVar('end_treatment');
+            $data['patient_file']  = $patient_file;
+            $data['history'] = 'Patient history';
+           return view('patientfile/file', $data);
+        }
+    }
+
+    public function history($file_id){
+        helper('form');
+        $data['patient_file'] = $this::patient_file($file_id);
+        $patientHistoryModel = new PatientHistoryModel;
+
+        if($this->request->getMethod() == 'post'){
+            //TODO... 
+            //1. find history by patient_id
+            //2. find history by start_treatment 
+            //3. find history by end_treatment 
+            $patientHistory = $patientHistoryModel->getHistory($file_id, $this->request->getVar('start_treatment'), $this->request->getVar('end_treatment'));
+            $data['patient_history'] = $patientHistory;
+            $data['start'] = $this->request->getVar('start_treatment');
+            $data['end'] = $this->request->getVar('end_treatment');
+        }
+        return view('patient/filter_patient_history', $data);
     }
 
     protected function patient_file(Int $file_id){
@@ -54,14 +88,16 @@ class PatientFileController extends BaseController
         
         // $data['patient_file'] = $patientsFileModel->where('id', $file_id)->first();
         $_patient = $patientsFileModel->where('id', $file_id)->first();
+        $patient_file = '';
         
         if($_patient['patient_character'] === 'outsider'){
-            $data['patient_file'] = $patientsFileModel->patientFile($file_id, 'outsider');
+            $patient_file = $patientsFileModel->patientFile($file_id, 'outsider');
         }else{
-            $data['patient_file'] = $patientsFileModel->patientFile($file_id, '');
+            $patient_file = $patientsFileModel->patientFile($file_id, '');
         }
         // print_r($_patient); exit;
-        return view('patientfile/file', $data);
+        return $patient_file;
+       
     }
 
     public function ajax_addnote(){
@@ -146,7 +182,26 @@ class PatientFileController extends BaseController
         $patientHistoryModel->save($createHistory);
         $patientsFileModel->save($patient_file);
 
+        //clear all treatment
+        $this::clearTreatment($patientFile);
+
         return redirect()->to('/patient/search/')->with('success', 'patient finished!');
+    }
+
+    protected function clearTreatment($file_id){
+        $assignedDiagnosesModel = new AssignedDiagnosesModel;
+        $assignedProceduresModel = new AssignedProceduresModel;
+        $assignedLabtestModel = new AssignedLabtestModel;
+        $assignedMedicineModel = new AssignedMedicineModel;
+        $generalExaminationModel = new GeneralExaminationModel;
+        $clinicalNoteModel = new ClinicalNoteModel;
+
+        $assignedDiagnosesModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $assignedProceduresModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $assignedLabtestModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $assignedMedicineModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $generalExaminationModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $clinicalNoteModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
     }
 
     public function ajax_assignedprocedure(){

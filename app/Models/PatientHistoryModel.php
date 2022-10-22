@@ -40,5 +40,15 @@ class PatientHistoryModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    
+    //getHistory
+    public function getHistory($file, $start_treatment, $end_treatment){
+        // echo $start_treatment;
+        // echo $end_treatment;
+
+        $builder = $this->db->table('patient_history');
+        $builder->where('file_id', $file);
+        $builder->where('DATE(start_treatment) >=', date('Y-m-d', strtotime($start_treatment))); 
+        $builder->where('DATE(end_treatment) <=', date('Y-m-d', strtotime($end_treatment))); 
+        return $builder->get()->getResult();
+    }
 }

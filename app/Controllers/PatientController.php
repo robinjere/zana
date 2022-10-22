@@ -65,6 +65,49 @@ class PatientController extends BaseController
         return view('Patient/register', $data);
     }
 
+    public function edit_patient(int $patient_id){
+        $patientModel = new PatientModel();
+        $patientFileModel = new PatientsFileModel();
+        helper('form');
+        $data = [];
+        $data['currentPatient'] = $patientModel->where('id', $patient_id)->first();
+        $data['patientFile'] = $patientFileModel->where('patient_id', $patient_id)->first();
+        if($this->request->getMethod() === 'post'){
+            $rules = [
+                'first_name' => 'required',
+                'sir_name' => 'required',
+                'birth_date' => 'required',
+                'gender' => 'required',
+                'pcharacter' => 'required'
+            ];
+
+            if(!$this->validate($rules)){
+                $data['validation'] = $this->validator;
+            }else{
+                $form_data = $this->request->getVar();
+                $form_data['user_id'] = session()->get('id');
+                $form_data['id'] = $patient_id;
+              
+                try {
+                       $patientModel->save($form_data);
+                       //generate file number MRNO/YEAR_OF_REGISTRATION/PATIENT_ID
+                    
+                       if($form_data['pcharacter'] == 'outsider'){
+                           return redirect()->to('/patient/outsider/'.$patient_id)->with('success', 'Patient Info edited!');
+                       }
+                       return redirect()->to('/patient/edit/'.$patient_id)->with('success', 'Patient Info edited!');
+                } catch (\Exception $e) {
+                    //throw $th;
+                    print_r($e->getMessage());
+                    exit;
+                    session()->setFlashdata('validation', $e->getMessage());
+                }
+            }
+        }
+
+        return view('Patient/edit', $data);
+    }
+
     public function outsider($patient_id =""){
         $data = [];
         helper('form');
@@ -129,6 +172,8 @@ class PatientController extends BaseController
                     'id' => $this->request->getVar('file_id'),
                     'payment_method' => $this->request->getVar('payment_method'),
                     'status' => 'consultation',
+                    'start_treatment' => date('Y-m-d'),
+                    'end_treatment' => '',
                     'clinic' =>  $this->request->getVar('clinic')
                  ];
      
@@ -176,6 +221,39 @@ class PatientController extends BaseController
         return view('patient/send_to_consultation', $data);
     }
 
+    public function ajax_searchPatient(){
+        $patientModel = new PatientModel;
+        $data = [];
+        if($this->request->getMethod() == 'post'){
+          $searchterm = $this->request->getVar('searchterm');
+           $filter = '';
+          if (preg_match('~[0-9]+~', $searchterm)) {
+            $filter = 'file_no';
+          }else{
+            $filter = 'name';
+          }
+           try {
+               //code...
+              $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);
+            //   $data['search_by'] = $filter;
+
+              if(empty($data['patient_info'])){
+                   echo json_encode(['success' => false, 'errors' => 'Unfortunately, no patient were found!, Please adjust your filter criteria.']);
+              }else{
+                  /**
+                   * Check if patient sent to consultation -> status === 'consultation'
+                   * check if payment is cash then check if consultation fee is payed. 
+                   */
+                  echo json_encode(['success' => true, 'patient_info' => $data['patient_info']]);
+              }
+
+           } catch (\Exception $e) {
+               //throw $th;
+                echo json_encode(['success' => false, 'errors' =>  $e->getMessage()]);
+           }
+        }
+    }
+
     protected function search_patient(){
         $patientModel = new PatientModel;
         $data = [];
@@ -184,17 +262,17 @@ class PatientController extends BaseController
         //    $filter = $this->request->getVar('filter'); // 'file_no / name
             //check if a search term contain number. 
         
-           $searchterm = $this->request->getVar('searchterm');
+           $patient_id = $this->request->getVar('patient_id');
            $filter = '';
-           if (preg_match('~[0-9]+~', $searchterm)) {
-            $filter = 'file_no';
-          }else{
-            $filter = 'name';
-          }
+        //   if (preg_match('~[0-9]+~', $searchterm)) {
+        //     $filter = 'file_no';
+        //   }else{
+        //     $filter = 'name';
+        //   }
            try {
                //code...
-              $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);
-              $data['search_by'] = $filter;
+              $data['patient_info'] = $patientModel->searchPatientById($patient_id);
+              $data['search_by'] = 'name';
 
               if(empty($data['patient_info'])){
                    session()->setFlashdata('errors', 'Unfortunately, no patient were found!, Please adjust your filter criteria.');

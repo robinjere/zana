@@ -14,7 +14,7 @@ class AssignedMedicineModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','confirmed_by', 'taken', 'created_at'];
+    protected $allowedFields    = ['dosage','frequency','route','days','qty','instruction','drug_id','file_id','doctor','confirmed_by', 'taken', 'created_at','treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;
