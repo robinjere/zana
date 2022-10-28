@@ -110,4 +110,18 @@ class AssignedProceduresModel extends Model
         return $builder->update(['printed' => true ]);
     }
 
+    public function proceduresByDoctor($doctor, $start_date, $end_date){
+        $builder = $this->db->table('assigned_procedures');
+        $builder->select('patients.first_name,patients.middle_name, patients.sir_name, patients.phone_no, patients.address, patients_file.file_no, patients_file.payment_method, procedures.name, assigned_procedures.id, assigned_procedures.amount, assigned_procedures.updated_at');
+        $builder->join('procedures', 'assigned_procedures.procedure_id = procedures.id');
+        $builder->join('patients_file', 'assigned_procedures.file_id = patients_file.id');
+        $builder->join('patients', 'patients_file.patient_id = patients.id');
+        $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('DATE(assigned_procedures.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        
+        $builder->groupEnd();
+        return $builder->get()->getResult();
+    }
+
 }

@@ -12,7 +12,7 @@
            </span>  
       </h5>
      
-      <?php if(session()->get('role') == 'doctor'){?>
+      <?php if(session()->get('role') == 'doctor' && !$patient_file['ishistory']){?>
          <!-- Button trigger modal -->
          <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId"  type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
       <?php } ?>   

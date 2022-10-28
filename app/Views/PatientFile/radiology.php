@@ -21,7 +21,7 @@
                   </button>
                <?php } ?>
 
-               <?php if(in_array(session()->get('role'), ['doctor','reception'])){ ?>
+               <?php if(in_array(session()->get('role'), ['doctor','reception']) && !$patient_file['ishistory']){ ?>
                   <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#radiologyId">
                      Assign Radiology
                   </button>

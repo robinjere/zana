@@ -15,7 +15,7 @@
 </form> -->
 
 <ul class="file-nav">
-<?php if(in_array(session()->get('role'), ['doctor'])){?>
+<?php if(in_array(session()->get('role'), ['doctor'])){ ?>
     <li><a href="#clinical-note" @click="close()">
         <span class='icon'>
             <svg  viewBox="0 0 24 24" fill="none" >
@@ -86,7 +86,8 @@
 <?php } ?>
 
   <div class="file-exit">
-    <a href="/patient/search">
+    <?php $patient_url = $patient_file['ishistory'] ? 'patientfile/attend/'.$patient_file['id'] : 'patient/search' ?>
+    <a href="<?= base_url($patient_url) ?>">
       <span class="icon">
          <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
            <path d="M1 5H19M5 9L1 5L5 9ZM1 5L5 1L1 5Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

@@ -35,7 +35,9 @@
             </template>
           <?php } ?>
 
-        <?php if(in_array(session()->get('role'), ['doctor','reception'])){ ?>
+          
+
+        <?php if(in_array(session()->get('role'), ['doctor','reception']) && !$patient_file['ishistory'] ){ ?>
             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
           <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
         <?php } ?>

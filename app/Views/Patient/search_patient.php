@@ -4,7 +4,9 @@
 
 <?= view_cell('\App\Libraries\PatientPanel::PatientNavigation') ?>
 
-<form  x-on:submit.prevent method="post" x-data="searchForm();"> 
+<div x-data="searchForm();">
+
+<form  x-on:submit.prevent method="post" > 
 
   <div class="search_box">
     <div class="input-group">
@@ -52,6 +54,8 @@
 </select> -->
 
 </form>
+
+<template x-if="searchterm == ''">
 
 <?php
 
@@ -136,6 +140,10 @@
          $CONSULT =   '<div class="col d-flex justify-content-end align-items-center"> 
                          <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND  </a> 
                       </div>';
+
+         $VIEWHISTORY =   '<div class="col d-flex justify-content-end align-items-center"> 
+                         <a href="'.base_url('patientfile/history/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> VIEW HISTORY  </a> 
+                      </div>';
                       
         $CANCEL_CONSULTATION = '';
         $APPROVE_PAYMENT = '';
@@ -166,6 +174,8 @@
            case 'pharmacy' : 
               if ($patient_info->status == 'inTreatment') {
                  echo $ATTEND;
+              }else{
+                echo $VIEWHISTORY;
               }
 
             break;
@@ -204,6 +214,8 @@
                     echo $consultation_payment->payment_confirmed_by == 0 ? $APPROVE_PAYMENT : $DIS_APPROVE;
                   }elseif ($patient_info->status == 'inTreatment') {
                     echo $ATTEND;
+                  }else{
+                    echo $VIEWHISTORY;
                   }
 
                break;
@@ -217,6 +229,8 @@
                     }
                   }elseif ($patient_info->status == 'inTreatment' && $patient_info->patient_character !== 'outsider') {
                     echo $ATTEND;
+                  }else{
+                    echo $VIEWHISTORY;
                   }
 
                   break;
@@ -229,8 +243,9 @@
                   echo $ATTEND;;
               }elseif ($patient_info->status == 'inTreatment') {
                   echo $ATTEND;;
+              }else{
+                echo $VIEWHISTORY;
               }
-
             break;
            
            default:
@@ -249,6 +264,8 @@
 
    <?php } ?>
 
+</template>
+</div>
 
 <?= $this->endSection('patient'); ?>
 
@@ -260,9 +277,7 @@
          errors: '',
          patient_info: '',
          onSearch(){
-          if(this.searchterm == ''){
-            return;
-          }
+          if(this.searchterm !== ''){
             fetch("<?= base_url('patient/ajax_search') ?>", {
                 method: 'POST',
                 headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
@@ -278,6 +293,10 @@
                     this.patient_info = '';
                   }
             }).catch(error => console.log(error))
+          }else{
+                     this.patient_info = ''
+                     this.errors = '';
+          }
          },
          submitForm(formId){
            const form = document.getElementById(formId)

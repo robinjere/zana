@@ -71,54 +71,55 @@
 <p class="risit__subtitle uppercase" align="center"> <?= $clinic_contacts['phone'] ?> </p>
 
 <div class="separater"></div>
- <p class="risit__subtitle uppercase" align="center"> Drugs </p>
+ <p class="risit__subtitle uppercase" align="center"> PROCEDURES REPORT </p>
  <p> Report generated at: <?= date("Y-m-d") ?> </p>
+ <p> Consultation done by doctor : <b> <?= $doctor['first_name'] .' '. $doctor['father_name'] .' ' . $doctor['last_name'] ?> </b></p>
 <div class="separater"></div>
 
 <div>
   <table border-styles="dashed" class="table table-striped table-bordered table-hover" table-striped table-bordered width="100%" cellspacing="5" cellpadding="5" style="margin-top:15px;">
           <tr>
             <th>NO</th>
-            <th>Date</th>
-            <th>Drug</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Discount</th>
-            <th>Total</th>
+            <th>DATE</th>
+            <th>PT.NAME</th>
+            <th>PT.PHONE</th>
+            <th>PT.REGISTRATION </th>
+            <th>PT.ADDRESS </th>
+            <th>PAYMENT</th>
+            <th>AMOUNT</th>
+            <th>TEST NAME</th>
           </tr>
         <?php
-
-        // echo '<pre>';
-        //     print_r($sales);
-        // echo '</pre>';
-        // exit;
           $total = 0;
-          if(!empty($sales)) {
-            foreach ($sales as $key => $sale) { 
-             $total += $sale->amount;
+          $total_profit = 0;
+          if(!empty($procedures)) {
+            foreach ($procedures as $key => $procedure) { 
+             $total += $procedure->amount;
              ?>
               <tr>
                   <td><?= ++$key ?></td>
-                  <td><?= date_format(date_create($sale->updated_at), 'd-m-Y') ?></td>
-                  <td><?= $sale->name ?></td>
-                  <td><?= $sale->qty ?> </td>
-                  <td><?= number_format(floatval($sale->selling_price)) ?> </td>
-                  <td><?= $sale->discount ?> </td>
-                  <td><?=  number_format(floatval($sale->amount)) ?>/= </td>
+                  <td><?= date_format(date_create($procedure->updated_at),'d-m-Y') ?></td>
+                  <td><?= $procedure->first_name . ' ' . $procedure->middle_name . ' ' . $procedure->sir_name ?> </td>
+                  <td><?= $procedure->phone_no ?> </td>
+                  <td><?= $procedure->file_no ?> </td>
+                  <td><?= $procedure->address ?> </td>
+                  <td><?= $procedure->payment_method ?> </td>
+                  <td><?= (number_format(floatval($procedure->amount))) ?>/=  </td>
+                  <td><?= $procedure->name ?> </td>
               </tr>
           <?php }
          }  
         ?>
 
         <tr>
-          <td colspan="5"></td>
+          <td colspan="6"></td>
           <td>
-              <p align="right"> <b class="risit__title">Total: </b>  </p>
+              <p align="right"> <b class="risit__title">Total Payment Amount: </b>  </p>
           </td>
-           <td>
+           <td colspan="2">
               <p><b> <?= number_format(floatval($total)) ?>/= </b> </p>
            </td>
-        </tr>
+        </tr> 
     
   </table>
 </div>

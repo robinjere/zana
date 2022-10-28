@@ -12,7 +12,7 @@
    </h5>
 
    <!-- Button trigger modal -->
-   <?php if(session()->get('role') == 'doctor'){ ?>
+   <?php if(session()->get('role') == 'doctor' && !$patient_file['ishistory']){ ?>
     <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true">Search Drug</button>
    <?php } ?>
 

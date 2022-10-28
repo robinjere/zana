@@ -14,7 +14,7 @@ class PatientHistoryModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id', 'start_treatment', 'end_treatment','status','payment_method','insuarance_no','pcharacter'];
+    protected $allowedFields    = ['file_id', 'start_treatment', 'end_treatment','status','payment_method','insuarance_no','pcharacter','clinic', 'consultation_fee'];
 
     // Dates
     protected $useTimestamps = true;
@@ -49,6 +49,8 @@ class PatientHistoryModel extends Model
         $builder->where('file_id', $file);
         $builder->where('DATE(start_treatment) >=', date('Y-m-d', strtotime($start_treatment))); 
         $builder->where('DATE(end_treatment) <=', date('Y-m-d', strtotime($end_treatment))); 
+        //orderby
+        $builder->orderBy('id', 'DESC');
         return $builder->get()->getResult();
     }
 }

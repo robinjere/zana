@@ -16,6 +16,7 @@ use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
+use App\Models\ClinicModel;
 use monken\TablesIgniter;
 
 
@@ -46,11 +47,18 @@ class PatientFileController extends BaseController
     }
 
     public function attend($file_id){
+        //remove session -> phistory
+        session()->remove('phistory');
+
        $data['patient_file']  = $this::patient_file($file_id);
+       if($data['patient_file']->status == 'finishTreatment'){
+         return redirect()->to('patient/search');
+       }  
        return view('patientfile/file', $data);
     }
 
     public function viewHistory(){
+        $clinicalModel = new ClinicModel;
         if($this->request->getMethod() == 'post'){
             // echo '<pre>';
             // print_r($this->request->getVar());
@@ -59,7 +67,25 @@ class PatientFileController extends BaseController
             $patient_file  = $this::patient_file($this->request->getVar('file_id'));
             $patient_file->start_treatment = $this->request->getVar('start_treatment'); 
             $patient_file->end_treatment = $this->request->getVar('end_treatment');
-            $data['patient_file']  = $patient_file;
+            $patient_file->payment_method = $this->request->getVar('payment_method');
+            // print_r($patient_file);
+            
+            $clinic = $clinicalModel->where('id', $this->request->getVar('clinic'))->first();
+            // $patient_file->end_treatment = $this->request->getVar('end_treatment');
+            // echo '<pre> --- clinic ---';
+            // print_r($clinic);
+            // echo 'requested clinical ide->'.$this->request->getVar('clinic');
+            // echo '</pre>';
+            // exit;
+            if(!empty($clinic)){
+                $patient_file->name = $clinic['name'];
+            }
+
+            $patient_file->consultation_fee = $this->request->getVar('consultation_fee');
+            $data['patient_file'] = $patient_file;
+
+            session()->set(['phistory' => true ]);
+            
             $data['history'] = 'Patient history';
            return view('patientfile/file', $data);
         }
@@ -161,6 +187,7 @@ class PatientFileController extends BaseController
     public function finishTreatment($patientFile){
         $patientsFileModel = new PatientsFileModel;
         $patientHistoryModel = new PatientHistoryModel;
+        $clinicModel = new ClinicModel;
         // $date = date_create(now());
         // $date = date_format($date, 'd/m/Y');
             $patient_file = [
@@ -169,6 +196,12 @@ class PatientFileController extends BaseController
                 'status' => 'finishTreatment'
             ];
             $phistory = $patientsFileModel->where('id', $patientFile)->first();
+            $consultation_fee = $clinicModel->where('id', $phistory['clinic'])->first();
+            if(!empty($consultation_fee)){
+                // print_r($consultation_fee['consultation_fee']);
+                // exit;
+                $consultation_fee = $consultation_fee['consultation_fee'];
+            }
             $createHistory = [
                 'file_id' => $patientFile, 
                 'start_treatment' => $phistory['start_treatment'],
@@ -176,7 +209,9 @@ class PatientFileController extends BaseController
                 'status' => 'finishTreatment',
                 'payment_method' => $phistory['payment_method'],
                 'insuarance_no' => $phistory['insuarance_no'],
-                'pcharacter' => $phistory['patient_character'] 
+                'pcharacter' => $phistory['patient_character'],
+                'clinic' => $phistory['clinic'],
+                'consultation_fee' => $consultation_fee
             ];
         //save patient history first
         $patientHistoryModel->save($createHistory);
@@ -200,7 +235,7 @@ class PatientFileController extends BaseController
         $assignedProceduresModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
         $assignedLabtestModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
         $assignedMedicineModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
-        $generalExaminationModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
+        $generalExaminationModel->where('patient_file', $file_id)->set(['treatment_ended' => true])->update();
         $clinicalNoteModel->where('file_id', $file_id)->set(['treatment_ended' => true])->update();
     }
 
@@ -212,8 +247,8 @@ class PatientFileController extends BaseController
            $start_date=$this->request->getVar('start_date');
            $end_date=$this->request->getVar('end_date');
 
-        //    echo json_encode(['file_id' => $file_id, 'start_date' =>  $start_date, 'end_date' => $end_date]);
-        //    exit;
+        // echo json_encode(['file_id' => $file_id, 'start_date' =>  $start_date, 'end_date' => $end_date]);
+        // exit;
 
            $data_table = new TablesIgniter();
            $data_table->setTable($assignedProceduresModel->getAssignedProcedures($file_id, $start_date, $end_date))

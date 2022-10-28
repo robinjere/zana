@@ -20,14 +20,14 @@
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
             <button type="button" class="btn btn-success"> SEND TO OTHER CLINIC </button>
          <?php } ?>
-         <?php if(in_array(session()->get('role'), ['pharmacy'])){?> 
+
+         <?php if(in_array(session()->get('role'), ['pharmacy']) && $patient_file['status'] !== 'finishTreatment' ){?> 
             <!-- $patient_file['id'] -->
-           
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
-         <?php if(in_array(session()->get('role'), ['doctor', 'radiology', 'pharmacy'])){?> 
-           <a href="<?= base_url('patientfile/history/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
-         <?php } ?>
+         
+         <a href="<?= base_url('patientfile/history/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+       
       </div>
    </div><!-- /d-flex> -->
 </div> <!-- /PY -->

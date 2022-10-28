@@ -4,7 +4,7 @@
 
 <div class="container history">
 
-<a href="#" onclick="window.history.back()" class="_back">Go back</a>
+<a href="<?= base_url('patientfile/attend/'.$patient_file->id) ?>"  class="_back">Go back</a>
 
 <?php if(!empty($patient_file) && isset($patient_file)){ ?>
 <form action="/patientfile/history/<?= $patient_file->id ?>" method="post" class="history-form">
@@ -30,16 +30,19 @@
 <div id="p-history" > <!-- history data --> 
 <?php if (isset($patient_history) && !empty($patient_history)) { ?>
     <div class="visits">
-        <h5> Available visit history from <?= date_format(date_create($start), 'd F Y') ?>  to <?= date_format(date_create($end), 'd F Y') ?>  </h5>
+        <h5> Available visits history from <?= date_format(date_create($start), 'd F Y') ?>  to <?= date_format(date_create($end), 'd F Y') ?>  </h5>
         <!-- Hover added -->
         <div class="list-group visit">
             <?php
               foreach ($patient_history as $key => $history) {?>
                 <form method="post" action="<?= base_url('patientfile/history') ?>">
-                  <input type="hidden" name="file_id" value="<?= $patient_file->id ?>">
-                  <input type="hidden" name="start_treatment" value="<?= $history->start_treatment ?>">
-                  <input type="hidden" name="end_treatment" value="<?= $history->end_treatment ?>">
-                  <input type="submit" class="list-group-item list-group-item-action" value="Start treatment on <?= date_format(date_create($history->start_treatment), 'd/m/Y') ?>, End treatment on <?= date_format(date_create($history->end_treatment), 'd/m/Y') ?>, Treatment done by <?= $history->payment_method ?>"/>
+                  <input type="hidden" name="file_id" value="<?= $patient_file->id ?>"/>
+                  <input type="hidden" name="start_treatment" value="<?= $history->start_treatment ?>"/>
+                  <input type="hidden" name="end_treatment" value="<?= $history->end_treatment ?>"/>
+                  <input type="hidden" name="clinic" value="<?= $history->clinic ?>"/>
+                  <input type="hidden" name="payment_method" value="<?= $history->payment_method ?>"/>
+                  <input type="hidden" name="consultation_fee" value="<?= $history->consultation_fee ?>"/>
+                  <input type="submit" class="list-group-item list-group-item-action" value="Visit <?= ++$key ?> :  <?= date_format(date_create($history->start_treatment), 'd F Y') ?> to  <?= date_format(date_create($history->end_treatment), 'd F Y') ?>, Treatment done by <?= $history->payment_method ?>"/>
                   <!-- <a href="#" onclick='findHistory(<?= $patient_file->id ?>, <?= json_encode(date_format(date_create($history->start_treatment), "Y-m-d")) ?>, <?= json_encode(date_format(date_create($history->end_treatment), "Y-m-d")) ?>)' class="list-group-item list-group-item-action"> Start treatment on <?= date_format(date_create($history->start_treatment), 'd/m/Y') ?>, End treatment on <?= date_format(date_create($history->end_treatment), 'd/m/Y') ?>, Treatment done by <?= $history->payment_method ?> </a> -->
                 </form>
               <?php }

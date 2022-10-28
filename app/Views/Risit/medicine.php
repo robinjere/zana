@@ -34,9 +34,9 @@
                       <table class="table table-borderless p-details" style="margin-bottom: 0;">
                         <tbody>
                           <tr>
-                            <td><b> Risit Type</b> </td>
+                            <td><b> Receipt Type</b> </td>
                             <td><b>:</b> </td>
-                            <td>Medicine Risit</td>
+                            <td>Medicine Receipt</td>
                           </tr>
                           <tr>
                             <td><b> Full name </b> </td>

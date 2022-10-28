@@ -6,6 +6,10 @@ use App\Controllers\BaseController;
 use App\Models\SalesModel;
 use App\Models\ExpensesModel;
 use App\Models\ItemModel;
+use App\Models\UserModel;
+use App\Models\ConsultationModel;
+use App\Models\AssignedProceduresModel;
+use App\Models\AssignedMedicineModel;
 use App\Controllers\StoreController;
 
 class ReportController extends BaseController
@@ -13,7 +17,12 @@ class ReportController extends BaseController
     public function index()
     {
         helper('form');
-        return view('report/generate');
+        $userModel = new UserModel;
+        $data = [];
+
+        $data['doctors'] = $userModel->getDoctors();
+
+        return view('report/generate', $data);
     }
 
     public function generate_report(){
@@ -24,18 +33,122 @@ class ReportController extends BaseController
                  'report_type' => $this->request->getVar('report_type')
              ];
 
-             if($data['report_type'] == 'sales'){
-                 $this->sales_report($start_date = $data['start_date'], $end_date = $data['end_date']);
-             }elseif($data['report_type'] == 'expenses'){
-                 $this->expenses_report($start_date = $data['start_date'], $end_date = $data['end_date']);
-             }elseif($data['report_type'] == 'items_in_stock'){
-                 $this->items_in_stock($start_date = $data['start_date'], $end_date = $data['end_date']);
-             }elseif($data['report_type'] == 'items_out_stock'){
-                $this->items_out_stock($start_date = $data['start_date'], $end_date = $data['end_date']);  
-             }elseif($data['report_type'] == 'items_expected_to_expire'){
-                 $this->items_expected_to_expire($start_date = $data['start_date'], $end_date = $data['end_date']);
+             switch ($data['report_type']) {
+                case 'sales':
+                    $this->sales_report($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'expenses':
+                    $this->expenses_report($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'items_in_stock':
+                    $this->items_in_stock($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'items_out_stock':
+                    $this->items_out_stock($start_date = $data['start_date'], $end_date = $data['end_date']);  
+                    break;
+
+                case 'items_expected_to_expire':
+                    $this->items_out_stock($start_date = $data['start_date'], $end_date = $data['end_date']);  
+                    break;
+
+                case 'items_expected_to_expire':
+                    $this->items_expected_to_expire($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'consultation':
+                    $this->consultation($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'procedure':
+                    $this->procedure($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
+                case 'medicine':
+                    return $this->medicine($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+                
+                default:
+                    # code...
+                    break;
              }
         }
+    }
+
+    public function medicine($start_date, $end_date){
+        $doctor = !empty($this->request->getVar('doctor_id')) ? $this->request->getVar('doctor_id') : '' ;
+        $data = [];
+        $assignedMedicineModel = new AssignedMedicineModel;
+        $userModel = new UserModel;
+        $data['medicines'] = $assignedMedicineModel->medicineByDoctor($doctor, $start_date, $end_date);
+
+        if(!empty($doctor)){
+            $data['doctor'] = $userModel->where('id', $doctor)->first();
+        }
+
+        $store = new StoreController;
+        $data['clinic_contacts'] = $store->get_clinic_info();
+
+        
+        // return view('report/medicine', $data);
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/medicine', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("'medicine_report'.pdf", array("Attachment"=>0)); 
+    }
+
+    public function procedure($start_date, $end_date){
+        $doctor = $this->request->getVar('doctor_id');
+        $assignedProcedureModel = new AssignedProceduresModel;
+        $userModel = new UserModel;
+
+        $procedures = $assignedProcedureModel->proceduresByDoctor($doctor, $start_date, $end_date);
+
+        $data['procedures'] = $procedures;
+        $data['doctor'] = $userModel->where('id', $this->request->getVar('doctor_id'))->first();
+
+        $store = new StoreController;
+        $data['clinic_contacts'] = $store->get_clinic_info();
+
+        // return view('report/procedures', $data);
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/procedures', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("'procedures_report'.pdf", array("Attachment"=>0)); 
+    }
+
+    public function consultation($start_date, $end_date){
+         $consultationModel = new ConsultationModel;
+         $userModel = new UserModel;
+         $data = [];
+         $consultations = $consultationModel->consultationByDoctor($this->request->getVar('doctor_id'), $start_date, $end_date);
+         $store = new StoreController;
+
+         $data['clinic_contacts'] = $store->get_clinic_info();
+         $data['consultations'] = $consultations;
+         $data['doctor'] = $userModel->where('id', $this->request->getVar('doctor_id'))->first();
+
+        //  echo '<pre>';
+        //   print_r($data['consultations']);
+        //  echo '</pre>';
+
+        //  return view('report/consultation', $data);
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/consultation', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("'consultation_report'.pdf", array("Attachment"=>0)); 
+
     }
 
     public function items_expected_to_expire($start_date, $end_date){

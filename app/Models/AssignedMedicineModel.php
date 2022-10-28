@@ -112,4 +112,22 @@ class AssignedMedicineModel extends Model
         $builder->whereIn('id', $medicineList);
         return $builder->update(['printed' => true ]);
     }
+
+    public function medicineByDoctor($doctor = '', $start_date, $end_date){
+        $builder = $this->db->table('assignedmedicines');
+        $builder->select('user.first_name as doctor_first_name, user.last_name as doctor_last_name, patients.first_name, patients.middle_name, patients.sir_name, patients.phone_no, patients.address, assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, patients_file.file_no, items.name, items.selling_price');
+        $builder->join('items', 'assignedmedicines.drug_id = items.id');
+        $builder->join('patients_file', 'assignedmedicines.file_id = patients_file.id');
+        $builder->join('patients', 'patients_file.patient_id = patients.id');
+        $builder->join('user', 'assignedmedicines.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('assignedmedicines.taken', 1);
+        if(!empty($doctor)){
+            $builder->where('assignedmedicines.doctor', $doctor);
+        }
+        $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        // $builder->where('assignedmedicines.file_id', $file_id);
+        $builder->groupEnd();
+        return $builder->get()->getResult(); 
+    }
 }

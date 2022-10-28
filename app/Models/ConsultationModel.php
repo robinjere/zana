@@ -103,6 +103,17 @@ class ConsultationModel extends Model
         return $button;
     }
 
+    public function consultationByDoctor($doctor, $start_date, $end_date){
+        $builder = $this->db->table('consultation');
+        $builder->select('consultation.id, consultation.updated_at, consultation.payment, consultation.amount, patients_file.patient_id, patients_file.file_no, patients.first_name, patients.middle_name, patients.sir_name, patients.phone_no, patients_file.patient_character');
+        $builder->where('consultation.consulted_by !=', 0);
+        $builder->where('consultation.doctor_id', $doctor);
+        $builder->where('DATE(consultation.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->join('patients_file', 'consultation.file_id = patients_file.id');        
+        $builder->join('patients', 'patients_file.patient_id = patients.id');        
+        return $builder->get()->getResult();
+    }
+
     public function checkConsultationPayment(Int $file_id){
         $builder = $this->db->table('consultation');
         $builder->where('file_id', $file_id);

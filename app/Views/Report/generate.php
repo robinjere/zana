@@ -27,15 +27,16 @@
     <div class="registration-form__heading">
        <h2> Generate report </h2>
     </div> <!-- /registration-form__heading -->
-     <div class="registration-form__form">
+     <div class="registration-form__form" x-data="reportData()">
            <form method="post" action="/report/generate" target="_blank">
-          
-
-
+            
             <div class="registration-space-y">   
                   <!-- <label for="" class="form-label"></label> -->
-                  <select class="form-control" name="report_type" id="report_type">
-                      <option > Select type of report you want </option>
+                  <select required class="form-control"  x-model="report_type" name="report_type" id="report_type">
+                      <option> Select type of report you want </option>
+                      <option value="consultation"> Consultation </option>
+                      <option value="procedure"> Procedure </option>
+                      <option value="medicine"> Medicine </option>
                       <option value="sales"> Sales </option>
                       <option value="expenses"> Expenses </option>
                       <option value="items_in_stock"> Drugs in Stock </option>
@@ -44,14 +45,27 @@
                   </select>
              </div><!-- /row -->
 
+            <template x-if="report_type == 'consultation' || report_type == 'procedure' || report_type == 'medicine'">
+                <div class="registration-space-y">
+                        <select class="form-select " name="doctor_id" >
+                            <option value="" selected>Select doctor</option>
+                            <?php foreach ($doctors as $key => $doctor) {?>
+                                <option value="<?= $doctor->id ?>"> <?= $doctor->first_name.' '. $doctor->last_name ?></option>
+                            <?php } ?>
+                            <!-- <option value="">Istanbul</option>
+                            <option value="">Jakarta</option> -->
+                        </select>
+                </div><!-- /registration-space-y -->
+            </template>
+
              <div class="row registration-space-y">   
                <div class="col">
                    <label for="start_date"> Start Date </label>
-                 <input type="date" name="start_date" id="start_date" value="<?= set_value('start_date')?>" class="form-control" placeholder="Start date" aria-describedby="start date">
+                 <input type="date" required name="start_date" id="start_date" value="<?= set_value('start_date')?>" class="form-control" placeholder="Start date" aria-describedby="start date">
                 </div>
                <div class="col">
                   <label for="end_date"> End Date </label>
-                 <input type="date" name="end_date" id="end_date" value="<?= set_value('start_date')?>" class="form-control" placeholder="End date" aria-describedby="end date">
+                 <input type="date" required name="end_date" id="end_date" value="<?= set_value('start_date')?>" class="form-control" placeholder="End date" aria-describedby="end date">
                 </div>
              </div><!-- /row -->
 
@@ -71,4 +85,13 @@
 </div><!-- /registration-layout --->
 
 <?= $this->endSection('content') ?>
+<?= $this->section('script') ?>
+<script>
+     function reportData(){
+        return {
+            report_type: '',
+        }
+     }
+</script>
+<?= $this->endSection('script') ?>
 

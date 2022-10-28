@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2022 at 06:51 AM
+-- Generation Time: Oct 27, 2022 at 05:42 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -46,23 +46,26 @@ CREATE TABLE `assigneddiagnoses` (
 INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `diagnoses_note`, `doctor`, `file_id`, `treatment_ended`, `created_at`, `updated_at`) VALUES
 (4, 245, 'final', '', 31, 9, 1, '2022-06-30 04:52:31', '2022-10-13 07:43:29'),
 (6, 262, 'working', '', 31, 9, 1, '2022-06-30 05:50:20', '2022-10-13 07:43:29'),
-(11, 86, 'final', '', 31, 10, 1, '2022-07-17 04:37:50', '2022-10-13 07:43:29'),
-(12, 135, 'final', '', 31, 10, 1, '2022-07-17 05:50:28', '2022-10-13 07:43:29'),
-(16, 8, 'working', '', 31, 10, 1, '2022-07-17 05:58:21', '2022-10-13 07:43:29'),
+(11, 86, 'final', '', 31, 10, 1, '2022-07-17 04:37:50', '2022-10-24 07:32:27'),
+(12, 135, 'final', '', 31, 10, 1, '2022-07-17 05:50:28', '2022-10-24 07:32:27'),
+(16, 8, 'working', '', 31, 10, 1, '2022-07-17 05:58:21', '2022-10-24 07:32:27'),
 (17, 7, 'final', '', 31, 9, 1, '2022-07-24 16:23:39', '2022-10-13 07:43:29'),
-(18, 8, 'working', '', 31, 10, 1, '2022-07-30 04:36:12', '2022-10-13 07:43:29'),
-(19, 7, 'final', '', 68, 10, 1, '2022-07-30 04:47:18', '2022-10-13 07:43:29'),
-(20, 14, 'final', '', 68, 10, 1, '2022-07-30 04:48:29', '2022-10-13 07:43:29'),
-(21, 37, 'working', '', 68, 10, 1, '2022-07-30 04:54:24', '2022-10-13 07:43:29'),
+(18, 8, 'working', '', 31, 10, 1, '2022-07-30 04:36:12', '2022-10-24 07:32:27'),
+(19, 7, 'final', '', 68, 10, 1, '2022-07-30 04:47:18', '2022-10-24 07:32:27'),
+(20, 14, 'final', '', 68, 10, 1, '2022-07-30 04:48:29', '2022-10-24 07:32:27'),
+(21, 37, 'working', '', 68, 10, 1, '2022-07-30 04:54:24', '2022-10-24 07:32:27'),
 (22, 4739, 'working', '', 31, 9, 1, '2022-07-30 12:27:53', '2022-10-13 07:43:29'),
 (23, 6436, 'working', '', 31, 9, 1, '2022-07-30 12:30:33', '2022-10-13 07:43:29'),
 (24, 4741, 'final', '', 31, 9, 1, '2022-07-30 12:31:05', '2022-10-13 07:43:29'),
-(25, 7, 'final', 'note', 31, 12, 1, '2022-08-26 01:51:13', '2022-10-13 07:43:29'),
-(27, 7, 'working', 'clinical botulism', 31, 12, 1, '2022-09-03 04:56:32', '2022-10-13 07:43:29'),
+(25, 7, 'final', 'note', 31, 12, 1, '2022-08-26 01:51:13', '2022-10-23 18:11:56'),
+(27, 7, 'working', 'clinical botulism', 31, 12, 1, '2022-09-03 04:56:32', '2022-10-23 18:11:56'),
 (28, 3687, 'working', '', 31, 11, 1, '2022-10-09 15:47:36', '2022-10-13 07:43:29'),
 (29, 1864, 'final', '', 31, 11, 1, '2022-10-09 15:48:35', '2022-10-13 07:43:29'),
-(30, 7, 'working', 'new diagnosis', 31, 12, 1, '2022-10-13 04:12:51', '2022-10-13 07:43:29'),
-(31, 37, 'final', '13th added', 31, 12, 1, '2022-10-13 05:06:00', '2022-10-13 07:43:29');
+(30, 7, 'working', 'new diagnosis', 31, 12, 1, '2022-10-13 04:12:51', '2022-10-23 18:11:56'),
+(31, 37, 'final', '13th added', 31, 12, 1, '2022-10-13 05:06:00', '2022-10-23 18:11:56'),
+(32, 7, 'working', 'new botulism note', 31, 12, 1, '2022-10-20 22:19:29', '2022-10-23 18:11:56'),
+(33, 8, 'working', 'food borne clostridium', 31, 20, 0, '2022-10-27 06:13:36', '2022-10-27 06:13:36'),
+(34, 8, 'working', 'clostridium perfringens', 31, 20, 0, '2022-10-27 06:17:51', '2022-10-27 06:17:51');
 
 -- --------------------------------------------------------
 
@@ -98,20 +101,23 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (4, '2x4', 2, '2x4', 3, 5, 'new instruction', 15, 9, 31, 0, '2022-06-27 04:40:50', '2022-10-13 07:43:29', 0, 0, 1),
 (5, '1x2', 2, '6', 0, 1, 'inisianewfr', 10, 9, 31, 0, '2022-06-30 17:57:12', '2022-10-13 07:43:29', 0, 0, 1),
 (6, '1x2', 1, '1x2', 4, 2, 'new assigned drug', 12, 9, 31, 0, '2022-07-01 04:58:35', '2022-10-13 07:43:29', 0, 0, 1),
-(8, '1x2', 1, 'Topical', 1, 2, 'follow instruction', 11, 10, 31, 0, '2022-07-17 15:01:07', '2022-10-13 07:43:29', 0, 0, 1),
-(9, '1x2', 2, 'IM', 3, 5, 'make sure to follow the guide', 11, 10, 68, 0, '2022-07-30 05:33:34', '2022-10-13 07:43:29', 0, 0, 1),
-(10, '5x2', 2, '', 6, 10, 'make sure to take all', 13, 10, 68, 0, '2022-07-30 05:55:01', '2022-10-13 07:43:29', 0, 0, 1),
-(11, '1x5', 2, '', 5, 5, 'follow guide', 15, 10, 68, 0, '2022-07-30 05:57:53', '2022-10-13 07:43:29', 0, 0, 1),
+(8, '1x2', 1, 'Topical', 1, 2, 'follow instruction', 11, 10, 31, 0, '2022-07-17 15:01:07', '2022-10-24 07:32:27', 0, 0, 1),
+(9, '1x2', 2, 'IM', 3, 5, 'make sure to follow the guide', 11, 10, 68, 0, '2022-07-30 05:33:34', '2022-10-24 07:32:27', 0, 0, 1),
+(10, '5x2', 2, '', 6, 10, 'make sure to take all', 13, 10, 68, 0, '2022-07-30 05:55:01', '2022-10-24 07:32:27', 0, 0, 1),
+(11, '1x5', 2, '', 5, 5, 'follow guide', 15, 10, 68, 0, '2022-07-30 05:57:53', '2022-10-24 07:32:27', 0, 0, 1),
 (12, '', 1, '', 10, 6, '', 10, 9, 31, 0, '2022-07-30 12:35:17', '2022-10-13 07:43:29', 0, 0, 1),
-(18, '1x2', 2, 'Drops', 5, 3, 'Paracetamol Instruction', 10, 12, 31, 66, '2022-09-04 18:12:45', '2022-10-13 07:43:29', 1, 0, 1),
-(19, '5x2', 3, 'Per Rectal', 6, 15, 'paracetamol new instruction...', 15, 12, 31, 66, '2022-09-05 01:16:35', '2022-10-13 07:43:29', 1, 0, 1),
-(20, '1x2', 1, '', 2, 2, 'new drug assign', 11, 12, 31, 66, '2022-10-02 12:40:32', '2022-10-13 07:43:29', 1, 1, 1),
-(21, '1x2', 2, 'IM', 3, 4, 'losartan 50mg assigned', 12, 12, 31, 66, '2022-10-02 12:41:25', '2022-10-13 07:43:29', 1, 1, 1),
+(18, '1x2', 2, 'Drops', 5, 3, 'Paracetamol Instruction', 10, 12, 31, 66, '2022-09-04 18:12:45', '2022-10-23 18:11:56', 1, 0, 1),
+(19, '5x2', 3, 'Per Rectal', 6, 15, 'paracetamol new instruction...', 15, 12, 31, 66, '2022-09-05 01:16:35', '2022-10-23 18:11:56', 1, 0, 1),
+(20, '1x2', 1, '', 2, 2, 'new drug assign', 11, 12, 31, 66, '2022-10-02 12:40:32', '2022-10-23 18:11:56', 1, 1, 1),
+(21, '1x2', 2, 'IM', 3, 4, 'losartan 50mg assigned', 12, 12, 31, 66, '2022-10-02 12:41:25', '2022-10-23 18:11:56', 1, 1, 1),
 (22, '1', 1, '', 0, 10, '', 10, 11, 31, 66, '2022-10-09 15:50:37', '2022-10-13 07:43:29', 0, 1, 1),
 (23, '1x2', 2, 'ORAL', 2, 3, '', 10, 21, 31, 0, '2022-10-09 16:27:19', '2022-10-13 07:43:29', 0, 0, 1),
-(24, '5x2', 2, 'ORAL', 2, 3, 'new drg', 11, 10, 31, 0, '2022-10-11 03:28:43', '2022-10-13 07:43:29', 0, 0, 1),
-(25, '', 1, '', 0, 0, '', 12, 12, 31, 0, '2022-10-13 04:50:58', '2022-10-13 07:43:29', 0, 0, 1),
-(26, '5x2', 1, 'ORAL', 3, 10, 'new instruction ', 12, 12, 31, 0, '2022-10-13 05:07:12', '2022-10-13 07:43:29', 0, 0, 1);
+(24, '5x2', 2, 'ORAL', 2, 3, 'new drg', 11, 10, 31, 0, '2022-10-11 03:28:43', '2022-10-24 07:32:27', 0, 0, 1),
+(25, '', 1, '', 0, 0, '', 12, 12, 31, 0, '2022-10-13 04:50:58', '2022-10-23 18:11:56', 0, 0, 1),
+(26, '5x2', 1, 'ORAL', 3, 10, 'new instruction ', 12, 12, 31, 0, '2022-10-13 05:07:12', '2022-10-23 18:11:56', 0, 0, 1),
+(29, '', 1, '', 0, 1, '', 10, 12, 31, 0, '2022-10-21 06:30:25', '2022-10-23 18:11:56', 0, 0, 1),
+(30, '1x2', 2, '', 3, 2, 'current sale', 10, 12, 31, 0, '2022-10-21 06:31:10', '2022-10-23 18:11:56', 0, 0, 1),
+(31, '1x2', 2, 'ORAL', 3, 4, 'new ibuprofine drug instru', 11, 20, 31, 0, '2022-10-27 06:20:04', '2022-10-27 06:20:04', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -149,7 +155,8 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (7, 2, '', '', '', '', '', 4000, 66, '2022-09-14 05:56:25', '2022-09-14 05:56:25', 12, 31, 1, 1),
 (8, 1, '', '', '', '', '', 3000, 66, '2022-09-14 05:56:37', '2022-09-14 05:56:37', 12, 31, 1, 1),
 (9, 3, 'negative', '44.20 - 107.00 (µmol/L)', '10', 'medium', '', 6000, 66, '2022-10-09 15:48:54', '2022-10-09 15:48:54', 11, 31, 1, 1),
-(10, 3, '', '', '', '', '', 6000, 0, '2022-10-13 04:50:31', '2022-10-13 04:50:31', 12, 31, 0, 1);
+(10, 3, '', '', '', '', '', 6000, 0, '2022-10-13 04:50:31', '2022-10-13 04:50:31', 12, 31, 0, 1),
+(11, 1, '', '', '', '', '', 3000, 0, '2022-10-20 22:19:38', '2022-10-20 22:19:38', 12, 31, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -179,13 +186,14 @@ CREATE TABLE `assigned_procedures` (
 INSERT INTO `assigned_procedures` (`id`, `file_id`, `procedure_id`, `doctor`, `file`, `procedure_note`, `amount`, `confirmed_by`, `printed`, `created_at`, `updated_at`, `treatment_ended`) VALUES
 (6, 9, 1, 31, '', 'diagnostic lapa procedure', 6000, 0, 0, '2022-06-23 22:45:43', '2022-10-13 07:43:29', 1),
 (8, 9, 3, 31, '', 'adden intrauterine Insem', 9000, 0, 0, '2022-06-24 20:44:02', '2022-10-13 07:43:29', 1),
-(13, 10, 1, 31, '', 'positive', 6000, 0, 0, '2022-07-16 06:23:59', '2022-10-13 07:43:29', 1),
-(14, 10, 2, 31, '', '', 5000, 0, 0, '2022-07-16 06:31:43', '2022-10-13 07:43:29', 1),
-(16, 10, 2, 68, '', 'positive', 5000, 0, 0, '2022-07-30 06:20:40', '2022-10-13 07:43:29', 1),
-(18, 12, 3, 31, '', 'sample', 9000, 66, 1, '2022-08-06 04:37:49', '2022-10-13 07:43:29', 1),
-(20, 12, 1, 31, '', 'Diagnostic laparapy', 6000, 66, 1, '2022-09-06 00:20:07', '2022-10-13 07:43:29', 1),
-(21, 10, 3, 31, '', 'positive', 9000, 0, 0, '2022-10-11 03:26:17', '2022-10-13 07:43:29', 1),
-(22, 12, 1, 31, '', 'new procedure', 6000, 0, 0, '2022-10-13 05:07:36', '2022-10-13 07:43:29', 1);
+(13, 10, 1, 31, '', 'positive', 6000, 0, 0, '2022-07-16 06:23:59', '2022-10-24 07:32:27', 1),
+(14, 10, 2, 31, '', '', 5000, 0, 0, '2022-07-16 06:31:43', '2022-10-24 07:32:27', 1),
+(16, 10, 2, 68, '', 'positive', 5000, 0, 0, '2022-07-30 06:20:40', '2022-10-24 07:32:27', 1),
+(18, 12, 3, 31, '', 'sample', 9000, 66, 1, '2022-08-06 04:37:49', '2022-10-23 18:11:56', 1),
+(20, 12, 1, 31, '', 'Diagnostic laparapy', 6000, 66, 1, '2022-09-06 00:20:07', '2022-10-23 18:11:56', 1),
+(21, 10, 3, 31, '', 'positive', 9000, 0, 0, '2022-10-11 03:26:17', '2022-10-24 07:32:27', 1),
+(22, 12, 1, 31, '', 'new procedure', 6000, 0, 0, '2022-10-13 05:07:36', '2022-10-23 18:11:56', 1),
+(23, 20, 1, 31, '', 'laparascopy - diagnostic, procedure', 6000, 0, 0, '2022-10-27 06:21:19', '2022-10-27 06:21:19', 0);
 
 -- --------------------------------------------------------
 
@@ -208,13 +216,15 @@ CREATE TABLE `clinicalnotes` (
 --
 
 INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `updated_at`, `treatment_ended`) VALUES
-(56, 12, 'seeen the pt from OPD \nthe Pt have complein  of hert pain\n', 31, '2022-07-15 20:47:22', '2022-10-13 07:43:29', 1),
+(56, 12, 'seeen the pt from OPD \nthe Pt have complein  of hert pain\n', 31, '2022-07-15 20:47:22', '2022-10-23 18:11:56', 1),
 (59, 9, 'dhec', 31, '2022-07-24 18:11:23', '2022-10-13 07:43:29', 1),
-(60, 10, 'new clinica note', 31, '2022-07-30 03:40:40', '2022-10-13 07:43:29', 1),
+(60, 10, 'new clinica note', 31, '2022-07-30 03:40:40', '2022-10-24 07:32:27', 1),
 (63, 9, 'jubbuybubub', 68, '2022-08-02 13:40:08', '2022-10-13 07:43:29', 1),
 (66, 11, 'new clinical note to something else', 31, '2022-10-09 15:42:04', '2022-10-13 07:43:29', 1),
 (67, 11, 'seen the pt  from opd the pt has complain of  pain in lumber ', 31, '2022-10-09 15:45:42', '2022-10-13 07:43:29', 1),
-(68, 12, 'Something new ', 31, '2022-10-13 04:11:57', '2022-10-13 07:43:29', 1);
+(68, 12, 'Something new ', 31, '2022-10-13 04:11:57', '2022-10-23 18:11:56', 1),
+(69, 12, 'new clinic type to write', 31, '2022-10-20 22:18:16', '2022-10-23 18:11:56', 1),
+(70, 20, 'new clinical note  for anthony', 31, '2022-10-27 06:19:05', '2022-10-27 06:19:05', 0);
 
 -- --------------------------------------------------------
 
@@ -320,7 +330,8 @@ INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `
 (35, 21, 31, 'CASH', 6000, 30, 30, 31, '2022-10-09 16:10:19', '2022-10-09 16:10:19'),
 (36, 12, 31, 'CASH', 6000, 30, 30, 31, '2022-10-13 03:16:07', '2022-10-13 03:16:07'),
 (37, 12, 31, 'CASH', 6000, 30, 30, 31, '2022-10-13 04:48:29', '2022-10-13 04:48:29'),
-(38, 12, 31, 'NHIF', 6000, 30, 30, 31, '2022-10-13 06:41:01', '2022-10-13 06:41:01');
+(38, 12, 31, 'NHIF', 6000, 30, 30, 31, '2022-10-13 06:41:01', '2022-10-13 06:41:01'),
+(39, 12, 31, 'CASH', 6000, 30, 30, 31, '2022-10-20 19:10:14', '2022-10-20 19:10:14');
 
 -- --------------------------------------------------------
 
@@ -14704,7 +14715,8 @@ CREATE TABLE `general_examination` (
 INSERT INTO `general_examination` (`id`, `pressure`, `temperature`, `pulse_rate`, `weight`, `height`, `body_mass`, `body_surface_area`, `body_mass_comment`, `saturation_of_oxygen`, `respiratory_rate`, `description`, `patient_file`, `added_by`, `created_at`, `updated_at`, `treatment_ended`) VALUES
 (7, '8', '7', '9', '10', '59', '7', '6', '4', '20', '65', 'New saved Examination', 12, 31, '2022-09-01 23:29:55', '2022-09-01 23:29:55', 1),
 (14, '80', '100,', '23', '100', '89', '98', '60', '60', '100', 'np', '', 11, 31, '2022-10-09 15:46:47', '2022-10-09 15:46:47', 1),
-(15, '9', '9', '30', '20', '2', '5', '3', '5', '2', '5', '13th oct examination', 12, 31, '2022-10-13 05:05:10', '2022-10-13 05:05:10', 1);
+(15, '9', '9', '30', '20', '2', '5', '3', '5', '2', '5', '13th oct examination', 12, 31, '2022-10-13 05:05:10', '2022-10-13 05:05:10', 1),
+(16, '8', '8', '7', '20', '', '30', '30', '12', '', '', '', 12, 31, '2022-10-20 22:18:56', '2022-10-20 22:18:56', 1);
 
 -- --------------------------------------------------------
 
@@ -14730,9 +14742,9 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_date`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
-(10, 'paracetamol', 47, 50, 100, NULL, '', '2022-04-27 12:50:56', '2022-04-27 00:00:00', 19),
-(11, 'ibuprofen', 44, 100, 200, NULL, '', '2022-04-27 12:51:20', '2022-04-27 00:00:00', 19),
-(12, 'LOSARTAN 50 MG (REPACE)', 37, 500, 666, NULL, '', '2022-04-27 16:29:28', '2022-04-27 00:00:00', 19),
+(10, 'paracetamol', 44, 50, 100, NULL, '', '2022-04-27 12:50:56', '2022-04-27 00:00:00', 19),
+(11, 'ibuprofen', 40, 100, 200, NULL, '', '2022-04-27 12:51:20', '2022-04-27 00:00:00', 19),
+(12, 'LOSARTAN 50 MG (REPACE)', 45, 500, 666, NULL, '', '2022-04-27 16:29:28', '2022-04-27 00:00:00', 19),
 (13, 'cetamol', 100, 2000, 3000, NULL, '', '2022-04-28 15:57:12', '2022-04-28 00:00:00', 19),
 (15, 'paracetamol_new', 400, 500, 600, '2022-05-17 00:00:00', 'new paracetamol', '2022-05-03 16:11:25', '2022-05-14 00:00:00', 19);
 
@@ -14831,9 +14843,9 @@ CREATE TABLE `patients_file` (
 INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_method`, `insuarance_no`, `start_treatment`, `end_treatment`, `status`, `patient_character`, `created_at`, `updated_at`) VALUES
 (8, 'MRNO/2022/17', 17, 0, 'NHIF', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-06-16 20:08:27', '2022-06-16 21:17:45'),
 (9, 'MRNO/2022/18', 18, 0, 'CASH', '', '2022-07-29', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-16 21:20:44', '2022-07-29 21:48:01'),
-(10, 'MRNO/2022/19', 19, 3, 'CASH', '', '2022-07-30', '0000-00-00', 'inTreatment', 'outpatient', '2022-06-30 17:15:30', '2022-07-30 04:40:56'),
+(10, 'MRNO/2022/19', 19, 3, 'CASH', '', '2022-07-30', '2022-10-24', 'finishTreatment', 'outpatient', '2022-06-30 17:15:30', '2022-10-24 07:32:27'),
 (11, 'MRNO/2022/20', 20, 1, 'CASH', '', '2022-10-09', '2022-10-09', 'finishTreatment', 'outpatient', '2022-06-30 17:29:48', '2022-10-09 16:07:50'),
-(12, 'MRNO/2022/21', 21, 1, 'NHIF', '', '2022-10-13', '2022-10-13', 'finishTreatment', 'outpatient', '2022-07-15 20:25:08', '2022-10-13 07:43:29'),
+(12, 'MRNO/2022/21', 21, 1, 'CASH', '', '2022-10-20', '2022-10-23', 'finishTreatment', 'outpatient', '2022-07-15 20:25:08', '2022-10-23 18:11:56'),
 (13, 'MRNO/2022/22', 22, 3, 'CASH', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-07-18 18:05:25', '2022-07-18 18:07:51'),
 (15, 'MRNO/2022/24', 24, 1, 'CASH', '', '0000-00-00', '0000-00-00', 'consultation', 'outpatient', '2022-07-24 09:58:14', '2022-07-24 12:48:08'),
 (16, 'MRNO/2022/25', 25, 0, 'CASH', '', '2022-09-12', '0000-00-00', 'inTreatment', 'outsider', '2022-09-11 19:16:28', '2022-09-12 07:36:27'),
@@ -14856,6 +14868,8 @@ CREATE TABLE `patient_history` (
   `payment_method` varchar(70) NOT NULL,
   `insuarance_no` varchar(200) NOT NULL,
   `pcharacter` varchar(30) NOT NULL,
+  `clinic` int(11) NOT NULL,
+  `consultation_fee` double NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
   `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -14864,10 +14878,13 @@ CREATE TABLE `patient_history` (
 -- Dumping data for table `patient_history`
 --
 
-INSERT INTO `patient_history` (`id`, `file_id`, `start_treatment`, `end_treatment`, `status`, `payment_method`, `insuarance_no`, `pcharacter`, `created_at`, `updated_at`) VALUES
-(1, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', '2022-10-13', '2022-10-13'),
-(2, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', '2022-10-13', '2022-10-13'),
-(3, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'NHIF', '', 'outpatient', '2022-10-13', '2022-10-13');
+INSERT INTO `patient_history` (`id`, `file_id`, `start_treatment`, `end_treatment`, `status`, `payment_method`, `insuarance_no`, `pcharacter`, `clinic`, `consultation_fee`, `created_at`, `updated_at`) VALUES
+(1, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 0, 0, '2022-10-13', '2022-10-13'),
+(2, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 0, 0, '2022-10-13', '2022-10-13'),
+(3, 12, '2022-10-13 00:00:00', '2022-10-13 00:00:00', 'finishTreatment', 'NHIF', '', 'outpatient', 0, 0, '2022-10-13', '2022-10-13'),
+(4, 12, '2022-10-20 00:00:00', '2022-10-23 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 0, '2022-10-23', '2022-10-23'),
+(5, 12, '2022-10-20 00:00:00', '2022-10-23 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 0, '2022-10-23', '2022-10-23'),
+(6, 10, '2022-07-30 00:00:00', '2022-10-24 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 3, 9000, '2022-10-24', '2022-10-24');
 
 -- --------------------------------------------------------
 
@@ -15007,7 +15024,8 @@ INSERT INTO `rad_results` (`id`, `rad_id`, `result`, `ranges`, `unit`, `level`, 
 (16, 3, '', '', '', '', '', 0, '2022-09-05 01:18:21', '2022-09-05 01:18:21', 12, 31, 1),
 (18, 2, '', '', '', '', '', 0, '2022-09-12 22:00:29', '2022-09-12 22:00:29', 16, 30, 0),
 (19, 2, '', '', '', '', '', 66, '2022-10-09 15:49:24', '2022-10-09 15:49:24', 11, 31, 0),
-(20, 5, '', '', '', '', '', 0, '2022-10-13 04:50:42', '2022-10-13 04:50:42', 12, 31, 0);
+(20, 5, '', '', '', '', '', 0, '2022-10-13 04:50:42', '2022-10-13 04:50:42', 12, 31, 0),
+(21, 1, '', '', '', '', '', 0, '2022-10-21 03:46:11', '2022-10-21 03:46:11', 12, 31, 0);
 
 -- --------------------------------------------------------
 
@@ -15431,7 +15449,8 @@ ALTER TABLE `patients_file`
 --
 ALTER TABLE `patient_history`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `file_id` (`file_id`);
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `clinic` (`clinic`);
 
 --
 -- Indexes for table `permission`
@@ -15506,31 +15525,31 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `assigneddiagnoses`
 --
 ALTER TABLE `assigneddiagnoses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
 --
 ALTER TABLE `assigned_labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `assigned_procedures`
 --
 ALTER TABLE `assigned_procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `clinicalnotes`
 --
 ALTER TABLE `clinicalnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `clinics`
@@ -15548,7 +15567,7 @@ ALTER TABLE `clinic_doctors`
 -- AUTO_INCREMENT for table `consultation`
 --
 ALTER TABLE `consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `consultation_fee`
@@ -15572,7 +15591,7 @@ ALTER TABLE `expenses`
 -- AUTO_INCREMENT for table `general_examination`
 --
 ALTER TABLE `general_examination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -15602,7 +15621,7 @@ ALTER TABLE `patients_file`
 -- AUTO_INCREMENT for table `patient_history`
 --
 ALTER TABLE `patient_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `permission`
@@ -15626,7 +15645,7 @@ ALTER TABLE `rad_investigation`
 -- AUTO_INCREMENT for table `rad_results`
 --
 ALTER TABLE `rad_results`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `role`

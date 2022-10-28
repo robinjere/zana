@@ -17,6 +17,10 @@
        <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#DiagnosisModelId" @click="openDiagnosisBox()">Assign Diagnosis</button>
      </div><!-- /d-flex -->
    <?php } ?>
+
+   <?php
+      echo 'p-history'. session()->get('phistory');  
+   ?>
    
    <!-- Modal -->
    <div class="modal fade" id="DiagnosisModelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
