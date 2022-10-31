@@ -71,7 +71,7 @@ class AssignedDiagnosesModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(session()->get('role') == 'doctor'){
+            if(session()->get('role') == 'doctor' && !session()->has('phistory')){
                 
                 return '<button onclick="deleteDiagnose('.$row['id'].',\''. $row['diagnoses_type'] .'\') "class="btn btn-danger btn-sm"> &#9587; </button>';
             }

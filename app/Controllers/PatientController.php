@@ -183,7 +183,7 @@ class PatientController extends BaseController
                     'payment' => $this->request->getVar('payment_method'),
                     'assigned_by' => session()->get('id'),
                     'amount' => $this->request->getVar('amount'),
-                    'payment_confirmed_by' => session()->get('id')
+                    // 'payment_confirmed_by' => session()->get('id')
                 ];
      
                  if(!empty($this->request->getVar('insuarance_no'))){
@@ -194,19 +194,10 @@ class PatientController extends BaseController
                     $patientFileModel->save($file_details);
                     $consultationModel->save($consultation);
                     
-                    $data['patient'] = $patientFileModel->patientFile($this->request->getVar('file_id'), '');
-                    $data['doctor'] = $user_model->where('id', $this->request->getVar('doctor_id'))->first();
+                   
+                    // return redirect()->to('/patient/search');
 
-                    //Generate consultation risit.
-                    // echo '<pre>';
-                    //  print_r($data);
-                    // echo '</pre>';
-                    // echo $data['doctor']['father_name'];
-                    // exit;
-
-                    return view('Risit/consultation', $data);
-
-                    //return redirect()->to('/patient/search/')->with('success', 'Patient Sent to Doctor');
+                    return redirect()->to('/patient/search/')->with('success', 'Patient Sent to Doctor');
                 } catch (\Exception $e) {
                    return redirect()->to('/patient/send_to_consultation/'.$patient_id)->with('errors', $e->getMessage());
                 }

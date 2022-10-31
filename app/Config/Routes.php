@@ -47,6 +47,7 @@ $routes->setAutoRoute(true);
      $routes->get('finish/(:num)', 'PatientFileController::finishTreatment/$1', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'history', 'PatientFileController::viewHistory', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'history/(:num)', 'PatientFileController::history/$1', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'fertility-assessment', 'PatientFileController::FertilityAssessment', ['filter' => 'auth']);
  });
 
  $routes->group('generaterisit', function($routes){

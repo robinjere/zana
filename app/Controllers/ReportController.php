@@ -77,7 +77,7 @@ class ReportController extends BaseController
         }
     }
 
-    public function medicine($start_date, $end_date){
+    public function medicine($start_date, $end_date ){
         $doctor = !empty($this->request->getVar('doctor_id')) ? $this->request->getVar('doctor_id') : '' ;
         $data = [];
         $assignedMedicineModel = new AssignedMedicineModel;

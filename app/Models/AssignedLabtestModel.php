@@ -98,13 +98,13 @@ class AssignedLabtestModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(in_array(session()->get('role'), ['doctor', 'reception']) && $row['confirmed_by'] == 0){
+            if(in_array(session()->get('role'), ['doctor', 'reception']) && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteAssignedLabtest('.$row['id'].')" class="badge badge-sm bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'lab' && $row['confirmed_by'] != 0){
+            if(session()->get('role') == 'lab' && $row['confirmed_by'] != 0 && !session()->has('phistory')){
                 return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> add result </button>';
             }
-            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0 && !session()->has('phistory')){
                     if($row['confirmed_by'] != 0){
                         return '<button @click="unconfirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
                     }else{

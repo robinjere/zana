@@ -7,8 +7,14 @@
 <div class="container p-risit"> 
   
   <section class="">
+
+  <!-- display flashdata message here  -->
+  <?php
+     if(session()->getFlashdata('success')){?>
+      <div class="alert alert-success mt-2"> <?= session()->getFlashdata('success'); ?> </div>
+   <?php } ?>
     
-    <div class="container py-5 h-100">
+    <div class="container">
       <div class="d-flex justify-content-end py-2 h-100">
         <a href="/patient/search" class="btn btn-sm btn-danger print-btn" style="margin-right:1rem;">Back</a>
         <button type="button" onclick="window.print()" class="btn btn-sm btn-success print-btn">Print</button>
@@ -57,10 +63,10 @@
                 </div>
               </div>
   
-              <p style="margin-top: 1.5rem; margin-bottom:unset;">CONSULTATION </p>
-              <hr class="my-4">
+              <p style="margin-top:.5rem; margin-bottom:unset;" class="about">CONSULTATION </p>
+              <hr class="my-1">
   
-              <table class="table">
+              <table class="table data">
                 <thead>
                   <tr>
                     <th scope="col">Clinic</th>

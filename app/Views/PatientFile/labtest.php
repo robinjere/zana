@@ -38,7 +38,7 @@
           
 
         <?php if(in_array(session()->get('role'), ['doctor','reception']) && !$patient_file['ishistory'] ){ ?>
-            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true">Assign LabTest</button>
+            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#customLabTest" @click="showSearchInput=true; searchInput=''; labtests=[]; ">Assign LabTest</button>
           <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
         <?php } ?>
    </div>
@@ -98,7 +98,7 @@
                                              <th scope="col">Level</th>
                                              <th scope="col">Attachment</th>
                                              <th scope="col">Ordered on</th>
-                                             <?php if(session()->get('role')== 'lab'){ ?>
+                                             <?php if(session()->get('role')== 'lab' && !session()->has('phistory')){ ?>
                                                 <th scope="col" >Action</th>
                                              <?php } ?>
                                           </tr>
@@ -155,7 +155,9 @@
                   <th scope="col">Test</th>
                   <th scope="col">Price</th> 
                   <th scope="col">Status</th>
-                  <th scope="col" >Action</th>
+                  <?php if(!session()->has('phistory')){ ?>
+                     <th scope="col" >Action</th>
+                  <?php } ?>
                </tr>
             </thead>
         </table>
@@ -239,6 +241,7 @@
          showAssignArea: false,
          searchInput: '',
          showSearchInput: false,
+         alertTime: '',
          searchLabTest(){
 
           if(this.searchInput !== ''){
@@ -284,10 +287,17 @@
                        if(data.success){
                           labTestTable()
                        }
+                       
                        this.success = data.success
                        this.message = data.message
                        this.labtests = [];
                        this.showSearchInput = false
+
+                       clearTimeout(this.alertTime)
+                       this.alertTime = setTimeout(() => {
+                           this.success = false
+                           this.message = ''
+                       }, 3000);
                     //    console.log('assignlabtest', data)
                    
              })

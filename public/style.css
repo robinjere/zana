@@ -823,20 +823,29 @@ table tbody tr td{
   font-size: .9rem !important;
 }
 
-.p-risit .p-details{
-  font-size: .9rem;
+.p-risit .p-details td{
+  font-size: .8rem !important;
 }
 .p-risit .p-details td{
   padding: 0 0 !important;
 }  
+
+.p-risit .about{
+  font-weight: 600;
+  font-size: .9rem;
+}
 
 .p-risit .clinic-contacts{
   font-size: .8rem;
   margin-bottom: .8rem;
 }
 
+.p-risit .data th, .p-risit .data td{
+  font-size: .722rem !important ;
+}
+
 @media print {
-  .print-btn {
+  .print-btn, .alert {
     display: none;
   }
   .p-risit{
@@ -903,4 +912,69 @@ table tbody tr td{
   border-color: #0d6efd;
 }
 /* ---------------  PATIENT HISTORY FILTER   ---------------  */
+
+/* ---------------  PATIENT FILE ASSESSMENT   ---------------  */
+.fertility-assessment{
+  background: #FFFFFF;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.exit-assessment{
+  background: #FFFFFF;
+  padding: 7px 10px;
+  margin-top: 11px;
+}
+
+.fertility-assessment .head h2, .fertility-assessment .head h3{
+ font-size: .9rem;
+ font-weight: 800;
+ text-align: center;
+ margin: 0;
+}
+.fertility-assessment .head{
+  margin: 5px 0;
+}
+.fertility-assessment tr th, .fertility-assessment tr td{
+  font-size: .8rem !important;
+}
+
+.fertility-assessment span.data{
+  margin-left: 10px;
+}
+.fertility-assessment .check{
+  width: 27px;
+  height: 11px;
+  position: relative;
+  background-color: #FFFFFF !important;
+  /* border-color: #FFFFFF !important; */
+  width: 27px;
+  height: 18px;
+  border: 1px solid #d1d1d1;
+  background: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+.fertility-assessment .form-check{
+  position: relative;
+  background-color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  width: 27px;
+  height: 18px;
+  border: 1px solid #d1d1d1;
+  background: none !important;
+  border-radius: 0 !important;
+  
+}
+.fertility-assessment .icon{
+  position: absolute;
+  top: -6px;
+  left: 6px;
+  font-size: 1.3rem;
+}
+.fertility-assessment input, .fertility-assessment textarea{
+  font-size: .8rem !important;
+}
+
+/* ---------------  PATIENT FILE ASSESSMENT   ---------------  */
 

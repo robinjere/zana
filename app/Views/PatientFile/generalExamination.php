@@ -87,13 +87,22 @@
 
 <?= $this->section('script') ?>
 <script defer> 
+
+<?php 
+   $phistory = false;
+  if(in_array(session()->get('role'), ['doctor', 'nurse']) && !session()->has('phistory') ){
+    $phistory = !true; 
+   }else{ 
+    $phistory = !false; 
+}  ?>
+
 //store 
 document.addEventListener('alpine:init', () => {
    Alpine.store('generalExamination', {
       loading: false,
       success: false,
       message: '', 
-      canEdit: <?= json_encode(in_array(session()->get('role'), ['doctor', 'nurse']) ? !true : !false ) ?>,
+      canEdit: <?= json_encode($phistory) ?> ,
       start_treatment: <?= json_encode($patient_file['start_treatment']) ?>,
       end_treatment: <?= json_encode($patient_file['end_treatment']) ?>,
 

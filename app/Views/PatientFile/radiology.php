@@ -22,7 +22,7 @@
                <?php } ?>
 
                <?php if(in_array(session()->get('role'), ['doctor','reception']) && !$patient_file['ishistory']){ ?>
-                  <button type="button" class="btn-sm btn btn-success" data-bs-toggle="modal" data-bs-target="#radiologyId">
+                  <button type="button" class="btn-sm btn btn-success" @click="searchInput=''; radiology=[]; " data-bs-toggle="modal" data-bs-target="#radiologyId">
                      Assign Radiology
                   </button>
                <?php } ?>
@@ -99,7 +99,7 @@
                                              <th scope="col">Level</th>
                                              <th scope="col">Attachment</th>
                                              <th scope="col">Ordered on</th>
-                                             <?php if(session()->get('role')== 'lab'){?>
+                                             <?php if(session()->get('role')== 'lab' && !session()->has('phistory')){?>
                                                 <th scope="col" >Action</th>
                                              <?php } ?>
                                           </tr>
@@ -161,7 +161,9 @@
                   <!-- <th scope="col">Doctor Report</th> -->
                   <th scope="col">Price</th> 
                   <th scope="col">Status</th>
-                  <th scope="col" >Action</th>
+                  <?php if(!session()->has('phistory')){?>
+                     <th scope="col" >Action</th>
+                  <?php } ?>
                </tr>
             </thead>
         </table>
@@ -182,6 +184,7 @@
          showAssignArea: false,
          searchInput: '',
          showSearchInput: true,
+         alertTime: '',
          searchRadiology(){
 
           if(this.searchInput !== ''){
@@ -231,6 +234,12 @@
                        this.message = data.message
                        this.labtests = [];
                        this.showSearchInput = false
+
+                       clearTimeout(this.alertTime);
+                       setTimeout(() => { 
+                         this.success = false
+                         this.message = ''
+                       }, 3000)
                     //    console.log('assignlabtest', data)
              })
          },

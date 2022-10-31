@@ -14,7 +14,7 @@
      
       <?php if(session()->get('role') == 'doctor' && !$patient_file['ishistory']){?>
          <!-- Button trigger modal -->
-         <button  data-bs-toggle="modal" data-bs-target="#ProcedureModalId"  type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
+         <button  data-bs-toggle="modal" @click="selectedProcedure=''; procedureNote='';" data-bs-target="#ProcedureModalId"  type="button" class="btn btn-sm btn-success" >Assign Procedure</button> 
       <?php } ?>   
 
       <?php if(session()->get('role') == 'cashier'){ ?>
@@ -120,7 +120,10 @@
                   <th scope="col">Amount</th> 
                   <th scope="col">Status</th> 
                   <th scope="col">Doctor</th>
-                  <th scope="col" >Action</th>
+                  <?php
+                     if(!session()->has('phistory')){ ?>
+                     <th scope="col" >Action</th>
+                  <?php   } ?>
                   <!-- <th scope="col" >update</th> -->
                </tr>
             </thead>
@@ -148,6 +151,7 @@ function proceduresData(){
         availableProcedures: [{id: '', name:'', price:0 }],
         success: false, 
         message: '',
+        alertTime: '',
         filterProcedures(selectedProcedure){
             console.log('this invoked!')
             this.procedure = this.availableProcedures.filter(procedure => Number(procedure.id) == Number(selectedProcedure))[0]
@@ -179,8 +183,18 @@ function proceduresData(){
                 this.procedureNote= ''
                 this.showAssignBtn = true
                 this.isAssign = false
+                this.clearAlert()
                 proceduresTable()
            }).catch(error => console.log('error', error))
+        },
+        clearAlert(){
+           clearTimeout(this.alertTime)
+           this.alertTime = setTimeout(() => {
+                this.success = false
+                this.message = ''
+                this.selectedProcedure = ''
+                this.procedureNote= ''
+           }, 3000);
         },
         confirmPaymentProcedure(procedureId){
             fetch('<?= base_url('patientFileController/confirmPaymentProcedure') ?>',{

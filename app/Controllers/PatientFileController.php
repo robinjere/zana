@@ -16,6 +16,7 @@ use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
+use App\Models\PatientModel;
 use App\Models\ClinicModel;
 use monken\TablesIgniter;
 
@@ -667,6 +668,18 @@ class PatientFileController extends BaseController
         $availableExamination = $generalExaminationModel->getExamination($this->request->getVar('patient_file'), $this->request->getVar('start_treatment'), $this->request->getVar('end_treatment'));
         echo json_encode($availableExamination);
     }
+   }
+
+   public function FertilityAssessment(){
+    $patientModel = new PatientModel;
+    $data = [];
+    if($this->request->getMethod() == 'post'){
+          $data['patientFile'] = $this->request->getVar();
+          $data['patient'] = $patientModel->where('id', $this->request->getVar('patient_id'))->first();
+     }
+
+    // print_r($data['patientFile']);    
+    return view('patientfile/fertility_assessment', $data);
    }
 
 }

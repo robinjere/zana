@@ -18,9 +18,6 @@
      </div><!-- /d-flex -->
    <?php } ?>
 
-   <?php
-      echo 'p-history'. session()->get('phistory');  
-   ?>
    
    <!-- Modal -->
    <div class="modal fade" id="DiagnosisModelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -33,7 +30,7 @@
         <div class="modal-body">
          <form x-on:submit.prevent x-cloak x-show="showDiagnosisBox">
               <div class="mb-3">
-                    <input type="text" x-model="searchInput" @keyup="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">   
+                    <input type="text" x-model="searchInput" @keyup.debounce.500ms="searchDiagnosis()"  class="form-control" name="" id=""  placeholder="Search Diagnosis">   
                       <div class="d-flex justify-content-center align-items-center mt-2">
                         <div x-cloak x-show="loading" class="spinner-border" role="status">
                           <span class="visually-hidden">Loading...</span>
@@ -131,7 +128,7 @@
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
                       <th scope="col">Diagnoses Note </th>
-                      <?php if(session()->get('role') == 'doctor'){?>
+                      <?php if(session()->get('role') == 'doctor' && !session()->has('phistory')){?>
                         <th scope="col" >Action</th>
                       <?php } ?>
                   </tr>
@@ -149,7 +146,7 @@
                       <th scope="col">Date</th>
                       <th scope="col">Diagnoses</th>
                       <th scope="col">Diagnoses Note </th>
-                      <?php if(session()->get('role') == 'doctor'){?>
+                      <?php if(session()->get('role') == 'doctor' && !session()->has('phistory')){?>
                         <th scope="col" >Action</th>
                       <?php } ?>
                   </tr>
@@ -179,10 +176,13 @@
       diagnosis: [],
       selectedDiagnos: '',
       diagnosis_note: '',
+      alertTime: '',
       openDiagnosisBox(){
           this.showDiagnosisBox = true
           this.showAssignDiagnosisBtn = false
           this.showSearch = true
+          this.searchInput = ''
+          this.diagnosis_note = ''
       },
       closeDiagnosisBox(){
           this.showDiagnosisBox = false
@@ -233,8 +233,15 @@
                   doctor: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {
+                   clearTimeout(this.alertTime)
                    this.success = data.success
                    this.message = data.message
+                   
+                   this.alertTime = setTimeout(() => {
+                     this.success = false
+                     this.message = ''
+                   }, 3000);
+
                    if(this.success){
                      switch (diagnoses_type) {
                        case 'working':

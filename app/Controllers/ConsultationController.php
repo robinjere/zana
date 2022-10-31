@@ -7,6 +7,7 @@ use App\Models\RoleModel;
 use App\Models\ConsultationFeeModel;
 use App\Models\ConsultationModel;
 use App\Models\PatientsFileModel;
+use App\Models\UserModel;
 use monken\TablesIgniter;
 
 class ConsultationController extends BaseController
@@ -107,14 +108,32 @@ class ConsultationController extends BaseController
 
     public function approve_payment(Int $consultation_id, String $from_panel){
         $consultationModel = new ConsultationModel;
+        $patientFileModel = new PatientsFileModel;
+        $user_model = new UserModel;
+
         $data = ['id' => $consultation_id, 'payment_confirmed_by' => session()->get('id')];
         $consultationModel->save($data);
 
-        if($from_panel == 'search'){
-            return redirect()->to('patient/search')->with('success', 'Consultation payment Approved!');
-        }else{
-            return redirect()->to('consultation/list')->with('success', 'Consultation payment Approved!');
-        }
+        $consultationData = $consultationModel->where('id', $consultation_id)->first();
+
+        $data['patient'] = $patientFileModel->patientFile($consultationData['file_id'], '');
+        $data['doctor'] = $user_model->where('id', $consultationData['doctor_id'])->first();
+
+        //Generate consultation risit.
+        // echo '<pre>';
+        //  print_r($data);
+        // echo '</pre>';
+        // echo $data['doctor']['father_name'];
+        // exit;
+        session()->setflashdata('success', 'Consultation payment Approved!');
+        
+        return view('Risit/consultation', $data);
+
+        // if($from_panel == 'search'){
+        //     return redirect()->to('patient/search')->with('success', 'Consultation payment Approved!');
+        // }else{
+        //     return redirect()->to('consultation/list')->with('success', 'Consultation payment Approved!');
+        // }
     }
 
     public function dis_approve_payment(Int $consultation_id, String $from_panel){

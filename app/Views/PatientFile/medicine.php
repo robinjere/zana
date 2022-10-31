@@ -39,7 +39,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Assign Drug</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" @click="clearSearch()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="">
@@ -191,7 +191,10 @@
                   <th scope="col">Instruction</th>
                   <th scope="col">Paid</th>
                   <th scope="col">Price/Qty</th>
-                  <th scope="col" >Action</th>
+                  <?php
+                    if(!session()->has('phistory')){?>
+                      <th scope="col" >Action</th>
+                   <?php } ?>
                </tr>
             </thead>
         </table>
@@ -222,6 +225,7 @@
       instruction: '',
       id: 0,
       amount: 0,
+      alertTime: '',
       searchDrug(){
         console.log('search input typed', this.searchInput)
         if(this.searchInput !== ''){
@@ -271,6 +275,19 @@
         console.log('drug available', this.drug)
         
      },
+     clearSearch(){
+          this.searchInput = ''
+          this.unit = ''
+          this.dosage = ''
+          this.frequency = ''
+          this.route = ''
+          this.days = ''
+          this.qty = ''
+          this.instruction = ''
+          this.id = ''
+          this.amount = ''
+          this.showAssignArea = false;
+     },
      assignDrug(){
 
               let _unit = this.unit
@@ -284,9 +301,12 @@
               let _amount = this.amount
 
         if(Number(this.unit) < Number(this.qty) || Number(this.qty) < 0 ){
-                 this.success = false,
-                 this.message = Number(this.qty) < 0 ? 'Qty could never be negative!' : 'Qty is greater than unit!'
-                 return
+
+                this.success = false,
+                this.message = Number(this.qty) < 0 ? 'Qty could never be negative!' : 'Qty is greater than unit!'
+                this.clearMessage()
+                  
+                return
         }
 
       fetch('<?= base_url('patientFileController/ajax_assigndrug') ?>',{
@@ -314,6 +334,8 @@
               this.message = data.message
               this.success = data.success
 
+              this.clearMessage()
+
               //hide search drug and assign drug inputs,
               this.showSearchBtn = true
               this.showSearchInput = false
@@ -323,8 +345,16 @@
             }else{
               this.message = data.message
               this.success = data.success
+              this.clearMessage()
             }
           })
+     },
+     clearMessage(){
+             clearTimeout(this.alertTime)
+              this.alertTime = setTimeout(() => {
+                this.message = ''
+                this.success = false
+              }, 3000);
      },
      taken(medicineId){
             fetch('<?= base_url('patientFileController/takenMedicine') ?>',{

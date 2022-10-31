@@ -74,7 +74,7 @@
  <p class="risit__subtitle uppercase" align="center"> MEDICINE REPORT </p>
  <p> Report generated at: <?= date("Y-m-d") ?> </p>
  <?php if(!empty($doctor)){?>
-    <p> Consultation done by doctor : <b> <?= $doctor['first_name'] .' '. $doctor['father_name'] .' ' . $doctor['last_name'] ?> </b></p>
+    <p> Medicine provided by doctor : <b> <?= $doctor['first_name'] .' '. $doctor['father_name'] .' ' . $doctor['last_name'] ?> </b></p>
 
  <?php }?>
 
