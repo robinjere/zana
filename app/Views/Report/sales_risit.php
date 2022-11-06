@@ -73,6 +73,9 @@
 <div class="separater"></div>
  <p class="risit__subtitle uppercase" align="center"> Drugs </p>
  <p> <?= date("Y-m-d") ?> </p>
+ <?php if(!empty($cashier)){ ?>
+  <p class="m-0"> sales done by <?= $cashier['first_name'] .' '. $cashier['last_name'] ?></p>
+ <?php } ?>
 <div class="separater"></div>
 
 <div>

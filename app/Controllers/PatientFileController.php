@@ -16,6 +16,7 @@ use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
+use App\Models\FertilityAssessmentModel;
 use App\Models\PatientModel;
 use App\Models\ClinicModel;
 use monken\TablesIgniter;
@@ -676,10 +677,56 @@ class PatientFileController extends BaseController
     if($this->request->getMethod() == 'post'){
           $data['patientFile'] = $this->request->getVar();
           $data['patient'] = $patientModel->where('id', $this->request->getVar('patient_id'))->first();
+          $data['pageTitle'] = 'fertility-assessment';
+          return view('patientfile/fertility_assessment', $data);
      }
 
+     return  redirect()->to('patient/search');
+
     // print_r($data['patientFile']);    
-    return view('patientfile/fertility_assessment', $data);
    }
+
+   public function ajax_addFertility(){
+    if($this->request->getMethod() == 'post'){
+        $fertilityAssessmentModel = new FertilityAssessmentModel;
+        //check where the fertility data is present according to date range..
+        $start_date = $this->request->getVar('start_treatment');
+        $end_date = $this->request->getVar('end_treatment');
+        $patient_id = $this->request->getVar('patient_id');
+        $fertility_data = $this->request->getVar('fertility_data');
+     
+        $_fertility = $fertilityAssessmentModel->check_fertility_data($patient_id, $start_date, $end_date);
+        $fertility_data->patient_id = $patient_id;
+        if(!empty($_fertility)){
+            $fertility_data->id = $_fertility->id;
+            $fertility_data->user_id = session()->get('id');
+            $fertilityAssessmentModel->save($fertility_data);
+        }else{
+            $fertility_data->user_id = session()->get('id');
+            $fertilityAssessmentModel->save($fertility_data);
+        }
+        // print_r($fertility_data);
+        
+        // echo json_encode($this->request->getVar());
+        // $clinicalNoteModel = new ClinicalNoteModel;
+        // if($clinicalNoteModel->save($this->request->getVar())){
+        //     echo json_encode(['success' => true, 'message' => 'clinical note added!']);
+        // }else{
+        //     echo json_encode(['success' => false, 'message' => 'Failed to add clinical!']);
+        // }           
+    }
+}
+
+public function ajax_getFertility(){
+    if($this->request->getMethod() == 'post'){
+        $fertilityAssessmentModel = new FertilityAssessmentModel;
+        //check where the fertility data is present according to date range..
+        $start_date = $this->request->getVar('start_treatment');
+        $end_date = $this->request->getVar('end_treatment');
+        $patient_id = $this->request->getVar('patient_id');
+        $_fertility = $fertilityAssessmentModel->check_fertility_data($patient_id, $start_date, $end_date);
+        echo json_encode($_fertility);
+    }
+}
 
 }

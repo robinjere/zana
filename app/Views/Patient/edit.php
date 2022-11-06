@@ -54,8 +54,6 @@
 
 <?= view_cell('\App\Libraries\PatientPanel::PatientNavigation') ?>
 
-
-
    <div class="registration-form__form" >
            <form method="post" action="/patient/edit/<?= $currentPatient['id'] ?>" >
              <div class="row registration-space-y">   
@@ -120,6 +118,8 @@
                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div> <!-- /registration-space-y -->
 
+            <?php if($patientFile['status'] == 'finishTreatment'){?>
+
             <div class="registration-space-y">
                 <label for="pcharacter" class="form-label"> <i> Select patient character</i> </label>
                 <div class="row">
@@ -139,6 +139,7 @@
                   <div class="col"></div>
                 </div>
            </div> <!-- /registration-space-y -->
+           <?php } ?>
 
             <div class="row mt-6">
                  <div class="col">

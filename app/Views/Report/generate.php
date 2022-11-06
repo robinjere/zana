@@ -45,6 +45,19 @@
                   </select>
              </div><!-- /row -->
 
+            <template x-if="report_type == 'sales'">
+                <div class="registration-space-y">
+                        <select class="form-select " name="cashier_id" >
+                            <option value="" selected>Sales by cashier?</option>
+                            <?php foreach ($salesBy as $key => $sale_by) {?>
+                                <option value="<?= $sale_by->id ?>"> <?= $sale_by->first_name.' '. $sale_by->last_name ?></option>
+                            <?php } ?>
+                            <!-- <option value="">Istanbul</option>
+                            <option value="">Jakarta</option> -->
+                        </select>
+                </div><!-- /registration-space-y -->
+            </template>
+
             <template x-if="report_type == 'consultation' || report_type == 'procedure' || report_type == 'medicine'">
                 <div class="registration-space-y">
                         <select class="form-select " name="doctor_id" >

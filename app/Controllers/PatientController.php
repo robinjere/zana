@@ -282,10 +282,11 @@ class PatientController extends BaseController
 
            } catch (\Exception $e) {
                //throw $th;
-               return redirect()->to('/patient/search')->with('errors', $e->getMessage());
+               return redirect()->to('patient/search')->with('errors', $e->getMessage());
            }
         }
-
         return view('Patient/search_patient', $data);
+ 
+        // return redirect()->to('patient/search');
     }
 }

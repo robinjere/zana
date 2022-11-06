@@ -21,6 +21,7 @@ class ReportController extends BaseController
         $data = [];
 
         $data['doctors'] = $userModel->getDoctors();
+        $data['salesBy'] = $userModel->getUserByRole('cashier');
 
         return view('report/generate', $data);
     }
@@ -247,7 +248,9 @@ class ReportController extends BaseController
 
     public function sales_report($start_date, $end_date){
         $salesModel = new SalesModel;
-        $sales_data = $salesModel->salesData($start_date, $end_date);
+        $userModel = new UserModel;
+        $cashier_id = $this->request->getVar('cashier_id');
+        $sales_data = $salesModel->salesData($start_date, $end_date, $cashier_id);
         
         // if(empty($sales_data)){
         //     return $this::no_data('Sales');
@@ -256,9 +259,10 @@ class ReportController extends BaseController
         $store = new StoreController;
 
         $data['clinic_contacts'] = $store->get_clinic_info();
+        $data['cashier'] = $userModel->where('id', $cashier_id)->first();
   
-        // view('report/sales_risit', $data);
         $data['sales'] = $sales_data;
+        // return view('report/sales_risit', $data);
 
         $dompdf = new \Dompdf\Dompdf(); 
         $dompdf->loadHtml(view('report/sales', $data));

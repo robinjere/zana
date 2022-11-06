@@ -6,7 +6,7 @@
 
 <div x-data="searchForm();">
 
-<form  x-on:submit.prevent method="post" > 
+<form  x-on:submit.prevent method="post"> 
 
   <div class="search_box">
     <div class="input-group">
@@ -14,7 +14,7 @@
         <option selected value="file_no"> Search by file number</option>
         <option value="name">Search by patient name</option>
       </select> -->
-      <input type="search" @keyup="onSearch" x-model="searchterm" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
+      <input type="search" @keyup.debounce="onSearch" x-model="searchterm" name="searchterm" placeholder="search patient .." class="form-control w-full" style="flex:2;" aria-label="Search patient"/>
       <!-- <button type="submit" class="btn btn-success" style="margin-left: 1rem;" type="button">Search  </button> -->
     </div><!-- /input-group -->
     <!-- Hover added -->
@@ -55,13 +55,11 @@
 
 </form>
 
-<template x-if="searchterm == ''">
+<template x-if="searchterm === ''">
 
 <?php
 
-   if(isset($patient_info)){  
-    // print_r($patient_info);
-   ?>
+   if(isset($patient_info)){  // print_r($patient_info); ?>
 
     <div class="patient_search bg-white">
       <div class="detail">

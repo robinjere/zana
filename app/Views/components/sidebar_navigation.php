@@ -120,7 +120,7 @@
     </li>
     <?php } ?>
 
-    <?php if(in_array(session()->get('role'), ['lab' ])){?>
+    <!-- <?php if(in_array(session()->get('role'), ['lab' ])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
         <a href="/report" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
             <svg  viewBox="0 0 30 34" fill="none">
@@ -129,7 +129,7 @@
             <span> Report </span>
         </a>
     </li>
-    <?php } ?>
+    <?php } ?> -->
 
     <?php if(in_array(session()->get('role'), ['reception' ])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">

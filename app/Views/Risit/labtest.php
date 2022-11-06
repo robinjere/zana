@@ -8,7 +8,7 @@
   
   <section class="">
     
-    <div class="container py-5 h-100">
+    <div class="container">
       <div class="d-flex justify-content-end py-2 h-100">
         <button type="button" onclick="window.print()" class="btn btn-sm btn-success print-btn">Print</button>
       </div><!-- /d-flex -->
@@ -16,7 +16,7 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col">
           <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
-            <div class="card-body py-4 px-4 px-md-5">
+            <div class="card-body py-2 px-4 px-md-5">
   
               <p class="h1 text-center mt-3 text-primary title">
                 <i class="fas fa-check-square me-1"></i>
@@ -56,10 +56,10 @@
                 </div>
               </div>
   
-              <p style="margin-top: 1.5rem; margin-bottom:unset;">ITEMS </p>
-              <hr class="my-4">
+              <p style="margin-top: .5rem; margin-bottom:unset;" class="about">ITEMS </p>
+              <hr class="my-1">
   
-              <table class="table">
+              <table class="table data">
                 <thead>
                   <tr>
                     <th scope="col">#</th>

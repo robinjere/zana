@@ -23,7 +23,7 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col">
           <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
-            <div class="card-body py-4 px-4 px-md-5">
+            <div class="card-body py-2 px-4 px-md-5">
   
               <p class="h1 text-center mt-3 text-primary title">
                 <i class="fas fa-check-square me-1"></i>

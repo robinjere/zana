@@ -16,7 +16,7 @@
          <?php } ?>
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
             
-               <form action="<?= base_url('patientfile/fertility-assessment') ?>" method="post" style="margin-left:5px;">
+               <form target="_blanck" action="<?= base_url('patientfile/fertility-assessment') ?>" method="post" style="margin-left:5px;">
                   <input type="hidden" name="start_treatment" value="<?= $patient_file['start_treatment'] ?>"/>
                   <input type="hidden" name="end_treatment" value="<?= $patient_file['end_treatment'] ?>"/>
                   <input type="hidden" name="patient_id" value="<?= $patient_file['patient_id'] ?>"/>

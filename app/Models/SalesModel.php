@@ -75,19 +75,21 @@ class SalesModel extends Model
         return $column;
     }
 
-    public function salesData($start_date, $end_date){
+    public function salesData($start_date, $end_date, $user_id=''){
        
-            return $this->db->table('sales')
+            $builder = $this->db->table('sales');
                         // ->groupStart()
-                        ->select('sales.updated_at, sales.qty, sales.dose, sales.amount, sales.discount')
-                        ->select('items.name, items.selling_price')
+            $builder->select('sales.updated_at, sales.qty, sales.dose, sales.amount, sales.discount');
+            $builder->select('items.name, items.selling_price');
                         // ->groupEnd()
-
-                        ->join('items', 'sales.item_id = items.id')
-                        ->groupStart()
-                        ->where('DATE(sales.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')
-                        ->groupEnd()                    
-                        ->get()->getResult();
+            $builder->join('items', 'sales.item_id = items.id');
+            $builder->groupStart();
+            if(!empty($user_id)){
+                $builder->where('sales.user_id', $user_id);
+            }
+            $builder->where('DATE(sales.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            $builder->groupEnd();                    
+            return $builder->get()->getResult();
             // return (string) $this->db->getLastQuery();
 
     }

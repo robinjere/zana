@@ -35,7 +35,7 @@
         <div class="list-group visit">
             <?php
               foreach ($patient_history as $key => $history) {?>
-                <form method="post" action="<?= base_url('patientfile/history') ?>">
+                <form target="_blanck" method="post" action="<?= base_url('patientfile/history') ?>">
                   <input type="hidden" name="file_id" value="<?= $patient_file->id ?>"/>
                   <input type="hidden" name="start_treatment" value="<?= $history->start_treatment ?>"/>
                   <input type="hidden" name="end_treatment" value="<?= $history->end_treatment ?>"/>

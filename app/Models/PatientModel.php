@@ -56,12 +56,48 @@ class PatientModel extends Model
         $builder = $this->db->table('patients');
         $builder->select('patients.id,  patients.first_name, patients.middle_name, patients.sir_name, patients_file.id as file_id, patients_file.patient_id, patients_file.file_no, patients_file.payment_method, patients_file.start_treatment, patients_file.end_treatment, patients_file.status, patients_file.patient_character');
         if($filter == 'name'){
+            //check searchterm if contain space
+            // $searchterm = explode(' ', $searchterm);
+            
+            // $firstname = '';
+            // $middlename = '';
+            // $lastname = '';
+
+            // switch (count($searchterm)) {
+            //     case 1:
+            //         $firstname = strval($searchterm[0]);
+            //         break;
+                
+            //     case 2:
+            //         $middlename = strval($searchterm[1]);
+            //         break;
+                
+            //     case 3:
+            //         $lastname = strval($searchterm[2]);
+            //         break;
+                
+            //     default:
+            //         # code...
+            //         break;
+            // }
+            
+            // $builder->like('patients.first_name', $firstname, 'before');
+            // if($middlename !== ''){
+            //     $builder->orLike('patients.middle_name', $middlename, 'before');
+            // }
+            // if($lastname !== ''){
+            //     $builder->orLike('patients.sir_name', $lastname, 'before');
+            // }
+
+            $searchterm = trim($searchterm);
+
             $builder->like('patients.first_name', $searchterm);
             $builder->orLike('patients.middle_name', $searchterm);
             $builder->orLike('patients.sir_name', $searchterm);
+
         }elseif ($filter == 'file_no') {
-            $builder->like('patients_file.file_no', $searchterm);
-            $builder->orLike('patients.phone_no', $searchterm);
+            $builder->like('patients_file.file_no', $searchterm,'before');
+            $builder->orLike('patients.phone_no', $searchterm,'before');
         }
         $builder->join('patients_file', 'patients.id = patients_file.patient_id');
      
