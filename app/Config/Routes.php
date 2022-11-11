@@ -48,6 +48,7 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'], 'history', 'PatientFileController::viewHistory', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'history/(:num)', 'PatientFileController::history/$1', ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'fertility-assessment', 'PatientFileController::FertilityAssessment', ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'labresult', 'PatientFileController::labresult', ['filter' => 'auth']);
  });
 
  $routes->group('generaterisit', function($routes){
@@ -72,6 +73,11 @@ $routes->setAutoRoute(true);
      $routes->get('outofstock', 'StoreController::OutOfStock',  ['filter' => 'auth']);
      $routes->get('itemsneartoend', 'StoreController::ItemsNearToEnd',  ['filter' => 'auth']);
      $routes->get('deleteitem/(:num)', 'StoreController::deleteItem/$1',  ['filter' => 'auth']);
+
+     $routes->get('deletelabtest/(:num)', 'StoreController::deleteLabtest/$1',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'addlabtest', 'StoreController::addLabtest',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'editlabtest/(:num)', 'StoreController::editlabtest/$1',  ['filter' => 'auth']);
+     $routes->get('labtest', 'StoreController::listLabtest',  ['filter' => 'auth']);
  });
 
  $routes->group('sales', function($routes){

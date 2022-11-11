@@ -43,18 +43,18 @@ class AssignedMedicineModel extends Model
     public function getAssignedMedicine(Int $file_id, $start_date, $end_date){
 
             $builder = $this->db->table('assignedmedicines');
-            $builder->select('assignedmedicines.id, assignedmedicines.created_at, assignedmedicines.taken, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
+            $builder->select('assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
             $builder->join('items', 'assignedmedicines.drug_id = items.id');
             // $builder->join('user', 'assigned_procedures.doctor = user.id');
             $builder->groupStart();
-            $builder->where('DATE(assignedmedicines.created_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
             $builder->where('assignedmedicines.file_id', $file_id);
             $builder->groupEnd();
             return $builder;
     }
     public function medicineDateFormat(){
         $column = function ($row){
-            $date = date_create($row['created_at']);
+            $date = date_create($row['updated_at']);
             return date_format($date, 'd/m/Y');
         };
         return $column;
@@ -129,5 +129,18 @@ class AssignedMedicineModel extends Model
         // $builder->where('assignedmedicines.file_id', $file_id);
         $builder->groupEnd();
         return $builder->get()->getResult(); 
+    }
+
+    public function getPaidAssignedMedicine(Int $cashier, $start_date, $end_date){
+
+        $builder = $this->db->table('assignedmedicines');
+        $builder->select('assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
+        $builder->join('items', 'assignedmedicines.drug_id = items.id');
+        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->groupStart();
+        $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->where('assignedmedicines.confirmed_by', $cashier);
+        $builder->groupEnd();
+        return $builder->get()->getResult();
     }
 }

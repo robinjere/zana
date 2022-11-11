@@ -53,6 +53,11 @@ class ExpensesModel extends Model
         };
         return $column;
     }
+    public function expensePriceFormat(){
+        return function($row){
+            return number_format(floatval($row['amount'])) .'/='; 
+        };
+    }
 
     public function expenseIssuedBy(){
         $name = function($row){

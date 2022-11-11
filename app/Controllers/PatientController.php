@@ -78,7 +78,6 @@ class PatientController extends BaseController
                 'sir_name' => 'required',
                 'birth_date' => 'required',
                 'gender' => 'required',
-                'pcharacter' => 'required'
             ];
 
             if(!$this->validate($rules)){

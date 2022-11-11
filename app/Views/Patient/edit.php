@@ -7,7 +7,7 @@
     
 <!-- DISPLAY SUCCESS MESSAG  -->
 <?php if(session()->get('success')): ?>
-              <div class="alert alert-success" role="alert" style="max-width: 20rem;"> 
+              <div class="alert alert-success" role="alert" > 
                  <?= session()->get('success'); ?>
               </div>
 <?php endif; ?>

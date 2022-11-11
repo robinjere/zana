@@ -86,6 +86,15 @@
                            <h5 class="modal-title">Patient Result</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <form method="post" target="_blank" action="<?= base_url('patientfile/labresult') ?>" class="d-flex justify-content-end" style="margin: 8px 8px 0 0;">
+                            <input type="hidden" name="file_id" value="<?=  $patient_file['id'] ?>" />
+                            <input type="hidden" name="start_treatment" value="<?=  $patient_file['start_treatment'] ?>" />
+                            <input type="hidden" name="end_treatment" value="<?=  $patient_file['end_treatment'] ?>" />
+                            <input type="hidden" name="file_no" value="<?=  $patient_file['file_no'] ?>" />
+                            <input type="hidden" name="fullname" value="<?=  $patient_file['first_name'].' '.$patient_file['middle_name'] .' '. $patient_file['sir_name']  ?>" />
+                           <input type="submit" class="btn btn-sm bg-success btn-success" value="Print Result">
+                        </form>
+                        
                         <div class="modal-body">
                         <div class="labtest-table">
                               <table id="table_labtestResult" class="table table-striped table-bordered">
@@ -354,7 +363,8 @@
                   result:  this.labtestResult.result,
                   ranges:  this.labtestResult.ranges,
                   unit:    this.labtestResult.unit,
-                  level:   this.labtestResult.level
+                  level:   this.labtestResult.level,
+                  verified_by: <?= session()->get('id') ?>
                 })
               }).then(res => res.json()).then(data => {
                      //   console.log('after added result ----> data', data); 

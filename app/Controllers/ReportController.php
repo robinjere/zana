@@ -10,6 +10,7 @@ use App\Models\UserModel;
 use App\Models\ConsultationModel;
 use App\Models\AssignedProceduresModel;
 use App\Models\AssignedMedicineModel;
+use App\Models\AssignedLabtestModel;
 use App\Controllers\StoreController;
 
 class ReportController extends BaseController
@@ -63,12 +64,16 @@ class ReportController extends BaseController
                     $this->consultation($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
 
+                case 'labtest':
+                    return $this->labtestReport($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
                 case 'procedure':
                     $this->procedure($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
 
                 case 'medicine':
-                    return $this->medicine($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    $this->medicine($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
                 
                 default:
@@ -76,6 +81,30 @@ class ReportController extends BaseController
                     break;
              }
         }
+    }
+
+    public function labtestReport($start_date, $end_date){
+        $data['labtest'] = '';
+        $assignedLabtestModel = new AssignedLabtestModel;
+        $data['labtest'] = $assignedLabtestModel->getLabtestVerified($start_date, $end_date);
+        // echo  '<pre>';
+        // print_r($data['labtest']);
+        // echo  '</pre>';
+        $store = new StoreController;
+        $data['clinic_contacts'] = $store->get_clinic_info();
+
+        // return view('report/labtest', $data);
+
+        $data['pageTitle'] = 'Lab test';
+
+
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/labtest', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("'labtest_report'.pdf", array("Attachment"=>0)); 
     }
 
     public function medicine($start_date, $end_date ){
@@ -247,25 +276,73 @@ class ReportController extends BaseController
     }
 
     public function sales_report($start_date, $end_date){
+        $data = [
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'cashier_name' => '',
+            'total_consultation' => 0,
+            'total_procedure' => 0,
+            'total_medicine' => 0,
+            'total_labtest' => 0
+        ];
+
         $salesModel = new SalesModel;
         $userModel = new UserModel;
+        $consultationModel = new ConsultationModel;
+        $assignedProcedureModel = new AssignedProceduresModel;
+        $assignedMedicineModel = new AssignedMedicineModel;
+        $assignedLabtestModel = new AssignedLabtestModel;
+
+
         $cashier_id = $this->request->getVar('cashier_id');
-        $sales_data = $salesModel->salesData($start_date, $end_date, $cashier_id);
+        // $sales_data = $salesModel->salesData($start_date, $end_date);
+
+        //calculate consultation 
+        $consultation_data = $consultationModel->where('payment_confirmed_by', $cashier_id)->where('DATE(updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')->findAll();
+        foreach ($consultation_data as $key => $cons) {
+            $data['total_consultation'] += $cons['amount'];
+        }
+
+        //calculate procedures
+        $procedures_data = $assignedProcedureModel->where('confirmed_by', $cashier_id)->where('DATE(updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')->findAll();
+        foreach ($procedures_data as $key => $proc) {
+            $data['total_procedure'] += $proc['amount'];
+        }
+
+        //calculate medicine
+        // $medicine_data = $assignedMedicineModel->where('confirmed_by', $cashier_id)->where('DATE(updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')->findAll();
+        $medicine_data = $assignedMedicineModel->getPaidAssignedMedicine($cashier_id, $start_date, $end_date);
+        foreach ($medicine_data as $key => $med) {
+            $data['total_medicine'] += $med->selling_price;
+        }
+
+        //calculate assigned labtest
+        $lab_data = $assignedLabtestModel->where('confirmed_by', $cashier_id)->where('DATE(updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')->findAll();
+        foreach ($lab_data as $key => $lab) {
+            $data['total_labtest'] += $lab['price'];
+        }
+
+        //cashier full name,
+        $cashier = $userModel->where('id', $cashier_id)->first();
+        $data['cashier_name'] = $cashier['first_name'] .' '. $cashier['last_name'];
         
-        // if(empty($sales_data)){
-        //     return $this::no_data('Sales');
-        // }
+        // echo ' sales: <pre> ';
+        // print_r($lab_data);
+        // echo '<pre> ';
+        // print_r($data);
+        // echo '</pre>';
+        // exit;
 
         $store = new StoreController;
 
         $data['clinic_contacts'] = $store->get_clinic_info();
-        $data['cashier'] = $userModel->where('id', $cashier_id)->first();
+        // $data['cashier'] = $userModel->where('id', $cashier_id)->first();
   
-        $data['sales'] = $sales_data;
+        // $data['sales'] = $sales_data;
         // return view('report/sales_risit', $data);
 
         $dompdf = new \Dompdf\Dompdf(); 
-        $dompdf->loadHtml(view('report/sales', $data));
+        $dompdf->loadHtml(view('report/sales_risit', $data));
         $dompdf->setPaper('A4', 'portait');
         // $customPaper = array(0,0,302.36220472, 1122.519685);
         // $dompdf->setPaper($customPaper);

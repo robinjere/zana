@@ -8,7 +8,7 @@
   
   <section class="">
     
-    <div class="container py-5 h-100">
+    <div class="container">
       <div class="d-flex justify-content-end py-2 h-100">
         <button type="button" onclick="window.print()" class="btn btn-sm btn-success print-btn">Print</button>
       </div><!-- /d-flex -->
@@ -56,10 +56,10 @@
                 </div>
               </div>
   
-              <p style="margin-top: 1.5rem; margin-bottom:unset;">RESULTS </p>
-              <hr class="my-4">
+              <p style="margin-top: .5rem; margin-bottom:unset;" class="about">RESULTS </p>
+              <hr class="my-1">
   
-              <table class="table">
+              <table class="table data">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -95,9 +95,7 @@
                   ?>
                   <tr>
                      <th colspan="2" scope="row">Signature: </th> 
-                    <td colspan="2"></td>
-                    
-              
+                     <td colspan="2"></td>
                   </tr>
                 </tbody>
               </table>

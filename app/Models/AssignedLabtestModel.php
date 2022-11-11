@@ -14,7 +14,7 @@ class AssignedLabtestModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['labtest_id', 'file_id', 'result', 'ranges','unit', 'level', 'attachment', 'price', 'confirmed_by', 'doctor', 'printed', 'created_at', 'treatment_ended'];
+    protected $allowedFields    = ['labtest_id', 'file_id', 'result', 'ranges','unit', 'level', 'attachment', 'price', 'confirmed_by', 'doctor', 'verified_by', 'printed', 'created_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = false;
@@ -52,6 +52,37 @@ class AssignedLabtestModel extends Model
        
         return $builder;
     }
+    
+    
+    public function getAssignedResult($file_id, $start_treatment, $end_treatment){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, user.first_name, user.last_name');
+        $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
+        $builder->join('user', 'assigned_labtests.verified_by = user.id');
+        $builder->groupStart();
+        $builder->where('assigned_labtests.file_id', $file_id);
+        $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_treatment)) .'" and "'. date('Y-m-d', strtotime($end_treatment)) .'"');
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
+    }
+
+    public function getLabtestVerified($start_date, $end_date){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->select('patients.first_name as p_first_name, patients.sir_name as p_sir_name, assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.price, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, user.first_name, user.last_name');
+        $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
+        $builder->join('user', 'assigned_labtests.verified_by = user.id');
+        $builder->join('patients_file', 'assigned_labtests.file_id = patients_file.id');
+        $builder->join('patients', 'patients_file.patient_id = patients.id');
+        $builder->groupStart();
+        // $builder->where('assigned_labtests.confirmed_by', $cashier);
+        $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        $builder->groupEnd();
+       
+        return $builder->get()->getResult();
+    }
+
+    
 
     public function getLabtestResult($file_id, $start_date, $end_date){
         $builder = $this->db->table('assigned_labtests');

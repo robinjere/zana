@@ -729,4 +729,29 @@ public function ajax_getFertility(){
     }
 }
 
+   //print lab result
+   public function labresult(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+
+       if( $this->request->getMethod() == 'post'){ 
+        $file_id = $this->request->getVar('file_id');
+        $start_treatment = $this->request->getVar('start_treatment');
+        $end_treatment = $this->request->getVar('end_treatment');
+        $_result = $assignedLabtestModel->getAssignedResult($file_id, $start_treatment, $end_treatment);
+        // echo '<pre>';
+        // print_r($_result);
+        // echo '</pre>';
+        // exit;
+        
+        $data = [
+          'labresult' => $_result,
+          'file_no' => $this->request->getVar('file_no'),
+          'full_name' =>  $this->request->getVar('fullname'),
+          'pageTitle' => 'Lab result'
+        ];
+        return view('risit/labtestResult', $data);
+       }
+
+   }
+
 }

@@ -67,51 +67,65 @@
 <div class="risit__body">
 
 <h1 class="risit__title uppercase" align="center"> <?= $clinic_contacts['name'] ?> </h1>
-<p class="risit__subtitle uppercase" align="center"> <?= $clinic_contacts['address'] . ', '. $clinic_contacts['location'] ?> </p>
+<p class="risit__subtitle uppercase" align="center"> <?= $clinic_contacts['address'] . ', '. $clinic_contacts['location']  ?> </p>
 <p class="risit__subtitle uppercase" align="center"> <?= $clinic_contacts['phone'] ?> </p>
 
 <div class="separater"></div>
- <p class="risit__subtitle uppercase" align="center"> SALES </p>
- <p> <?= date_format(date_create(date("Y-m-d")), 'd, M Y ')  ?> </p>
-
- <div>
-   <p class="m-0"> Sales done by <b><i> <?= strtolower($cashier_name) ?> </i></b> </p>
-   <p class="m-0"> FROM <?= date_format(date_create($start_date), 'd, F Y') ?> TO  <?= date_format(date_create($end_date), 'd, F Y') ?> </p>
- </div>
-
- 
+ <p class="risit__subtitle uppercase" align="center"> LAB TEST REPORT </p>
+ <p> Report generated at: <?= date_format(date_create(date("Y-m-d")), 'd, F Y')  ?> </p>
 <div class="separater"></div>
 
 <div>
   <table border-styles="dashed" class="table table-striped table-bordered table-hover" table-striped table-bordered width="100%" cellspacing="5" cellpadding="5" style="margin-top:15px;">
           <tr>
-            <th>Total Consultation(Tsh)</th>
-            <th>Total Procedures(Tsh)</th>
-            <th>Total Medicine(Tsh)</th>
-            <th>Total Labtest(Tsh)</th>
+            <th>NO</th>
+            <th>DATE</th>
+            <th>PT.NAME</th>
+            <th>TEST NAME</th>
+            <th>PRICE </th>
+            <th>VERIFIED BY </th>
           </tr>
-        
+        <?php
+          $total = 0;
+          $total_profit = 0;
+          if(!empty($labtest)) {
+            foreach ($labtest as $key => $lab) { 
+             $total += $lab->price;
+             ?>
               <tr>
-                  <td><?= number_format(floatval($total_consultation)) ?>/=</td>
-                  <td><?= number_format(floatval($total_procedure)) ?>/=</td>
-                  <td><?= number_format(floatval($total_medicine)) ?>/= </td>
-                  <td><?= number_format(floatval($total_labtest)) ?>/= </td>
+                  <td><?= ++$key ?></td>
+                  <td><?= date_format(date_create($lab->updated_at),'d-m-Y') ?></td>
+                  <td><?= $lab->p_first_name . ' ' . $lab->p_sir_name ?> </td>
+                  <td><?= $lab->name ?> </td>
+                  <td><?= (number_format(floatval($lab->price))) ?>/= </td>
+                  <td><?= $lab->first_name . ' ' . $lab->last_name ?> </td>
               </tr>
-      
+          <?php }
+         }  
+        ?>
+
         <tr>
-          <td colspan="2"></td>
+          <td colspan="3"></td>
           <td>
-              <p align="right"> <b class="risit__title">SubTotal(Tsh): </b>  </p>
+              <p align="right"> <b class="risit__title">Total lab test price: </b>  </p>
+          </td>
+           <td colspan="2">
+              <p><b> <?= number_format(floatval($total)) ?>/= </b> </p>
+           </td>
+          <!-- <td>
+              <p align="right"> <b class="risit__title">Total Profit: </b>  </p>
           </td>
            <td>
-              <p><b> <?= number_format(floatval($total_consultation + $total_procedure + $total_medicine + $total_labtest))  ?>/= </b> </p>
-           </td>
-        </tr>
+              <p><b> <?= $total_profit ?>/= </b> </p>
+           </td> -->
+        </tr> 
     
   </table>
 </div>
 
-
+<!-- <div class="total">
+  <p align="right"> <b class="risit__title">Total: <?= $total ?>/= </b>  </p>
+</div> -->
 
 <!-- <div class="separater"></div> -->
 

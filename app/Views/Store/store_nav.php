@@ -17,4 +17,8 @@
         <li class="py-2 me-3 <?= $uri->getSegment(2) === 'itemsneartoend' ? 'data-nav__active': null ?>"> <a href="itemsneartoend">ITEMS NEAR TO END </a>  </li>
       <?php } ?>
 
+      <?php if(in_array('can_view_labtest', session()->get('permission'))){?>
+        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'labtest' ? 'data-nav__active': null ?>"> <a href="labtest">LAB TEST </a>  </li>
+      <?php } ?>
+
   </ul>

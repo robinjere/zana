@@ -36,6 +36,7 @@
                       <option> Select type of report you want </option>
                       <option value="consultation"> Consultation </option>
                       <option value="procedure"> Procedure </option>
+                      <option value="labtest"> Lab test </option>
                       <option value="medicine"> Medicine </option>
                       <option value="sales"> Sales </option>
                       <option value="expenses"> Expenses </option>

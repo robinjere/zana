@@ -14,7 +14,7 @@ class LabtestModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'description', 'price', 'created_at'];
+    protected $allowedFields    = ['name', 'description', 'price', 'created_at', 'added_by'];
 
     // Dates
     protected $useTimestamps = true;
@@ -47,4 +47,29 @@ class LabtestModel extends Model
         return $builder->get()->getResult();
     }
     
+    public function getLabTest(){
+        $builder = $this->db->table('labtests');
+        $builder->select('id,name, description, price, created_at');
+        return $builder;
+    }
+
+    public function formatDate(){
+        return function($row){
+            return date_format(date_create($row['created_at']), 'd-m-Y');
+        };
+    }
+
+    public function formatPrice(){
+        return function($row){
+            return number_format(floatval($row['price'])) .'/=';
+        };
+    }
+
+    public function actionButtons(){
+        return function($row){
+            if(in_array(session()->get('role'), ['doctor', 'superuser','admin'])){
+                return '<a href="'. base_url('store/editlabtest/'.$row['id']) .'" class="badge badge-sm bg-success"> edit </a> <a href="'. base_url('store/deletelabtest/'.$row['id']).'" class="badge badge-sm bg-danger"> delete </a> ';
+            }
+        };
+    }
 }

@@ -59,8 +59,9 @@
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
            <!-- <label for="note" class="form-label note-desc">Added by doctor Juma</label> -->
+       
            <label for="note" class="form-label note-desc" >Add note here</label>
-           <textarea class="form-control pt-5 pb-3" id="note" x-model="current_note" placeholder="Type .." ></textarea>
+           <textarea rows="8" class="form-control pt-5 pb-3" id="note" x-model="current_note" placeholder="Type .." ></textarea>
          </div><!-- /input-note -->
      </div><!-- /my-3 -->
    </form>
@@ -99,7 +100,7 @@
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
             <label for="note" class="form-label note-desc" style="background: #e9ecef;" x-text="'Added by doctor '+ _note.last_name + ',  ' + _note.first_name">Added by doctor Juma</label>
-           <textarea class="form-control pt-5 pb-3" :id="'edit-note'+_note.id;" x-bind:disabled="edit"  x-text="_note.note; " x-model="_note.note" placeholder="" ></textarea>
+           <textarea rows="8" class="form-control pt-5 pb-3" :id="'edit-note'+_note.id;" x-bind:disabled="edit"  x-text="_note.note; " x-model="_note.note" placeholder="" ></textarea>
         </div><!-- /input-note --> 
    </template>
  </div><!-- /list-notes -->

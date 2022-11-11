@@ -75,21 +75,40 @@ class SalesModel extends Model
         return $column;
     }
 
-    public function salesData($start_date, $end_date, $user_id=''){
+    public function salesData($start_date, $end_date){
+            
+            $builder = $this->db->table('user');
+            $builder->select('user.first_name, user.last_name, consultation.amount as consultation_amount, assigned_procedures.amount as procedure_amount, 
+            items.selling_price as medicine_amount, assigned_labtests.price as labtest_amount');
+            $builder->join('consultation', 'consultation.payment_confirmed_by = user.id');
+            $builder->join('assigned_procedures', 'assigned_procedures.confirmed_by = user.id');
+            $builder->join('assignedmedicines', 'assignedmedicines.confirmed_by = user.id');
+            $builder->join('items', 'items.id = assignedmedicines.id');
+            $builder->join('assigned_labtests', 'assigned_labtests.confirmed_by = user.id');
+            // $builder->groupStart();
+            // $builder->where('user.id', $user_id);
+            $builder->where('DATE(consultation.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            $builder->where('DATE(assigned_procedures.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            // $builder->groupEnd();    
+             $builder->get()->getResult(); 
+            return (string) $this->db->getLastQuery();
+
        
-            $builder = $this->db->table('sales');
-                        // ->groupStart()
-            $builder->select('sales.updated_at, sales.qty, sales.dose, sales.amount, sales.discount');
-            $builder->select('items.name, items.selling_price');
-                        // ->groupEnd()
-            $builder->join('items', 'sales.item_id = items.id');
-            $builder->groupStart();
-            if(!empty($user_id)){
-                $builder->where('sales.user_id', $user_id);
-            }
-            $builder->where('DATE(sales.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
-            $builder->groupEnd();                    
-            return $builder->get()->getResult();
+            // $builder = $this->db->table('sales');
+            //             // ->groupStart()
+            // $builder->select('sales.updated_at, sales.qty, sales.dose, sales.amount, sales.discount');
+            // $builder->select('items.name, items.selling_price');
+            //             // ->groupEnd()
+            // $builder->join('items', 'sales.item_id = items.id');
+            // $builder->groupStart();
+            // if(!empty($user_id)){
+            //     $builder->where('sales.user_id', $user_id);
+            // }
+            // $builder->where('DATE(sales.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            // $builder->groupEnd();                    
+            // return $builder->get()->getResult();
             // return (string) $this->db->getLastQuery();
 
     }

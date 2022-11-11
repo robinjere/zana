@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use monken\TablesIgniter;
 use App\Models\ItemModel;
 use App\Models\SalesModel;
+use App\Models\LabtestModel;
 
 class StoreController extends BaseController
 {
@@ -17,6 +18,10 @@ class StoreController extends BaseController
 
     public function listItems(){
         return view('store/items');
+    }
+
+    public function listLabtest(){
+        return view('store/labtest');
     }
 
     public function get_clinic_info(){
@@ -40,6 +45,61 @@ class StoreController extends BaseController
                    ->setOrder(['id', 'updated_at', 'name','qty', 'buying_price', 'selling_price'])
                    ->setOutput(['id', $itemModel->itemDateFormat(), 'name', 'qty',$itemModel->formatBuyingPrice() , $itemModel->formatSellingPrice(),
                                 $itemModel->actionButtons()
+                               ]);
+
+        return $data_table->getDatatable();
+    }
+
+    public function addLabtest(){
+        helper('form');
+        $labtestModel = new LabtestModel;
+        $data = [];
+        if($this->request->getMethod() == 'post'){
+            $labtestDetails = $this->request->getVar();
+            $labtestDetails['added_by'] = session()->get('id');
+            if($labtestModel->save($labtestDetails) == false){
+                session()->setFlashdata('validation', $itemModel->errors());
+            }else{
+                return redirect()->to('store/labtest')->with('success', 'Lab test successful added');
+            }
+        }
+        return view('store/add_labtest', $data);
+    }
+
+    public function editlabtest(Int $labtestID){
+        helper('form');
+        $labtestModel = new LabtestModel;
+        $data = [];
+        $data['labtest'] = $labtestModel->where('id', $labtestID)->first();
+        if($this->request->getMethod() == 'post'){
+            $labtestDetails = $this->request->getVar();
+            $labtestDetails['added_by'] = session()->get('id');
+            $labtestDetails['id'] = $labtestID;
+            if($labtestModel->save($labtestDetails) == false){
+                session()->setFlashdata('validation', $itemModel->errors());
+            }else{
+                return redirect()->to('store/labtest')->with('success', 'Lab test successful edited!');
+            }
+        }
+        return view('store/edit_labtest', $data);
+    }
+
+    public function deleteLabtest(Int $labtestID ){
+        $labtestModel = new LabtestModel;
+        $labtestModel->where('id', $labtestID)->delete();
+        return redirect()->to('store/labtest')->with('success', 'Lab test deleted!');
+    }
+
+    public function ajax_getlabtest(){
+        $labtestModel = new LabtestModel;
+
+        $data_table = new TablesIgniter();
+        $data_table->setTable($labtestModel->getLabTest())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['name'])
+                   ->setOrder(['id', 'updated_at', 'name','price', 'description'])
+                   ->setOutput(['id', $labtestModel->formatDate(), 'name', $labtestModel->formatPrice(), 'description',
+                                $labtestModel->actionButtons()
                                ]);
 
         return $data_table->getDatatable();

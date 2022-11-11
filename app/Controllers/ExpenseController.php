@@ -96,7 +96,7 @@ class ExpenseController extends BaseController
                 //    ->setDefaultOrder('id', 'DESC')
                    ->setSearch(['updated_at', 'description' , 'amount'])
                    ->setOrder(['updated_at', 'description', 'amount'])
-                   ->setOutput([ $expenseModel->expenseDateFormat(), 'description', 'amount',
+                   ->setOutput([ $expenseModel->expenseDateFormat(), 'description', $expenseModel->expensePriceFormat(),
                                 $expenseModel->expenseIssuedBy(),
                                  $expenseModel->actionButtons()
                                ]);
