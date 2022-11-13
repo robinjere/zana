@@ -122,6 +122,21 @@
                           <?php } ?>
                       </div>
 
+                      <div x-show="isActive === 'labtest'" class="labtest_p">
+                        <?php
+                            foreach ($labtest_p as $p) {
+                              ?>
+                              
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="permission<?= $p['id'] ?>" name="permission[]" value="<?= $p['id'] ?>"  <?=  in_array( $p['id'], $permission_list ) ? 'checked' : ''  ?> >
+                                    <label class="form-check-label" for="permission<?= $p['id']; ?>">
+                                      <?= $p['name']; ?>
+                                    </label>
+                                </div>
+                          
+                          <?php } ?>
+                      </div>
+
                       <div x-show="isActive === 'sale'" class="sale_p">
                         <?php
                             foreach ($sale_p as $p) {

@@ -78,6 +78,9 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'], 'addlabtest', 'StoreController::addLabtest',  ['filter' => 'auth']);
      $routes->match(['post', 'get'], 'editlabtest/(:num)', 'StoreController::editlabtest/$1',  ['filter' => 'auth']);
      $routes->get('labtest', 'StoreController::listLabtest',  ['filter' => 'auth']);
+     
+     $routes->match(['post', 'get'], 'addRadInvestigation', 'StoreController::radInvestigation',  ['filter' => 'auth']);
+     $routes->get('radiology', 'StoreController::listRadiology',  ['filter' => 'auth']);
  });
 
  $routes->group('sales', function($routes){

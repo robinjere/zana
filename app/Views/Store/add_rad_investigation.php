@@ -3,7 +3,7 @@
 
 <?php $Dashboard = '\App\Libraries\AdminPanel';  ?>
 
-<h2 class="data-heading mb-3">Labtest</h2>
+<h2 class="data-heading mb-3">Rad Ivestigation</h2>
  
  <!-- WARNING AND ERROR AREA -->
  <?php if(!empty(session()->getFlashdata('validation'))): ?>
@@ -42,23 +42,23 @@
   <?php $uri = service('uri'); ?>
     
   <ul class="data-nav d-flex">
-       <?php if(in_array('can_add_labtest', session()->get('permission'))){?>
-        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addlabtest' ? 'data-nav__active': null ?>"> <a href="addlabtest">LAB TEST FORM  </a>  </li>
+       <?php if(in_array('can_add_radiology', session()->get('permission'))){?>
+        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addRadInvestigation' ? 'data-nav__active': null ?>"> <a href="addlabtest">RADIOLOGY  </a>  </li>
       <?php } ?> 
   </ul>
 
 <div class="mb-3 registration-form" >
  
   <div class="registration-form__heading">
-     <h2 style="padding: 0 57px;"> Add lab test </h2>
+     <h2 style="padding: 0 57px;"> Add radiology </h2>
   </div > <!-- /registration-form__heading -->
    <div class="registration-form__form" style="padding: 25px 57px;">
-         <form method="post" action="addlabtest">
+         <form method="post" action="addRadInvestigation">
            <div class="row registration-space-y">   
            <div class="registration-space-y">
                <div class="row">
                     <div class="col">
-                        <input type="text"  required name="name" value="<?= set_value('name') ?>" class="form-control" placeholder="Test name" aria-describedby="Test name">
+                        <input type="text"  required name="test_name" value="<?= set_value('name') ?>" class="form-control" placeholder="Test name" aria-describedby="Test name">
                     </div>
                     <div class="col">
                         <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('price')?>" class="form-control" placeholder="Price" aria-describedby="Price">
@@ -82,16 +82,9 @@
               </div>
           </div>/row -->
 
-          <div class="row registration-space-y">   
-              <div class="col">
-                  <textarea name="description" row="2" col="4" value="<?= set_value('description') ?>" class="form-control" placeholder="Description"></textarea>
-              </div>
-          </div><!-- /row -->
-
-
           <div class="row mt-5">
                <div class="col">
-                   <a href="labtest" class="btn btn-warning btn-rounded"> Cancel </a>
+                   <a href="radiology" class="btn btn-warning btn-rounded"> Cancel </a>
               </div>
                <div class="col d-flex justify-content-end">
                    <button class="btn btn-primary btn-rounded" style="width: 8rem;"> Save </button>

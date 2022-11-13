@@ -9,15 +9,23 @@
 
   <!-- display navigation  -->
 
-  <?= view_cell('\App\Libraries\StorePanel::storeNav') ?>
+    <?php $uri = service('uri'); ?>
+    <ul class="data-nav d-flex">
+       <?php if(in_array('can_view_labtest', session()->get('permission'))){?>
+        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'labtest' ? 'data-nav__active': null ?>"> <a href="labtest">LAB TEST LIST </a>  </li>
+      <?php } ?> 
+    </ul>
+
    <div class="mt-2 d-flex justify-content-end">
-     <a href="<?= base_url('store/addlabtest') ?>" class="btn btn-sm btn-success"> add labtest</a>
+    <?php if(in_array('can_add_labtest', session()->get('permission'))){ ?>
+      <a href="<?= base_url('store/addlabtest') ?>" class="btn btn-sm btn-success"> add labtest</a>
+    <?php } ?>
    </div>
   <?php 
      if(in_array('can_view_labtest', session()->get('permission'))){?>
       <table id="items" class="table table-striped table-bordered">
             <thead>   
-              <tr>
+              <tr class="table-header">
                 <th scope="col">ID</th>
                 <th scope="col">Date</th>
                 <th scope="col">Labt Test</th>

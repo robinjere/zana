@@ -44,7 +44,7 @@
         <div class="modal-body">
           <div class="">
                <div class="d-flex justify-content-center align-items-center">
-                 <input type="text" x-model="searchInput" @keyup="searchDrug()" style="max-width: 40%;" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
+                 <input type="text" x-model="searchInput" @keyup="searchDrug()" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search drug">
                </div><!-- /d-flex -->
               
               <div class="d-flex justify-content-center align-items-center mt-2">
@@ -55,10 +55,10 @@
 
               <div class="d-flex justify-content-center align-items-center">
                 <template x-if="searchItems.length">
-                  <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-width:40%; max-height: 170px;">
+                  <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-height: 170px;">
                     <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
                     <template x-for="drug in searchItems">
-                      <li @click="selectDrug(drug.id)" class="list-group-item list-group-item-action" x-text="drug.name.toUpperCase()">Active item</li>
+                      <li @click="selectDrug(drug.id)" class="list-group-item list-group-item-action" x-text="`${drug.name.toUpperCase()} - ${drug.drug_kind.toUpperCase()}` ">Active item</li>
                     </template>
                   </ul><!-- /ul -->
                 </template>
@@ -88,17 +88,22 @@
            </div>
            <div class="col">
              <div class="mb-3">
-               <label for="route" class="form-label">Route</label>
-               <select x-model="route" id="route" class="form-control">
-                  <option>IV</option>
-                  <option>IM</option>
-                  <option>ORAL</option>
-                  <option>SC</option>
-                  <option>Topical</option>
-                  <option>Drops</option>
-                  <option>Per Rectal</option>
-                  <option>Per Vaginal</option>
-                </select>
+               <label for="route" class="form-label">Route</label>   
+                 <template x-if="route != ''">              
+                   <input type="text" x-model="route" disabled class="form-control" name=""  id="route" aria-describedby="" placeholder="">
+                 </template>              
+                 <template x-if="route == ''">
+                   <select x-model="route" id="route" class="form-control">
+                      <option>IV</option>
+                      <option>IM</option>
+                      <option>ORAL</option>
+                      <option>SC</option>
+                      <option>Topical</option>
+                      <option>Drops</option>
+                      <option>Per Rectal</option>
+                      <option>Per Vaginal</option>
+                    </select>
+                 </template>
              </div>
            </div>
            <div class="col">
@@ -243,6 +248,7 @@
           }).then(res => res.json()).then(data => {
               this.loading = false;
               this.searchItems = data.searchItem
+              console.log('searched drug', data.searchItem)
           })
         }else{
           this.searchItems = []
@@ -251,11 +257,11 @@
      selectDrug(drug_id){ 
         let available_drug = ''
         available_drug = this.searchItems.filter(drug => Number(drug.id) == Number(drug_id))[0]
-        
+         console.log('selected drug', available_drug);
           this.unit = Number(available_drug.qty)
           this.dosage = ''
           this.frequency = 1,
-          this.route = ''
+          this.route = available_drug.drug_kind
           this.days = 0
           this.qty = 0
           this.instruction = ''

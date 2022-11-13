@@ -3,7 +3,7 @@
 
 <?php $Dashboard = '\App\Libraries\AdminPanel';  ?>
 
-<h2 class="data-heading mb-3">Store</h2>
+<h2 class="data-heading mb-3">Drugs</h2>
  
  <!-- WARNING AND ERROR AREA -->
  <?php if(!empty(session()->getFlashdata('validation'))): ?>
@@ -51,7 +51,24 @@
          <form method="post" action="additem">
            <div class="row registration-space-y">   
            <div class="registration-space-y">
-               <input type="text"  required name="name" value="<?= set_value('name') ?>" class="form-control" placeholder="Item name" aria-describedby="Item name">
+            <div class="row">
+              <div class="col">
+                <input type="text"  required name="name" value="<?= set_value('name') ?>" class="form-control" placeholder="Drug name" aria-describedby="Drug name">
+              </div>
+              <div class="col">
+                  <select class="form-select form-select-md form-control" name="drug_kind" >
+                    <option selected>Select drug kind</option>
+                    <option value="IV">IV</option>
+                    <option value="IM">IM</option>
+                    <option value="ORAL">ORAL</option>
+                    <option value="SC">SC</option>
+                    <option value="Topical">Topical</option>
+                    <option value="Drops">Drops</option>
+                    <option value="Per Rectal">Per Rectal</option>
+                    <option value="Per Vaginal">Per Vaginal</option>
+                  </select>
+              </div><!-- /col -->
+            </div><!-- /row -->
           </div>
              <div class="col">
                <input type="number" required  min="0" step="0.01" name="buying_price" value="<?= set_value('buying_price')?>" class="form-control" placeholder="Buying Price" aria-describedby="Buying Price">
@@ -66,6 +83,7 @@
               </div>
              <div class="col">
                <input type="date" required  name="exp_date" value="<?= set_value('exp_date')?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
+               <small class="form-text text-muted">Enter Expire date</small>
               </div>
           </div><!-- /row -->
 

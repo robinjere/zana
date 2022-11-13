@@ -3,7 +3,7 @@
 
 <?php $Dashboard = '\App\Libraries\AdminPanel';  ?>
 
-<h2 class="data-heading mb-3">Store</h2>
+<h2 class="data-heading mb-3">Drugs</h2>
 
 <div class="data-layout my-2 p-3 bg-white">
 
@@ -27,7 +27,7 @@
   <?php if(in_array('can_view_drugs_out_of_stock', session()->get('permission'))){?>
     <table id="items" class="table table-striped table-bordered">
           <thead>   
-            <tr>
+            <tr class="table-header">
               <th scope="col">ID</th>
               <th scope="col">Date</th>
               <th scope="col">Item name</th>

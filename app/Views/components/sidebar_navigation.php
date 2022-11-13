@@ -2,16 +2,50 @@
 
 <ul class="sidebar mt-4">
 
-   <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
-    <li class="my-2  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
-        <a href="/store/items" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'store' ? 'sidebar__active-link': null; ?>">
-            <svg viewBox="0 0 30 30" fill="none">
-                <path d="M1.48218 14.593L4.48218 11.593M4.48218 11.593L14.9822 1.09302L25.4822 11.593M4.48218 11.593V26.593C4.48218 26.9908 4.64021 27.3724 4.92152 27.6537C5.20282 27.935 5.58435 28.093 5.98218 28.093H10.4822M25.4822 11.593L28.4822 14.593M25.4822 11.593V26.593C25.4822 26.9908 25.3241 27.3724 25.0428 27.6537C24.7615 27.935 24.38 28.093 23.9822 28.093H19.4822M10.4822 28.093C10.88 28.093 11.2615 27.935 11.5428 27.6537C11.8241 27.3724 11.9822 26.9908 11.9822 26.593V20.593C11.9822 20.1952 12.1402 19.8137 12.4215 19.5324C12.7028 19.2511 13.0844 19.093 13.4822 19.093H16.4822C16.88 19.093 17.2615 19.2511 17.5428 19.5324C17.8241 19.8137 17.9822 20.1952 17.9822 20.593V26.593C17.9822 26.9908 18.1402 27.3724 18.4215 27.6537C18.7028 27.935 19.0844 28.093 19.4822 28.093M10.4822 28.093H19.4822" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span> Store </span>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?>
+    <li class="my-2  <?= $uri->getSegment(1) === 'clinic' ? 'sidebar__active-link': null; ?>">
+        <a href="/clinic/" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'clinic' ? 'sidebar__active-link': null; ?>">
+        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.48218 14.593L4.48218 11.593M4.48218 11.593L14.9822 1.09302L25.4822 11.593M4.48218 11.593V26.593C4.48218 26.9908 4.64021 27.3724 4.92152 27.6537C5.20282 27.935 5.58435 28.093 5.98218 28.093H10.4822M25.4822 11.593L28.4822 14.593M25.4822 11.593V26.593C25.4822 26.9908 25.3241 27.3724 25.0428 27.6537C24.7615 27.935 24.38 28.093 23.9822 28.093H19.4822M10.4822 28.093C10.88 28.093 11.2615 27.935 11.5428 27.6537C11.8241 27.3724 11.9822 26.9908 11.9822 26.593V20.593C11.9822 20.1952 12.1402 19.8137 12.4215 19.5324C12.7028 19.2511 13.0844 19.093 13.4822 19.093H16.4822C16.88 19.093 17.2615 19.2511 17.5428 19.5324C17.8241 19.8137 17.9822 20.1952 17.9822 20.593V26.593C17.9822 26.9908 18.1402 27.3724 18.4215 27.6537C18.7028 27.935 19.0844 28.093 19.4822 28.093M10.4822 28.093H19.4822"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+            <span> Clinic </span>
         </a>
     </li>
    <?php } ?>
+
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
+    <li class="my-2  <?= (($uri->getSegment(1) === 'store' && $uri->getSegment(2) === 'items' || $uri->getSegment(2) === 'additem') || $uri->getSegment(2) === 'outofstock' || $uri->getSegment(2) === 'itemsneartoend') ? 'sidebar__active-link': null; ?>">
+        <a href="/store/items" class=" d-flex align-items-center  <?= (($uri->getSegment(1) === 'store' && $uri->getSegment(2) === 'items' || $uri->getSegment(2) === 'additem')  || $uri->getSegment(2) === 'outofstock' || $uri->getSegment(2) === 'itemsneartoend') ? 'sidebar__active-link': null; ?>">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M26.0872 12.8746L19.9418 4.09489C18.8965 2.60426 17.2324 1.80738 15.5449 1.80738C14.4856 1.80738 13.4121 2.12144 12.4746 2.7777C11.5512 3.42457 10.8949 4.3152 10.5293 5.29958C10.3934 2.51988 8.11991 0.307373 5.30739 0.307373C2.40582 0.307373 0.057373 2.65582 0.057373 5.55739V16.0574C0.057373 18.959 2.40582 21.3075 5.30739 21.3075C8.20897 21.3075 10.5574 18.959 10.5574 16.0574V9.06835C10.7121 9.47147 10.8996 9.86991 11.1574 10.2402L17.3074 19.0199C18.3481 20.5106 20.0121 21.3075 21.7043 21.3075C22.7684 21.3075 23.8372 20.9934 24.7747 20.3371C27.1981 18.6403 27.784 15.2981 26.0872 12.8746ZM7.5574 10.8074H3.05739V5.55739C3.05739 4.3152 4.0652 3.30739 5.30739 3.30739C6.54959 3.30739 7.5574 4.3152 7.5574 5.55739V10.8074ZM16.6887 12.9121L13.6137 8.51991C13.2527 8.00428 13.1121 7.37615 13.2246 6.7574C13.3324 6.13865 13.6793 5.59489 14.1949 5.23396C14.5934 4.9527 15.0621 4.80739 15.5449 4.80739C16.3184 4.80739 17.0403 5.18239 17.4809 5.81521L20.5559 10.2074L16.6887 12.9121V12.9121Z" />
+        </svg>
+            <span> Drugs </span>
+        </a>
+    </li>
+   <?php } ?>
+
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'lab' ]) && in_array('can_view_labtest', session()->get('permission'))){  ?>
+    <li class="my-2  <?= ($uri->getSegment(2) === 'labtest' || $uri->getSegment(2) === 'addlabtest' || $uri->getSegment(2) === 'editlabtest') ? 'sidebar__active-link': null; ?>">
+        <a href=" <?= base_url('store/labtest')?>" class="d-flex align-items-center  <?= ($uri->getSegment(2) === 'labtest' || $uri->getSegment(2) === 'addlabtest' || $uri->getSegment(2) === 'editlabtest') ? 'sidebar__active-link': null; ?>">
+            <svg  viewBox="0 0 30 26" fill="none">
+                <path d="M26.3445 18.121C25.9337 17.7101 25.4105 17.4301 24.8409 17.3162L21.329 16.6144C19.404 16.2294 17.4057 16.4971 15.6499 17.375L15.182 17.6075C13.4262 18.4854 11.4279 18.7531 9.50295 18.3681L6.66194 17.8002C6.18702 17.7053 5.69603 17.7291 5.23251 17.8695C4.769 18.0099 4.34731 18.2625 4.00485 18.605M9.5309 1.30737H21.301L19.8297 2.77863V10.388C19.8299 11.1683 20.14 11.9167 20.6919 12.4684L28.0482 19.8247C29.902 21.6785 28.5882 24.8476 25.9664 24.8476H4.86406C2.24227 24.8476 0.929909 21.6785 2.7837 19.8247L10.14 12.4684C10.6919 11.9167 11.002 11.1683 11.0022 10.388V2.77863L9.5309 1.30737Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span> Labtest </span>
+        </a>
+    </li>
+    <?php } ?>
+
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'reception' ])){?>
+    <li class="my-2  <?= ($uri->getSegment(2) === 'radiology' || $uri->getSegment(2) === 'addRadInvestigation')? 'sidebar__active-link': null; ?>">
+        <a href="<?= base_url('store/radiology') ?>" class="d-flex align-items-center  <?= ($uri->getSegment(2) === 'radiology' || $uri->getSegment(2) === 'addRadInvestigation') ? 'sidebar__active-link': null; ?>">
+            <svg  viewBox="0 0 30 34" fill="none">
+            <path d="M8.66577 8.74487V22.2449C8.66577 23.14 9.02135 23.9984 9.65429 24.6314C10.2872 25.2643 11.1457 25.6199 12.0408 25.6199H22.1658M8.66577 8.74487V5.36987C8.66577 4.47477 9.02135 3.61632 9.65429 2.98339C10.2872 2.35045 11.1457 1.99487 12.0408 1.99487H19.7796C20.2272 1.99497 20.6563 2.17282 20.9727 2.48931L28.4213 9.93794C28.7378 10.2543 28.9157 10.6835 28.9158 11.131V22.2449C28.9158 23.14 28.5602 23.9984 27.9273 24.6314C27.2943 25.2643 26.4359 25.6199 25.5408 25.6199H22.1658M8.66577 8.74487H5.29077C4.39567 8.74487 3.53722 9.10045 2.90429 9.73339C2.27135 10.3663 1.91577 11.2248 1.91577 12.1199V28.9949C1.91577 29.89 2.27135 30.7484 2.90429 31.3814C3.53722 32.0143 4.39567 32.3699 5.29077 32.3699H18.7908C19.6859 32.3699 20.5443 32.0143 21.1773 31.3814C21.8102 30.7484 22.1658 29.89 22.1658 28.9949V25.6199"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span> Radiology </span>
+        </a>
+    </li>
+    <?php } ?>
+
 
    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'sales' ? 'sidebar__active-link': null; ?>">
@@ -120,6 +154,8 @@
     </li>
     <?php } ?>
 
+ 
+
     <!-- <?php if(in_array(session()->get('role'), ['lab' ])){?>
     <li class="my-2  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
         <a href="/report" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'report' ? 'sidebar__active-link': null; ?>">
@@ -142,15 +178,6 @@
     </li> -->
     <?php } ?>
 
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?>
-    <li class="my-2  <?= $uri->getSegment(1) === 'clinic' ? 'sidebar__active-link': null; ?>">
-        <a href="/clinic/" class="d-flex align-items-center  <?= $uri->getSegment(1) === 'clinic' ? 'sidebar__active-link': null; ?>">
-            <svg  viewBox="0 0 30 34" fill="none">
-            <path d="M8.66577 8.74487V22.2449C8.66577 23.14 9.02135 23.9984 9.65429 24.6314C10.2872 25.2643 11.1457 25.6199 12.0408 25.6199H22.1658M8.66577 8.74487V5.36987C8.66577 4.47477 9.02135 3.61632 9.65429 2.98339C10.2872 2.35045 11.1457 1.99487 12.0408 1.99487H19.7796C20.2272 1.99497 20.6563 2.17282 20.9727 2.48931L28.4213 9.93794C28.7378 10.2543 28.9157 10.6835 28.9158 11.131V22.2449C28.9158 23.14 28.5602 23.9984 27.9273 24.6314C27.2943 25.2643 26.4359 25.6199 25.5408 25.6199H22.1658M8.66577 8.74487H5.29077C4.39567 8.74487 3.53722 9.10045 2.90429 9.73339C2.27135 10.3663 1.91577 11.2248 1.91577 12.1199V28.9949C1.91577 29.89 2.27135 30.7484 2.90429 31.3814C3.53722 32.0143 4.39567 32.3699 5.29077 32.3699H18.7908C19.6859 32.3699 20.5443 32.0143 21.1773 31.3814C21.8102 30.7484 22.1658 29.89 22.1658 28.9949V25.6199"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span> Clinic </span>
-        </a>
-    </li>
-    <?php } ?>
+     
 
 </ul><!-- sidebar-nav -->

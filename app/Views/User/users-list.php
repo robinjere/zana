@@ -20,7 +20,7 @@
   <?php if(in_array('can_view_users_list', session()->get('permission'))){?>
     <table id="user_table" class="table table-striped table-bordered">
       <thead>   
-          <tr>
+          <tr class="table-header">
             <th scope="col">ID</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>

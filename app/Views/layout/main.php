@@ -8,7 +8,8 @@
     <link rel="shortcut icon" href="<?= getenv('CLIENT_LOGO') ?>" type="image/png">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
     
-    <link rel="stylesheet" href="/DataTables/datatables.min.css" />
+    <link rel="stylesheet" href="/DataTables/DataTables-1.11.3/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="/DataTables/Buttons-2.0.1/css/buttons.bootstrap5.min.css" />
 
     <link rel="stylesheet" href="/animate.css/animate.min.css" />
     <link rel="stylesheet" href="/style.css" />

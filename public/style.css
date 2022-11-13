@@ -787,6 +787,28 @@ table tbody tr td{
   font-size: .95rem !important;
 }
 
+/* paginate table buttons */
+a.paginate_button {
+  background: var(--z-deep-gray);
+  margin: 3px;
+  padding: 5px;
+  text-decoration: none;
+  color: var(--z-white);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+a.paginate_button:hover {
+  transform: scale(.9) !important;
+}
+
+a.current{
+  background-color: var(--z-primary);
+}
+a.disabled{
+  opacity: .5;
+}
+
 .selectedDiagnosis{
   border: 1px solid var(--z-gray);
   border-radius: 3px;
@@ -911,6 +933,12 @@ table tbody tr td{
 }
 .patientSearchList{
   margin-top: 5px;
+  max-height: 17rem;
+  overflow: hidden;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  box-shadow: 0 0 10px #e5e5e5;
 }
 .patientSearchList a:hover{
   z-index: 2;

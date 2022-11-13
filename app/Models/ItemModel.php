@@ -14,7 +14,7 @@ class ItemModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'qty', 'selling_price', 'buying_price', 'exp_date', 'description', 'user_id', 'updated_at'];
+    protected $allowedFields    = ['name', 'qty', 'selling_price', 'buying_price', 'exp_date','drug_kind', 'description', 'user_id', 'updated_at'];
 
     // Dates
     protected $useTimestamps = false;

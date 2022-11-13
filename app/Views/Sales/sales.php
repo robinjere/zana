@@ -24,7 +24,7 @@
 
     <table id="items" class="table table-striped table-bordered">
         <thead>   
-          <tr>
+          <tr class="table-header">
             <th scope="col">Date</th>
             <th scope="col">Item name</th>
             <th scope="col">Quantity</th> 

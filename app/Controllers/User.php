@@ -601,6 +601,7 @@ class User extends BaseController
         $data['user_p'] = $this::group_permission_by('user', $permission_all);
         $data['drug_p'] = $this::group_permission_by('drug', $permission_all);
         $data['sale_p'] = $this::group_permission_by('sale', $permission_all);
+        $data['labtest_p'] = $this::group_permission_by('labtest', $permission_all);
         $data['permission_p'] = $this::group_permission_by('permission', $permission_all);
         $data['expenses_p'] = $this::group_permission_by('expenses', $permission_all);
         $data['report_p'] = $this::group_permission_by('report', $permission_all);

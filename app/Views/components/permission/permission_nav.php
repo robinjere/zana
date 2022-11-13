@@ -10,6 +10,9 @@
     <a class="nav-link" :class="{'p_active': isActive == 'drug'}" href="#" @click="isActive='drug'">Drugs</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" :class="{'p_active': isActive == 'labtest'}" href="#" @click="isActive='labtest'">Lab test</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" :class="{'p_active': isActive == 'expenses'}" href="#" @click="isActive='expenses'">Expenses</a>
   </li>
   <li class="nav-item">

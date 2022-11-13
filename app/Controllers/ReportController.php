@@ -37,6 +37,16 @@ class ReportController extends BaseController
 
              switch ($data['report_type']) {
                 case 'sales':
+                    $this->request->getVar('cashier_id');
+                    $rules = [
+                        'cashier_id' => 'required'
+                    ];
+        
+                    if(!$this->validate($rules)){
+                        $data['validation'] = $this->validator;
+                        return redirect()->to('report');
+                    }
+
                     $this->sales_report($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
 

@@ -7,6 +7,7 @@ use monken\TablesIgniter;
 use App\Models\ItemModel;
 use App\Models\SalesModel;
 use App\Models\LabtestModel;
+use App\Models\RadInvestigationModel;
 
 class StoreController extends BaseController
 {
@@ -42,8 +43,8 @@ class StoreController extends BaseController
         $data_table->setTable($itemModel->noticeTable())
                    ->setDefaultOrder('id', 'DESC')
                    ->setSearch(['name'])
-                   ->setOrder(['id', 'updated_at', 'name','qty', 'buying_price', 'selling_price'])
-                   ->setOutput(['id', $itemModel->itemDateFormat(), 'name', 'qty',$itemModel->formatBuyingPrice() , $itemModel->formatSellingPrice(),
+                   ->setOrder(['id', 'updated_at', 'name','qty', 'drug_kind', 'buying_price', 'selling_price'])
+                   ->setOutput(['id', $itemModel->itemDateFormat(), 'name', 'qty','drug_kind',$itemModel->formatBuyingPrice() , $itemModel->formatSellingPrice(),
                                 $itemModel->actionButtons()
                                ]);
 
@@ -64,6 +65,41 @@ class StoreController extends BaseController
             }
         }
         return view('store/add_labtest', $data);
+    }
+
+
+
+    public function radInvestigation(){
+        helper('form');
+        $radInvestigationModel = new RadInvestigationModel;
+        $data = [];
+        if($this->request->getMethod() == 'post'){
+            $radDetails = $this->request->getVar();
+            $radDetails['user_id'] = session()->get('id');
+            if($radInvestigationModel->save($radDetails) == false){
+                session()->setFlashdata('validation', $itemModel->errors());
+            }else{
+                return redirect()->to('store/labtest')->with('success', 'radiology successful added');
+            }
+        }
+        return view('store/add_rad_investigation', $data);
+    }
+
+    public function listRadiology(){
+        return view('store/rad_investigation');
+    }
+
+    public function ajax_getradiology(){
+        $radInvestigationModel = new RadInvestigationModel();
+
+        $data_table = new TablesIgniter();
+        $data_table->setTable($radInvestigationModel->getRadiologyList())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['test_name'])
+                   ->setOrder(['id', 'updated_at', 'test_name','price'])
+                   ->setOutput(['id', $radInvestigationModel->radDateFormat(), 'test_name', $radInvestigationModel->formatPrice(), $radInvestigationModel->actionButtons()]);
+
+        return $data_table->getDatatable();
     }
 
     public function editlabtest(Int $labtestID){

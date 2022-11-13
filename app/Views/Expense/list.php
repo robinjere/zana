@@ -23,7 +23,7 @@
   <?php if(in_array('can_view_expenses', session()->get('permission'))){?>
     <table id="user_table" class="table table-striped table-bordered">
       <thead>   
-          <tr>
+          <tr class="table-header">
             <th scope="col">Date</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>

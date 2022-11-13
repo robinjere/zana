@@ -48,7 +48,7 @@
 
             <template x-if="report_type == 'sales'">
                 <div class="registration-space-y">
-                        <select class="form-select " name="cashier_id" >
+                        <select required class="form-select " name="cashier_id" >
                             <option value="" selected>Sales by cashier?</option>
                             <?php foreach ($salesBy as $key => $sale_by) {?>
                                 <option value="<?= $sale_by->id ?>"> <?= $sale_by->first_name.' '. $sale_by->last_name ?></option>

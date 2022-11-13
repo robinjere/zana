@@ -4,7 +4,7 @@
 <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?>
     <table id="clinics" class="table table-striped table-bordered">
           <thead>   
-            <tr>
+            <tr class="table-header">
               <!-- <th scope="col">ID</th> -->
               <th scope="col">Date</th>
               <th scope="col">Name</th>

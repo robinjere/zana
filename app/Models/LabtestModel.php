@@ -49,13 +49,13 @@ class LabtestModel extends Model
     
     public function getLabTest(){
         $builder = $this->db->table('labtests');
-        $builder->select('id,name, description, price, created_at');
+        $builder->select('id,name, description, price, updated_at');
         return $builder;
     }
 
     public function formatDate(){
         return function($row){
-            return date_format(date_create($row['created_at']), 'd-m-Y');
+            return date_format(date_create($row['updated_at']), 'd-m-Y');
         };
     }
 
@@ -67,8 +67,10 @@ class LabtestModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(in_array(session()->get('role'), ['doctor', 'superuser','admin'])){
-                return '<a href="'. base_url('store/editlabtest/'.$row['id']) .'" class="badge badge-sm bg-success"> edit </a> <a href="'. base_url('store/deletelabtest/'.$row['id']).'" class="badge badge-sm bg-danger"> delete </a> ';
+            $edit = in_array('can_edit_labtest', session()->get('permission')) ?  '<a href="'. base_url('store/editlabtest/'.$row['id']) .'" class="badge badge-sm bg-success"> edit </a>' : '';
+            $delete = in_array('can_delete_labtest', session()->get('permission')) ?  ' <a href="'. base_url('store/deletelabtest/'.$row['id']).'" class="badge badge-sm bg-danger"> delete </a> ' : '';
+            if(in_array(session()->get('role'), ['doctor', 'superuser','admin', 'lab'])){
+                return $edit.' '. $delete;
             }
         };
     }
