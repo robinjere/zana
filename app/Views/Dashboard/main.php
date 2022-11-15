@@ -12,6 +12,7 @@
 
     <div class="container" style="padding:0;">
       <?php
+        if(in_array(session()->get('role'), ['pharmacy', 'superuser', 'admin'])){
           if(session()->get('no_out_of_stock') || session()->get('itemsNearToEnd') ){ ?>
                <div class="alert alert-danger text-center" style="padding: 5px; border-bottom: 2px solid #19985b; border-radius: 0 !important;">
                  <?php if(session()->get('no_out_of_stock')){ ?>
@@ -23,7 +24,7 @@
 
                   <?php  } ?>
                </div>
-      <?php }  ?>
+      <?php } } ?>
     </div>
 
       <div class="container">

@@ -19,6 +19,11 @@
         <button type="button" onclick="window.print()" class="btn btn-sm exit-assessment">Print</button>
     </div>
   <div class="fertility-assessment">
+    <div class="top-head">
+        <h1 class="title uppercase m-0" align="center"> <?= $clinic_contacts['name'] ?> </h1>
+        <p class="subtitle uppercase m-0" align="center"> <?= $clinic_contacts['address'] . ', '. $clinic_contacts['location']  ?> </p>
+        <p class="subtitle uppercase m-0" align="center"> <?= $clinic_contacts['phone'] ?> </p>
+    </div>
     <div class="head">
         <h2>Fertility Assessment</h2>
         <h3><?= $patient['gender'] ?></h3>

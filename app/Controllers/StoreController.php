@@ -8,6 +8,7 @@ use App\Models\ItemModel;
 use App\Models\SalesModel;
 use App\Models\LabtestModel;
 use App\Models\RadInvestigationModel;
+use App\Models\ProceduresModel;
 
 class StoreController extends BaseController
 {
@@ -69,20 +70,36 @@ class StoreController extends BaseController
 
 
 
-    public function radInvestigation(){
+    public function add_edit_radInvestigation($rad_id = ''){
         helper('form');
         $radInvestigationModel = new RadInvestigationModel;
         $data = [];
+        $data['radiology'] = ['test_name' => '', 'price' => ''];
+
+        if($rad_id){
+          $data['radiology'] = $radInvestigationModel->where('id', $rad_id)->first();
+        }
+
         if($this->request->getMethod() == 'post'){
             $radDetails = $this->request->getVar();
             $radDetails['user_id'] = session()->get('id');
+            if($rad_id){
+                $radDetails['id'] = $rad_id;
+            }
             if($radInvestigationModel->save($radDetails) == false){
                 session()->setFlashdata('validation', $itemModel->errors());
             }else{
-                return redirect()->to('store/labtest')->with('success', 'radiology successful added');
+                $__mssg = $rad_id == '' ? 'radiology successful added' : 'radiology successful edited';
+                return redirect()->to('store/radiology')->with('success', $__mssg);
             }
         }
         return view('store/add_rad_investigation', $data);
+    }
+
+    public function deleteRadInvestigation(Int $rad_id){
+        $radInvestigationModel = new RadInvestigationModel;
+        $radInvestigationModel->where('id', $rad_id)->delete();
+        return redirect()->to('store/radiology')->with('success', 'radiology successful deleted');
     }
 
     public function listRadiology(){
@@ -98,6 +115,54 @@ class StoreController extends BaseController
                    ->setSearch(['test_name'])
                    ->setOrder(['id', 'updated_at', 'test_name','price'])
                    ->setOutput(['id', $radInvestigationModel->radDateFormat(), 'test_name', $radInvestigationModel->formatPrice(), $radInvestigationModel->actionButtons()]);
+
+        return $data_table->getDatatable();
+    }
+
+    public function procedures(){
+        return view('store/procedures');
+    }
+
+    public function add_or_edit_procedure($procedure_id = ''){
+            helper('form');
+            $proceduresModel = new ProceduresModel();
+            $data = [];
+            $data['procedure'] = ['name' => '', 'price' => ''];
+            if($procedure_id){
+              $data['procedure'] =  $proceduresModel->where('id', $procedure_id)->first();   
+            }
+            if($this->request->getMethod() == 'post'){
+                $procedureDetails = $this->request->getVar();
+                $procedureDetails['user_id'] = session()->get('id');
+                if($procedure_id != ''){
+                    $procedureDetails['id'] = $procedure_id;
+                }
+                if($proceduresModel->save($procedureDetails) == false){
+                    session()->setFlashdata('validation', $itemModel->errors());
+                }else{
+                    $_mssg = $procedure_id != '' ? 'procedure successful edited' : 'procedure successful added';
+                    return redirect()->to('store/procedures')->with('success', $_mssg);
+                }
+            }
+            return view('store/add_procedure', $data);    
+    }
+
+    public function deleteProcedure(Int $procedure_id){
+        $proceduresModel = new ProceduresModel();
+        $proceduresModel->where('id', $procedure_id)->delete();
+        return redirect()->to('store/procedures')->with('success', 'Procedure successful deleted');
+    }
+
+    public function ajax_getprocedures(){
+    
+        $proceduresModel = new ProceduresModel();
+
+        $data_table = new TablesIgniter();
+        $data_table->setTable($proceduresModel->getProcedures())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['name'])
+                   ->setOrder(['id', 'updated_at', 'name','price'])
+                   ->setOutput(['id', $proceduresModel->procedureDateFormat(), 'name', $proceduresModel->formatPrice(), $proceduresModel->actionButtons()]);
 
         return $data_table->getDatatable();
     }

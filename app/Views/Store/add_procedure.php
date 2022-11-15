@@ -3,7 +3,7 @@
 
 <?php $Dashboard = '\App\Libraries\AdminPanel';  ?>
 
-<h2 class="data-heading mb-3">Rad Ivestigation</h2>
+<h2 class="data-heading mb-3">Procedures</h2>
  
  <!-- WARNING AND ERROR AREA -->
  <?php if(!empty(session()->getFlashdata('validation'))): ?>
@@ -42,37 +42,35 @@
   <?php $uri = service('uri'); ?>
     
   <ul class="data-nav d-flex">
-       <?php if(in_array('can_add_radiology', session()->get('permission'))){?>
-        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addRadInvestigation' ? 'data-nav__active': null ?>"> <a href="addlabtest">RADIOLOGY  </a>  </li>
+       <?php if(in_array('can_add_procedure', session()->get('permission'))){?>
+        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addProcedure' ? 'data-nav__active': null ?>"> <a href="addProcedure">PROCEDURE  </a>  </li>
       <?php } ?> 
   </ul>
 
 <div class="mb-3 registration-form" >
  
   <div class="registration-form__heading">
-
      <?php if($uri->getSegment(3)){ ?>
-      <h2 style="padding: 0 57px;"> Edit radiology </h2>
+      <h2 style="padding: 0 57px;"> Edit procedure </h2>
      <?php }else{ ?>
-      <h2 style="padding: 0 57px;"> Add radiology </h2>
-     <?php } ?>
-
+      <h2 style="padding: 0 57px;"> Add procedure </h2>
+    <?php } ?>
   </div > <!-- /registration-form__heading -->
    <div class="registration-form__form" style="padding: 25px 57px;">
         <?php if($uri->getSegment(3)){ ?>
-          <form method="post" action="<?= base_url('store/editRadInvestigation/'.$uri->getSegment(3)) ?>">
-        <?php }else{ ?>
-          <form method="post" action="<?= base_url('store/addRadInvestigation') ?>">
+            <form method="post" action="<?= base_url('store/editprocedure/'.$uri->getSegment(3)) ?>">
+          <?php }else{ ?>
+            <form method="post" action="<?= base_url('store/addProcedure') ?>">
         <?php } ?>
          
            <div class="row registration-space-y">   
            <div class="registration-space-y">
                <div class="row">
                     <div class="col">
-                        <input type="text"  required name="test_name" value="<?= set_value('name', $radiology['test_name']) ?>" class="form-control" placeholder="Test name" aria-describedby="Test name">
+                        <input type="text"  required name="name" value="<?= set_value('name', $procedure['name']) ?>" class="form-control" placeholder="Test name" aria-describedby="Test name">
                     </div>
                     <div class="col">
-                        <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('price', $radiology['price'])?>" class="form-control" placeholder="Price" aria-describedby="Price">
+                        <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('price', $procedure['price'])?>" class="form-control" placeholder="Price" aria-describedby="Price">
                     </div>
                </div><!-- /row -->
           </div><!-- /registration-space-y -->
@@ -95,7 +93,7 @@
 
           <div class="row mt-5">
                <div class="col">
-                   <a href="<?= base_url('store/radiology') ?>" class="btn btn-warning btn-rounded"> Cancel </a>
+                   <a href="procedures" class="btn btn-warning btn-rounded"> Cancel </a>
               </div>
                <div class="col d-flex justify-content-end">
                    <button class="btn btn-primary btn-rounded" style="width: 8rem;"> Save </button>

@@ -13,7 +13,7 @@
     </li>
    <?php } ?>
 
-   <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier'])){?>
     <li class="my-2  <?= (($uri->getSegment(1) === 'store' && $uri->getSegment(2) === 'items' || $uri->getSegment(2) === 'additem') || $uri->getSegment(2) === 'outofstock' || $uri->getSegment(2) === 'itemsneartoend') ? 'sidebar__active-link': null; ?>">
         <a href="/store/items" class=" d-flex align-items-center  <?= (($uri->getSegment(1) === 'store' && $uri->getSegment(2) === 'items' || $uri->getSegment(2) === 'additem')  || $uri->getSegment(2) === 'outofstock' || $uri->getSegment(2) === 'itemsneartoend') ? 'sidebar__active-link': null; ?>">
         <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
     </li>
    <?php } ?>
 
-   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'lab' ]) && in_array('can_view_labtest', session()->get('permission'))){  ?>
+   <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'lab', 'cashier']) && in_array('can_view_labtest', session()->get('permission'))){  ?>
     <li class="my-2  <?= ($uri->getSegment(2) === 'labtest' || $uri->getSegment(2) === 'addlabtest' || $uri->getSegment(2) === 'editlabtest') ? 'sidebar__active-link': null; ?>">
         <a href=" <?= base_url('store/labtest')?>" class="d-flex align-items-center  <?= ($uri->getSegment(2) === 'labtest' || $uri->getSegment(2) === 'addlabtest' || $uri->getSegment(2) === 'editlabtest') ? 'sidebar__active-link': null; ?>">
             <svg  viewBox="0 0 30 26" fill="none">
@@ -35,13 +35,24 @@
     </li>
     <?php } ?>
 
-    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'reception' ])){?>
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier' ])){?>
     <li class="my-2  <?= ($uri->getSegment(2) === 'radiology' || $uri->getSegment(2) === 'addRadInvestigation')? 'sidebar__active-link': null; ?>">
         <a href="<?= base_url('store/radiology') ?>" class="d-flex align-items-center  <?= ($uri->getSegment(2) === 'radiology' || $uri->getSegment(2) === 'addRadInvestigation') ? 'sidebar__active-link': null; ?>">
             <svg  viewBox="0 0 30 34" fill="none">
             <path d="M8.66577 8.74487V22.2449C8.66577 23.14 9.02135 23.9984 9.65429 24.6314C10.2872 25.2643 11.1457 25.6199 12.0408 25.6199H22.1658M8.66577 8.74487V5.36987C8.66577 4.47477 9.02135 3.61632 9.65429 2.98339C10.2872 2.35045 11.1457 1.99487 12.0408 1.99487H19.7796C20.2272 1.99497 20.6563 2.17282 20.9727 2.48931L28.4213 9.93794C28.7378 10.2543 28.9157 10.6835 28.9158 11.131V22.2449C28.9158 23.14 28.5602 23.9984 27.9273 24.6314C27.2943 25.2643 26.4359 25.6199 25.5408 25.6199H22.1658M8.66577 8.74487H5.29077C4.39567 8.74487 3.53722 9.10045 2.90429 9.73339C2.27135 10.3663 1.91577 11.2248 1.91577 12.1199V28.9949C1.91577 29.89 2.27135 30.7484 2.90429 31.3814C3.53722 32.0143 4.39567 32.3699 5.29077 32.3699H18.7908C19.6859 32.3699 20.5443 32.0143 21.1773 31.3814C21.8102 30.7484 22.1658 29.89 22.1658 28.9949V25.6199"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span> Radiology </span>
+        </a>
+    </li>
+    <?php } ?>
+
+    <?php if(in_array(session()->get('role'), ['admin', 'superuser', 'cashier' ])){?>
+    <li class="my-2  <?= ($uri->getSegment(2) === 'procedures' || $uri->getSegment(2) === 'addProcedure')? 'sidebar__active-link': null; ?>">
+        <a href="<?= base_url('store/procedures') ?>" class="d-flex align-items-center  <?= ($uri->getSegment(2) === 'procedures' || $uri->getSegment(2) === 'addProcedure') ? 'sidebar__active-link': null; ?>">
+            <svg  viewBox="0 0 30 34" fill="none">
+            <path d="M8.66577 8.74487V22.2449C8.66577 23.14 9.02135 23.9984 9.65429 24.6314C10.2872 25.2643 11.1457 25.6199 12.0408 25.6199H22.1658M8.66577 8.74487V5.36987C8.66577 4.47477 9.02135 3.61632 9.65429 2.98339C10.2872 2.35045 11.1457 1.99487 12.0408 1.99487H19.7796C20.2272 1.99497 20.6563 2.17282 20.9727 2.48931L28.4213 9.93794C28.7378 10.2543 28.9157 10.6835 28.9158 11.131V22.2449C28.9158 23.14 28.5602 23.9984 27.9273 24.6314C27.2943 25.2643 26.4359 25.6199 25.5408 25.6199H22.1658M8.66577 8.74487H5.29077C4.39567 8.74487 3.53722 9.10045 2.90429 9.73339C2.27135 10.3663 1.91577 11.2248 1.91577 12.1199V28.9949C1.91577 29.89 2.27135 30.7484 2.90429 31.3814C3.53722 32.0143 4.39567 32.3699 5.29077 32.3699H18.7908C19.6859 32.3699 20.5443 32.0143 21.1773 31.3814C21.8102 30.7484 22.1658 29.89 22.1658 28.9949V25.6199"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span> Procedures </span>
         </a>
     </li>
     <?php } ?>

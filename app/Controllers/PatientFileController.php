@@ -674,6 +674,10 @@ class PatientFileController extends BaseController
    public function FertilityAssessment(){
     $patientModel = new PatientModel;
     $data = [];
+    
+    $store = new StoreController;
+    $data['clinic_contacts'] = $store->get_clinic_info();
+
     if($this->request->getMethod() == 'post'){
           $data['patientFile'] = $this->request->getVar();
           $data['patient'] = $patientModel->where('id', $this->request->getVar('patient_id'))->first();

@@ -605,6 +605,8 @@ class User extends BaseController
         $data['permission_p'] = $this::group_permission_by('permission', $permission_all);
         $data['expenses_p'] = $this::group_permission_by('expenses', $permission_all);
         $data['report_p'] = $this::group_permission_by('report', $permission_all);
+        $data['radiology_p'] = $this::group_permission_by('radiology', $permission_all);
+        $data['procedure_p'] = $this::group_permission_by('procedure', $permission_all);
 
         $data['user_permission'] = $userPermission->where('user_id', $user_id)->findAll();
         return view('user/permission', $data);

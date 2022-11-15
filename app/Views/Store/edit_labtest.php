@@ -79,7 +79,7 @@
 
           <div class="row registration-space-y">   
               <div class="col">
-                  <textarea name="description" row="2" col="4" value="<?= set_value('description', $labtest['description']) ?>" class="form-control" placeholder="Description"></textarea>
+                  <textarea name="description" row="2" col="4" value="<?= set_value('description', $labtest['description']) ?>" class="form-control" placeholder="Description"> <?= set_value('description', $labtest['description']) ?> </textarea>
               </div>
           </div><!-- /row -->
 

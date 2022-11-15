@@ -103,7 +103,10 @@ class ItemModel extends Model
 
     public function actionButtons(){
         $button = function($row){
-             return ' <a href="/store/updateitem/'.$row['id'].'" class="badge bg-info"> Update</a> <a href="/store/deleteitem/'.$row['id'].'" class="badge bg-danger"> Delete </a> ';  
+            $edit = in_array('can_edit_drug', session()->get('permission')) ?  '<a href="/store/updateitem/'.$row['id'].'" class="badge bg-info"> Update</a>' : '';
+            $delete = in_array('can_delete_drug', session()->get('permission')) ?  '<a href="/store/deleteitem/'.$row['id'].'" class="badge bg-danger"> Delete </a>' : '';
+
+             return $edit. ' ' . $delete;  
         };
         return $button;
     }

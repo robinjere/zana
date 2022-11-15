@@ -955,6 +955,26 @@ a.disabled{
   margin: 10px 0;
 }
 
+.fertility-assessment .top-head{
+  padding: .5rem 0 1rem;
+  margin: .5rem 0 .7rem;
+  border-bottom: 2px solid black;
+}
+
+.fertility-assessment .top-head .title{
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: center;
+    margin: 0;
+}
+
+.fertility-assessment .top-head .subtitle{
+  font-size: .9rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+
 .exit-assessment{
   color: #fff;
   background-color: #198754;
@@ -971,7 +991,7 @@ a.disabled{
  margin: 0;
 }
 .fertility-assessment .head{
-  margin: 5px 0;
+  margin: 15px 0;
 }
 .fertility-assessment tr th, .fertility-assessment tr td{
   font-size: .8rem !important;

@@ -13,6 +13,12 @@
     <a class="nav-link" :class="{'p_active': isActive == 'labtest'}" href="#" @click="isActive='labtest'">Lab test</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" :class="{'p_active': isActive == 'radiology'}" href="#" @click="isActive='radiology'">Radiology</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" :class="{'p_active': isActive == 'procedure'}" href="#" @click="isActive='procedure'">Procedure</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" :class="{'p_active': isActive == 'expenses'}" href="#" @click="isActive='expenses'">Expenses</a>
   </li>
   <li class="nav-item">

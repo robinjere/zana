@@ -66,7 +66,7 @@
    
            <nav class="nav justify-content-center|justify-content-end">
              <a class="nav-link active"  href="<?= base_url() ?>/user/info/<?= $userInfo['id']; ?>"> User Information </a>  
-             <?php if(in_array('can_view_user_permission', session()->get('permission'))){?>
+             <?php if(in_array('can_view_user_permission', session()->get('permission'))){ ?>
                   <a class="nav-link not-active" style="font-weight: 600;"  href="<?= base_url() ?>/user/permission/<?= $userInfo['id']; ?>"> User Permission  </a>  
              <?php } ?>
            </nav>
@@ -77,7 +77,7 @@
 
     </div> <!-- /registration-form__heading -->
      <div class="registration-form__form">
-         <form method="POST" action="<?= base_url('user/edit/'.$userInfo['id'])?>">
+         <form method="POST" action="<?= base_url('user/edit/'.$userInfo['id']) ?>">
              <div class="row registration-space-y">   
                <div class="col">
                  <input type="text"  value="<?= set_value('first_name', $userInfo['first_name']); ?>" name="first_name" class="form-control" placeholder="First name" aria-describedby="firstname">

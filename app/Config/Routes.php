@@ -79,8 +79,15 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'], 'editlabtest/(:num)', 'StoreController::editlabtest/$1',  ['filter' => 'auth']);
      $routes->get('labtest', 'StoreController::listLabtest',  ['filter' => 'auth']);
      
-     $routes->match(['post', 'get'], 'addRadInvestigation', 'StoreController::radInvestigation',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'addRadInvestigation', 'StoreController::add_edit_radInvestigation',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'editRadInvestigation/(:num)', 'StoreController::add_edit_radInvestigation/$1',  ['filter' => 'auth']);
      $routes->get('radiology', 'StoreController::listRadiology',  ['filter' => 'auth']);
+     $routes->get('deleteRadInvestigation/(:num)', 'StoreController::deleteRadInvestigation/$1',  ['filter' => 'auth']);
+
+     $routes->get('procedures', 'StoreController::Procedures',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'editprocedure/(:num)', 'StoreController::add_or_edit_procedure/$1',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'], 'addProcedure', 'StoreController::add_or_edit_procedure',  ['filter' => 'auth']);
+     $routes->get('deleteprocedure/(:num)', 'StoreController::deleteProcedure/$1',  ['filter' => 'auth']);
  });
 
  $routes->group('sales', function($routes){

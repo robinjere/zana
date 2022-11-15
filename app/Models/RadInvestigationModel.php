@@ -67,8 +67,8 @@ class RadInvestigationModel extends Model
 
   public function actionButtons(){
     return function($row){
-      $edit = in_array('can_edit_radiology', session()->get('permission')) ?  '<a href="'. base_url('store/editlabtest/'.$row['id']) .'" class="badge badge-sm bg-success"> edit </a>' : '';
-      $delete = in_array('can_delete_radiology', session()->get('permission')) ?  ' <a href="'. base_url('store/deletelabtest/'.$row['id']).'" class="badge badge-sm bg-danger"> delete </a> ' : '';
+      $edit = in_array('can_edit_radiology', session()->get('permission')) ?  '<a href="'. base_url('store/editRadInvestigation/'.$row['id']) .'" class="badge badge-sm bg-success"> edit </a>' : '';
+      $delete = in_array('can_delete_radiology', session()->get('permission')) ?  ' <a href="'. base_url('store/deleteRadInvestigation/'.$row['id']).'" class="badge badge-sm bg-danger"> delete </a> ' : '';
       if(in_array(session()->get('role'), ['doctor', 'superuser','admin', 'lab'])){
           return $edit.' '. $delete;
       }

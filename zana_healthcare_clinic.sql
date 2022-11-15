@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2022 at 06:07 AM
+-- Generation Time: Nov 14, 2022 at 05:20 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -16646,6 +16646,13 @@ CREATE TABLE `fertility_assessment` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `fertility_assessment`
+--
+
+INSERT INTO `fertility_assessment` (`id`, `created_at`, `updated_at`, `patient_id`, `hospital_number`, `clinic_number`, `occupation`, `height`, `weight`, `is_drug_allergy`, `drug_allergy_mention`, `is_genetic_disease`, `genetic_disease_mention`, `is_gynecological_history`, `gynecological_history_mention`, `is_pelvic_surgery`, `pelvic_surgery_mention`, `is_contraception`, `contraception_mention`, `rubella`, `hepatitis`, `other`, `is_menstrualcycle_regular`, `lnmp`, `cycle_length`, `dysmenorrhea`, `conceive`, `months`, `years`, `is_pregnant`, `pregnant_mention`, `current_relationship_para`, `previous_relationship_para`, `no_of_abortions`, `GA`, `ectopic_pregnancy`, `is_fertility_treatment`, `fertility_treatment_mention`, `is_chronic_diseases`, `chronic_diseases_mention`, `is_current_medication`, `current_medication`, `is_smoke`, `cigarettes_per_day`, `is_alcohol`, `unit_per_week`, `is_recreational_drugs`, `how_long`, `currently_recreational_drugs`, `is_regular_periods`, `ultrasound`, `HSG_HSU`, `TSH`, `i_ultrasound`, `i_HSG_HSU`, `i_FSH_LH`, `i_TSH`, `is_irregular_periods`, `user_id`) VALUES
+(267, '2022-11-14 07:02:51', '2022-11-14 07:05:03', 89, 'MRNO/2022/89', '898', 'dar es salaam', 50, 70, 'yes', 'drug allergy..', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31);
+
 -- --------------------------------------------------------
 
 --
@@ -18068,7 +18075,10 @@ INSERT INTO `permission` (`id`, `name`, `permission_group`) VALUES
 (36, 'can_view_consultation', 'consultation'),
 (37, 'can_update_invoice', 'invoice'),
 (38, 'can_delete_invoice', 'invoice'),
-(39, 'can_view_invoice', 'invoice');
+(39, 'can_view_invoice', 'invoice'),
+(40, 'can_edit_labtest', 'labtest'),
+(41, 'can_edit_radiology', 'radiology'),
+(42, 'can_edit_procedure', 'procedure');
 
 -- --------------------------------------------------------
 
@@ -18079,22 +18089,25 @@ INSERT INTO `permission` (`id`, `name`, `permission_group`) VALUES
 CREATE TABLE `procedures` (
   `id` int(11) NOT NULL,
   `name` varchar(200) NOT NULL,
-  `price` double NOT NULL
+  `price` double NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `procedures`
 --
 
-INSERT INTO `procedures` (`id`, `name`, `price`) VALUES
-(1, 'INCISION AND DRAINAGE', 10000),
-(2, 'MINOR WOUND DRESSING', 5000),
-(3, 'MAJOR WOUND DRESSING', 10000),
-(4, 'SUTURE REMOVAL', 5000),
-(5, 'TOOTH EXTRACTION -PAEDIATRIC MILK TEETH', 10000),
-(6, 'IMPLANT REMOVAL AND INSERTION', 5000),
-(7, 'MINOR SUTURING ', 10000),
-(8, 'MAJOR SUTURING', 20000);
+INSERT INTO `procedures` (`id`, `name`, `price`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'INCISION AND DRAINAGE', 10000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(2, 'MINOR WOUND DRESSING', 5000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(3, 'MAJOR WOUND DRESSING', 10000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(4, 'SUTURE REMOVAL', 5000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(5, 'TOOTH EXTRACTION -PAEDIATRIC MILK TEETH', 10000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(6, 'IMPLANT REMOVAL AND INSERTION', 5000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(7, 'MINOR SUTURING ', 10000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15'),
+(8, 'MAJOR SUTURING', 20000, 0, '2022-11-13 14:59:15', '2022-11-13 14:59:15');
 
 -- --------------------------------------------------------
 
@@ -18107,21 +18120,22 @@ CREATE TABLE `rad_investigation` (
   `test_name` varchar(200) NOT NULL,
   `price` double NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rad_investigation`
 --
 
-INSERT INTO `rad_investigation` (`id`, `test_name`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'X-rays', 6000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(2, 'Ultrasound Scan', 8000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(3, 'DEXA', 9000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(4, 'MRI Scan', 10000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(5, 'Magnetic Resonance Angiography(MRA)', 3000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(6, 'Angiography', 4000, '2022-07-26 05:53:37', '2022-07-26 05:53:37'),
-(7, 'CT scan', 20000, '2022-07-26 05:53:37', '2022-07-26 05:53:37');
+INSERT INTO `rad_investigation` (`id`, `test_name`, `price`, `created_at`, `updated_at`, `user_id`) VALUES
+(1, 'X-rays', 6000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(2, 'Ultrasound Scan', 8000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(3, 'DEXA', 9000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(4, 'MRI Scan', 10000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(5, 'Magnetic Resonance Angiography(MRA)', 3000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(6, 'Angiography', 4000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0),
+(7, 'CT scan', 20000, '2022-07-26 05:53:37', '2022-07-26 05:53:37', 0);
 
 -- --------------------------------------------------------
 
@@ -18285,42 +18299,6 @@ CREATE TABLE `user_permission` (
 --
 
 INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
-(145, 25, 1),
-(146, 25, 2),
-(147, 25, 3),
-(148, 25, 4),
-(149, 25, 5),
-(150, 25, 6),
-(151, 25, 7),
-(152, 25, 8),
-(153, 25, 9),
-(154, 25, 10),
-(155, 25, 11),
-(156, 25, 12),
-(157, 25, 13),
-(158, 25, 14),
-(159, 25, 15),
-(160, 25, 16),
-(161, 25, 17),
-(162, 25, 18),
-(163, 25, 19),
-(164, 25, 20),
-(165, 25, 21),
-(166, 25, 22),
-(167, 25, 23),
-(168, 25, 24),
-(169, 25, 25),
-(170, 25, 26),
-(171, 25, 27),
-(172, 25, 28),
-(173, 25, 29),
-(174, 25, 30),
-(175, 25, 31),
-(176, 25, 32),
-(177, 25, 33),
-(178, 25, 34),
-(179, 25, 35),
-(180, 25, 36),
 (766, 45, 5),
 (767, 45, 6),
 (768, 45, 7),
@@ -18547,7 +18525,33 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (1188, 30, 14),
 (1189, 86, 25),
 (1190, 86, 26),
-(1191, 86, 27);
+(1191, 86, 27),
+(1240, 25, 1),
+(1241, 25, 2),
+(1242, 25, 3),
+(1243, 25, 4),
+(1244, 25, 5),
+(1245, 25, 6),
+(1246, 25, 7),
+(1247, 25, 8),
+(1248, 25, 9),
+(1249, 25, 25),
+(1250, 25, 26),
+(1251, 25, 27),
+(1252, 25, 40),
+(1253, 25, 31),
+(1254, 25, 32),
+(1255, 25, 33),
+(1256, 25, 41),
+(1257, 25, 19),
+(1258, 25, 20),
+(1259, 25, 21),
+(1260, 25, 42),
+(1261, 25, 10),
+(1262, 25, 11),
+(1263, 25, 13),
+(1264, 25, 14),
+(1265, 25, 15);
 
 -- --------------------------------------------------------
 
@@ -18747,13 +18751,15 @@ ALTER TABLE `permission`
 -- Indexes for table `procedures`
 --
 ALTER TABLE `procedures`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `rad_investigation`
 --
 ALTER TABLE `rad_investigation`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `rad_results`
@@ -18876,7 +18882,7 @@ ALTER TABLE `expenses`
 -- AUTO_INCREMENT for table `fertility_assessment`
 --
 ALTER TABLE `fertility_assessment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=267;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT for table `general_examination`
@@ -18894,7 +18900,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `labtests`
 --
 ALTER TABLE `labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `patients`
@@ -18918,19 +18924,19 @@ ALTER TABLE `patient_history`
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `procedures`
 --
 ALTER TABLE `procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `rad_investigation`
 --
 ALTER TABLE `rad_investigation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `rad_results`
@@ -18960,7 +18966,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_permission`
 --
 ALTER TABLE `user_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1192;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1266;
 
 --
 -- AUTO_INCREMENT for table `user_role`
