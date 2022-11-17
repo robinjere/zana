@@ -25,16 +25,17 @@ class ItemModel extends Model
 
     // Validation
     protected $validationRules      = [
-        "name" => "required|min_length[2]|is_unique[items.name]",
+        // "name" => "required|min_length[2]|is_unique[items.name]",
+        "name" => "required|min_length[2]",
         "qty" => "required",
         "selling_price" => "required",
         "buying_price" => "required"
     ];
-    protected $validationMessages   = [
-        "name" => [
-            "is_unique" => "The item name you are trying to add is available. Specify another name"
-        ]
-    ];
+    // protected $validationMessages   = [
+    //     "name" => [
+    //         "is_unique" => "The item name you are trying to add is available. Specify another name"
+    //     ]
+    // ];
     protected $skipValidation       = false;
     // protected $cleanValidationRules = true;
 

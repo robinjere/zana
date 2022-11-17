@@ -224,6 +224,14 @@ class PatientController extends BaseController
           }
            try {
                //code...
+            //    echo 'filter -> ';
+            //    print_r($filter);
+            //    echo '<br/>';
+
+            //    print_r('Search term');
+            //    print_r($searchterm);
+            //    echo '<br/>';
+
               $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);
             //   $data['search_by'] = $filter;
 

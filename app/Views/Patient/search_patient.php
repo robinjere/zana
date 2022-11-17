@@ -282,7 +282,7 @@
                 body: JSON.stringify({searchterm: this.searchterm })
             }).then(res => res.json())
             .then(data => {
-              console.log('from search', data)
+              // console.log('from search', data)
                   if(data.success){
                      this.patient_info = data.patient_info;
                      this.errors = '';

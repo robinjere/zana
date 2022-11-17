@@ -712,6 +712,7 @@ body{
   top: -15px;
   right: -17px;
 }
+th { white-space: nowrap !important; }
 .clinical-note h5, .medicine h5, .procedures h5, .labtest h5,
 .diagnosis h5{
   font-weight: 900;
@@ -983,6 +984,8 @@ a.disabled{
   padding: 7px 10px;
   margin-top: 11px;
 }
+
+
 
 .fertility-assessment .head h2, .fertility-assessment .head h3{
  font-size: .9rem;

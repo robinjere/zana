@@ -52,7 +52,24 @@
          <form method="post" >
            <div class="row registration-space-y">   
            <div class="registration-space-y">
-               <input type="text"  required name="name" value="<?= set_value('name', $item['name']) ?>" class="form-control" placeholder="Item name" aria-describedby="Item name">
+           <div class="row">
+              <div class="col">
+                <input type="text"  required name="name" value="<?= set_value('name', $item['name']) ?>" class="form-control" placeholder="Drug name" aria-describedby="Drug name">
+              </div>
+              <div class="col">
+                  <select class="form-select form-select-md form-control" name="drug_kind" >
+                    <option <?= $item['drug_kind'] == ''? 'selected' : '' ?> >Select drug kind</option>
+                    <option <?= $item['drug_kind'] == 'IV'? 'selected' : '' ?> value="IV">IV</option>
+                    <option <?= $item['drug_kind'] == 'IM'? 'selected' : '' ?> value="IM">IM</option>
+                    <option <?= $item['drug_kind'] == 'ORAL'? 'selected' : '' ?> value="ORAL">ORAL</option>
+                    <option <?= $item['drug_kind'] == 'SC'? 'selected' : '' ?> value="SC">SC</option>
+                    <option <?= $item['drug_kind'] == 'Topical'? 'selected' : '' ?> value="Topical">Topical</option>
+                    <option <?= $item['drug_kind'] == 'Drops'? 'selected' : '' ?> value="Drops">Drops</option>
+                    <option <?= $item['drug_kind'] == 'Per Rectal'? 'selected' : '' ?> value="Per Rectal">Per Rectal</option>
+                    <option <?= $item['drug_kind'] == 'Per Vaginal'? 'selected' : '' ?> value="Per Vaginal">Per Vaginal</option>
+                  </select>
+              </div><!-- /col -->
+            </div><!-- /row -->
           </div>
              <div class="col">
                <input type="number" required  min="0" step="0.01" name="buying_price" value="<?= set_value('buying_price', $item['buying_price'])?>" class="form-control" placeholder="Buying Price" aria-describedby="Buying Price">
@@ -66,7 +83,8 @@
                <input type="number" required  name="qty" value="<?= set_value('qty', $item['qty'])?>" class="form-control" placeholder="Quantity" aria-describedby="Quantity">
               </div>
               <div class="col">
-               <input type="date" required  name="exp_date" value="<?= set_value('exp_date', date('m-d-Y', (int)$item['exp_date'])) ?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
+               <input type="date" required  name="exp_date" value="<?= set_value('exp_date', date('Y-m-d', strtotime($item['exp_date']))) ?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
+               <small class="form-text text-muted">Enter Expire date</small>
               </div>
           </div><!-- /row -->
 
@@ -79,7 +97,7 @@
 
           <div class="row mt-5">
                <div class="col">
-                   <a href="items" class="btn btn-warning btn-rounded"> Cancel </a>
+                   <a href="<?= base_url('store/items')?> " class="btn btn-warning btn-rounded"> Cancel </a>
               </div>
                <div class="col d-flex justify-content-end">
                    <button class="btn btn-primary btn-rounded" style="width: 8rem;"> update </button>

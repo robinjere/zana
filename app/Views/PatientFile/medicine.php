@@ -202,6 +202,12 @@
                    <?php } ?>
                </tr>
             </thead>
+            <tfoot>
+               <tr>
+                  <th colspan="9" style="text-align:right">Total:</th>
+                  <th colspan="2"></th>
+               </tr>
+           </tfoot>
         </table>
     </div><!-- /procedure-table -->
 
@@ -232,7 +238,7 @@
       amount: 0,
       alertTime: '',
       searchDrug(){
-        console.log('search input typed', this.searchInput)
+        // console.log('search input typed', this.searchInput)
         if(this.searchInput !== ''){
           this.loading = true;
           fetch('<?= base_url('patientFileController/ajax_searchdrug') ?>',{
@@ -248,7 +254,7 @@
           }).then(res => res.json()).then(data => {
               this.loading = false;
               this.searchItems = data.searchItem
-              console.log('searched drug', data.searchItem)
+              // console.log('searched drug', data.searchItem)
           })
         }else{
           this.searchItems = []
@@ -257,7 +263,7 @@
      selectDrug(drug_id){ 
         let available_drug = ''
         available_drug = this.searchItems.filter(drug => Number(drug.id) == Number(drug_id))[0]
-         console.log('selected drug', available_drug);
+        //  console.log('selected drug', available_drug);
           this.unit = Number(available_drug.qty)
           this.dosage = ''
           this.frequency = 1,
@@ -278,7 +284,7 @@
         this.searchInput = available_drug.name.toUpperCase()
     
         // this.drug = _drug
-        console.log('drug available', this.drug)
+        // console.log('drug available', this.drug)
         
      },
      clearSearch(){
@@ -484,6 +490,36 @@
               start_date: '<?= $patient_file['start_treatment'] ?>',
               end_date: '<?= $patient_file['end_treatment'] ?>'
             }
+          },
+          footerCallback(){
+            var api = this.api();
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+               // console.log('before: i is -> ', i);
+               let n = typeof i === 'string' ? i.replace(/[,\/=]/g, '') * 1 : typeof i === 'number' ? i : 0;
+               // console.log('after: i is -> ', n);
+               return n;
+            };
+
+            // Total over all pages
+            total = api
+               .column(9)
+               .data()
+               .reduce(function (a, b) {
+                     return intVal(a) + intVal(b);
+               }, 0);
+
+            // Total over this page
+            pageTotal = api
+               .column(9, { page: 'current' })
+               .data()
+               .reduce(function (a, b) {
+                     return intVal(a) + intVal(b);
+               }, 0);
+
+            // Update footer
+            $(api.column(9).footer()).html('Tsh' + total.toLocaleString('en-IN') + '/=  ');
           }
         });
       });

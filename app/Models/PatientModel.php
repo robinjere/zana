@@ -96,6 +96,11 @@ class PatientModel extends Model
             $builder->orLike('patients.sir_name', $searchterm);
 
         }elseif ($filter == 'file_no') {
+
+            $searchterm =ltrim($searchterm , '0');
+            // echo 'after ltrm';
+            // print_r($searchterm);
+
             $builder->like('patients_file.file_no', $searchterm,'before');
             $builder->orLike('patients.phone_no', $searchterm,'before');
         }

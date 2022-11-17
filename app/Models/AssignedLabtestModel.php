@@ -107,6 +107,7 @@ class AssignedLabtestModel extends Model
     public function formatPrice(){
         $column = function($row){
             return number_format(floatval($row['price'])) . '/=';
+            // return $row['price'];
         };
         return $column;
     }

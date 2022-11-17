@@ -44,7 +44,7 @@ class ClinicalNoteModel extends Model
     //clinical notes
     public function getClinicalNotes($file_id, $start_date, $end_date){
         $builder = $this->db->table('clinicalnotes');
-        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.note, user.first_name, user.last_name');
+        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.note, user.first_name, user.last_name, clinicalnotes.doctor');
         $builder->orderBy('clinicalnotes.id', 'DESC');
         $builder->join('user', 'clinicalnotes.doctor = user.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');

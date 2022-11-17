@@ -166,6 +166,13 @@
                   <?php } ?>
                </tr>
             </thead>
+
+            <tfoot>
+               <tr>
+                  <th colspan="2" style="text-align:right">Total:</th>
+                  <th colspan="3"></th>
+               </tr>
+           </tfoot>
         </table>
     </div><!-- /procedure-table -->
 
@@ -328,6 +335,36 @@
               start_date: '<?= $patient_file['start_treatment'] ?>',
               end_date: '<?= $patient_file['end_treatment'] ?>'
             }
+          },
+          footerCallback(){
+            var api = this.api();
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+               // console.log('before: i is -> ', i);
+               let n = typeof i === 'string' ? i.replace(/[,\/=]/g, '') * 1 : typeof i === 'number' ? i : 0;
+               // console.log('after: i is -> ', n);
+               return n;
+            };
+
+            // Total over all pages
+            total = api
+               .column(2)
+               .data()
+               .reduce(function (a, b) {
+                     return intVal(a) + intVal(b);
+               }, 0);
+
+            // Total over this page
+            pageTotal = api
+               .column(2, { page: 'current' })
+               .data()
+               .reduce(function (a, b) {
+                     return intVal(a) + intVal(b);
+               }, 0);
+
+            // Update footer
+            $(api.column(2).footer()).html('Tsh' + total.toLocaleString('en-IN') + '/=  ');
           }
         });
       });

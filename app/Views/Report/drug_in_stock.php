@@ -99,9 +99,9 @@
                   <td><?= $item['updated_at'] ?></td>
                   <td><?= $item['name'] ?> </td>
                   <td><?= $item['qty'] ?> </td>
-                  <td><?= $item['buying_price'] ?> </td>
-                  <td><?= $item['selling_price'] ?> </td>
-                  <td><?= ($item['selling_price'] - $item['buying_price']) ?> </td>
+                  <td><?= number_format(floatval($item['buying_price'])) ?> </td>
+                  <td><?= number_format(floatval($item['selling_price'])) ?> </td>
+                  <td><?= number_format(floatval(($item['selling_price'] - $item['buying_price'])*$item['qty'])) ?> </td>
               </tr>
           <?php }
          }  

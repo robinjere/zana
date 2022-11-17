@@ -83,7 +83,7 @@
         <div class="input-note mb-2" x-data="notesEditData()">
             <div class="clinical-btn">
               <?php if(!$patient_file['ishistory']){ ?>
-               <button class="btn btn-sm btn-primary" x-cloak x-show="edit" @click="edit=false;"> edit </button>
+               <button class="btn btn-sm btn-primary" x-cloak x-show="Number(_note.doctor) === Number(<?= json_decode(session()->get('id')); ?>) && edit" @click="edit=false;"> edit </button>
                <?php }; ?>
                <button class="btn btn-sm btn-success" @click="saving = true; edit = false; if($store.notesData.saveEditedNote(_note.id, _note.note)){ saving = false; edit = true; }" x-cloak x-show="edit==false && _note.note" x-bind:disabled="saving"> 
                   <span x-cloak x-show="!saving"> save </span> 
@@ -91,7 +91,7 @@
                   <span x-cloak x-show="saving"> saving.. </span>
                </button>
                <?php if(!$patient_file['ishistory']){ ?>
-               <button class="btn btn-sm btn-danger" @click="$store.notesData.deletePrevNote(_note.id)"> 
+               <button class="btn btn-sm btn-danger" x-show="Number(_note.doctor) === Number(<?= json_decode(session()->get('id')); ?>)" @click="$store.notesData.deletePrevNote(_note.id)"> 
                   <span x-cloak x-show="!deleting"> delete </span> 
                   <span x-cloak x-show="deleting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                   <span x-cloak x-show="deleting"> deleting.. </span>
@@ -127,11 +127,20 @@ document.addEventListener('alpine:init', () => {
      notes: [],
      success: false,
      message: '',
+     alertTime: 0,
+     clearMessage(){
+      clearTimeout(this.alertTime);
+      this.alertTime = setTimeout(() => {
+         this.success = false;
+         this.message = '';
+      }, 3000);
+     },
      no_clinicalnote: {},
      cancelAddNote(){
          this.current_note = ''
          this.addnote = false
      },
+
      addCurrentNote(){
         fetch("<?= base_url('patientFileController/ajax_addnote') ?>", {
           method: 'POST',
@@ -146,6 +155,7 @@ document.addEventListener('alpine:init', () => {
               this.current_note = ''
               this.addnote = false
            }
+           this.clearMessage();
          //  this.notes = data
          //  this.addnote = false
          // 
@@ -196,6 +206,7 @@ document.addEventListener('alpine:init', () => {
                      //    edit:true
                      // }
                      this.getClinicalNotes()
+                     this.clearMessage()
                      return true;
                   }else{
                      return false;
@@ -221,6 +232,7 @@ document.addEventListener('alpine:init', () => {
                   }else{
                      return false
                   }
+                  this.clearMessage()
                })
         }
    })
