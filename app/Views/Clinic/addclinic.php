@@ -4,7 +4,7 @@
 <?= view_cell('\App\Libraries\DashboardPanel::alert', $validation ); ?>
 
      <div class="clinic-form">
-           <form method="post" action="addclinic">
+           <form method="post" action="<?= base_url('clinic/addclinic') ?>">
              <div class="row registration-space-y">   
                <div class="col">
                  <input type="text" name="name" required value="<?= set_value('name')?>" class="form-control" placeholder="Clinic Name" aria-describedby="Clinic Name">
