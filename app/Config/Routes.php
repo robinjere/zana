@@ -120,6 +120,16 @@ $routes->setAutoRoute(true);
 
     //  $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
  });
+
+ $routes->group('reffers', function($routes){
+     $routes->get('/', 'ReffersController::index', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'addreffers', 'ReffersController::addreffers', ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'edit/(:num)', 'ReffersController::addreffers/$1', ['filter' => 'auth']);
+     $routes->get('delete/(:num)', 'ReffersController::delete_reffers/$1',  ['filter' => 'auth']);
+     $routes->match(['post', 'get'],'reffersto', 'ReffersController::reffersTo', ['filter' => 'auth']);
+
+    //  $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
+ });
  
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.

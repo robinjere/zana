@@ -12,8 +12,8 @@
 
     <div class="container" style="padding:0;">
       <?php
-        if(in_array(session()->get('role'), ['pharmacy', 'superuser', 'admin'])){
-          if(session()->get('no_out_of_stock') || session()->get('itemsNearToEnd') ){ ?>
+       
+          if((session()->get('no_out_of_stock') || session()->get('itemsNearToEnd')) && in_array(session()->get('role'), ['pharmacy', 'superuser', 'admin'])){ ?>
                <div class="alert alert-danger text-center" style="padding: 5px; border-bottom: 2px solid #19985b; border-radius: 0 !important;">
                  <?php if(session()->get('no_out_of_stock')){ ?>
                    <p class="mb-0"> <small>Hey!, </small> There are <?= session()->get('no_out_of_stock') ?> items out of stock <b class="text-danger"> <a  href="/store/outofstock">view here</a> </b> </p>
@@ -24,7 +24,12 @@
 
                   <?php  } ?>
                </div>
-      <?php } } ?>
+      <?php }elseif ((!empty(session()->get('no_out_of_stock')) && !empty(session()->get('itemsNearToEnd'))) ) { ?>
+                   
+                <div class="alert alert-danger text-center" style="height: 3rem; padding: 5px; border-bottom: 2px solid #19985b; border-radius: 0 !important;">
+                    
+                 </div>
+     <?php }  ?>
     </div>
 
       <div class="container">

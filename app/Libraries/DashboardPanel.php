@@ -38,4 +38,8 @@ class DashboardPanel {
     public function ClinicNav(){
         return view('clinic/nav');
     }
+
+    public function RefersNav(){
+        return view('reffers/nav');
+    }
 }

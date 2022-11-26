@@ -26,6 +26,19 @@
                </form>
             
          <?php } ?>
+
+         <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
+            
+               <form target="_blanck" action="<?= base_url('reffers/reffersto') ?>" method="post" style="margin-left:5px;">
+                  <input type="hidden" name="start_treatment" value="<?= $patient_file['start_treatment'] ?>"/>
+                  <input type="hidden" name="end_treatment" value="<?= $patient_file['end_treatment'] ?>"/>
+                  <input type="hidden" name="patient_id" value="<?= $patient_file['patient_id'] ?>"/>
+                  <input type="hidden" name="file_no" value="<?= $patient_file['file_no'] ?>"/>
+                  <input type="hidden" name="file_id" value="<?= $patient_file['id'] ?>"/>
+                  <button type="submit" class="btn btn-success"> REFFERS </button>
+               </form>
+            
+         <?php } ?>
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
             <button type="button" class="btn btn-success"> SEND TO OTHER CLINIC </button>
          <?php } ?>

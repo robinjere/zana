@@ -1053,3 +1053,64 @@ a.disabled{
 
 /* ---------------  PATIENT FILE ASSESSMENT   ---------------  */
 
+/* ---------------  REFFERS   ---------------  */
+.reffers td span{
+    font-size: 0.81rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.reffers .subhead h2{
+  display: flex;
+  font-size: .97rem;
+  font-weight: 700;
+  align-items: center;
+  /* gap: 10px; */
+}
+.reffers .subhead{
+  margin: 2rem 0 1rem !important;
+  flex: 1;
+  max-width: 50%;
+}
+.reffers .position{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reffers .subhead h2 select {
+  font-size: .97rem;
+  font-weight: 700;
+  /* text-align: center; */
+}
+.reffers .file_number tr{
+  display: flex;
+  border: 0;
+}
+.reffers label, .reffers textarea{
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.reffers textarea, .reffers input{
+  font-weight: 500 !important;
+  text-transform: uppercase;
+}
+.reffers .file_number .table-bordered > :not(caption) > * > * {
+  border-width: 0 !important;
+}
+.reffers .subhead h2 span, .reffers .subhead h2 select {
+ /* flex: 1; */
+}
+.reffers .signature tr{
+  display: flex;
+}
+@media print{
+  .reffers .form-select{
+     background-image: unset;
+     border: 0;
+  }
+}
+/* .reffers .signature tr>td:first{
+  flex: 2;
+} */
+/* ---------------  REFFERS   ---------------  */
+

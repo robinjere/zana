@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2022 at 05:17 AM
+-- Generation Time: Nov 25, 2022 at 11:01 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -794,7 +794,8 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (498, '1', 1, 'ORAL', 5, 1, '', 175, 485, 95, 89, '2022-11-06 14:30:13', '2022-11-06 14:33:24', 1, 0, 0),
 (500, '1x2', 2, '', 3, 2, '', 33, 82, 31, 0, '2022-11-16 04:26:26', '2022-11-16 04:26:26', 0, 0, 0),
 (501, '1x2', 1, 'IM', 1, 2, 'gynazole instruction', 34, 82, 31, 0, '2022-11-16 04:28:05', '2022-11-16 04:28:05', 0, 0, 0),
-(502, '1x2', 1, '', 0, 2, '', 35, 82, 31, 0, '2022-11-17 05:08:30', '2022-11-17 05:08:30', 0, 0, 0);
+(502, '1x2', 1, '', 0, 2, '', 35, 82, 31, 0, '2022-11-17 05:08:30', '2022-11-17 05:08:30', 0, 0, 0),
+(503, '1x2', 2, 'IM', 2, 2, 'se', 33, 41, 31, 0, '2022-11-23 18:14:57', '2022-11-23 18:14:57', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -16660,7 +16661,8 @@ CREATE TABLE `fertility_assessment` (
 --
 
 INSERT INTO `fertility_assessment` (`id`, `created_at`, `updated_at`, `patient_id`, `hospital_number`, `clinic_number`, `occupation`, `height`, `weight`, `is_drug_allergy`, `drug_allergy_mention`, `is_genetic_disease`, `genetic_disease_mention`, `is_gynecological_history`, `gynecological_history_mention`, `is_pelvic_surgery`, `pelvic_surgery_mention`, `is_contraception`, `contraception_mention`, `rubella`, `hepatitis`, `other`, `is_menstrualcycle_regular`, `lnmp`, `cycle_length`, `dysmenorrhea`, `conceive`, `months`, `years`, `is_pregnant`, `pregnant_mention`, `current_relationship_para`, `previous_relationship_para`, `no_of_abortions`, `GA`, `ectopic_pregnancy`, `is_fertility_treatment`, `fertility_treatment_mention`, `is_chronic_diseases`, `chronic_diseases_mention`, `is_current_medication`, `current_medication`, `is_smoke`, `cigarettes_per_day`, `is_alcohol`, `unit_per_week`, `is_recreational_drugs`, `how_long`, `currently_recreational_drugs`, `is_regular_periods`, `ultrasound`, `HSG_HSU`, `TSH`, `i_ultrasound`, `i_HSG_HSU`, `i_FSH_LH`, `i_TSH`, `is_irregular_periods`, `user_id`) VALUES
-(267, '2022-11-14 07:02:51', '2022-11-15 06:04:00', 89, 'MRNO/2022/89', '898', 'dar es salaam', 50, 70, 'yes', 'drug allergy..', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31);
+(267, '2022-11-14 07:02:51', '2022-11-17 18:09:42', 89, 'MRNO/2022/89', '898', 'dar es salaam', 50, 70, 'yes', 'drug allergy..', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31),
+(268, '2022-11-24 23:58:24', '2022-11-24 23:58:24', 48, 'MRNO/2022/48', '', '', 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31);
 
 -- --------------------------------------------------------
 
@@ -16744,6 +16746,28 @@ INSERT INTO `general_examination` (`id`, `pressure`, `temperature`, `pulse_rate`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hospital_reffers`
+--
+
+CREATE TABLE `hospital_reffers` (
+  `id` int(11) NOT NULL,
+  `hospital_name` varchar(70) NOT NULL,
+  `hospital_type` varchar(50) NOT NULL,
+  `added_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hospital_reffers`
+--
+
+INSERT INTO `hospital_reffers` (`id`, `hospital_name`, `hospital_type`, `added_by`, `created_at`, `updated_at`) VALUES
+(1, 'Msoma hospital', 'Hospital bones', 25, '2022-11-24 17:07:25', '2022-11-24 17:07:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `items`
 --
 
@@ -16766,7 +16790,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_date`, `drug_kind`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
-(33, 'SYRUP HEMOVIT', 4, 3000, 7000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:02:34', '2022-10-15 00:00:00', 25),
+(33, 'SYRUP HEMOVIT', 2, 3000, 7000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:02:34', '2022-10-15 00:00:00', 25),
 (34, 'GYNAZOLE VAGINAL PESSARIES', 2, 5600, 13000, '2024-01-01 00:00:00', '', '', '2022-10-11 22:03:05', '2022-11-02 00:00:00', 25),
 (35, 'TABS LOPERAMIDE', 2, 16, 100, '2023-01-01 00:00:00', '', '', '2022-10-11 22:03:44', '2022-11-02 00:00:00', 25),
 (36, 'dazolic tabs', 0, 0, 0, '2022-10-31 00:00:00', '', '', '2022-10-11 22:05:04', '2022-10-11 22:05:04', 25),
@@ -18189,7 +18213,35 @@ INSERT INTO `rad_results` (`id`, `rad_id`, `result`, `ranges`, `unit`, `level`, 
 (27, 2, '', '', '', '', '', 0, '2022-10-14 21:13:53', '2022-10-14 21:13:53', 34, 95, 1),
 (28, 2, '', '', '', '', '', 0, '2022-11-08 04:44:29', '2022-11-08 04:44:29', 43, 30, 0),
 (29, 1, '', '', '', '', '', 0, '2022-11-16 04:42:31', '2022-11-16 04:42:31', 82, 31, 0),
-(30, 4, '', '', '', '', '', 0, '2022-11-16 04:42:48', '2022-11-16 04:42:48', 82, 31, 0);
+(30, 4, '', '', '', '', '', 0, '2022-11-16 04:42:48', '2022-11-16 04:42:48', 82, 31, 0),
+(31, 1, '', '', '', '', '', 0, '2022-11-23 18:13:53', '2022-11-23 18:13:53', 41, 31, 0),
+(32, 2, '', '', '', '', '', 0, '2022-11-23 18:14:06', '2022-11-23 18:14:06', 41, 31, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reffers_form`
+--
+
+CREATE TABLE `reffers_form` (
+  `id` int(11) NOT NULL,
+  `hospital_reffers` int(11) NOT NULL,
+  `patient` int(11) NOT NULL,
+  `reasons_reffers` varchar(255) NOT NULL,
+  `department` varchar(80) NOT NULL,
+  `history` varchar(255) NOT NULL,
+  `observation` varchar(255) NOT NULL,
+  `doctor` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reffers_form`
+--
+
+INSERT INTO `reffers_form` (`id`, `hospital_reffers`, `patient`, `reasons_reffers`, `department`, `history`, `observation`, `doctor`, `created_at`, `updated_at`) VALUES
+(1, 1, 48, 'new reason', 'new department', '', '', 31, '2022-11-26 00:39:36', '2022-11-26 00:59:29');
 
 -- --------------------------------------------------------
 
@@ -18716,6 +18768,13 @@ ALTER TABLE `general_examination`
   ADD KEY `added_by` (`added_by`);
 
 --
+-- Indexes for table `hospital_reffers`
+--
+ALTER TABLE `hospital_reffers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `added_by` (`added_by`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
@@ -18784,6 +18843,15 @@ ALTER TABLE `rad_results`
   ADD KEY `confirmed_by` (`confirmed_by`);
 
 --
+-- Indexes for table `reffers_form`
+--
+ALTER TABLE `reffers_form`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hospital_reffers` (`hospital_reffers`),
+  ADD KEY `patient` (`patient`),
+  ADD KEY `doctor` (`doctor`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -18834,7 +18902,7 @@ ALTER TABLE `assigneddiagnoses`
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=503;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=504;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
@@ -18858,7 +18926,7 @@ ALTER TABLE `clinicalnotes`
 -- AUTO_INCREMENT for table `clinics`
 --
 ALTER TABLE `clinics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `clinic_doctors`
@@ -18894,13 +18962,19 @@ ALTER TABLE `expenses`
 -- AUTO_INCREMENT for table `fertility_assessment`
 --
 ALTER TABLE `fertility_assessment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=269;
 
 --
 -- AUTO_INCREMENT for table `general_examination`
 --
 ALTER TABLE `general_examination`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- AUTO_INCREMENT for table `hospital_reffers`
+--
+ALTER TABLE `hospital_reffers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -18954,7 +19028,13 @@ ALTER TABLE `rad_investigation`
 -- AUTO_INCREMENT for table `rad_results`
 --
 ALTER TABLE `rad_results`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `reffers_form`
+--
+ALTER TABLE `reffers_form`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `role`
