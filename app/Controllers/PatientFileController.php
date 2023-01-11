@@ -56,6 +56,9 @@ class PatientFileController extends BaseController
        if($data['patient_file']->status == 'finishTreatment'){
          return redirect()->to('patient/search');
        }  
+
+    //    print_r($data['patient_file']);
+    //    exit;
        return view('patientfile/file', $data);
     }
 
@@ -203,6 +206,10 @@ class PatientFileController extends BaseController
                 // print_r($consultation_fee['consultation_fee']);
                 // exit;
                 $consultation_fee = $consultation_fee['consultation_fee'];
+            }else{
+                if($phistory['patient_character'] == 'outsider'){
+                    $consultation_fee = 0;
+                }
             }
             $createHistory = [
                 'file_id' => $patientFile, 
@@ -215,6 +222,9 @@ class PatientFileController extends BaseController
                 'clinic' => $phistory['clinic'],
                 'consultation_fee' => $consultation_fee
             ];
+
+            // print_r($createHistory);
+            // exit;
         //save patient history first
         $patientHistoryModel->save($createHistory);
         $patientsFileModel->save($patient_file);

@@ -1,3 +1,29 @@
+
+<?php
+
+$patient_file = [
+  'id' => $patient_file->id,
+  'file_no' => $patient_file->file_no,
+  'patient_id' => $patient_file->patient_id,
+  'name' => isset($patient_file->name) ? $patient_file->name : '',
+  'payment_method' => $patient_file->payment_method,
+  'insuarance_no' => $patient_file->insuarance_no,
+  'start_treatment' => $patient_file->start_treatment,
+  'end_treatment' => $patient_file->end_treatment,
+  'status' => $patient_file->status,
+  'patient_character' => $patient_file->patient_character,
+  'first_name' => $patient_file->first_name,
+  'middle_name' => $patient_file->middle_name,
+  'sir_name' => $patient_file->sir_name,
+  'birth_date' => $patient_file->birth_date,
+  'gender' => $patient_file->gender,
+  'history' => isset($history) ? $history : 'Current treatment',
+  'ishistory' => isset($history) ? true : false
+
+];
+
+?>
+
 <!-- on change submit -->
 
 <div class="file-nav-container">
