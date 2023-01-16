@@ -478,6 +478,10 @@ body{
   border-bottom: 1px solid #e3e3eb;
 }
 
+.detail .row > .col:first-child {
+  font-weight: bold !important;
+}
+
 .patient_search h4{
     font-size: 1.2rem;
     font-weight: 600;

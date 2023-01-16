@@ -768,4 +768,21 @@ public function ajax_getFertility(){
 
    }
 
+    //----  SEND PATIENT TO WARD ---//
+    public function sendToWard($patient_id){
+
+        $patientFileModel = new PatientsFileModel;
+        $patient_f  = $patientFileModel->where('patient_id',$patient_id)->first();
+        // $patient_f['patient_character'] =  'inpatient';
+        
+        // echo 'patient tobe edited';
+        // print_r($patient_f);
+        // exit;
+
+        $patientFileModel->save(['id' => $patient_id, 'patient_character' => 'inpatient']);
+
+        return redirect()->to('/patientfile/attend/'.$patient_id)->with('success', 'patient sent to ward');
+
+    }
+
 }

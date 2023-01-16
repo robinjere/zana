@@ -57,7 +57,7 @@ $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' 
             </div><!-- file-status --> 
              <!-- -->
              <p class="file-info">
-                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>,  CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>
+                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>,  CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>,    <b style="color:#dc3545;"><?= strtoupper($patient_file['patient_character']) ?> </b>
              </p>
     </div><!-- file-header -->
    <hr class="divider" style="margin: 0 !important; "/>

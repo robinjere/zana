@@ -135,6 +135,10 @@
                          <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND </a> 
                       </div>';
 
+         $ASSIGN_LABTEST =   '<div class="col d-flex justify-content-end align-items-center"> 
+                         <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ASSIGNLABTEST </a> 
+                      </div>';
+
          $CONSULT =   '<div class="col d-flex justify-content-end align-items-center"> 
                          <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND  </a> 
                       </div>';
@@ -171,7 +175,7 @@
 
            case 'pharmacy' : 
               if ($patient_info->status == 'inTreatment') {
-                 echo $ATTEND;
+                 echo $ATTEND;  
               }else{
                 echo $VIEWHISTORY;
               }
@@ -187,9 +191,13 @@
              }elseif ($patient_info->status == '' && $patient_info->patient_character !== 'outsider') {
               echo $SEND_TO_DOCTOR;
              }elseif ($patient_info->status == 'inTreatment' && $patient_info->patient_character == 'outsider') {
-              echo $ATTEND;
+              echo $ASSIGN_LABTEST;
              }elseif ($patient_info->status == 'finishTreatment') {
-              echo $SEND_TO_DOCTOR;
+               if($patient_info->patient_character == 'outsider'){
+                 echo $ASSIGN_LABTEST;
+               }else{
+                 echo $SEND_TO_DOCTOR;
+               }
              }elseif ($patient_info->status == '' || $patient_info->status == 'finishTreatment') {   ?>
              <div class="col d-flex justify-content-end align-items-center">                       
               <form method="post" action="<?= base_url('patient/outsider_start_treatment') ?>">

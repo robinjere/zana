@@ -89,12 +89,17 @@ class PatientController extends BaseController
               
                 try {
                        $patientModel->save($form_data);
+                       $data['patientFile']['patient_character'] = $form_data['pcharacter'];
+                    //    print_r($data['patientFile'] );
+                    //    exit;
+                       $patientFileModel->save($data['patientFile']);
                        //generate file number MRNO/YEAR_OF_REGISTRATION/PATIENT_ID
                     
                        if($form_data['pcharacter'] == 'outsider'){
                            return redirect()->to('/patient/outsider/'.$patient_id)->with('success', 'Patient Info edited!');
                        }
-                       return redirect()->to('/patient/edit/'.$patient_id)->with('success', 'Patient Info edited!');
+                    //    return redirect()->to('/patient/edit/'.$patient_id)->with('success', 'Patient Info edited!');
+                       return redirect()->to('/patient/search')->with('success', 'Patient Info edited!');
                 } catch (\Exception $e) {
                     //throw $th;
                     print_r($e->getMessage());
@@ -296,4 +301,6 @@ class PatientController extends BaseController
  
         // return redirect()->to('patient/search');
     }
+
+
 }
