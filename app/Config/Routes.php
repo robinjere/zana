@@ -40,6 +40,11 @@ $routes->setAutoRoute(true);
      $routes->match(['post', 'get'], 'outsider_start_treatment', 'PatientController::outsider_start_treatment', ['filter' => 'auth']);
  });
 
+$routes->group('ward', function($routes){
+    $routes->get('/', 'WardController::index', ['filter' => 'auth']);
+    $routes->match(['post', 'get'], 'list', 'WardController::list', ['filter' => 'auth']);
+});
+
  $routes->group('patientfile', function($routes){
      $routes->get('(:num)', 'PatientFileController::index/$1', ['filter' => 'auth']);
      $routes->get('consult/(:num)', 'PatientFileController::consult/$1', ['filter' => 'auth']);
