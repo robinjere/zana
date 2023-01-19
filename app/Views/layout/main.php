@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="/animate.css/animate.min.css" />
     <link rel="stylesheet" href="/style.css" />
+    <?= $this->renderSection('module-css') ?>
     <link rel="stylesheet" href="/paper.css" />
 
     

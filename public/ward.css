@@ -1,0 +1,12 @@
+.ward-section{
+    border-bottom: 1px solid #373a4e;
+}
+.ward-section fieldset > label{
+    font-weight: bold;
+    border-bottom: 1px solid #373a4e;
+    display: block;
+
+}
+.ward-list-title{
+    font-weight: bold;
+}

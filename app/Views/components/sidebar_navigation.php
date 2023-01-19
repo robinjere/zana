@@ -97,7 +97,7 @@
     <?php if(in_array(session()->get('role'), ['admin', 'superuser'])){?>
     <li class="my-2 <?= $uri->getSegment(1) === 'ward' ? 'sidebar__active-link': null; ?>">
     <!-- $uri->getSegment(2) === 'users' ? 'sidebar__active-link': null; -->
-        <a href="/ward/list" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'ward' ? 'sidebar__active-link': null; ?>">
+        <a href="/ward" class=" d-flex align-items-center  <?= $uri->getSegment(1) === 'ward' ? 'sidebar__active-link': null; ?>">
             <svg viewBox="0 0 30 37" fill="none">
                 <path d="M20.0122 14.2621C21.4589 12.8154 22.2717 10.8533 22.2717 8.80731C22.2717 6.76135 21.4589 4.79919 20.0122 3.35248C18.5655 1.90577 16.6033 1.09302 14.5574 1.09302C12.5114 1.09302 10.5493 1.90577 9.10255 3.35248C7.65584 4.79919 6.84309 6.76135 6.84309 8.80731C6.84309 10.8533 7.65584 12.8154 9.10255 14.2621C10.5493 15.7088 12.5114 16.5216 14.5574 16.5216C16.6033 16.5216 18.5655 15.7088 20.0122 14.2621Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.01143 26.2614C7.54317 23.7296 10.977 22.3073 14.5574 22.3073C18.1378 22.3073 21.5716 23.7296 24.1033 26.2614C26.6351 28.7931 28.0574 32.2269 28.0574 35.8073H1.05737C1.05737 32.2269 2.47969 28.7931 5.01143 26.2614Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
