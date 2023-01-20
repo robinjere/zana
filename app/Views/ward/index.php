@@ -44,33 +44,38 @@
   <!-- Add ward section  -->
   <div class="ward-section mb-5">
     <fieldset>
-        <label class="mb-2"> Add ward </label>
-        <form action="" method="post" class="pt-2">
+      <?= !empty($id) ? '<label class="mb-2"> update ward </label>' : '<label class="mb-2"> Add ward </label>' ?>
+        
+        <form action="<?= base_url('ward') ?>" method="post" class="pt-2">
+          <input type="hidden" name="id" value="<?= set_value('id', $id) ?>"/>
         <div class="mb-3 row">
             <div class="col">
                 <label for="_ward" class="form-label">Select Ward</label>
                 <select class="form-select " name="ward" id="_ward">
                     <option selected>Select one</option>
-                    <option value="PRIVATE">Private</option>
-                    <option value="GENERAL">General</option>
+                    <option <?= set_value('ward', $name) === 'PRIVATE' ? 'selected' : '' ?> value="PRIVATE">Private</option>
+                    <option <?= set_value('ward', $name) === 'GENERAL' ? 'selected' : '' ?> value="GENERAL">General</option>
                 </select>
             </div><!-- /col -->
             <div class="col">
                 <label for="_status" class="form-label">Status</label>
-                <select class="form-select " name="status" id="_status">
+                <select class="form-select" name="status" id="_status">
                     <option selected>Select one</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    <option <?= set_value('ward', $status) == 'MALE'? 'selected' : '' ?> value="MALE">Male</option>
+                    <option <?= set_value('ward', $status) == 'FEMALE'? 'selected' : '' ?> value="FEMALE">Female</option>
                 </select>
             </div><!-- /col -->
             <div class="col">
                  <label for="_price" class="form-label">Price</label>
                  <input type="number"
-                 min="0" steps="0.1"
-                   class="form-control sm" name="price" id="_price" placeholder="Price">
+                   min="0" steps="0.1"
+                   class="form-control sm" name="price" id="_price" placeholder="Price"
+                   value="<?= set_value('price', $price) ?>"
+                   />
             </div><!-- /col -->
             <div class="d-flex justify-content-end align-items-center mt-2">
-                <button type="submit" class="btn btn-sm btn-success">ADD WARD</button>
+              <?= !empty($id)? '<button type="submit" class="btn btn-sm btn-success">UPDATE WARD</button>':'<button type="submit" class="btn btn-sm btn-success">ADD WARD</button>' ?>
+                
             </div>
             
         </div>

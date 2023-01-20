@@ -8,19 +8,41 @@ use App\Models\WardModel;
 
 class WardController extends BaseController
 {
-    public function index()
+    public function index($updateId = null)
     {
         helper('form');
+        $wardModel = new WardModel;
+        $data = ['id' => '', 'name' => '', 'status' => '', 'price' => ''];
         if($this->request->getMethod() == 'post'){
-            $wardModel = new WardModel;
+            $id = $this->request->getVar('id');
             $ward = $this->request->getVar('ward');
             $status = $this->request->getVar('status');
             $price = $this->request->getVar('price');
-            $wardModel->save(['name' => $ward,'status' => $status,'price' => $price]);
-            return redirect()->to('ward')->with('success', 'Ward added!');
+            $ward_data = [];
+            $notificate_message = '';
+            if($id){
+               $ward_data = ['id' => $id, 'name' => $ward,'status' => $status,'price' => $price];
+               $notificate_message = 'ward updated!';
+            }else{
+                $ward_data = ['name' => $ward,'status' => $status,'price' => $price];
+                $notificate_message = 'Ward added!';
+            }
+            $wardModel->save($ward_data);
+            return redirect()->to('ward')->with('success', $notificate_message);
         }
-        return view('ward/index');
+        if($updateId){
+           $todatedData = $wardModel->where('id',$updateId)->first();
+           $data['id'] =  $todatedData['id'];
+           $data['name'] = $todatedData['name'];
+           $data['status'] = $todatedData['status'];
+           $data['price'] = $todatedData['price'];
+        }
+        return view('ward/index', $data);
     }
+
+    // public function update($updateId){
+
+    // }
 
     public function ajax_getWards(){
         helper('form');

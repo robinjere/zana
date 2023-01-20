@@ -43,6 +43,7 @@ $routes->setAutoRoute(true);
 $routes->group('ward', function($routes){
     $routes->match(['post','get'], '/', 'WardController::index', ['filter' => 'auth']);
     $routes->get('delete/(:num)', 'WardController::deleteWard/$1', ['filter' => 'auth']);
+    $routes->get('update/(:num)', 'WardController::index/$1', ['filter' => 'auth']);
     // $routes->match(['post', 'get'], 'list', 'WardController::list', ['filter' => 'auth']);
 });
 
