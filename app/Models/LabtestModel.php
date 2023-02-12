@@ -74,4 +74,35 @@ class LabtestModel extends Model
             }
         };
     }
+
+    public function patientList(){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->select('assigned_labtests.id, assigned_labtests.doctor, assigned_labtests.verified_by, patients.first_name, patients.sir_name, assigned_labtests.updated_at, patients_file.id as file, patients_file.payment_method, patients_file.file_no, user.first_name as doctor_first_name, user.last_name as doctor_last_name');
+        $builder->where('assigned_labtests.verified_by', 0);
+        // $builder->where('assigned_labtests.doctor', session()->get('id'));
+        $builder->join('patients_file', 'assigned_labtests.file_id = patients_file.id');        
+        $builder->join('patients', 'patients_file.patient_id = patients.id');        
+        $builder->join('user', 'assigned_labtests.doctor = user.id');        
+        return $builder;
+    }
+
+    public function patientListAction(){
+        return function($row){
+            return '<a href="'. base_url('patientfile/attend/'.$row['file']).'" class="badge badge-sm bg-success"> ATTEND </a>';
+        };
+    }
+    
+    public function formatName(){
+        return function($row){
+            return '<span>'.$row['first_name'] . ','. $row['sir_name'] . '</span>';
+        };
+    }
+
+    public function doctorName(){
+        return function($row){
+            return '<span>'.$row['doctor_first_name'] . ','. $row['doctor_last_name'] . '</span>';
+        };
+    }
+
+    
 }

@@ -473,6 +473,22 @@ body{
 .patient_search .detail, .patient_search .navigation .history, .patient_search .navigation .doctor, .consultation-remove{
   padding: 15px;
 }
+.patient-list{
+   margin-top: 2rem;
+}
+
+.patient-list h3{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--z-success);
+  margin-bottom: 1rem;  
+}
+
+.patient-list thead tr th{
+  background : var(--z-deep-gray);  
+  color: #FFFFFF;
+}
+
 
 .detail .row{
   border-bottom: 1px solid #e3e3eb;

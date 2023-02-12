@@ -8,6 +8,8 @@ use App\Models\PatientsFileModel;
 use App\Models\UserModel;
 use App\Models\ConsultationModel;
 use App\Models\ClinicModel;
+use App\Models\LabtestModel;
+use monken\TablesIgniter;
 
 class PatientController extends BaseController
 {
@@ -302,5 +304,23 @@ class PatientController extends BaseController
         // return redirect()->to('patient/search');
     }
 
+
+    //lab_patient_list..
+    public function ajax_lab_patient_list(){
+        $labtest_model = new LabtestModel();
+    
+        $data_table = new TablesIgniter();
+    
+        $data_table->setTable($labtest_model->patientList())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['file_no', 'patients.first_name', 'patients.sir_name'])
+                   ->setOrder([ 'updated_at', 'name','file_no', 'payment_method'])
+                   ->setOutput([ $labtest_model->formatDate(), $labtest_model->formatName(), 'file_no', 'payment_method',
+                                 $labtest_model->doctorName(),
+                                 $labtest_model->patientListAction()
+                               ]);
+    
+        return $data_table->getDatatable();
+    }
 
 }

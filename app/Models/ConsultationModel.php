@@ -51,9 +51,11 @@ class ConsultationModel extends Model
 
     public function consultationTable(){
         $builder = $this->db->table('consultation');
-        $builder->select('consultation.id, consultation.updated_at, consultation.payment, consultation.amount, consultation.payment_confirmed_by, patients_file.patient_id, patients_file.file_no, user.first_name, user.last_name');
+        $builder->select('consultation.id, patients.first_name as p_firstname, patients.middle_name, patients.sir_name as p_lastname, consultation.updated_at, consultation.payment, consultation.amount, consultation.payment_confirmed_by, patients_file.patient_id, patients_file.id as p_fileid, patients_file.file_no, user.id as doctor, user.first_name, user.last_name');
         $builder->where('consultation.consulted_by', 0);
+        $builder->where('user.id', session()->get('id'));
         $builder->join('patients_file', 'consultation.file_id = patients_file.id');        
+        $builder->join('patients', 'patients_file.patient_id = patients.id');        
         $builder->join('user', 'consultation.doctor_id = user.id');        
         return $builder;
     }
@@ -63,6 +65,11 @@ class ConsultationModel extends Model
             return date_format($date, 'd/m/Y');
         };
         return $column;
+    }
+    public function formatName(){
+        return function($row){
+            return '<span>'.$row['p_firstname'] .', '.$row['p_lastname'] .'</span>';
+        };
     }
     public function doctor(){
         $column = function($row){
@@ -77,28 +84,28 @@ class ConsultationModel extends Model
     }
     public function actionButtons(){
         $button = function($row){
-            $waiting = '<span class="badge bg-info"> Waiting </span>';
-            $accept_payment = ' <a href="/consultation/approve_payment/'.$row['id'].'/consultation" class="badge bg-success"> Approve payment</a> '; 
-            $reject_payment = ' <a href="/consultation/disapprove_payment/'.$row['id'].'/consultation" class="badge bg-danger"> Disapprove payment</a> '; 
-            $consult = ' <a href="/consultation/attend/'.$row['patient_id'].'" class="badge bg-success"> Consult </a> '; 
-            $showButtons = '';
+            // $waiting = '<span class="badge bg-info"> Waiting </span>';
+            // $accept_payment = ' <a href="/consultation/approve_payment/'.$row['id'].'/consultation" class="badge bg-success"> Approve payment</a> '; 
+            // $reject_payment = ' <a href="/consultation/disapprove_payment/'.$row['id'].'/consultation" class="badge bg-danger"> Disapprove payment</a> '; 
+            // $consult = ' <a href="/consultation/attend/'.$row['patient_id'].'" class="badge bg-success"> Consult </a> '; 
+            // $showButtons = '';
             
-            /*
-               *TODO:: restrict by role.. Cashier should accept or reject payment
-               *TODO:: Doctor can consult patient
-            */
-            if($row['payment'] == 'CASH' && session()->get('role') == 'cashier'){
-               $showButtons = $row['payment_confirmed_by'] == 0 ? $accept_payment : $reject_payment;
-            }
+            // /*
+            //    *TODO:: restrict by role.. Cashier should accept or reject payment
+            //    *TODO:: Doctor can consult patient
+            // */
+            // if($row['payment'] == 'CASH' && session()->get('role') == 'cashier'){
+            //    $showButtons = $row['payment_confirmed_by'] == 0 ? $accept_payment : $reject_payment;
+            // }
             
-            $doctor_role = ['specialist_doctor', 'general_doctor'];
-            if($row['payment'] == 'CASH' && in_array(session()->get('role'), $doctor_role ) && $row['payment_confirmed_by'] !== 0){
-                $showButtons = $consult;
-            }elseif ($row['payment'] != 'CASH' && in_array(session()->get('role'), $doctor_role)) {
-                $showButtons = $consult;   
-            }
+            // $doctor_role = ['specialist_doctor', 'general_doctor'];
+            // if($row['payment'] == 'CASH' && in_array(session()->get('role'), $doctor_role ) && $row['payment_confirmed_by'] !== 0){
+            //     $showButtons = $consult;
+            // }elseif ($row['payment'] != 'CASH' && in_array(session()->get('role'), $doctor_role)) {
+            //     $showButtons = $consult;   
+            // }
             
-            return $showButtons;  
+            return  '<a href="'. base_url('patientfile/consult/'.$row['p_fileid']).'" class="badge bg-success"> ATTEND </a>' ;  
         };
         return $button;
     }

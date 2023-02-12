@@ -41,11 +41,16 @@ class PatientFileController extends BaseController
         $consultation = $consultationModel->checkConsultationPayment($file_id);
         $consultation->consulted_by = session()->get('id');
 
+        // print_r($consultation);
+        // exit;
+
         $data = [];
         $consultationModel->save($consultation);
         $patientsFileModel->save(['id' => $file_id, 'start_treatment' => date('Y/m/d'), 'end_treatment' => '', 'status' => 'inTreatment']);
         //load patient file
-        return $this::patient_file($file_id);
+        // $p= $this::patient_file($file_id);
+        // print_r($p);
+        return $this->attend($file_id);
     }
 
     public function attend($file_id){

@@ -44,6 +44,13 @@ $routes->group('ward', function($routes){
     $routes->match(['post','get'], '/', 'WardController::index', ['filter' => 'auth']);
     $routes->get('delete/(:num)', 'WardController::deleteWard/$1', ['filter' => 'auth']);
     $routes->get('update/(:num)', 'WardController::index/$1', ['filter' => 'auth']);
+    $routes->match(['post','get'], 'bed/(:any)', 'WardController::general/$1', ['filter' => 'auth']);
+    $routes->get('bed_delete/(:num)/(:num)', 'WardController::deleteBed/$1/$2', ['filter' => 'auth']);
+
+    $routes->match(['post','get'], 'private/(:any)', 'WardController::private/$1', ['filter' => 'auth']);
+    $routes->get('room_delete/(:num)/(:num)', 'WardController::deleteRoom/$1/$2', ['filter' => 'auth']);
+
+    // $routes->get('room/(:num)', 'WardController::private/$1', ['filter' => 'auth']);
     // $routes->match(['post', 'get'], 'list', 'WardController::list', ['filter' => 'auth']);
 });
 
@@ -135,7 +142,6 @@ $routes->group('ward', function($routes){
      $routes->match(['post', 'get'],'edit/(:num)', 'ReffersController::addreffers/$1', ['filter' => 'auth']);
      $routes->get('delete/(:num)', 'ReffersController::delete_reffers/$1',  ['filter' => 'auth']);
      $routes->match(['post', 'get'],'reffersto', 'ReffersController::reffersTo', ['filter' => 'auth']);
-
     //  $routes->match(['post', 'get'],'risit', 'ReportController::sales_risit', ['filter' => 'auth']);
  });
  
@@ -151,7 +157,7 @@ $routes->group('user', function($routes){
     $routes->get('logout', 'User::logout');
     $routes->get('list', 'User::list',  ['filter' => 'auth']);
     $routes->get('info/(:num)', 'User::userInfo/$1',  ['filter' => 'auth']);
-    $routes->match(['post', 'get'], 'permission/(:num)', 'User::userPermission/$1',  ['filter' => 'auth']);
+    $routes->match(['post', 'get'], 'permission/(:num)', 'User::userPermission/$1',['filter' => 'auth']);
 });
 
 // $routes->group('account', function($routes){

@@ -61,7 +61,7 @@ class AssignedMedicineModel extends Model
     }
     public function formatAmount(){
         $column = function($row){
-            return number_format(floatval($row['selling_price'])) . '/=';
+            return number_format(floatval($row['qty']*$row['selling_price'])) . '/=';
         };
         return $column;
     }
@@ -113,7 +113,7 @@ class AssignedMedicineModel extends Model
         return $builder->update(['printed' => true ]);
     }
 
-    public function medicineByDoctor($doctor = '', $start_date, $end_date){
+    public function medicineByDoctor($doctor = '', $start_date="", $end_date=""){
         $builder = $this->db->table('assignedmedicines');
         $builder->select('user.first_name as doctor_first_name, user.last_name as doctor_last_name, patients.first_name, patients.middle_name, patients.sir_name, patients.phone_no, patients.address, assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, patients_file.file_no, items.name, items.selling_price');
         $builder->join('items', 'assignedmedicines.drug_id = items.id');

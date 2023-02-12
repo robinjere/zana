@@ -8,10 +8,10 @@
 
 <?php $Dashboard = '\App\Libraries\AdminPanel';  ?>
 
-<h2 class="data-heading mb-3">Ward</h2>
+<h2 class="data-heading mb-3">General Ward</h2>
 
-   <!-- WARNING AND ERROR AREA -->
-   <?php if(!empty(session()->getFlashdata('validation'))): ?>
+ <!-- WARNING AND ERROR AREA -->
+  <?php if(!empty(session()->getFlashdata('validation'))): ?>
   
   <div class="my-3 pt-3 box-alert warning-alert d-flex align-items-start" >
     <div class="icon-alert px-3"> 
@@ -41,41 +41,24 @@
 
 <?php $uri = service('uri'); ?>
 
-  <!-- Add ward section  -->
+  <!-- Add room  -->
   <div class="ward-section mb-5">
     <fieldset>
-      <?= !empty($id) ? '<label class="mb-2"> update ward </label>' : '<label class="mb-2"> Add ward </label>' ?>
+      <?= !empty($id) ? '<label class="mb-2"> Update Bed in '. $general_name .' '. $general_status.' Ward</label>' : '<label class="mb-2"> Add Bed in '. $general_name .' '. $general_status.' Ward </label>' ?>
         
-        <form action="<?= base_url('ward') ?>" method="post" class="pt-2">
+        <form action="<?= base_url('ward/bed/'.$ward_id.'/'.$id) ?>" method="post" class="pt-2">
           <input type="hidden" name="id" value="<?= set_value('id', $id) ?>"/>
         <div class="mb-3 row">
             <div class="col">
-                <label for="_ward" class="form-label">Select Ward</label>
-                <select class="form-select " name="ward" id="_ward">
-                    <option selected>Select one</option>
-                    <option <?= set_value('ward', $name) === 'PRIVATE' ? 'selected' : '' ?> value="PRIVATE">Private</option>
-                    <option <?= set_value('ward', $name) === 'GENERAL' ? 'selected' : '' ?> value="GENERAL">General</option>
-                </select>
+                <div class="mb-3">
+                  <label for="bed_number" class="form-label">Enter bed number</label>
+                  <input type="text" class="form-control" name="bed_number" required value="<?= set_value('bed_number', $bed_number)?>" id="bed_number" placeholder="Bed number">
+                </div>
             </div><!-- /col -->
-            <div class="col">
-                <label for="_status" class="form-label">Status</label>
-                <select class="form-select" name="status" id="_status">
-                    <option selected>Select one</option>
-                    <option <?= set_value('ward', $status) == 'MALE'? 'selected' : '' ?> value="MALE">Male</option>
-                    <option <?= set_value('ward', $status) == 'FEMALE'? 'selected' : '' ?> value="FEMALE">Female</option>
-                </select>
-            </div><!-- /col -->
-            <div class="col">
-                 <label for="_price" class="form-label">Price</label>
-                 <input type="number"
-                   min="0" steps="0.1"
-                   class="form-control sm" name="price" id="_price" placeholder="Price"
-                   value="<?= set_value('price', $price) ?>"
-                   />
-            </div><!-- /col -->
+           
             <div class="d-flex justify-content-end align-items-center mt-2">
-              <?= !empty($id)? '<a href="'.base_url('ward').'" class="btn btn-sm btn-danger update-ward-cancel">CANCEL</a>':'' ?>
-              <?= !empty($id)? '<button type="submit" class="btn btn-sm btn-success">UPDATE WARD</button>':'<button type="submit" class="btn btn-sm btn-success">ADD WARD</button>' ?>
+              <?= !empty($id)? '<a href="'.base_url('ward/bed/'.$ward_id).'" class="btn btn-sm btn-danger update-ward-cancel">CANCEL</a>':'' ?>
+              <?= !empty($id)? '<button type="submit" class="btn btn-sm btn-success">UPDATE WARD</button>':'<button type="submit" class="btn btn-sm btn-success">ADD BED</button>' ?>
             </div>
             
         </div>
@@ -83,24 +66,21 @@
     </fieldset>
   </div> <!-- /ward-section -->
 
-  <p class="ward-list-title">Available wards</p>
+  <p class="ward-list-title" style="text-transform:uppercase;">Available Beds in <?= $general_name .' '. $general_status ?> Ward </p>
   
-      <table id="wardList" class="table table-striped table-bordered">
+
+      <table id="generalWard" class="table table-striped table-bordered">
             <thead>   
               <tr class="table-header">
                 <th scope="col">ID</th>
                 <th scope="col">Date</th>
-                <th scope="col">Name of ward</th>
-                <th scope="col">Status</th> 
-                <th scope="col">Price</th>
-                <th scope="col">Room No</th>
+                <th scope="col">Bed number</th>
                 <th scope="col" >Action</th>
                 <!-- <th scope="col" >update</th> -->
               </tr>
           </thead>
       </table>
-  
- 
+
 </div> <!-- /data-layout -->
   
 
@@ -109,14 +89,27 @@
 <?= $this->section('script') ?>
   <script>
     $(document).ready(function(){
-      $('#wardList').DataTable({
+      $('#generalWard').DataTable({
         "order": [],
         "serverSide": true,
         "ajax": {
-          url: "<?= base_url('wardcontroller/ajax_getWards') ?>",
-          type: "POST"
+          url: "<?= base_url('wardcontroller/ajax_getBed') ?>",
+          type: "POST",
+          data: {
+              ward_id: <?= $ward_id ?>
+          }
         }
       });
     });
+
+    function updateBed(bed_id){
+      // event.preventDefault();
+      window.location.href= "<?= base_url('/ward/bed/'.$ward_id)?>"+'/'+bed_id;
+    }
+    
+    function deleteBed(bed_id){
+      window.location.href= "<?= base_url('/ward/bed_delete/'.$ward_id)?>"+'/'+bed_id;
+    }
+
   </script>
 <?= $this->endSection() ?>

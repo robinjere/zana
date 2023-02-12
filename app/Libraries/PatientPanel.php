@@ -38,5 +38,13 @@ class PatientPanel{
    public function GeneralExamination(array $patientFile){
        return view('patientfile/generalExamination', ['patient_file'=> $patientFile]);
    }
+
+   public function PatientFromReception(){
+    return view('patient/list_from_reception');
+   }
+
+   public function LabPatientList(){
+    return view('patient/lab_patient_list');
+   }
    
 }

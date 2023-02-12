@@ -84,10 +84,10 @@ class ConsultationController extends BaseController
     
         $data_table->setTable($consultation_model->consultationTable())
                    ->setDefaultOrder('id', 'DESC')
-                   ->setSearch(['file_no'])
-                   ->setOrder([ 'updated_at', 'file_no', 'payment', 'first_name', 'amount'])
-                   ->setOutput([ $consultation_model->DateFormat(),'file_no', 'payment',
-                                $consultation_model->doctor(), $consultation_model->formatAmount(),
+                   ->setSearch(['file_no', 'patients.first_name', 'patients.sir_name'])
+                   ->setOrder([ 'updated_at', 'name','file_no', 'payment', 'first_name'])
+                   ->setOutput([ $consultation_model->DateFormat(), $consultation_model->formatName(), 'file_no', 'payment',
+                                $consultation_model->doctor(),
                                 $consultation_model->actionButtons()
                                ]);
     

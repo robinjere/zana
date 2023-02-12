@@ -140,7 +140,7 @@
                       </div>';
 
          $CONSULT =   '<div class="col d-flex justify-content-end align-items-center"> 
-                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND  </a> 
+                         <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> CONSULT  </a> 
                       </div>';
 
          $VIEWHISTORY =   '<div class="col d-flex justify-content-end align-items-center"> 
@@ -271,6 +271,27 @@
    <?php } ?>
 
 </template>
+
+
+<!-- PATIENT LIST  -->
+
+<?php if( session()->get('role') === 'doctor'){ ?>
+  <div class="patient-list">
+    <h3>Patient from reception </h3>
+    <?= view_cell('\App\Libraries\PatientPanel::PatientFromReception') ?>
+  </div>
+<?php } ?>
+
+<?php if( session()->get('role') === 'lab'){ ?>
+  <div class="patient-list">
+    <h3>Lab Patient List </h3>
+    <?= view_cell('\App\Libraries\PatientPanel::LabPatientList') ?>
+  </div>
+<?php } ?>
+
+<!-- / PATIENT LIST  -->
+
+
 </div>
 
 <?= $this->endSection('patient'); ?>

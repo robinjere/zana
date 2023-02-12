@@ -63,17 +63,18 @@ class WardModel extends Model
 
     public function room(){
         return function($row){
-            return '<a class="btn btn-success btn-sm" href="">view</a>';
+            $view_btn = $row['name'] === 'GENERAL' ?  '<a class="btn btn-success btn-sm" href="'.base_url('ward/bed/'.$row['id']).'">view</a>': '<a class="btn btn-success btn-sm" href="'.base_url('ward/private/'.$row['id']).'">view</a>';
+            return $view_btn;
         };
     }
 
     public function actionButtons(){
         $button = function($row){
-            $edit = in_array('can_edit_drug', session()->get('permission')) ?  '<a href="/ward/update/'.$row['id'].'" class="badge bg-info"> Update</a>' : '';
-            $delete = in_array('can_delete_drug', session()->get('permission')) ?  '<a href="/ward/delete/'.$row['id'].'" class="badge bg-danger"> Delete </a>' : '';
-
-             return $edit. ' ' . $delete;  
+            $edit = '<a href="/ward/update/'.$row['id'].'" class="badge bg-info"> Update</a>';
+            $delete = '<a href="/ward/delete/'.$row['id'].'" class="badge bg-danger"> Delete </a>';
+            return $edit. ' ' . $delete;  
         };
         return $button;
     }
+    
 }

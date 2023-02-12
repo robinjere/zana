@@ -70,7 +70,7 @@
 
    </div> -->
 
-<template x-if="no_clinicalnote?.empty"> 
+<template x-if="no_clinicalnote.empty"> 
    <!-- no clinical note available  -->
    <div class="p-5 bg-light">
          <p class="lead" x-text="no_clinicalnote.message">No clinical note available </p>
@@ -171,8 +171,8 @@ document.addEventListener('alpine:init', () => {
            body: JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment})
         }).then(res => res.json())
         .then(data => {
-
-           if(data?.empty){
+            console.log('checking formality of data', data);
+           if(data.empty){
              this.no_clinicalnote = data;
              this.notes = []
            }else{

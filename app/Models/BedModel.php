@@ -14,7 +14,7 @@ class BedModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['bed_number', 'ward'];
+    protected $allowedFields    = ['bed_number', 'ward', 'user'];
 
     // Dates
     protected $useTimestamps = true;
@@ -39,4 +39,29 @@ class BedModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    
+    public function bedTable($ward_id=null)
+    {
+        $builder = $this->db->table('bed_no');
+        $builder->where('ward', $ward_id);
+        return $builder;
+    }
+
+    public function _DateFormat(){
+        $column = function ($row){
+            $date = date_create($row['updated_at']);
+            return date_format($date, 'd/m/Y');
+        };
+        return $column;
+    }
+
+    public function actionButtons($ward_id=null){
+        $button = function($row){
+            $edit =  '<a href="#" onclick="updateBed('.$row['id'].')" class="badge bg-info"> Update</a>';
+            $delete = '<a href="#" onclick="deleteBed('.$row['id'].')" class="badge bg-danger"> Delete</a>';
+            return $edit. ' ' . $delete;  
+        };
+        return $button;
+    }
 }
