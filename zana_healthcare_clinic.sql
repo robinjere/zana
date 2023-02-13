@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2023 at 05:04 AM
+-- Generation Time: Feb 13, 2023 at 10:28 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -4329,6 +4329,15 @@ CREATE TABLE `bed_no` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bed_no`
+--
+
+INSERT INTO `bed_no` (`id`, `bed_number`, `ward`, `user`, `created_at`, `updated_at`) VALUES
+(1, '02CB', 5, 25, '2023-02-07 05:09:23', '2023-02-07 07:56:41'),
+(2, '02B', 5, 25, '2023-02-07 05:09:39', '2023-02-07 06:50:01'),
+(5, '68B', 4, 25, '2023-02-07 08:37:14', '2023-02-07 08:37:14');
 
 -- --------------------------------------------------------
 
@@ -20537,7 +20546,7 @@ CREATE TABLE `items` (
 
 INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_date`, `drug_kind`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
 (33, 'SYRUP HEMOVIT', 1, 3000, 7000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:02:34', '2022-11-30 00:00:00', 25),
-(34, 'GYNAZOLE VAGINAL PESSARIES', 2, 5600, 13000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:03:05', '2022-11-30 00:00:00', 25),
+(34, 'GYNAZOLE VAGINAL PESSARIES', 1, 5600, 13000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:03:05', '2022-11-30 00:00:00', 25),
 (36, 'dazolic tabs', -14, 42, 2000, '2026-01-01 00:00:00', '', '', '2022-10-11 22:05:04', '2022-12-09 00:00:00', 25),
 (38, 'CLOTRIMAZOLE VAGINAL PESSARIES', 1, 1800, 3000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:06:42', '2022-11-30 00:00:00', 25),
 (39, 'SCABOMA LOTION', 0, 6500, 10000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:08:10', '2022-10-15 00:00:00', 25),
@@ -23727,9 +23736,17 @@ CREATE TABLE `room_no` (
   `id` int(11) NOT NULL,
   `room_number` varchar(200) NOT NULL,
   `ward` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `room_no`
+--
+
+INSERT INTO `room_no` (`id`, `room_number`, `ward`, `user`, `created_at`, `updated_at`) VALUES
+(4, '9', 3, 25, '2023-02-13 01:29:24', '2023-02-13 01:29:24');
 
 -- --------------------------------------------------------
 
@@ -24378,7 +24395,8 @@ ALTER TABLE `role`
 --
 ALTER TABLE `room_no`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ward` (`ward`);
+  ADD KEY `ward` (`ward`),
+  ADD KEY `user` (`user`);
 
 --
 -- Indexes for table `sales`
@@ -24431,7 +24449,7 @@ ALTER TABLE `assigneddiagnoses`
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1611;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1614;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
@@ -24449,7 +24467,7 @@ ALTER TABLE `assigned_procedures`
 -- AUTO_INCREMENT for table `bed_no`
 --
 ALTER TABLE `bed_no`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `clinicalnotes`
@@ -24581,7 +24599,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `room_no`
 --
 ALTER TABLE `room_no`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sales`

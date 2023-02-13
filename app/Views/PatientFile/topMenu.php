@@ -41,9 +41,58 @@
      </div> <!-- /file-side-nav -->
 
       <div class="d-flex justify-content-end items-center button-nav">
+       <div class="sendtoward" x-data="wardData()">
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
-             <a  href="<?= base_url('patientfile/sendtoward/'.$patient_file['id']); ?>" class="btn btn-success"> SEND TO WARD </a>
+            <!-- Modal trigger button -->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalId" @click="getWard()">
+               SEND TO WARD
+            </button>
+
+            <form action="" method="post">
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+               <div style="z-index:999;" class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">Send this patient to ward</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                        
+                        <template x-if="ward.length">
+                           <div class="mb-3">
+                              <label for="ward" class="form-label">select ward</label>
+                              <select class="form-select form-select-md" name="ward" id="ward">
+                                 <option class="">SELECT WARD</option>
+                                 <template x-for="wards in ward" :key="wards.id">
+                                    <option :value="wards.id" x-text="wards.name + ' - ' + wards.status ">PRIVATE WARD</option>
+                                 </template>
+                              </select>
+                           </div>
+                        </template>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                           <div x-cloak x-show="loading" class="mt-2 spinner-border" role="status">
+                                 <span class="visually-hidden">Loading...</span>
+                           </div><!-- /spinner-border -->
+                        </div> <!-- /d-flex -->
+                        
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btn-sm">SEND</button>
+                     </div>
+                  </div>
+               </div>
+            </div><!-- /modal fade -->
+            </form><!-- form -->
+         
+            <!-- <a  href="<?= base_url('patientfile/sendtoward/'.$patient_file['id']); ?>" class="btn btn-success"> SEND TO WARD </a> -->
+
          <?php } ?>
+         </div> <!-- sendtoward -->
+
          <?php if(in_array(session()->get('role'), ['doctor'])){ ?> 
             
                <form target="_blanck" action="<?= base_url('patientfile/fertility-assessment') ?>" method="post" style="margin-left:5px;">
@@ -86,6 +135,42 @@
 
 <?= $this->section('script') ?>
 <script>  
+
+   //  Optional: Place to the bottom of scripts     
+   const myModal = new bootstrap.Modal(document.getElementById('modalId'), options)
+
+
+   function wardData(){
+      return {
+         loading: false,
+         success: false,
+         ward: [],
+         getWard(){
+            this.loading = true;
+            this.ward = [];
+            fetch('<?= base_url('patientFileController/ajax_getward') ?>',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                }
+               //  body: JSON.stringify({
+               //     searchInput: this.searchInput
+               //  })
+              }).then(res => res.json()).then(data => {
+                if(data.ward){
+                   this.ward = data.ward
+                   this.loading = false
+                }
+                console.log('ward list :', data)
+               //  console.log('this radiology:', this.radiology)
+             })
+         }
+      }
+   }
+
+
   function top_nav(){
    return {
       open: false,

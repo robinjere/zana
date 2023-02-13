@@ -490,6 +490,8 @@ body{
 }
 
 
+
+
 .detail .row{
   border-bottom: 1px solid #e3e3eb;
 }
@@ -549,6 +551,11 @@ body{
 /* ---------------  PATIENT SEARCH  WIDGET ---------------  */
 
 /* ---------------  PATIENT FILE  ---------------  */
+
+/* send patient to ward  */
+.modal-backdrop.show {
+  z-index: 20 !important;
+}
 
 /* TOP NAV  */
 .file-top-menu{

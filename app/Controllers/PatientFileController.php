@@ -14,6 +14,7 @@ use App\Models\AssignedLabtestModel;
 use App\Models\DiagnosesModel;
 use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
+use App\Models\WardModel;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
 use App\Models\FertilityAssessmentModel;
@@ -773,6 +774,13 @@ public function ajax_getFertility(){
 
    }
 
+    // AJAX GET WARD 
+    public function ajax_getward(){
+        $wardModel = new WardModel;
+        $ward = $wardModel->findAll();
+        echo json_encode([ 'ward' => $ward ]);
+    }
+
     //----  SEND PATIENT TO WARD ---//
     public function sendToWard($patient_id){
 
@@ -784,9 +792,9 @@ public function ajax_getFertility(){
         // print_r($patient_f);
         // exit;
 
-        $patientFileModel->save(['id' => $patient_id, 'patient_character' => 'inpatient']);
+        // $patientFileModel->save(['id' => $patient_id, 'patient_character' => 'inpatient']);
 
-        return redirect()->to('/patientfile/attend/'.$patient_id)->with('success', 'patient sent to ward');
+        // return redirect()->to('/patientfile/attend/'.$patient_id)->with('success', 'patient sent to ward');
 
     }
 
