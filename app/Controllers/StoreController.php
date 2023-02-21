@@ -473,4 +473,9 @@ class StoreController extends BaseController
         $data['item'] = $itemModel->find($item_id);
         return view('sales/add_sale', $data);
     }
+
+    public function addSaleFromAssignedMedicine($drug_id, $qty, $confirmedby){
+        $salesModel = new SalesModel;
+        $itemModel = new ItemModel;
+    }
 }

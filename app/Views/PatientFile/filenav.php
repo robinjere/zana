@@ -1,29 +1,29 @@
 
-<?php
+<?php 
 
+$patient_file = [
+  'id' => $id,
+  'file_no' => $file_no,
+  'patient_id' => $patient_id,
+  'name' => $name,
+  'payment_method' => $payment_method,
+  'insuarance_no' => $insuarance_no,
+  'start_treatment' => $start_treatment,
+  'end_treatment' => $end_treatment,
+  'status' => $status,
+  'patient_character' => $patient_character,
+  'first_name' => $first_name,
+  'middle_name' => $middle_name,
+  'sir_name' => $sir_name,
+  'birth_date' => $birth_date,
+  'gender' => $gender,
+  'history' => $history,
+  'ishistory' => $ishistory
 
-//  if(!empty($patient_file)){ 
-// $patient_file = [
-//   'id' => $patient_file->id,
-//   'file_no' => $patient_file->file_no,
-//   'patient_id' => $patient_file->patient_id,
-//   'name' => isset($patient_file->name) ? $patient_file->name : '',
-//   'payment_method' => $patient_file->payment_method,
-//   'insuarance_no' => $patient_file->insuarance_no,
-//   'start_treatment' => $patient_file->start_treatment,
-//   'end_treatment' => $patient_file->end_treatment,
-//   'status' => $patient_file->status,
-//   'patient_character' => $patient_file->patient_character,
-//   'first_name' => $patient_file->first_name,
-//   'middle_name' => $patient_file->middle_name,
-//   'sir_name' => $patient_file->sir_name,
-//   'birth_date' => $patient_file->birth_date,
-//   'gender' => $patient_file->gender,
-//   'history' => isset($history) ? $history : 'Current treatment',
-//   'ishistory' => isset($history) ? true : false
+];
 
-// ];
-//  }
+// print_r($patient_file);
+
 ?>
 
 <!-- on change submit -->
@@ -111,8 +111,8 @@
     </a></li>
 </ul>
 
-<?php } ?>
-
+<?php }  ?>
+   
   <div class="file-exit">
     <?php $patient_url = $patient_file['ishistory'] ? 'patientfile/attend/'.$patient_file['id'] : 'patient/search' ?>
     <a href="<?= base_url($patient_url) ?>">
@@ -127,4 +127,4 @@
     </a>
   </div><!-- /file-exit -->
 
-</div><!-- file-nav-container -->
+  </div><!-- file-nav-container -->

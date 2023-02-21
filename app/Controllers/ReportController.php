@@ -50,6 +50,20 @@ class ReportController extends BaseController
                     $this->sales_report($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
 
+                case 'sales-drug':
+                    $this->request->getVar('cashier_id');
+                    // $rules = [
+                    //     'cashier_id' => 'required'
+                    // ];
+        
+                    // if(!$this->validate($rules)){
+                    //     $data['validation'] = $this->validator;
+                    //     return redirect()->to('report');
+                    // }
+
+                    $this->sales_drug($start_date = $data['start_date'], $end_date = $data['end_date']);
+                    break;
+
                 case 'expenses':
                     $this->expenses_report($start_date = $data['start_date'], $end_date = $data['end_date']);
                     break;
@@ -358,6 +372,57 @@ class ReportController extends BaseController
         // $dompdf->setPaper($customPaper);
         $dompdf->render();
         $dompdf->stream("sales.pdf", array("Attachment"=>0));
+ 
+    }
+
+    public function sales_drug($start_date, $end_date){
+        $data = [
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'cashier_name' => '',
+            'sales' => []
+        ];
+
+        $salesModel = new SalesModel;
+        $userModel = new UserModel;
+        // $consultationModel = new ConsultationModel;
+        // $assignedProcedureModel = new AssignedProceduresModel;
+        // $assignedMedicineModel = new AssignedMedicineModel;
+        // $assignedLabtestModel = new AssignedLabtestModel;
+
+
+        $cashier_id = $this->request->getVar('cashier_id');
+        $data['sales'] = $salesModel->salesData($start_date, $end_date, $cashier_id);
+
+    
+        //cashier full name,
+        if($cashier_id){
+            $cashier = $userModel->where('id', $cashier_id)->first();
+            $data['cashier_name'] = $cashier['first_name'] .' '. $cashier['last_name'];
+        }
+
+        
+        // echo 'Sales: <pre> </pre> ';
+        // print_r($data);
+        // echo '<pre> ';
+        // echo '</pre>';
+        // exit;
+
+        $store = new StoreController;
+
+        $data['clinic_contacts'] = $store->get_clinic_info();
+        // $data['cashier'] = $userModel->where('id', $cashier_id)->first();
+  
+      
+        // return view('report/sales_drug', $data);
+
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('report/sales_drug', $data));
+        $dompdf->setPaper('A4', 'portait');
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        $dompdf->render();
+        $dompdf->stream("sales_drug.pdf", array("Attachment"=>0));
  
     }
 

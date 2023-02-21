@@ -111,11 +111,16 @@
         </div>
 
         <?php         
-            if(isset($consultation_payment)){
+            if(isset($consultation_payment)){?>
+                    <div class="row">
+                        <div class="col">SENT TO DOCTOR :</div>
+                        <div class="col"><?= strtoupper( $consultation_payment->first_name) .' '. strtoupper($consultation_payment->last_name) ?> </div>
+                    </div>
+            <?php
                 $_PAID = $consultation_payment->payment_confirmed_by == 0 ? '<span class="badge bg-danger">NOT PAID!</span>' : '<span class="badge bg-primary"> PAID</span>';
                 if($consultation_payment->payment == 'CASH'){?>
                     <div class="row">
-                        <div class="col">CONSULTATION FEE:</div>
+                        <div class="col">CONSULTATION FEE <?= empty($consultation_payment->amount) ? '' : '<span>TSH '. number_format($consultation_payment->amount, 2, '.', ',') .'/=  </span>'  ?> :</div>
                         <div class="col"><?= $_PAID ?> </div>
                     </div>
                 <?php

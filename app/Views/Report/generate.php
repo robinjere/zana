@@ -39,6 +39,7 @@
                       <option value="labtest"> Lab test </option>
                       <option value="medicine"> Medicine </option>
                       <option value="sales"> Sales </option>
+                      <option value="sales-drug"> Sales drug </option>
                       <option value="expenses"> Expenses </option>
                       <option value="items_in_stock"> Drugs in Stock </option>
                       <option value="items_out_stock"> Drugs out of Stock </option>
@@ -46,9 +47,9 @@
                   </select>
              </div><!-- /row -->
 
-            <template x-if="report_type == 'sales'">
+            <template x-if="report_type == 'sales' || report_type == 'sales-drug' ">
                 <div class="registration-space-y">
-                        <select required class="form-select " name="cashier_id" >
+                        <select class="form-select " name="cashier_id" style="text-transform: uppercase;">
                             <option value="" selected>Sales by cashier?</option>
                             <?php foreach ($salesBy as $key => $sale_by) {?>
                                 <option value="<?= $sale_by->id ?>"> <?= $sale_by->first_name.' '. $sale_by->last_name ?></option>
@@ -61,7 +62,7 @@
 
             <template x-if="report_type == 'consultation' || report_type == 'procedure' || report_type == 'medicine'">
                 <div class="registration-space-y">
-                        <select class="form-select " name="doctor_id" >
+                        <select class="form-select " name="doctor_id" style="text-transform: uppercase;">
                             <option value="" selected>Select doctor</option>
                             <?php foreach ($doctors as $key => $doctor) {?>
                                 <option value="<?= $doctor->id ?>"> <?= $doctor->first_name.' '. $doctor->last_name ?></option>

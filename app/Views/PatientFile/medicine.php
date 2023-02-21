@@ -13,7 +13,7 @@
 
    <!-- Button trigger modal -->
    <?php if(session()->get('role') == 'doctor' && !$patient_file['ishistory']){ ?>
-    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true">Search Drug</button>
+    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#MedicineModelId" @click="showSearchInput=true; clearSearch();">Assign Drug</button>
    <?php } ?>
 
    <?php if(session()->get('role') == 'cashier'){ ?>
@@ -113,7 +113,7 @@
            <div class="col">
              <div class="mb-3">
                <label for="qty" class="form-label">Qty</label>
-               <input type="number" x-model="qty" class="form-control" name="" id="qty" placeholder="qty">
+               <input type="number" value="" x-model="qty" class="form-control" name="" id="qty" placeholder="qty">
              </div>
            </div>
            </div> <!-- /row -->
@@ -229,11 +229,11 @@
       dosage: '',
       frequency: '',
       route: 'IV',
-      days: 0,
-      qty: 0,
+      days: '',
+      qty: '',
       instruction: '',
-      id: 0,
-      amount: 0,
+      id: '',
+      amount: '',
       alertTime: '',
       searchDrug(){
         // console.log('search input typed', this.searchInput)
@@ -266,8 +266,8 @@
           this.dosage = ''
           this.frequency = 1,
           this.route = available_drug.drug_kind
-          this.days = 0
-          this.qty = 0
+          this.days = ''
+          this.qty = ''
           this.instruction = ''
           this.id = Number(available_drug.id)
           this.amount = Number(available_drug.selling_price)

@@ -21,6 +21,10 @@ class ConsultationController extends BaseController
         return view('consultation/list');
     }
 
+    public function myList(){
+        return view('consultation/my_list');
+    }
+
     public function fees(){
         return view('consultation/fee');
     }
@@ -93,6 +97,25 @@ class ConsultationController extends BaseController
     
         return $data_table->getDatatable();
     }
+
+    public function ajax_getconsultationList(){
+        $consultation_model = new ConsultationModel();
+    
+        $data_table = new TablesIgniter();
+    
+        $data_table->setTable($consultation_model->myConsultationTable())
+                   ->setDefaultOrder('id', 'DESC')
+                   ->setSearch(['file_no', 'patients.first_name', 'patients.sir_name'])
+                   ->setOrder([ 'updated_at', 'name','file_no', 'first_name'])
+                   ->setOutput([ $consultation_model->DateFormat(), $consultation_model->formatName(), 'file_no',
+                                $consultation_model->doctor(),
+                                $consultation_model->actionButtonAttend()
+                               ]);
+    
+        return $data_table->getDatatable();
+    }
+
+
 
     public function cancel_consultation(Int $consultation_id, Int $file_id){
         $consultationModel = new ConsultationModel;

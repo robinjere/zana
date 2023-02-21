@@ -1,30 +1,27 @@
-<?php
+<?php 
 
-// print_r($patient_file);
-// exit;
-// if(!empty($patient_file)){ 
-// $patient_file = [
-//    'id' => $patient_file->id,
-//    'file_no' => $patient_file->file_no,
-//    'patient_id' => $patient_file->patient_id,
-//    'name' => isset($patient_file->name) ? $patient_file->name : '',
-//    'payment_method' => $patient_file->payment_method,
-//    'insuarance_no' => $patient_file->insuarance_no,
-//    'start_treatment' => $patient_file->start_treatment,
-//    'end_treatment' => $patient_file->end_treatment,
-//    'status' => $patient_file->status,
-//    'patient_character' => $patient_file->patient_character,
-//    'first_name' => $patient_file->first_name,
-//    'middle_name' => $patient_file->middle_name,
-//    'sir_name' => $patient_file->sir_name,
-//    'birth_date' => $patient_file->birth_date,
-//    'gender' => $patient_file->gender,
-//    'history' => isset($history) ? $history : 'Current treatment',
-//    'ishistory' => isset($history) ? true : false
+ 
+$patient_file = [
+   'id' => $id,
+   'file_no' => $file_no,
+   'patient_id' => $patient_id,
+   'name' => $name,
+   'payment_method' => $payment_method,
+   'insuarance_no' => $insuarance_no,
+   'start_treatment' => $start_treatment,
+   'end_treatment' => $end_treatment,
+   'status' => $status,
+   'patient_character' => $patient_character,
+   'first_name' => $first_name,
+   'middle_name' => $middle_name,
+   'sir_name' => $sir_name,
+   'birth_date' => $birth_date,
+   'gender' => $gender,
+   'history' => $history,
+   'ishistory' => $ishistory
 
-// ];
-
-// }
+];
+// $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];    
 
 ?>
 
@@ -37,7 +34,7 @@
       </button>
 
       <div class="file-side-nav" :class="{'open-menu':open }">
-       <?= view_cell('\App\Libraries\PatientPanel::PatientFileNav') ?>
+       <?= view_cell('\App\Libraries\PatientPanel::PatientFileNav', $patient_file) ?>
      </div> <!-- /file-side-nav -->
 
       <div class="d-flex justify-content-end items-center button-nav">
@@ -62,11 +59,35 @@
                         
                         <template x-if="ward.length">
                            <div class="mb-3">
-                              <label for="ward" class="form-label">select ward</label>
-                              <select class="form-select form-select-md" name="ward" id="ward">
+                              <label for="ward" class="form-label">Select ward</label>
+                              <select x-model="" class="form-select form-select-md" name="ward" id="ward">
                                  <option class="">SELECT WARD</option>
                                  <template x-for="wards in ward" :key="wards.id">
                                     <option :value="wards.id" x-text="wards.name + ' - ' + wards.status ">PRIVATE WARD</option>
+                                 </template>
+                              </select>
+                           </div>
+                        </template>
+
+                        <template x-if="bed.length">
+                           <div class="mb-3">
+                              <label for="bed" class="form-label">Select bed number</label>
+                              <select class="form-select form-select-md" name="bed" id="bed">
+                                 <option class="">SELECT BED </option>
+                                 <template x-for="beds in bed" :key="beds.id">
+                                    <option :value="beds.id" x-text="beds.bed_number">BED NO</option>
+                                 </template>
+                              </select>
+                           </div>
+                        </template>
+
+                        <template x-if="room.length">
+                           <div class="mb-3">
+                              <label for="room" class="form-label">Select room number</label>
+                              <select class="form-select form-select-md" name="room" id="room">
+                                 <option class="">SELECT ROOM </option>
+                                 <template x-for="rooms in room" :key="rooms.id">
+                                    <option :value="rooms.id" x-text="rooms.room_number">ROOM NO</option>
                                  </template>
                               </select>
                            </div>
@@ -145,6 +166,8 @@
          loading: false,
          success: false,
          ward: [],
+         room: [],
+         bed: [],
          getWard(){
             this.loading = true;
             this.ward = [];
@@ -164,6 +187,50 @@
                    this.loading = false
                 }
                 console.log('ward list :', data)
+               //  console.log('this radiology:', this.radiology)
+             })
+         },
+         getRoom(ward_id){
+            this.loading = true;
+            this.room = [];
+            fetch('<?= base_url('patientFileController/ajax_getroom') ?>',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                   ward: ward_id
+                })
+              }).then(res => res.json()).then(data => {
+                if(data.room){
+                   this.room = data.room
+                   this.loading = false
+                }
+                console.log('room list :', data)
+               //  console.log('this radiology:', this.radiology)
+             })
+         },
+         getBed(ward_id){
+            this.loading = true;
+            this.bed = [];
+            fetch('<?= base_url('patientFileController/ajax_getbed') ?>',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                   ward: ward_id
+                })
+              }).then(res => res.json()).then(data => {
+                if(data.ward){
+                   this.bed = data.bed
+                   this.loading = false
+                }
+                console.log('bed list :', data)
                //  console.log('this radiology:', this.radiology)
              })
          }

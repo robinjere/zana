@@ -15,11 +15,14 @@ use App\Models\DiagnosesModel;
 use App\Models\RadInvestigationModel;
 use App\Models\RadResult;
 use App\Models\WardModel;
+use App\Models\RoomModel;
+use App\Models\BedModel;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
 use App\Models\FertilityAssessmentModel;
 use App\Models\PatientModel;
 use App\Models\ClinicModel;
+use App\Models\SalesModel;
 use monken\TablesIgniter;
 
 
@@ -294,29 +297,43 @@ class PatientFileController extends BaseController
        if($this->request->getMethod() == 'post'){
 
         //TODO :: detuct qty of drugs in store.
-        $qty = $this->request->getVar('qty');
+        $qty = (int)$this->request->getVar('qty');
         $drug_id = $this->request->getVar('drug_id');
 
-        $_item = $itemModel->first($drug_id);
-        $new_qty = $_item['qty'] - $qty;
+        $_item = $itemModel->where('id', $drug_id)->first();
+        $new_qty = ( $qty <= (int)$_item['qty']) ? (int)$_item['qty'] - $qty : null ;
+        
+        if($new_qty === null){
+            echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
+        }else{
+            $itemModel->save(['id' => $drug_id, 'qty' => $new_qty]);
+            if($assignedMedicineModel->save($this->request->getVar())){
+                   echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
+             }else{
+                   echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
+             }
+        }
 
-        $itemModel->save(['id' => $drug_id, 'qty' => $new_qty]);
-
-         if($assignedMedicineModel->save($this->request->getVar())){
-                echo json_encode(['success' => true, 'message' => 'Successful drug assigned to a patient!']);
-          }else{
-                echo json_encode(['success' => false, 'message' => 'Failed to assign drug to a patient!']);
-          }
        }
    }
 
    public function ajax_deleteMedicine(){
     $assignedMedicineModel = new AssignedMedicineModel;
+    $itemModel = new ItemModel;
+    $medicine = $assignedMedicineModel->where('id', $this->request->getVar('medicine_id'))->first();
+    $item_available = $itemModel->where('id', $medicine['drug_id'])->first();
+
+    // print_r(['availableMedicine' => $medicine, 'availableItem' => $item_available]);
+    // exit;
+
     if($this->request->getMethod() == 'post'){
-        if($assignedMedicineModel->where('id', $this->request->getVar('medicine_id'))->delete()){
-            echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+        if($itemModel->save(['id' => $medicine['drug_id'], 'qty' => ($item_available['qty'] + $medicine['qty']) ])){
+            if($assignedMedicineModel->where('id', $this->request->getVar('medicine_id'))->delete()){
+               echo json_encode(['success'=> true, 'message' => 'successful deleted']);
+            }
         }
     }
+
    }
 
    public function ajax_assignedmedicine(){
@@ -420,12 +437,37 @@ class PatientFileController extends BaseController
     if($this->request->getMethod() == 'post'){
         
         if($assignedMedicine->save($this->request->getVar())){
+            //add medicine to sale
+            if($this->request->getVar('confirmed_by') == 0){
+               $this::addAssignedMedicineToSale($this->request->getVar('id'), 'remove');
+            }else{
+                $this::addAssignedMedicineToSale($this->request->getVar('id'), 'add');
+            }
+
             echo json_encode(['success'=> true, 'message' => 'payment confirmed!']);
         }else{
             echo json_encode(['success'=> false, 'message' => 'fail to confirm payment!']);
         }
     }
    }
+
+   protected function addAssignedMedicineToSale($assigned_medicine_id, $action = 'add'){
+      $salesModel = new SalesModel;
+      $assignedMedicine = new AssignedMedicineModel;
+      $itemModel = new ItemModel;
+
+      $medicine = $assignedMedicine->where('id', $assigned_medicine_id)->first();
+      $item = $itemModel->where('id', $medicine['drug_id'])->first();
+
+      if($action == 'add'){
+          $salesModel->save(['item_id' => $medicine['drug_id'], 'qty' => $medicine['qty'] , 'dose'=> $medicine['dosage'], 'amount'=> $item['selling_price'], 'assigned_medicine_id' => $assigned_medicine_id, 'user_id' => $medicine['confirmed_by']]);
+      }else{
+          $salesModel->where('assigned_medicine_id', $assigned_medicine_id)->delete();
+      }
+
+   }
+
+
 
    public function takenMedicine(){
     $assignedMedicine = new AssignedMedicineModel;
@@ -779,6 +821,28 @@ public function ajax_getFertility(){
         $wardModel = new WardModel;
         $ward = $wardModel->findAll();
         echo json_encode([ 'ward' => $ward ]);
+    }
+
+    // AJAX GET ROOM
+    public function ajax_getroom(){
+        $roomModel = new RoomModel;
+        if($this->request->getMethod() == 'post' ){
+            $room = $roomModel->where('ward', $this->request->getVar('ward'))->findAll();
+            echo json_encode([ 'room' => $room ]);
+        }else{
+            echo json_encode(['error' =>  true, 'message' => 'failed to request room']);
+        }
+    }
+
+    // AJAX GET BED
+    public function ajax_getbed(){
+        $bedModel = new BedModel;
+        if($this->request->getMethod() == 'post'){
+            $bed = $bedModel->where('ward', $this->request->getVar('ward'))->findAll();
+            echo json_encode([ 'bed' => $bed ]);
+        }else{
+            echo json_encode(['error' => true, 'message' =>  'failed to request bed']);
+        }
     }
 
     //----  SEND PATIENT TO WARD ---//

@@ -54,9 +54,23 @@ class ConsultationModel extends Model
         $builder->select('consultation.id, patients.first_name as p_firstname, patients.middle_name, patients.sir_name as p_lastname, consultation.updated_at, consultation.payment, consultation.amount, consultation.payment_confirmed_by, patients_file.patient_id, patients_file.id as p_fileid, patients_file.file_no, user.id as doctor, user.first_name, user.last_name');
         $builder->where('consultation.consulted_by', 0);
         $builder->where('user.id', session()->get('id'));
+        $builder->groupBy('patients.id');
         $builder->join('patients_file', 'consultation.file_id = patients_file.id');        
         $builder->join('patients', 'patients_file.patient_id = patients.id');        
         $builder->join('user', 'consultation.doctor_id = user.id');        
+        return $builder;
+    }
+
+    public function myConsultationTable(){
+        $builder = $this->db->table('consultation');
+        $builder->select('consultation.id, patients.first_name as p_firstname, patients.middle_name, patients.sir_name as p_lastname, consultation.updated_at, consultation.payment, consultation.amount, consultation.payment_confirmed_by, patients_file.patient_id, patients_file.id as p_fileid, patients_file.file_no, user.id as doctor, user.first_name, user.last_name');
+        $builder->where('consultation.consulted_by', session()->get('id'));
+        $builder->where('patients_file.status','inTreatment');
+        $builder->groupBy('patients.id');
+        $builder->join('patients_file', 'consultation.file_id = patients_file.id');        
+        $builder->join('patients', 'patients_file.patient_id = patients.id');        
+        $builder->join('assigned_labtests', 'assigned_labtests.file_id = consultation.file_id');        
+        $builder->join('user', 'assigned_labtests.doctor = user.id');        
         return $builder;
     }
     public function DateFormat(){
@@ -105,9 +119,15 @@ class ConsultationModel extends Model
             //     $showButtons = $consult;   
             // }
             
-            return  '<a href="'. base_url('patientfile/consult/'.$row['p_fileid']).'" class="badge bg-success"> ATTEND </a>' ;  
+            return ($row['payment_confirmed_by'] > 0 ) ? '<a href="'. base_url('patientfile/consult/'.$row['p_fileid']).'" class="badge bg-success"> ATTEND </a>' : '<span class="badge bg-danger">Not payed</span>' ;  
         };
         return $button;
+    }
+
+    public function actionButtonAttend(){
+        return function($row){
+            return  '<a href="'. base_url('patientfile/attend/'.$row['p_fileid']).'" class="badge bg-success"> ATTEND </a>' ;  
+        };
     }
 
     public function consultationByDoctor($doctor, $start_date, $end_date){
@@ -123,7 +143,9 @@ class ConsultationModel extends Model
 
     public function checkConsultationPayment(Int $file_id){
         $builder = $this->db->table('consultation');
-        $builder->where('file_id', $file_id);
+        $builder->select('consultation.id, consultation.file_id, consultation.amount, consultation.payment, consultation.payment_confirmed_by, consultation.doctor_id, user.first_name, user.last_name');
+        $builder->where('consultation.file_id', $file_id);
+        $builder->join('user', 'consultation.doctor_id = user.id');
         // $builder->orderBy('created_at', 'DESC');
         return $builder->get()->getLastRow();
     }

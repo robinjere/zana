@@ -72,6 +72,7 @@ $routes->group('ward', function($routes){
  
  $routes->group('consultation', function($routes){
      $routes->get('list', 'ConsultationController::list', ['filter' => 'auth']);
+     $routes->get('my_list', 'ConsultationController::myList', ['filter' => 'auth']);
      $routes->get('fees', 'ConsultationController::fees', ['filter' => 'auth']);
      $routes->get('cancel/(:num)/(:num)', 'ConsultationController::cancel_consultation/$1/$2', ['filter' => 'auth']);
      $routes->match(['post','get'],'add_fee', 'ConsultationController::add_fee', ['filter' => 'auth']);

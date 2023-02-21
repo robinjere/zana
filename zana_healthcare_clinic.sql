@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2023 at 10:28 AM
+-- Generation Time: Feb 20, 2023 at 01:59 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -953,7 +953,8 @@ INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `diagno
 (958, 678, 'final', '', 95, 1222, 0, '2022-12-18 09:07:53', '2022-12-18 09:07:53'),
 (959, 768, 'final', '', 95, 1222, 0, '2022-12-18 09:08:04', '2022-12-18 09:08:04'),
 (960, 6123, 'final', '', 95, 1228, 0, '2022-12-18 11:16:38', '2022-12-18 11:16:38'),
-(961, 3687, 'working', '', 31, 1239, 0, '2023-01-12 15:11:30', '2023-01-12 15:11:30');
+(961, 3687, 'working', '', 31, 1239, 0, '2023-01-12 15:11:30', '2023-01-12 15:11:30'),
+(962, 7, 'working', 'assign botulism', 31, 82, 0, '2023-02-16 16:25:16', '2023-02-16 16:25:16');
 
 -- --------------------------------------------------------
 
@@ -2341,7 +2342,8 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (1607, '400', 3, 'ORAL', 5, 0, '', 93, 1231, 95, 0, '2022-12-18 12:07:05', '2022-12-18 12:07:05', 0, 0, 0),
 (1608, '160', 1, '', 5, 10, '', 115, 1232, 95, 0, '2022-12-18 12:23:43', '2022-12-18 12:23:43', 0, 0, 0),
 (1609, '400', 3, 'ORAL', 5, 30, '', 93, 1232, 95, 89, '2022-12-18 12:24:26', '2022-12-18 12:27:54', 1, 0, 0),
-(1610, '1', 3, 'ORAL', 5, 15, '', 36, 1239, 31, 0, '2023-01-12 15:42:17', '2023-01-12 15:48:16', 1, 0, 0);
+(1610, '1', 3, 'ORAL', 5, 15, '', 36, 1239, 31, 0, '2023-01-12 15:42:17', '2023-01-12 15:48:16', 1, 0, 0),
+(1618, '', 1, 'ORAL', 1, 1, '', 38, 113, 31, 0, '2023-02-16 17:23:56', '2023-02-16 17:26:24', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2432,8 +2434,8 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (70, 13, 'URINE\nLEU3+\nURO+_\nPRO+_\nASC3+', '', '', '', '', 2500, 89, '2022-10-15 20:52:10', '2022-10-15 20:52:10', 61, 95, 92, 1, 0),
 (71, 14, 'STOOL H/WORM OVA SEEN', '', '', '', '', 2500, 89, '2022-10-15 20:55:48', '2022-10-15 20:55:48', 61, 95, 92, 1, 0),
 (74, 45, '', '', '', '', '', 3000, 89, '2022-10-16 10:11:17', '2022-10-16 10:11:17', 64, 88, 0, 1, 0),
-(75, 17, 'URINE \nLEU3+\nBIL1+\nASC1+', '', '', '', '', 2000, 89, '2022-10-16 10:43:52', '2022-10-16 10:43:52', 66, 88, 92, 1, 0),
-(76, 13, 'B/S 3TROPH/200WBC', '', '', '', '', 2500, 89, '2022-10-16 10:44:07', '2022-10-16 10:44:07', 66, 88, 92, 1, 0),
+(75, 17, 'URINE \nLEU3+\nBIL1+\nASC1+', '', '', '', '', 2000, 89, '2022-10-16 10:43:52', '2022-10-16 10:43:52', 66, 88, 92, 1, 1),
+(76, 13, 'B/S 3TROPH/200WBC', '', '', '', '', 2500, 89, '2022-10-16 10:44:07', '2022-10-16 10:44:07', 66, 88, 92, 1, 1),
 (77, 17, 'B/S NPS\nNETROPHIL NOTED', '', '', '', '', 2000, 89, '2022-10-16 10:44:21', '2022-10-16 10:44:21', 65, 95, 92, 1, 0),
 (78, 13, '', '', '', '', '', 2500, 89, '2022-10-16 13:13:18', '2022-10-16 13:13:18', 67, 95, 0, 1, 0),
 (79, 14, '', '', '', '', '', 2500, 89, '2022-10-16 13:13:31', '2022-10-16 13:13:31', 67, 95, 0, 1, 0),
@@ -4240,7 +4242,8 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (1941, 46, '', '', '', '', '', 3000, 89, '2022-12-18 12:30:02', '2022-12-18 12:30:02', 1234, 88, 0, 1, 0),
 (1942, 17, '', '', '', '', '', 2000, 89, '2022-12-18 12:46:54', '2022-12-18 12:46:54', 1236, 88, 0, 1, 0),
 (1943, 9, 'sdfwdd', '', '', '', '', 10000, 85, '2023-01-12 15:12:12', '2023-01-12 15:12:12', 1239, 31, 86, 1, 0),
-(1944, 34, 'fddf', '', '', '', '', 20000, 85, '2023-01-12 15:35:19', '2023-01-12 15:35:19', 1239, 31, 86, 1, 0);
+(1944, 34, 'fddf', '', '', '', '', 20000, 85, '2023-01-12 15:35:19', '2023-01-12 15:35:19', 1239, 31, 86, 1, 0),
+(1945, 14, '', '', '', '', '', 2500, 0, '2023-02-16 16:25:26', '2023-02-16 16:25:26', 82, 31, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -4282,7 +4285,7 @@ INSERT INTO `assigned_procedures` (`id`, `file_id`, `procedure_id`, `doctor`, `f
 (26, 34, 1, 31, '', 'newe', 10000, 85, 1, '2022-10-14 18:11:36', '2022-10-14 20:07:52', 0),
 (27, 34, 2, 95, '', '', 5000, 0, 0, '2022-10-14 21:14:43', '2022-10-14 21:14:43', 0),
 (28, 29, 2, 91, '', '', 5000, 89, 1, '2022-10-15 11:47:44', '2022-10-15 13:46:29', 0),
-(30, 82, 8, 95, '', '', 20000, 89, 0, '2022-10-17 07:06:12', '2022-10-17 07:38:16', 0),
+(30, 82, 8, 95, '', '', 20000, 89, 0, '2022-10-17 07:06:12', '2023-02-15 20:37:37', 1),
 (31, 136, 2, 91, '', '', 5000, 0, 0, '2022-10-19 17:48:16', '2022-10-19 17:48:16', 0),
 (32, 206, 8, 95, '', '', 20000, 89, 1, '2022-10-22 19:31:14', '2022-10-22 19:43:16', 0),
 (33, 209, 2, 95, '', '', 5000, 89, 0, '2022-10-22 21:29:16', '2022-10-22 21:40:02', 0),
@@ -4313,7 +4316,26 @@ INSERT INTO `assigned_procedures` (`id`, `file_id`, `procedure_id`, `doctor`, `f
 (64, 1117, 2, 95, '', '', 5000, 0, 0, '2022-12-14 14:07:35', '2022-12-14 15:51:28', 1),
 (65, 1157, 7, 91, '', '', 10000, 89, 1, '2022-12-15 19:01:58', '2022-12-15 19:04:47', 0),
 (66, 1239, 1, 31, '', '', 10000, 0, 0, '2023-01-12 15:43:31', '2023-01-12 15:43:31', 0),
-(67, 82, 3, 31, '', 'The mojor wounded dressing special..', 10000, 0, 0, '2023-02-02 18:28:17', '2023-02-02 18:28:17', 0);
+(67, 82, 3, 31, '', 'The mojor wounded dressing special..', 10000, 0, 0, '2023-02-02 18:28:17', '2023-02-15 20:37:37', 1),
+(68, 82, 1, 31, '', 'assign  proce', 10000, 0, 0, '2023-02-16 16:25:51', '2023-02-16 16:25:51', 0),
+(69, 113, 1, 31, '', 'incision and drainage instruction', 10000, 0, 0, '2023-02-16 17:25:13', '2023-02-16 17:26:24', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assigned_to_ward`
+--
+
+CREATE TABLE `assigned_to_ward` (
+  `id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `room` int(11) NOT NULL,
+  `bed` int(11) NOT NULL,
+  `ward` int(11) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `discharged` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -4396,7 +4418,7 @@ INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `u
 (97, 78, 'seen the pt who present with hx of gradual onset of painful urination for 3days,accompanied with hx of GBM,but no hx of fever,LAP,N & V.\nROS-NAD\nPMHX-NAD\nO/E-Stable looking,BWT=110KG(Severe obese)', 95, '2022-10-16 18:59:52', '2022-11-06 18:39:45', 1),
 (98, 79, 'LNMP=17/9/2022,P4L4A0D0\nseen the pt who present with abdominal sharp pain on and off which is started gradual onset for 1month accompained with whitish PV discharge and offensive smell, loin pain and GBM,Headache, but no hx fever,AHB.\nROS-NAD\nPMHX-NAD\nOBGYHX-Had hx of used COC`s for 1month on 2018 then shift to inj.Depoprovera IM for 3months and stopped after being experienced massive persistance PV bleed.\nO/E-STABLE ', 95, '2022-10-16 19:18:04', '2022-10-16 19:19:20', 0),
 (99, 81, 'P1L1A1D0,LNMP=30/08/2022,G.A=6WKS,EDD=7/5/2023\nSeen the pt  who present with gradual onset of progressive on & off fever for 5days accampanied with hx of headache, flue, dry cough ,generalized bodyache,LOA,LAP,Loin pain but hx of AHB, vomiting,passage watery stool,and vaginal discharge.\nROS-NAD,PMHX-NAD\nO/E-Alert,not pale,weak looking. ', 95, '2022-10-16 21:48:24', '2022-10-16 21:48:24', 0),
-(100, 82, 'seen the pt who present with hx of painful bleeding wound Lt hand thumb last night for 1day,which is started gradual onset followed cut injury after being involved in fought at bar with he`s fellow friend,but no hx of LOC,headache,and AHB.\nROS-NAD\nO/E-Alert,visible cut injury Lt hand to the vental-lateral part surround by clotted blood,deep-irregular sharp margin ,length about 2cm,width=2.3cm,estimated blood loss=20mls', 95, '2022-10-17 07:05:54', '2022-10-17 08:00:02', 0),
+(100, 82, 'seen the pt who present with hx of painful bleeding wound Lt hand thumb last night for 1day,which is started gradual onset followed cut injury after being involved in fought at bar with he`s fellow friend,but no hx of LOC,headache,and AHB.\nROS-NAD\nO/E-Alert,visible cut injury Lt hand to the vental-lateral part surround by clotted blood,deep-irregular sharp margin ,length about 2cm,width=2.3cm,estimated blood loss=20mls', 95, '2022-10-17 07:05:54', '2023-02-15 20:37:37', 1),
 (101, 83, 'Seen the pt who presented with ear discharge for 1 day which is pus like accompanied with fever.\nROS;NAD', 91, '2022-10-17 08:12:43', '2022-11-06 18:45:05', 1),
 (102, 85, 'Seen the pt who presented with fever for 2 days which started gradually,accompanied with headache,joint pains and nausea.pt also reports to have a generalized abdominal pain.\nROS;NAD', 91, '2022-10-17 09:07:41', '2022-10-17 09:07:41', 0),
 (103, 97, 'Seen the pt who presented with general body weakness for 3 days which started gradually,accompanied with fever,headache,joint pains.\npt reports to have diarrhoea and abdominal.\nROS;NAD', 91, '2022-10-17 18:20:06', '2022-10-17 18:20:06', 0),
@@ -4955,7 +4977,8 @@ INSERT INTO `clinicalnotes` (`id`, `file_id`, `note`, `doctor`, `created_at`, `u
 (655, 1227, 'seen the pt with comlaining of lower abdominal pain,head ache,fatique  associate with vomiting during eating', 95, '2022-12-18 10:12:26', '2022-12-18 10:12:26', 0),
 (656, 1226, 'Received a pt presenting with fever,loss of appetite associating  with vomiting', 95, '2022-12-18 10:54:31', '2022-12-18 10:54:54', 0),
 (657, 1228, 'seen the pt with complaining of fever,head ache ,los of appetite', 95, '2022-12-18 11:33:20', '2022-12-18 11:33:20', 0),
-(658, 1231, 'seen a patient coplaining of body malaise,nause,lower abdomina pain\nfatique associate with loss of appetite', 95, '2022-12-18 12:54:07', '2022-12-18 12:54:07', 0);
+(658, 1231, 'seen a patient coplaining of body malaise,nause,lower abdomina pain\nfatique associate with loss of appetite', 95, '2022-12-18 12:54:07', '2022-12-18 12:54:07', 0),
+(661, 113, 'new clinical note', 31, '2023-02-16 17:21:49', '2023-02-16 17:26:24', 1);
 
 -- --------------------------------------------------------
 
@@ -5821,7 +5844,9 @@ INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `
 (790, 1232, 95, 'CASH', 3000, 88, 89, 95, '2022-12-18 11:50:26', '2022-12-18 11:50:41'),
 (791, 1238, 31, 'CASH', 3000, 30, 85, 31, '2023-01-12 01:03:50', '2023-01-12 01:05:23'),
 (792, 1239, 31, 'CASH', 3000, 30, 85, 31, '2023-01-12 15:00:12', '2023-01-12 15:04:08'),
-(793, 22, 31, 'CASH', 3000, 30, 0, 0, '2023-02-03 04:58:57', '2023-02-03 04:58:57');
+(793, 22, 31, 'CASH', 3000, 30, 0, 0, '2023-02-03 04:58:57', '2023-02-03 04:58:57'),
+(794, 82, 31, 'CASH', 3000, 30, 85, 31, '2023-02-15 20:48:52', '2023-02-15 23:18:12'),
+(795, 113, 31, 'CASH', 3000, 30, 85, 31, '2023-02-16 17:28:44', '2023-02-16 17:32:16');
 
 -- --------------------------------------------------------
 
@@ -20305,8 +20330,8 @@ CREATE TABLE `fertility_assessment` (
 --
 
 INSERT INTO `fertility_assessment` (`id`, `created_at`, `updated_at`, `patient_id`, `hospital_number`, `clinic_number`, `occupation`, `height`, `weight`, `is_drug_allergy`, `drug_allergy_mention`, `is_genetic_disease`, `genetic_disease_mention`, `is_gynecological_history`, `gynecological_history_mention`, `is_pelvic_surgery`, `pelvic_surgery_mention`, `is_contraception`, `contraception_mention`, `rubella`, `hepatitis`, `other`, `is_menstrualcycle_regular`, `lnmp`, `cycle_length`, `dysmenorrhea`, `conceive`, `months`, `years`, `is_pregnant`, `pregnant_mention`, `current_relationship_para`, `previous_relationship_para`, `no_of_abortions`, `GA`, `ectopic_pregnancy`, `is_fertility_treatment`, `fertility_treatment_mention`, `is_chronic_diseases`, `chronic_diseases_mention`, `is_current_medication`, `current_medication`, `is_smoke`, `cigarettes_per_day`, `is_alcohol`, `unit_per_week`, `is_recreational_drugs`, `how_long`, `currently_recreational_drugs`, `is_regular_periods`, `ultrasound`, `HSG_HSU`, `TSH`, `i_ultrasound`, `i_HSG_HSU`, `i_FSH_LH`, `i_TSH`, `is_irregular_periods`, `user_id`) VALUES
-(267, '2022-11-14 07:02:51', '2023-02-02 18:26:47', 89, 'MRNO/2022/89', '898', 'dar es salaam', 50, 70, 'yes', 'drug allergy..', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31),
-(268, '2022-11-24 23:58:24', '2023-01-26 08:14:51', 48, 'MRNO/2022/48', '', '', 0, 0, '', '', '', '', 'yes', 'reason....', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31),
+(267, '2022-11-14 07:02:51', '2023-02-13 17:59:43', 89, 'MRNO/2022/89', '898', 'dar es salaam', 50, 70, 'yes', 'drug allergy..', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31),
+(268, '2022-11-24 23:58:24', '2023-02-16 17:35:37', 48, 'MRNO/2022/48', '', '', 0, 0, '', '', '', '', 'yes', 'reason....', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31),
 (269, '2023-01-12 01:12:49', '2023-01-12 01:12:49', 1244, 'MRNO/2023/1244', '', '', 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 31);
 
 -- --------------------------------------------------------
@@ -20496,7 +20521,8 @@ INSERT INTO `general_examination` (`id`, `pressure`, `temperature`, `pulse_rate`
 (166, '', '38.6', '', '', '', '', '', '', '', '', '', 1226, 95, '2022-12-18 10:55:00', '2022-12-18 10:55:00', 0),
 (167, '', '', '', '', '', '', '', '', '', '', '', 1228, 95, '2022-12-18 11:18:58', '2022-12-18 11:18:58', 0),
 (168, '117/74', '37.4', '', '', '', '', '', '', '', '', '', 1231, 95, '2022-12-18 11:28:51', '2022-12-18 11:28:51', 0),
-(169, '', '', '', '', '', '', '', '', '', '', '', 1229, 95, '2022-12-18 11:50:29', '2022-12-18 11:50:29', 0);
+(169, '', '', '', '', '', '', '', '', '', '', '', 1229, 95, '2022-12-18 11:50:29', '2022-12-18 11:50:29', 0),
+(170, '8', '7', '', '', '', '', '', '', '', '', '', 113, 31, '2023-02-16 17:22:52', '2023-02-16 17:22:52', 1);
 
 -- --------------------------------------------------------
 
@@ -20545,13 +20571,13 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_date`, `drug_kind`, `description`, `created_at`, `updated_at`, `user_id`) VALUES
-(33, 'SYRUP HEMOVIT', 1, 3000, 7000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:02:34', '2022-11-30 00:00:00', 25),
-(34, 'GYNAZOLE VAGINAL PESSARIES', 1, 5600, 13000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:03:05', '2022-11-30 00:00:00', 25),
+(33, 'SYRUP HEMOVIT', 0, 3000, 7000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:02:34', '2022-11-30 00:00:00', 25),
+(34, 'GYNAZOLE VAGINAL PESSARIES', 0, 5600, 13000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:03:05', '2022-11-30 00:00:00', 25),
 (36, 'dazolic tabs', -14, 42, 2000, '2026-01-01 00:00:00', '', '', '2022-10-11 22:05:04', '2022-12-09 00:00:00', 25),
-(38, 'CLOTRIMAZOLE VAGINAL PESSARIES', 1, 1800, 3000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:06:42', '2022-11-30 00:00:00', 25),
+(38, 'CLOTRIMAZOLE VAGINAL PESSARIES', 0, 1800, 3000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:06:42', '2022-11-30 00:00:00', 25),
 (39, 'SCABOMA LOTION', 0, 6500, 10000, '2023-01-01 00:00:00', '', '', '2022-10-11 22:08:10', '2022-10-15 00:00:00', 25),
 (40, 'TABS PREDNISOLONE', 2, 20, 3000, '2025-01-01 00:00:00', '', '', '2022-10-11 22:09:12', '2022-11-22 00:00:00', 25),
-(41, 'TABS METFORMIN', 330, 48, 200, '2023-01-01 00:00:00', '', '', '2022-10-11 22:10:39', '2022-11-30 00:00:00', 25),
+(41, 'TABS METFORMIN', 230, 48, 200, '2023-01-01 00:00:00', '', '', '2022-10-11 22:10:39', '2022-11-30 00:00:00', 25),
 (43, 'TABS BISACODYL', 100, 20, 100, '2023-01-01 00:00:00', '', '', '2022-10-11 22:12:49', '2022-10-15 00:00:00', 25),
 (44, 'TABS LEVAMISOLE', 1, 38, 300, '2023-01-01 00:00:00', '', '', '2022-10-11 22:14:01', '2022-10-15 00:00:00', 25),
 (46, 'CALAMINE LOTION', 2, 1000, 3000, '2024-01-01 00:00:00', '', '', '2022-10-11 22:15:30', '2022-12-07 00:00:00', 25),
@@ -22106,7 +22132,7 @@ INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_m
 (63, 'MRNO/2022/70', 70, 0, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outsider', '2022-10-16 09:50:34', '2022-10-16 09:50:43'),
 (64, 'MRNO/2022/71', 71, 0, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outsider', '2022-10-16 10:10:54', '2022-10-16 10:10:57'),
 (65, 'MRNO/2022/72', 72, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 10:21:21', '2022-10-16 10:37:47'),
-(66, 'MRNO/2022/73', 73, 0, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outsider', '2022-10-16 10:42:57', '2022-10-16 10:43:41'),
+(66, 'MRNO/2022/73', 73, 0, 'CASH', '', '2022-10-16', '2023-02-16', 'finishTreatment', 'outsider', '2022-10-16 10:42:57', '2023-02-16 16:41:56'),
 (67, 'MRNO/2022/74', 74, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 13:07:59', '2022-10-16 13:10:34'),
 (68, 'MRNO/2022/75', 75, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 13:23:22', '2022-10-16 13:24:39'),
 (69, 'MRNO/2022/76', 76, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 14:48:58', '2022-10-16 14:50:33'),
@@ -22122,7 +22148,7 @@ INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_m
 (79, 'MRNO/2022/86', 86, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 19:06:01', '2022-10-16 19:07:46'),
 (80, 'MRNO/2022/87', 87, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'consultation', 'outpatient', '2022-10-16 21:12:12', '2022-10-16 21:12:23'),
 (81, 'MRNO/2022/88', 88, 1, 'CASH', '', '2022-10-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-16 21:25:57', '2022-10-16 21:27:24'),
-(82, 'MRNO/2022/89', 89, 1, 'CASH', '', '2022-10-17', '0000-00-00', 'inTreatment', 'inpatient', '2022-10-17 07:01:08', '2023-02-02 18:22:30'),
+(82, 'MRNO/2022/89', 89, 1, 'CASH', '', '2023-02-15', '0000-00-00', 'inTreatment', 'inpatient', '2022-10-17 07:01:08', '2023-02-15 23:18:12'),
 (83, 'MRNO/2022/90', 90, 1, 'CASH', '', '2022-11-15', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-17 08:06:58', '2022-11-15 13:39:33'),
 (84, 'MRNO/2022/91', 91, 1, 'CASH', '', '2022-10-17', '0000-00-00', 'consultation', 'outpatient', '2022-10-17 09:00:39', '2022-10-17 09:00:52'),
 (85, 'MRNO/2022/92', 92, 1, 'CASH', '', '2022-10-17', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-17 09:03:27', '2022-10-17 09:05:12'),
@@ -22153,7 +22179,7 @@ INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_m
 (110, 'MRNO/2022/117', 117, 1, 'CASH', '', '2022-10-18', '0000-00-00', 'inTreatment', 'inpatient', '2022-10-18 11:06:24', '2023-01-11 23:52:59'),
 (111, 'MRNO/2022/118', 118, 1, 'CASH', '', '2022-10-18', '0000-00-00', 'consultation', 'outpatient', '2022-10-18 11:37:56', '2022-10-18 11:38:14'),
 (112, 'MRNO/2022/119', 119, 0, 'CASH', '', '2022-10-18', '0000-00-00', 'inTreatment', 'outsider', '2022-10-18 12:35:36', '2022-10-18 12:35:40'),
-(113, 'MRNO/2022/120', 120, 1, 'CASH', '', '2023-01-27', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-18 18:04:21', '2023-01-27 11:36:54'),
+(113, 'MRNO/2022/120', 120, 1, 'CASH', '', '2023-02-16', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-18 18:04:21', '2023-02-16 17:32:16'),
 (114, 'MRNO/2022/121', 121, 1, 'CASH', '', '2022-10-18', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-18 18:10:34', '2022-10-18 18:12:31'),
 (115, 'MRNO/2022/122', 122, 1, 'CASH', '', '2022-10-18', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-18 18:39:58', '2022-10-18 18:43:29'),
 (116, 'MRNO/2022/123', 123, 4, 'CASH', '', '2022-11-20', '0000-00-00', 'inTreatment', 'outpatient', '2022-10-18 19:02:25', '2022-11-20 09:36:03'),
@@ -23501,7 +23527,10 @@ INSERT INTO `patient_history` (`id`, `file_id`, `start_treatment`, `end_treatmen
 (189, 692, '2022-11-18 00:00:00', '2022-12-17 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 3000, '2022-12-17', '2022-12-17'),
 (190, 1159, '2022-12-15 00:00:00', '2022-12-17 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 3000, '2022-12-17', '2022-12-17'),
 (191, 46, '2022-10-15 00:00:00', '2023-01-11 00:00:00', 'finishTreatment', 'CASH', '', 'outsider', 0, 0, '2023-01-11', '2023-01-11'),
-(192, 22, '2022-10-13 00:00:00', '2023-02-03 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 3000, '2023-02-03', '2023-02-03');
+(192, 22, '2022-10-13 00:00:00', '2023-02-03 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 3000, '2023-02-03', '2023-02-03'),
+(193, 82, '2022-10-17 00:00:00', '2023-02-15 00:00:00', 'finishTreatment', 'CASH', '', 'inpatient', 1, 3000, '2023-02-15', '2023-02-15'),
+(194, 66, '2022-10-16 00:00:00', '2023-02-16 00:00:00', 'finishTreatment', 'CASH', '', 'outsider', 0, 0, '2023-02-16', '2023-02-16'),
+(195, 113, '2023-01-27 00:00:00', '2023-02-16 00:00:00', 'finishTreatment', 'CASH', '', 'outpatient', 1, 3000, '2023-02-16', '2023-02-16');
 
 -- --------------------------------------------------------
 
@@ -23660,7 +23689,8 @@ INSERT INTO `rad_results` (`id`, `rad_id`, `result`, `ranges`, `unit`, `level`, 
 (25, 2, '', '', '', '', '', 85, '2022-10-14 14:35:17', '2022-10-14 14:35:17', 34, 31, 1),
 (26, 1, '', '', '', '', '', 85, '2022-10-14 08:09:44', '2022-10-14 08:09:44', 34, 31, 1),
 (27, 2, '', '', '', '', '', 0, '2022-10-14 21:13:53', '2022-10-14 21:13:53', 34, 95, 1),
-(33, 2, '', '', '', '', '', 0, '2023-01-12 15:34:35', '2023-01-12 15:34:35', 1239, 31, 0);
+(33, 2, '', '', '', '', '', 0, '2023-01-12 15:34:35', '2023-01-12 15:34:35', 1239, 31, 0),
+(37, 1, '', '', '', '', '', 0, '2023-02-16 16:40:01', '2023-02-16 16:40:01', 66, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -23698,7 +23728,7 @@ INSERT INTO `reffers_form` (`id`, `hospital_reffers`, `patient`, `reasons_reffer
 (10, 0, 152, '', '', '', '', 31, '2023-01-11 23:54:07', '2023-01-11 23:54:07'),
 (11, 0, 1244, '', '', '', '', 31, '2023-01-12 01:13:07', '2023-01-12 01:13:07'),
 (12, 0, 1245, '', '', '', '', 31, '2023-01-12 15:43:44', '2023-01-12 15:43:44'),
-(13, 0, 89, '', '', '', '', 31, '2023-02-02 18:23:52', '2023-02-02 18:23:52');
+(13, 1, 89, '', '', '', '', 31, '2023-02-02 18:23:52', '2023-02-15 10:35:51');
 
 -- --------------------------------------------------------
 
@@ -23987,22 +24017,6 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (1007, 69, 22),
 (1008, 69, 23),
 (1009, 69, 24),
-(1010, 85, 5),
-(1011, 85, 6),
-(1012, 85, 7),
-(1013, 85, 8),
-(1014, 85, 9),
-(1015, 85, 13),
-(1016, 85, 14),
-(1017, 85, 22),
-(1018, 85, 23),
-(1019, 85, 24),
-(1020, 85, 25),
-(1021, 85, 26),
-(1022, 85, 27),
-(1023, 85, 34),
-(1024, 85, 35),
-(1025, 85, 36),
 (1026, 87, 5),
 (1027, 87, 6),
 (1028, 87, 7),
@@ -24116,7 +24130,19 @@ INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
 (1183, 96, 33),
 (1184, 96, 34),
 (1185, 96, 35),
-(1186, 96, 36);
+(1186, 96, 36),
+(1266, 85, 5),
+(1267, 85, 6),
+(1268, 85, 7),
+(1269, 85, 8),
+(1270, 85, 9),
+(1271, 85, 25),
+(1272, 85, 26),
+(1273, 85, 27),
+(1274, 85, 10),
+(1275, 85, 11),
+(1276, 85, 13),
+(1277, 85, 14);
 
 -- --------------------------------------------------------
 
@@ -24222,6 +24248,16 @@ ALTER TABLE `assigned_procedures`
   ADD KEY `procedure_id` (`procedure_id`),
   ADD KEY `doctor` (`doctor`),
   ADD KEY `confirmed_by` (`confirmed_by`);
+
+--
+-- Indexes for table `assigned_to_ward`
+--
+ALTER TABLE `assigned_to_ward`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `room` (`room`),
+  ADD KEY `bed` (`bed`),
+  ADD KEY `ward` (`ward`);
 
 --
 -- Indexes for table `bed_no`
@@ -24443,25 +24479,31 @@ ALTER TABLE `ward`
 -- AUTO_INCREMENT for table `assigneddiagnoses`
 --
 ALTER TABLE `assigneddiagnoses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=962;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=963;
 
 --
 -- AUTO_INCREMENT for table `assignedmedicines`
 --
 ALTER TABLE `assignedmedicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1614;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1619;
 
 --
 -- AUTO_INCREMENT for table `assigned_labtests`
 --
 ALTER TABLE `assigned_labtests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1945;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1946;
 
 --
 -- AUTO_INCREMENT for table `assigned_procedures`
 --
 ALTER TABLE `assigned_procedures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+
+--
+-- AUTO_INCREMENT for table `assigned_to_ward`
+--
+ALTER TABLE `assigned_to_ward`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bed_no`
@@ -24473,7 +24515,7 @@ ALTER TABLE `bed_no`
 -- AUTO_INCREMENT for table `clinicalnotes`
 --
 ALTER TABLE `clinicalnotes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=662;
 
 --
 -- AUTO_INCREMENT for table `clinics`
@@ -24491,7 +24533,7 @@ ALTER TABLE `clinic_doctors`
 -- AUTO_INCREMENT for table `consultation`
 --
 ALTER TABLE `consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=794;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=796;
 
 --
 -- AUTO_INCREMENT for table `consultation_fee`
@@ -24521,7 +24563,7 @@ ALTER TABLE `fertility_assessment`
 -- AUTO_INCREMENT for table `general_examination`
 --
 ALTER TABLE `general_examination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `hospital_reffers`
@@ -24557,7 +24599,7 @@ ALTER TABLE `patients_file`
 -- AUTO_INCREMENT for table `patient_history`
 --
 ALTER TABLE `patient_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 
 --
 -- AUTO_INCREMENT for table `permission`
@@ -24581,7 +24623,7 @@ ALTER TABLE `rad_investigation`
 -- AUTO_INCREMENT for table `rad_results`
 --
 ALTER TABLE `rad_results`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `reffers_form`
@@ -24617,7 +24659,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_permission`
 --
 ALTER TABLE `user_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1266;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1278;
 
 --
 -- AUTO_INCREMENT for table `user_role`
