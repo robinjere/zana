@@ -91,6 +91,11 @@ class RadResult extends Model
             if(in_array(strtolower(session()->get('role')),['doctor','reception'])){
                 return '<button onclick="deleteAssignedRadiology('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
+
+            if(in_array(strtolower(session()->get('role')),['radiology'])){
+                return '<button onclick="attResult('.$row['id'].')" class="badge badge-sm  bg-success"> Add result </button>';
+            }
+
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
                 if($row['confirmed_by'] != 0){
                     return '<button @click="unconfirmPaymentRadiology('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
@@ -100,6 +105,7 @@ class RadResult extends Model
             }
         };
     }
+
     public function updateRadResult(){
         return function($row){
             if(strtolower(session()->get('role')) == 'lab'){

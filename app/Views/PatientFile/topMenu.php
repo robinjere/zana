@@ -122,7 +122,7 @@ $patient_file = [
                   <input type="hidden" name="patient_id" value="<?= $patient_file['patient_id'] ?>"/>
                   <input type="hidden" name="file_no" value="<?= $patient_file['file_no'] ?>"/>
                   <input type="hidden" name="file_id" value="<?= $patient_file['id'] ?>"/>
-                  <button type="submit" class="btn btn-success"> FERTILITY ASSESSMENT </button>
+                  <!-- <button type="submit" class="btn btn-success"> FERTILITY ASSESSMENT </button> -->
                </form>
             
          <?php } ?>

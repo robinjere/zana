@@ -71,6 +71,7 @@
                   <tr>
                     <th scope="col">Clinic</th>
                     <th scope="col">Consultation Fee</th>
+                    <th scope="col">Open File</th>
                     <th scope="col">Payment Method</th>
                     <th scope="col">Doctor</th>
                   </tr>
@@ -80,10 +81,12 @@
                   <?php
                     if(!empty($patient)){
                     //   $TOTAL = 0;
+                    // print_r($patient);
                       ?>
                         <tr>
                           <td><?= $patient->name ?></td>
                           <td><?= number_format(floatval($patient->consultation_fee)).'/='; ?></td>
+                          <td><?= number_format(floatval($patient->new_patient_consultation_fee)).'/='; ?></td>
                           <td><?= $patient->payment_method ?></td>
                           <td><?= $doctor['first_name'] .' '. $doctor['last_name'] ?></td>
                         </tr>
@@ -94,7 +97,7 @@
                     <th colspan="" scope="row">Total</th>
                     <!-- <td colspan="2">Larry the Bird</td> -->
                     
-                    <td><b> <i> <?= number_format(floatval($patient->consultation_fee)) ?>/= </i> </b></td>
+                    <td><b> <i> <?= number_format(floatval($patient->consultation_fee + $patient->new_patient_consultation_fee)) ?>/= </i> </b></td>
                   </tr>
                 </tbody>
               </table>

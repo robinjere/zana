@@ -93,7 +93,17 @@
                     <input type="text" required name="address" value="<?= set_value('address', $currentPatient['address']) ?>" class="form-control" placeholder="Address" aria-describedby="address">
                   </div>
                   <div class="col">
-                    <input type="text" required name="nationality" value="<?= set_value('nationality', $currentPatient['nationality']) ?>" class="form-control" placeholder="Nationality" aria-describedby="nationality">
+
+                      <select name="nationality" value="<?= set_value('nationality') ?>" class="form-select form-select-md" name="" id="">
+                        <option >Select nationality</option>
+                        <?php foreach ($countries as $key => $country) {?>
+                          <option <?= set_value('nationality', $country['name'])  === 'Tanzania' ? 'selected' : '' ?> value="<?= $country['name']; ?>"><?= $country['name']; ?></option>
+                        <?php } ?>
+                        <!-- <option value="">Istanbul</option>
+                        <option value="">Jakarta</option> -->
+                      </select>
+                 
+                    <!-- <input type="text" required name="nationality" value="<?= set_value('nationality', $currentPatient['nationality']) ?>" class="form-control" placeholder="Nationality" aria-describedby="nationality"> -->
                 </div><!-- /col -->
                   <div class="col">
                     <input type="email" name="email" value="<?= set_value('email', $currentPatient['email']) ?>" class="form-control" placeholder="email" aria-describedby="email">
@@ -139,6 +149,8 @@
                   <div class="col"></div>
                 </div>
            </div> <!-- /registration-space-y -->
+           <?php }else{ ?>
+                <input type="hidden" name="pcharacter" value="<?= set_value('pcharacter', $patientFile['patient_character']) ?>"/>
            <?php } ?>
 
             <div class="row mt-6">

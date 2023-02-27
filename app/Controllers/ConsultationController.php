@@ -138,7 +138,10 @@ class ConsultationController extends BaseController
         $consultationModel->save($data);
 
         $consultationData = $consultationModel->where('id', $consultation_id)->first();
-
+         //update patient file from new to exiting
+        //  print_r([ 'id' => $consultationData['file_id'], 'new_patient' => 0 ]);
+        //  exit;
+         $patientFileModel->save([ 'id' => $consultationData['file_id'], 'new_patient' => 0 ]);
         $data['patient'] = $patientFileModel->patientFile($consultationData['file_id'], '');
         $data['doctor'] = $user_model->where('id', $consultationData['doctor_id'])->first();
 

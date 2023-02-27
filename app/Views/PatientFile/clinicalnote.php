@@ -15,7 +15,7 @@
             Clinical Note
           </span>  
      </h5>
-     <?php if(!$patient_file['ishistory']){ ?>
+     <?php if(!$patient_file['ishistory'] &&  in_array(session()->get('role'), ['doctor']) ){ ?>
       <button class="btn btn-sm btn-success add-note" @click="addnote = true"> Add clinical note </button>
      <?php }; ?>
   </div><!-- d-flex -->
@@ -59,8 +59,9 @@
                <!-- <a href="" class="btn btn-sm btn-danger"> delete</a> -->
             </div> <!-- /clinical-btn -->
            <!-- <label for="note" class="form-label note-desc">Added by doctor Juma</label> -->
-       
-           <label for="note" class="form-label note-desc" >Add note here</label>
+         
+            <label for="note" class="form-label note-desc" >Add note here</label>
+         
            <textarea rows="8" class="form-control pt-5 pb-3" id="note" x-model="current_note" placeholder="Type .." ></textarea>
          </div><!-- /input-note -->
      </div><!-- /my-3 -->

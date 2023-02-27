@@ -7,6 +7,12 @@
 
 <!-- PATIENT INFO -->
 
+<!-- <?php 
+ echo '<br>';
+  echo $patient_info['new_patient'];
+ echo '<br/>';
+ ?> -->
+
 <div class="p-info">
   <div class="row">
       <div class="col">
@@ -123,7 +129,7 @@
       <div class="col">
         <template x-if="selectPayment === 'CASH'">
         <div class="registration-space-y" >
-          <input type="number" :value="amount" disabled <?= set_value('amount') ?>  step="any" name="amount"  class="form-control" placeholder="Consultation Fee" title="Consultation Fee" aria-describedby="Consultation Fee">
+          <input type="number" :value="amount" disabled <?=  set_value('amount') ?>  step="any" name="amount"  class="form-control" placeholder="Consultation Fee" title="Consultation Fee" aria-describedby="Consultation Fee">
           </div>
         </template>
         <input type="hidden" :value="amount" <?= set_value('amount') ?> name="amount"/>
@@ -156,6 +162,7 @@
       option:null, 
       amount:0, 
       doctors : '',
+      is_new_patient: <?= $patient_info['new_patient'] ?>,
       selectedDoctor: '',
       clinics: <?= json_encode($clinics); ?>,
       selectedClinic: '',
@@ -174,7 +181,9 @@
            }).catch(error => console.log('error', error))
       },
       checkConsultationFee(){
-        this.amount =  this.clinics.filter(c => c.id === this.selectedClinic)[0].consultation_fee;
+        let clinic = this.clinics.filter(c => c.id === this.selectedClinic)[0];
+        console.log(clinic);
+        this.amount =  this.is_new_patient === 0  ? Number( clinic.consultation_fee) : Number(clinic.consultation_fee) + Number(clinic.new_patient_consultation_fee);
       }
      }
   } 

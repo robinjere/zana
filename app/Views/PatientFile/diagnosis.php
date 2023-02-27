@@ -136,24 +136,30 @@
             </table>
         </div><!-- /working-diagnosis -->
     </div><!-- /col-6 -->
-    <div class="col-6">
-        <div class="final-diagnosis">
-        <!-- <span class="line2"></span> -->
-        <h4 class="py-4">Final diagnosis</h4>
-            <table id="table_final_diagnosis" class="table table-striped table-bordered">
-                <thead>   
-                  <tr class="table-header">
-                      <th scope="col">Date</th>
-                      <th scope="col">Diagnoses</th>
-                      <th scope="col">Diagnoses Note </th>
-                      <?php if(session()->get('role') == 'doctor' && !session()->has('phistory')){?>
-                        <th scope="col" >Action</th>
-                      <?php } ?>
-                  </tr>
-                </thead>
-            </table>
-        </div><!-- /final-diagnosis -->
-    </div><!-- /col-6 -->
+
+    <?php if(in_array(session()->get('role'), ['doctor' ])){ ?>
+      
+      <div class="col-6">
+          <div class="final-diagnosis">
+          <!-- <span class="line2"></span> -->
+          <h4 class="py-4">Final diagnosis</h4>
+              <table id="table_final_diagnosis" class="table table-striped table-bordered">
+                  <thead>   
+                    <tr class="table-header">
+                        <th scope="col">Date</th>
+                        <th scope="col">Diagnoses</th>
+                        <th scope="col">Diagnoses Note </th>
+                        <?php if(session()->get('role') == 'doctor' && !session()->has('phistory')){?>
+                          <th scope="col" >Action</th>
+                        <?php } ?>
+                    </tr>
+                  </thead>
+              </table>
+          </div><!-- /final-diagnosis -->
+      </div><!-- /col-6 -->
+
+    <?php } ?>
+
    </div><!-- /row -->
 
 

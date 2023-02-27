@@ -8,6 +8,7 @@ use App\Models\PatientsFileModel;
 use App\Models\UserModel;
 use App\Models\ConsultationModel;
 use App\Models\ClinicModel;
+use App\Models\CountriesModel;
 use App\Models\LabtestModel;
 use monken\TablesIgniter;
 
@@ -21,8 +22,11 @@ class PatientController extends BaseController
 
     public function register(){
         $patientModel = new PatientModel();
+        $countriesModel = new CountriesModel;
         helper('form');
         $data = [];
+
+        $data['countries'] = $countriesModel->findAll();
 
         if($this->request->getMethod() === 'post'){
             $rules = [
@@ -50,7 +54,7 @@ class PatientController extends BaseController
                        // exit;
                        
                        $patientFileModel = new PatientsFileModel;
-                       $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => $form_data['pcharacter']]);
+                       $patientFileModel->save(['patient_id' => $patient_id, 'file_no' => $file_generated, 'patient_character' => $form_data['pcharacter'], 'new_patient' => 1]);
                        if($form_data['pcharacter'] == 'outsider'){
                            return redirect()->to('/patient/outsider/'.$patient_id)->with('success', 'patient registered');
                        }
@@ -70,8 +74,11 @@ class PatientController extends BaseController
     public function edit_patient(int $patient_id){
         $patientModel = new PatientModel();
         $patientFileModel = new PatientsFileModel();
+        $countriesModel = new CountriesModel;
+
         helper('form');
         $data = [];
+        $data['countries'] = $countriesModel->findAll();
         $data['currentPatient'] = $patientModel->where('id', $patient_id)->first();
         $data['patientFile'] = $patientFileModel->where('patient_id', $patient_id)->first();
         if($this->request->getMethod() === 'post'){

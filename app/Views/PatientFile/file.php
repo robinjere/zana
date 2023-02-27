@@ -64,26 +64,49 @@
    <hr class="divider" style="margin: 0 !important; "/>
     <div class="file-content">
 
-    <?php if(in_array(session()->get('role'), ['doctor','radiology'])){?>
+    
+
+    <?php if(in_array(session()->get('role'), ['doctor'])){?>
         
         <div class="mt-2 section-style">
+
             <div class="row">
                 <div class="col-6">
                     <!-- clinical note  -->
                     <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
                     <!-- clinical note -->
                 </div><!-- /col-6 -->
-                <div class="col-6">
+                <?php if(in_array(session()->get('role'), ['doctor'])){ ?>
+                    <div class="col-6">
                     <!-- clinical note  -->
-                    <?= view_cell('\App\Libraries\PatientPanel::GeneralExamination', $patient_file) ?>
+                        <?= view_cell('\App\Libraries\PatientPanel::GeneralExamination', $patient_file) ?>
                     <!-- clinical note -->
-                </div><!-- /col-6 -->
+                    </div><!-- /col-6 -->
+                <?php } ?>
+           
             </div>
         </div>
 
     <?php } ?>
 
-   <?php if(in_array(session()->get('role'), ['doctor'])){?>
+    <?php if(in_array(session()->get('role'), ['radiology'])){?>
+        
+        <div class="mt-2 section-style">
+        <!-- RADIOLOGY UI LIST  -->
+        <div class="row">
+            <div class="col-6">
+            <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+            </div>
+            <div class="col-6">
+            <?= view_cell('\App\Libraries\PatientPanel::Radiology', $patient_file) ?> 
+            </div>
+        </div>
+        <!-- RADIOLOGY UI LIST  -->
+        </div>
+
+    <?php } ?>
+
+   <?php if(in_array(session()->get('role'), ['doctor' , 'radiology'])){?>
         <div class="mt-2 section-style">
             <!-- labtest -->
             <?= view_cell('\App\Libraries\PatientPanel::Diagnoses', $patient_file) ?> 

@@ -258,6 +258,10 @@
                 echo $VIEWHISTORY;
               }
             break;
+
+          case 'radiology' : 
+            echo $ATTEND;
+            break;
            
            default:
              # code...
