@@ -489,9 +489,6 @@ body{
   color: #FFFFFF;
 }
 
-
-
-
 .detail .row{
   border-bottom: 1px solid #e3e3eb;
 }
@@ -628,10 +625,8 @@ body{
 .file-exit .icon{}
 .file-exit .link-title{
   margin-left: 10px;
- 
   font-size: var(--sm-heading);
   color: #000000;
-
 }
 
 .file-nav li{
@@ -788,6 +783,27 @@ th { white-space: nowrap !important; }
 /* stylish input note */
 .input-note{
   position: relative;
+}
+
+.clinical_note_container{
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background: #e9ecef;
+}
+
+.clinical_note_container .note-section span{
+  position: absolute;
+  font-size: .89rem;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-left: 14px;
+  color: #505050;
+}
+.clinical_note_container .note-section{
+  position:relative;
+}
+.clinical_note_container .note-section textarea{
+  position: realitive;
 }
 
 .input-note .clinical-btn{

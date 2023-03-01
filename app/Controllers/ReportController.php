@@ -403,8 +403,9 @@ class ReportController extends BaseController
 
         
         // echo 'Sales: <pre> </pre> ';
-        // print_r($data);
+        
         // echo '<pre> ';
+        // print_r($data);
         // echo '</pre>';
         // exit;
 

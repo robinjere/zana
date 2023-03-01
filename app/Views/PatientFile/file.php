@@ -73,7 +73,7 @@
             <div class="row">
                 <div class="col-6">
                     <!-- clinical note  -->
-                    <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+                    <?= view_cell('\App\Libraries\PatientPanel::ClinicalNotes', $patient_file) ?>
                     <!-- clinical note -->
                 </div><!-- /col-6 -->
                 <?php if(in_array(session()->get('role'), ['doctor'])){ ?>

@@ -78,7 +78,7 @@ class SalesModel extends Model
     public function salesData($start_date, $end_date, $cashier_id = null){
             
             $builder = $this->db->table('sales');
-            $builder->select('sales.id, sales.qty, sales.dose, sales.amount, sales.discount, sales.updated_at, items.name');
+            $builder->select('sales.id, sales.qty, sales.dose, sales.amount, sales.discount, sales.updated_at, items.name, items.selling_price');
             $builder->join('items', 'items.id = sales.item_id');
             // $builder->join('assigned_labtests', 'assigned_labtests.confirmed_by = user.id');
             // $builder->groupStart();

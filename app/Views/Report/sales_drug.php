@@ -96,16 +96,16 @@
           $total = 0;
           if(!empty($sales)) {
             foreach ($sales as $key => $sale) { 
-             $total += ($sale->amount * $sale->qty) - ($sale->discount * $sale->qty);
+             $total += ($sale->amount) ;
              ?>
               <tr>
                   <td><?= ++$key ?></td>
                   <td><?= date_format(date_create($sale->updated_at), 'd-m-Y') ?></td>
                   <td><?= $sale->name ?></td>
                   <td><?= $sale->qty ?> </td>
-                  <td><?= number_format(floatval($sale->amount)) ?> </td>
+                  <td><?= number_format(floatval($sale->selling_price)) ?> </td>
                   <td><?= $sale->discount ?> </td>
-                  <td><?=  number_format(floatval(($sale->amount * $sale->qty) - ($sale->discount * $sale->qty))) ?>/= </td>
+                  <td><?=  number_format(floatval($sale->amount)) ?>/= </td>
               </tr>
           <?php }
          }  

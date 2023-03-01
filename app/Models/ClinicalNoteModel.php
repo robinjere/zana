@@ -14,7 +14,7 @@ class ClinicalNoteModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id','note','doctor','created_at', 'updated_at', 'treatment_ended'];
+    protected $allowedFields    = ['file_id','note', 'main_complain', 'history_of_presert', 'past_medical_history', 'family_social_history', 'review_complain', 'doctor','created_at', 'updated_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;
@@ -44,7 +44,7 @@ class ClinicalNoteModel extends Model
     //clinical notes
     public function getClinicalNotes($file_id, $start_date, $end_date){
         $builder = $this->db->table('clinicalnotes');
-        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.note, user.first_name, user.last_name, clinicalnotes.doctor');
+        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.note, clinicalnotes.main_complain, clinicalnotes.history_of_presert, clinicalnotes.past_medical_history, clinicalnotes.family_social_history, clinicalnotes.review_complain, user.first_name, user.last_name, clinicalnotes.doctor');
         $builder->orderBy('clinicalnotes.id', 'DESC');
         $builder->join('user', 'clinicalnotes.doctor = user.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');

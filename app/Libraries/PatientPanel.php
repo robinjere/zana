@@ -20,6 +20,9 @@ class PatientPanel{
    public function ClinicalNote(array $patientFile){
        return view('patientfile/clinicalnote', ['patient_file' => $patientFile]);
    }
+   public function ClinicalNotes(array $patientFile){
+       return view('patientfile/clinical_note', ['patient_file' => $patientFile]);
+   }
    public function Procedures(array $patientFile){
        return view('patientfile/procedure', ['patient_file'=> $patientFile]);
    }
