@@ -15,7 +15,7 @@
          <!-- <button type="button" class="btn btn-outline-primary" @click="assignDrug()" x-cloak x-show="showAssignArea">Assign LabTest</button> -->
          <!-- bootstrap5 Model -->
                <!-- Button trigger modal -->
-               <?php if(in_array(session()->get('role'), ['doctor'])){ ?>
+               <?php if(in_array(session()->get('role'), ['doctor', 'radiology'])){ ?>
                   <button type="button" onclick="radiologyResults()" class="btn-sm btn btn-outline-success" style="margin-right: 9px;" data-bs-toggle="modal" data-bs-target="#radiologyResults">
                      View Result
                   </button>
@@ -84,7 +84,7 @@
                   <div class="modal-dialog" style="max-width: 82%;" role="document">
                      <div class="modal-content">
                         <div class="modal-header">
-                           <h5 class="modal-title">Patient Result</h5>
+                           <h5 class="modal-title">Patient Radiology Result</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -94,9 +94,9 @@
                                           <tr class="table-header">
                                              <th scope="col">Test name</th>
                                              <th scope="col">Result</th>
-                                             <th scope="col">Ranges</th> 
-                                             <th scope="col">Unit</th>
-                                             <th scope="col">Level</th>
+                                                <!-- <th scope="col">Ranges</th> 
+                                                <th scope="col">Unit</th>
+                                                <th scope="col">Level</th> -->
                                              <th scope="col">Attachment</th>
                                              <th scope="col">Ordered on</th>
                                              <?php if(session()->get('role')== 'lab' && !session()->has('phistory')){?>
@@ -108,7 +108,7 @@
                               </div><!-- /procedure-table -->
                         </div>
                         <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <button type="button" class="btn-sm btn-danger  " data-bs-dismiss="modal">Close</button>
                            <!-- <button type="button" class="btn btn-primary">Save</button> -->
                         </div>
                      </div>
@@ -176,7 +176,53 @@
         </table>
     </div><!-- /procedure-table -->
 
+    
+ <!-- RADIOLOGY RESULT TO ADD -->
+
+    <!-- Modal -->
+    <div class="modal fade mt-3" id="addRadiologyResult_" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">Add or Update Radiology Result </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+             <div class="d-flex justify-content-center align-items-center mt-2">
+                <div x-cloak x-show="loading" class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                </div><!-- /spinner-border -->
+              </div><!-- /d-flex -->
+              <template x-if="loading == false && radResult.id != ''">  
+               
+               <form @submit.prevent="addRadiologyResult()" method="post" enctype="multipart/form-data" >           
+                  <div class="mb-3">
+                     <label for="result_" class="form-label">Result</label>                 
+                     <textarea class="form-control" x-model="radResult.result" id="result_" rows="3"></textarea>
+                  </div>
+                  <div class="mb-3">
+                     <label for="attachment_" class="form-label">Attachment</label>
+                     <input type="file" class="form-control" @change="radResult.attachment = $event.target.files[0]"  id="attachment_" placeholder="Attachment" aria-describedby="attachementHelp">
+                     <div id="attachementHelp" class="form-text">upload file here</div>
+                  </div>
+                </form> <!-- /form-post -->
+
+              </template>
+            </div><!-- /modal-body -->
+            <div class="modal-footer">
+               <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+               <button type="button" @click="addRadiologyResult()"  class="btn btn-sm btn-primary">Verify Result</button>
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <!-- RADIOLOGY RESULT TO ADD -->
+
 </div> <!-- /labtest -->
+
+
 
 
 <?= $this->section('script') ?>
@@ -192,6 +238,38 @@
          searchInput: '',
          showSearchInput: true,
          alertTime: '',
+         radResult: {
+            id: '',
+            result:'',
+            attachment: ''
+         },
+         getRadiology(rad_Id){
+              this.success = false;
+              this.loading = true;
+            //   console.log('Get lab Test Result', labtestId)
+              fetch('<?= base_url('patientFileController/ajax_getRadiology') ?>',{
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                   id : rad_Id
+                })
+              }).then(res => res.json()).then(data => {
+                       data = data.result
+                     //   console.log('result ----> data', data); 
+                       this.loading = false;
+                       this.radResult.id = data.id;
+                       this.radResult.result = data.result;
+                     //   this.labtestResult.ranges = data.ranges
+                     //   this.labtestResult.unit = data.unit
+                     //   this.labtestResult.level = data.level
+                     //   this.radResult.attachment = data.attachment
+                       console.log('radiology result after clicking..', data);
+             })
+         },
          searchRadiology(){
 
           if(this.searchInput !== ''){
@@ -315,7 +393,61 @@
                this.itermsForPrinting = this.itermsForPrinting.filter(iterm => (iterm !== ItemId))
             }
          // console.log('items to print after one iterm removed', this.itermsForPrinting)
-         }
+         },
+         addRadiologyResult(){
+              this.success = false;
+              this.loading = true;
+            //   let labResult = {};
+
+              let formData = new FormData();
+      
+              formData.append('id', this.radResult.id);
+              formData.append('result', this.radResult.result);
+              formData.append('verified_by', <?= session()->get('id') ?>);
+              formData.append('attachment', this.radResult.attachment);
+
+            //   console.log('id', this.radResult.id);
+            //   console.log('result', this.radResult.result);
+            //   console.log('verified_by', <?= session()->get('id') ?>);
+            //   console.log('attachment', this.radResult.attachment);
+
+            //   console.log('form data', ...formData);
+            //   return;
+            
+              fetch('<?= base_url('patientFileController/ajax_addRadiologyResult') ?>', {
+                method: 'post',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+               //  'Content-Type': 'multipart/form-data',
+                'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({id : this.radResult.id,
+                       result: this.radResult.result,
+                       verified_by: <?= session()->get('id') ?>,
+                     //   attachment: this.radResult.attachment 
+                     })
+              }).then(res => res.json()).then(data => {
+                     //   console.log('after added result ----> data', data); 
+                     //   console.log('yaan ----> data', data); 
+                       this.loading = false;
+
+                       this.radResult.id = ''
+                       this.radResult.result = ''
+                       this.radResult.attachment = ''
+
+                       //call labtest result..
+                       let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('radiologyResults')) // Returns a Bootstrap modal instance
+                       let modal2 = bootstrap.Modal.getOrCreateInstance(document.getElementById('addRadiologyResult_')) // Returns a Bootstrap modal instance
+                       // Show or hide:
+
+                       modal.show();
+                       radiologyResults();
+                       modal2.hide();
+
+                     // console.log('labtest result after', data);
+             })
+         },
       }
   }
 

@@ -164,6 +164,7 @@ document.addEventListener('alpine:init', () => {
 
       //  this.notes = custom_addnote(this.current_note)
      },
+     
      getClinicalNotes(){
       //   console.error('before request', JSON.stringify({file_id:<?= $patient_file['id'] ?>, start_date: this.start_treatment, end_date: this.end_treatment}))
         fetch("<?= base_url('patientFileController/ajax_getclinicalnotes')?>", {

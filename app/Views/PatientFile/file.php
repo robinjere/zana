@@ -95,7 +95,7 @@
         <!-- RADIOLOGY UI LIST  -->
         <div class="row">
             <div class="col-6">
-            <?= view_cell('\App\Libraries\PatientPanel::ClinicalNote', $patient_file) ?>
+            <?= view_cell('\App\Libraries\PatientPanel::ClinicalNotes', $patient_file) ?>
             </div>
             <div class="col-6">
             <?= view_cell('\App\Libraries\PatientPanel::Radiology', $patient_file) ?> 

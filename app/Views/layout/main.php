@@ -12,19 +12,23 @@
     <link rel="stylesheet" href="/DataTables/Buttons-2.0.1/css/buttons.bootstrap5.min.css" />
 
     <link rel="stylesheet" href="/animate.css/animate.min.css" />
-    <link rel="stylesheet" href="/style.css" />
     <?= $this->renderSection('module-css') ?>
+    <link rel="stylesheet" href="/dropzone@5/dropzone.min.css" type="text/css" />
     <link rel="stylesheet" href="/paper.css" />
+    <link rel="stylesheet" href="/style.css" />
 
     
-    <script defer src="/customjs.js"></script>
     <script defer src="/alpinejs/cdn.js"></script> 
+    <script defer src="/customjs.js"></script>
     
     <script defer src="/DataTables/buttons.html5.min.js"> </script> 
     <script defer src="/DataTables/buttons.print.min.js"> </script>
     <script defer src="/DataTables/dataTables.buttons.min.js"> </script>
     <script defer src="/DataTables/jquery.dataTables.min.js"> </script>
     <script src="/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script defer src="/dropzone@5/dropzone.min.js"></script>
+
 
 </head>
 <body>

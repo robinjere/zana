@@ -545,6 +545,33 @@ body{
   border-bottom: 2px solid #f7f0ea;
   margin-bottom: 5px;
 }
+
+.p-history{
+  BACKGROUND: WHITE;
+  PADDING: 19PX;
+  BORDER-RADIUS: 5PX;
+}
+.p-history .header{
+  color: #198754;
+  padding: 31px 0 14px !important;
+  margin: 0 !important;
+  font-weight: 700 !important;
+  text-align: center;
+  font-size: 1.15555rem !important;
+  text-transform: uppercase;
+}
+
+.text-align-center{
+  text-align: center;
+}
+
+@media (min-width: 1200px){
+  .p-history .header h1{
+    font-size: 1.15555rem !important;
+    font-weight: 700 !important;
+  }
+}
+
 /* ---------------  PATIENT SEARCH  WIDGET ---------------  */
 
 /* ---------------  PATIENT FILE  ---------------  */
@@ -779,6 +806,7 @@ th { white-space: nowrap !important; }
   padding: 0.1rem 0.5rem !important;
 } */
 [x-cloak] { display: none !important; }
+.x-cloak { display: none !important; }
 
 /* stylish input note */
 .input-note{
@@ -795,15 +823,23 @@ th { white-space: nowrap !important; }
   position: absolute;
   font-size: .89rem;
   font-weight: 500;
-  margin-top: 10px;
-  margin-left: 14px;
+  /* margin-top: 10px; */
+  /* margin-left: 14px; */
   color: #505050;
+  display: block;
+  width: 100%;
+  background: #fff;
+  padding: 10px 14px 1px;
+  border: inherit !important;
 }
 .clinical_note_container .note-section{
   position:relative;
 }
 .clinical_note_container .note-section textarea{
   position: realitive;
+  padding-top: 1.99rem !important;
+  color: black;
+  font-weight: bold;
 }
 
 .input-note .clinical-btn{

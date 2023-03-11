@@ -141,8 +141,8 @@ class ConsultationController extends BaseController
          //update patient file from new to exiting
         //  print_r([ 'id' => $consultationData['file_id'], 'new_patient' => 0 ]);
         //  exit;
-         $patientFileModel->save([ 'id' => $consultationData['file_id'], 'new_patient' => 0 ]);
         $data['patient'] = $patientFileModel->patientFile($consultationData['file_id'], '');
+         $patientFileModel->save([ 'id' => $consultationData['file_id'], 'new_patient' => 0 ]);
         $data['doctor'] = $user_model->where('id', $consultationData['doctor_id'])->first();
 
         //Generate consultation risit.

@@ -148,7 +148,7 @@ $patient_file = [
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
          
-         <a href="<?= base_url('patientfile/history/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+         <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
        
       </div>
    </div><!-- /d-flex> -->

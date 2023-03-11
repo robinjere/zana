@@ -86,7 +86,7 @@
                         <tr>
                           <td><?= $patient->name ?></td>
                           <td><?= number_format(floatval($patient->consultation_fee)).'/='; ?></td>
-                          <td><?= number_format(floatval($patient->new_patient_consultation_fee)).'/='; ?></td>
+                          <td><?= $patient->new_patient == 0 ? ' - ' : number_format(floatval($patient->new_patient_consultation_fee)).'/='; ?></td>
                           <td><?= $patient->payment_method ?></td>
                           <td><?= $doctor['first_name'] .' '. $doctor['last_name'] ?></td>
                         </tr>
@@ -97,7 +97,7 @@
                     <th colspan="" scope="row">Total</th>
                     <!-- <td colspan="2">Larry the Bird</td> -->
                     
-                    <td><b> <i> <?= number_format(floatval($patient->consultation_fee + $patient->new_patient_consultation_fee)) ?>/= </i> </b></td>
+                    <td><b> <i> <?=  $patient->new_patient == 0 ? number_format(floatval($patient->consultation_fee)) : number_format(floatval($patient->consultation_fee + $patient->new_patient_consultation_fee)) ?>/= </i> </b></td>
                   </tr>
                 </tbody>
               </table>

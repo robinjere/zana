@@ -71,38 +71,33 @@ class PatientFileController extends BaseController
        return view('patientfile/file', $data);
     }
 
-    public function viewHistory(){
+    public function viewHistory(int $file_id){
         $clinicalModel = new ClinicModel;
-        if($this->request->getMethod() == 'post'){
-            // echo '<pre>';
-            // print_r($this->request->getVar());
-            // echo '</pre>';
-            // exit;
-            $patient_file  = $this::patient_file($this->request->getVar('file_id'));
-            $patient_file->start_treatment = $this->request->getVar('start_treatment'); 
-            $patient_file->end_treatment = $this->request->getVar('end_treatment');
-            $patient_file->payment_method = $this->request->getVar('payment_method');
-            // print_r($patient_file);
-            
-            $clinic = $clinicalModel->where('id', $this->request->getVar('clinic'))->first();
-            // $patient_file->end_treatment = $this->request->getVar('end_treatment');
-            // echo '<pre> --- clinic ---';
-            // print_r($clinic);
-            // echo 'requested clinical ide->'.$this->request->getVar('clinic');
-            // echo '</pre>';
-            // exit;
-            if(!empty($clinic)){
-                $patient_file->name = $clinic['name'];
-            }
+        $patientsFileModel = new PatientsFileModel;
 
-            $patient_file->consultation_fee = $this->request->getVar('consultation_fee');
-            $data['patient_file'] = $patient_file;
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
 
-            session()->set(['phistory' => true ]);
-            
-            $data['history'] = 'Patient history';
-           return view('patientfile/file', $data);
-        }
+        return view('patient/history/layout', $data);
+    }
+
+    public function historyClinicalNote(int $file_id){
+        $clinicalModel = new ClinicModel;
+        $patientsFileModel = new PatientsFileModel;
+        $clinicalNoteModel = new ClinicalNoteModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        $data['clinical_notes'] =  $clinicalNoteModel->getClinicalNotes($file_id);
+
+        return view('patient/history/clinical_note', $data);
+    }
+
+    public function historyGeneralExamination(int $file_id){
+        $clinicalModel = new ClinicModel;
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+
+        return view('patient/history/general_examination', $data);
     }
 
     public function history($file_id){
@@ -141,9 +136,25 @@ class PatientFileController extends BaseController
     }
 
     public function ajax_addnote(){
+            
         if($this->request->getMethod() == 'post'){
             $clinicalNoteModel = new ClinicalNoteModel;
-            if($clinicalNoteModel->save($this->request->getVar())){
+            $_data = [];
+            $_data = [
+                'file_id' => $this->request->getVar('file_id'), 
+                'doctor' =>  $this->request->getVar('doctor'),  
+                'main_complain' => $this->request->getVar('main_complain'),
+                'history_of_present' => $this->request->getVar('history_of_present'),
+                'past_medical_history' => $this->request->getVar('past_medical_history'),
+                'family_social_history' => $this->request->getVar('family_social_history'),
+                'review_complain' => $this->request->getVar('review_complain')
+            ];
+
+            if($this->request->getVar('id')){
+                $_data['id'] =  $this->request->getVar('id');
+            }
+
+            if($clinicalNoteModel->save($_data)){
                 echo json_encode(['success' => true, 'message' => 'clinical note added!']);
             }else{
                 echo json_encode(['success' => false, 'message' => 'Failed to add clinical!']);
@@ -171,7 +182,7 @@ class PatientFileController extends BaseController
             }
         }
     }
-
+        
     public function ajax_assignprocedure(){
         $assignedProceduresModel =  new AssignedProceduresModel;
         if($this->request->getMethod() == 'post'){
@@ -654,6 +665,15 @@ class PatientFileController extends BaseController
     }
    }
 
+   public function ajax_getRadiology(){
+    $radResult = new RadResult;
+    if($this->request->getMethod() == 'post'){
+         $rad_id = $this->request->getVar('id');
+         $rad_result = $radResult->where('id', $rad_id)->first();
+         echo json_encode(['result' => $rad_result ]);
+    }
+   }
+
    //labtest result
    public function ajax_addLabTestResult(){
     $labtestResult = new AssignedLabtestModel;
@@ -665,7 +685,41 @@ class PatientFileController extends BaseController
       }
     }
    }
+   
+   //assign result to radiology 
+   public function ajax_addRadiologyResult(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+      $_id = $this->request->getVar('id');
+      $_result = $this->request->getVar('result');
+      $verified_by = $this->request->getVar('verified_by');
 
+    //handle file 
+    //   $_file = $this->request->getFile('attachment');
+    //   echo json_encode(['file' => $_file]);
+    //   print_r($_file);
+    //   exit;
+    //   if($_file->isValid() && !$_file->hasMoved()){
+    //     $newName = 'radiology_result'.$_file->getRandomName();
+    //     $_file->move('./uploads', $newName);
+    //   }
+
+    //   print_r(['id' => $_id, 'result' => $_result, 'verified_by' => $verified_by, 'attachment' => $_file]);
+    //   exit;
+
+    if( $radResultModel->save(['id' => $_id, 'result' => $_result, 'confirmed_by' => $verified_by])){
+        echo json_encode(['success'=> true, 'message' => 'successful radiology result added!']);
+    }
+
+    //   exit;
+    //   if($labtestResult->save($this->request->getVar())){
+    //       echo json_encode(['success'=> true, 'message' => 'successful radiology result added!']);
+    //   }
+
+    }
+   }
+
+   //get assigned radiology 
    public function ajax_radiologyResults(){
     $radResultModel = new RadResult;
     if($this->request->getMethod() == 'post'){
@@ -678,7 +732,7 @@ class PatientFileController extends BaseController
                    ->setDefaultOrder('id', 'DESC')
                  //   ->setSearch(['name'])
                    ->setOrder(['updated_at'])
-                   ->setOutput(['test_name', 'result', 'ranges', 'unit', 'level', 'attachment',$radResultModel->radiologyDateFormat(), $radResultModel->updateRadResult()]);
+                   ->setOutput(['test_name', 'result', 'attachment',$radResultModel->radiologyDateFormat(), $radResultModel->updateRadResult()]);
    
         return $data_table->getDatatable();
        }

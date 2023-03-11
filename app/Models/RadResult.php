@@ -61,6 +61,7 @@ class RadResult extends Model
         $builder->groupStart();
         $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         $builder->where('rad_results.file_id', $file_id);
+        $builder->where('rad_results.result !=', '');
         $builder->groupEnd();
        
         return $builder;
@@ -92,8 +93,8 @@ class RadResult extends Model
                 return '<button onclick="deleteAssignedRadiology('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
 
-            if(in_array(strtolower(session()->get('role')),['radiology'])){
-                return '<button onclick="attResult('.$row['id'].')" class="badge badge-sm  bg-success"> Add result </button>';
+            if(in_array(strtolower(session()->get('role')),['radiology']) && $row['confirmed_by'] != 0){
+                return '<button data-bs-toggle="modal" data-bs-target="#addRadiologyResult_" @click="getRadiology('.$row['id'].')" class="badge badge-sm  bg-success"> Add result </button>';
             }
 
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
