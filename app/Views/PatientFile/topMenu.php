@@ -1,5 +1,4 @@
-<?php 
-
+<?php $uri = service('uri');
  
 $patient_file = [
    'id' => $id,
@@ -147,8 +146,9 @@ $patient_file = [
             <!-- $patient_file['id'] -->
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
-         
-         <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+         <?php if($uri->getSegment(1) !== 'history'){ ?> 
+           <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+         <?php } ?>
        
       </div>
    </div><!-- /d-flex> -->

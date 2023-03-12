@@ -40,14 +40,16 @@ class AssignedMedicineModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAssignedMedicine(Int $file_id, $start_date, $end_date){
+    public function getAssignedMedicine(Int $file_id, $start_date=null, $end_date=null){
 
             $builder = $this->db->table('assignedmedicines');
             $builder->select('assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, items.name, items.selling_price, assignedmedicines.dosage, assignedmedicines.route,assignedmedicines.frequency, assignedmedicines.days, assignedmedicines.qty, assignedmedicines.instruction, assignedmedicines.confirmed_by, assignedmedicines.printed');
             $builder->join('items', 'assignedmedicines.drug_id = items.id');
             // $builder->join('user', 'assigned_procedures.doctor = user.id');
             $builder->groupStart();
-            $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            if($start_date != null || $end_date != null){
+                $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+            }
             $builder->where('assignedmedicines.file_id', $file_id);
             $builder->groupEnd();
             return $builder;
@@ -74,17 +76,17 @@ class AssignedMedicineModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0){
+            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteMedicine('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'pharmacy' &&  $row['confirmed_by'] != 0){
+            if(session()->get('role') == 'pharmacy' &&  $row['confirmed_by'] != 0 && !session()->has('phistory')){
                 if($row['taken'] == 0 ){
                     return '<button @click="taken('.$row['id'].')" class="badge badge-sm bg-danger"> not taken </button>';
                 }else{
                     return '<button @click="nottaken('.$row['id'].')" class="badge badge-sm bg-success"> taken </button>';
                 }
             }
-            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0 && !session()->has('phistory')){
                 if($row['confirmed_by'] != 0){
                     return '<button @click="unconfirmPaymentMedicine('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
                 }else{

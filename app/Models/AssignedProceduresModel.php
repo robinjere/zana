@@ -40,13 +40,15 @@ class AssignedProceduresModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAssignedProcedures(Int $file_id, $start_date, $end_date){
+    public function getAssignedProcedures(Int $file_id, $start_date=null, $end_date=null){
         $builder = $this->db->table('assigned_procedures');
         $builder->select('procedures.name, user.first_name, user.last_name, assigned_procedures.id, assigned_procedures.procedure_note, assigned_procedures.amount, assigned_procedures.confirmed_by, assigned_procedures.printed, assigned_procedures.created_at');
         $builder->join('procedures', 'assigned_procedures.procedure_id = procedures.id');
         $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
-        $builder->where('DATE(assigned_procedures.created_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        if($start_date != null || $end_date != null){
+            $builder->where('DATE(assigned_procedures.created_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        }
         $builder->where('assigned_procedures.file_id', $file_id);
         $builder->groupEnd();
         return $builder;
@@ -73,10 +75,10 @@ class AssignedProceduresModel extends Model
 
     public function actionButtons(){
         return function($row){
-            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0){
+            if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'cashier' && $row['printed'] == 0){
+            if(session()->get('role') == 'cashier' && $row['printed'] == 0 && !session()->has('phistory')){
                 if($row['confirmed_by'] != 0){
                     return '<button @click="unconfirmPaymentProcedure('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
                 }else{

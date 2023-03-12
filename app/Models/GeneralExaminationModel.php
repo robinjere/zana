@@ -97,6 +97,15 @@ class GeneralExaminationModel extends Model
         return $builder->get()->getRow();
     }
 
+    public function getExaminations($file_id){
+        $builder = $this->db->table('general_examination');        
+        $builder->select(' general_examination.updated_at, general_examination.pressure, general_examination.temperature, general_examination.pulse_rate, general_examination.weight, general_examination.height, general_examination.body_mass, general_examination.body_surface_area, general_examination.body_mass_comment, general_examination.saturation_of_oxygen,general_examination.respiratory_rate,general_examination.description,general_examination.added_by, user.first_name, user.last_name');
+        $builder->join('patients_file', 'patients_file.id = general_examination.patient_file');
+        $builder->join('user', 'user.id = general_examination.added_by');
+        $builder->where('general_examination.patient_file', $file_id);
+        return $builder->get()->getResult();
+    }
+
     // Save Examination,
     // public function saveExamination(Array $examinationData){
     //     $builder = $this->db->table('generalexaminations');

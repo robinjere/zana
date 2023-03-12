@@ -81,6 +81,9 @@ class PatientFileController extends BaseController
     }
 
     public function historyClinicalNote(int $file_id){
+        //add session history
+        session()->set('phistory', true);
+        
         $clinicalModel = new ClinicModel;
         $patientsFileModel = new PatientsFileModel;
         $clinicalNoteModel = new ClinicalNoteModel;
@@ -94,10 +97,47 @@ class PatientFileController extends BaseController
     public function historyGeneralExamination(int $file_id){
         $clinicalModel = new ClinicModel;
         $patientsFileModel = new PatientsFileModel;
+        $generalExaminationModel = new GeneralExaminationModel;
 
         $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        $data['generalExamination'] =  $generalExaminationModel->getExaminations($file_id);
 
         return view('patient/history/general_examination', $data);
+    }
+
+    public function historyDiagnosis(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/diagnosis', $data);
+    }
+
+    public function historyLabtest(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/labtest', $data);
+    }
+
+    public function historyRadiology(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/radiology', $data);
+    }
+
+    public function historyMedicine(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/medicine', $data);
+    }
+
+    public function historyProcedures(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/procedure', $data);
     }
 
     public function history($file_id){

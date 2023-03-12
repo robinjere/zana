@@ -40,13 +40,15 @@ class RadResult extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAssignedResult($file_id, $start_date, $end_date){
+    public function getAssignedResult($file_id, $start_date=null, $end_date=null){
         $builder = $this->db->table('rad_results');
         $builder->select('rad_results.id, rad_results.updated_at, rad_results.confirmed_by, rad_results.printed, rad_investigation.test_name, rad_investigation.price');
         $builder->join('rad_investigation', 'rad_results.rad_id = rad_investigation.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
-        $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        if($start_date != null && $end_date != null){
+            $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        }
         $builder->where('rad_results.file_id', $file_id);
         $builder->groupEnd();
        
@@ -89,15 +91,15 @@ class RadResult extends Model
     }
     public function actionButtons(){
         return function($row){
-            if(in_array(strtolower(session()->get('role')),['doctor','reception'])){
+            if(in_array(strtolower(session()->get('role')),['doctor','reception']) && !session()->has('phistory')){
                 return '<button onclick="deleteAssignedRadiology('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
 
-            if(in_array(strtolower(session()->get('role')),['radiology']) && $row['confirmed_by'] != 0){
+            if(in_array(strtolower(session()->get('role')),['radiology']) && $row['confirmed_by'] != 0 && !session()->has('phistory')){
                 return '<button data-bs-toggle="modal" data-bs-target="#addRadiologyResult_" @click="getRadiology('.$row['id'].')" class="badge badge-sm  bg-success"> Add result </button>';
             }
 
-            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0){
+            if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0 && !session()->has('phistory')){
                 if($row['confirmed_by'] != 0){
                     return '<button @click="unconfirmPaymentRadiology('.$row['id'].')" class="badge badge-sm bg-warning"> UnConfirm </button>';
                 }else{

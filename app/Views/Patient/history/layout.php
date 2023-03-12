@@ -1,21 +1,82 @@
-<?= $this->extend('./layout/main') ?>
+<?= $this->extend('./patientfile/layout') ?>
+<?= $this->section('file') ?>
+<?php $uri = service('uri'); ?>
+<!-- hosted patient_file variable -->
+<?php if(!empty($patient_file)){
+    //    echo $patient_file->id;
+    //     print_r($patient_file);
+    //     exit;
+        
+    $patient_file = [
+            'id' => $patient_file->id,
+            'file_no' => $patient_file->file_no,
+            'patient_id' => $patient_file->patient_id,
+            'name' => isset($patient_file->name) ? $patient_file->name : '',
+            'payment_method' => $patient_file->payment_method,
+            'insuarance_no' => $patient_file->insuarance_no,
+            'start_treatment' => $patient_file->start_treatment,
+            'end_treatment' => $patient_file->end_treatment,
+            'status' => $patient_file->status,
+            'patient_character' => $patient_file->patient_character,
+            'first_name' => $patient_file->first_name,
+            'middle_name' => $patient_file->middle_name,
+            'sir_name' => $patient_file->sir_name,
+            'birth_date' => $patient_file->birth_date,
+            'gender' => $patient_file->gender,
+            'history' => isset($history) ? $history : 'Current treatment',
+            'ishistory' => isset($history) ? true : false
+    
+    ];
+    $patient_file['end_treatment'] = $patient_file['end_treatment'] == '0000-00-00' ? date('Y-m-d') : $patient_file['end_treatment'];    
+    
+?>
+    
+<div class="file">
+    <div class="file-header"> 
+        <!-- <h3>FILE NO: <?= $patient_file['file_no'] ?></h3> -->
+         <div class="file-status row">
+             <?php 
+                if($uri->getSegment(1) !== 'history'){ ?>
+                    <div class="col-4">
+                    <!-- <span class="badge bg-secondary"> current treatment </span> -->
+                    <b> <?= $patient_file['history'] ?> </b>
+                    </div> <!-- /col-4 -->
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <span class="badge bg-warning from"> From </span>
+                            </div>
+                            <div class="col">
+                                <span class="date"> <?= date('F j, Y', strtotime($patient_file['start_treatment'])) ?></span>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <span class="badge bg-warning from"> To </span>
+                            </div>
+                            <div class="col">
+                                <span class="date"> <?= $patient_file['end_treatment'] == '0000-00-00'? date('F j, Y'): date('F j, Y', strtotime($patient_file['end_treatment'])) ?> </span>
+                            </div>
+                        </div><!-- /row -->
+                    </div><!-- /col-8 -->
+             <?php }else{ ?>
+               <p class="text-align-center mb-0"> <b> Patient History  </b></p>
+             <?php } ?>
 
-<?= $this->section('content') ?>
+            </div><!-- file-status --> 
+             <!-- -->
+             <p class="file-info">
+                <?= strtoupper($patient_file['first_name']) .' '. strtoupper($patient_file['middle_name']) .' '. strtoupper($patient_file['sir_name']) ?>, FILE NUMBER:  <?= $patient_file['file_no'] ?>, AGE: <?= (date('Y') - date('Y', strtotime($patient_file['birth_date']))). 'YEARS'  ?>,  CLINIC: <?= strtoupper($patient_file['name']) ?>, PAYMENT METHOD: <?= $patient_file['payment_method'] ?>,    <b style="color:#dc3545;"><?= strtoupper($patient_file['patient_character']) ?> </b>
+             </p>
+    </div><!-- file-header -->
+   <hr class="divider" style="margin: 0 !important; "/>
+    <div class="file-content">
 
-<div class="container history">
-
-    <a href="<?= base_url('patientfile/attend/'.$patient_file->id) ?>"  class="_back">Go back</a>
-
-    <div class="p-history" > <!-- history data --> 
-        <div class="header">
-           <h1> <?= $patient_file->first_name .' '. $patient_file->middle_name .' '. $patient_file->sir_name .', '. 'FILE NUMBER:'. $patient_file->file_no .', CLINIC: '. $patient_file->name .', PAYMENT METHOD: '. $patient_file->payment_method .', '. $patient_file->patient_character  ?> </h1>
-        </div>
+    
+        
+    <div class="mt-2 section-style">
         <div>
-            <p class="text-align-center">Patient History </p>
-            <?php $uri = service('uri'); ?>
           <nav class="nav nav-tabs flex-row">
             <?php if(in_array(session()->get('role'), ['doctor','admin', 'superuser' ])){?> 
-                <a class="nav-link  <?= $uri->getSegment(2) === 'clinical-note' ? 'active': null; ?>" href="<?= base_url('history/clinical-note/'.$patient_file->id) ?>" aria-current="page">Clinical Note</a>
+                <a id="clinical-note" class="nav-link  <?= $uri->getSegment(2) === 'clinical-note' ? 'active': null; ?>" href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" aria-current="page">Clinical Note</a>
             <?php }?>
 
             <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?> 
@@ -27,42 +88,25 @@
             <?php if(in_array(session()->get('role'), ['admin', 'superuser' ])){?> 
             <?php }?>
 
-            <a class="nav-link  <?= $uri->getSegment(2) === 'general-examination' ? 'active': null; ?>" href="<?= base_url('history/general-examination/'.$patient_file->id) ?>">General Examination</a>
-            <a class="nav-link  <?= $uri->getSegment(2) === 'diagnosis' ? 'active': null; ?>" href="#">Diagnosis</a>
-            <a class="nav-link  <?= $uri->getSegment(2) === 'laboratory-test' ? 'active': null; ?>" href="#">Laboratory Test</a>
-            <a class="nav-link  <?= $uri->getSegment(2) === 'radiology' ? 'active': null; ?>" href="#">Radiology</a>
-            <a class="nav-link  <?= $uri->getSegment(2) === 'medicine' ? 'active': null; ?>" href="#">Medicine</a>
-            <a class="nav-link  <?= $uri->getSegment(2) === 'procedures' ? 'active': null; ?>" href="#">Procedures</a>
+            <a id="" class="nav-link  <?= $uri->getSegment(2) === 'general-examination' ? 'active': null; ?>" href="<?= base_url('history/general-examination/'.$patient_file['id']) ?>">General Examination</a>
+            <a id="diagnosis" class="nav-link  <?= $uri->getSegment(2) === 'diagnosis' ? 'active': null; ?>" href="<?= base_url('history/diagnosis/'.$patient_file['id']) ?>">Diagnosis</a>
+            <a class="nav-link  <?= $uri->getSegment(2) === 'labtest' ? 'active': null; ?>" href="<?= base_url('history/labtest/'.$patient_file['id']) ?>">Laboratory Test</a>
+            <a class="nav-link  <?= $uri->getSegment(2) === 'radiology' ? 'active': null; ?>" href="<?= base_url('history/radiology/'.$patient_file['id']) ?>">Radiology</a>
+            <a class="nav-link  <?= $uri->getSegment(2) === 'medicine' ? 'active': null; ?>" href="<?= base_url('history/medicine/'.$patient_file['id']) ?>">Medicine</a>
+            <a class="nav-link  <?= $uri->getSegment(2) === 'procedures' ? 'active': null; ?>" href="<?= base_url('history/procedures/'.$patient_file['id']) ?>">Procedures</a>
           </nav>
           <div class="mt-2">
             <?= $this->renderSection('history') ?>
           </div>
         </div>
-    </div><!-- /history-data -->
+    
+     </div><!-- /section-style -->
 
-</div><!-- /container -->
 
-<?= $this->endSection() ?>
-
-<?= $this->section('script') ?>
-
-  <script>
-  
-    //    function findHistory(file_id, start, end){
-    //         const formData = new FormData();
-    //         formData.append("file_id", file_id);
-    //         formData.append("start_treatment", start);
-    //         formData.append("end_treatment", end);
-    //         const request = new XMLHttpRequest();
-    //         request.open("POST", "<?= base_url('patientfile/history')?>", true);
-    //         request.send(formData);
-    //         console.log(formData)
-    //         // console.log(file_id)
-    //         // console.log(start)
-    //         // console.log(end)
-    //     } 
-     
-
-  </script>
-
+  </div> <!-- /file-content -->
+</div><!-- /file -->
+  <!-- <P>CLINICAL NOTE</P>
+  <P> WORKING DIAGNOSIS </P>
+  <P> FINAL DIAGNOSIS </P> -->
+<?php } ?>
 <?= $this->endSection() ?>

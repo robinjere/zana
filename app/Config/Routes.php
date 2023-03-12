@@ -70,14 +70,11 @@ $routes->group('ward', function($routes){
     //  $routes->get('(:num)', 'PatientFileController::viewHistory/$1', ['filter' => 'auth']);
      $routes->get('clinical-note/(:num)', 'PatientFileController::historyClinicalNote/$1', ['filter' => 'auth']);
      $routes->get('general-examination/(:num)', 'PatientFileController::historyGeneralExamination/$1', ['filter' => 'auth']);
-     $routes->get('consult/(:num)', 'PatientFileController::consult/$1', ['filter' => 'auth']);
-     $routes->get('attend/(:num)', 'PatientFileController::attend/$1', ['filter' => 'auth']);
-     $routes->get('sendtoward/(:num)', 'PatientFileController::sendToWard/$1', ['filter' => 'auth']);
-     $routes->get('finish/(:num)', 'PatientFileController::finishTreatment/$1', ['filter' => 'auth']);
-     $routes->match(['post', 'get'], 'history', 'PatientFileController::viewHistory', ['filter' => 'auth']);
-     $routes->match(['post', 'get'], 'history/(:num)', 'PatientFileController::history/$1', ['filter' => 'auth']);
-     $routes->match(['post', 'get'], 'fertility-assessment', 'PatientFileController::FertilityAssessment', ['filter' => 'auth']);
-     $routes->match(['post', 'get'], 'labresult', 'PatientFileController::labresult', ['filter' => 'auth']);
+     $routes->get('diagnosis/(:num)', 'PatientFileController::historyDiagnosis/$1', ['filter' => 'auth']);
+     $routes->get('labtest/(:num)', 'PatientFileController::historyLabtest/$1', ['filter' => 'auth']);
+     $routes->get('radiology/(:num)', 'PatientFileController::historyRadiology/$1', ['filter' => 'auth']);
+     $routes->get('medicine/(:num)', 'PatientFileController::historyMedicine/$1', ['filter' => 'auth']);
+     $routes->get('procedures/(:num)', 'PatientFileController::historyProcedures/$1', ['filter' => 'auth']);
  });
 
  $routes->group('generaterisit', function($routes){

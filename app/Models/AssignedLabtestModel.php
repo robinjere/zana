@@ -40,13 +40,15 @@ class AssignedLabtestModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getAssignedLabtest($file_id, $start_date, $end_date){
+    public function getAssignedLabtest($file_id, $start_date=null, $end_date=null){
         $builder = $this->db->table('assigned_labtests');
         $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.price, assigned_labtests.confirmed_by, assigned_labtests.doctor, assigned_labtests.printed');
         $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
-        $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        if($start_date != null || $end_date != null){
+            $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        }
         $builder->where('assigned_labtests.file_id', $file_id);
         $builder->groupEnd();
        

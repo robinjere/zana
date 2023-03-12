@@ -1,5 +1,5 @@
 
-<?php 
+<?php   $uri = service('uri');
 
 $patient_file = [
   'id' => $id,
@@ -41,7 +41,7 @@ $patient_file = [
   </optgroup>
 </select>
 </form> -->
-
+<?php if($uri->getSegment(1) !== 'history'){ ?>
 <ul class="file-nav">
 <?php if(in_array(session()->get('role'), ['doctor'])){ ?>
     <li><a href="#clinical-note" @click="close()">
@@ -98,6 +98,8 @@ $patient_file = [
     </a></li>
 <?php } ?>
 
+
+
 <?php if(in_array(session()->get('role'), ['doctor', 'cashier'])){?>
     <li><a href="#procedure" @click="close()">
         <span class="icon">
@@ -110,21 +112,36 @@ $patient_file = [
         </span>
     </a></li>
 </ul>
-
 <?php }  ?>
-   
+<?php } ?>
+
   <div class="file-exit">
     <?php $patient_url = $patient_file['ishistory'] ? 'patientfile/attend/'.$patient_file['id'] : 'patient/search' ?>
-    <a href="<?= base_url($patient_url) ?>">
-      <span class="icon">
-         <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
-           <path d="M1 5H19M5 9L1 5L5 9ZM1 5L5 1L1 5Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-         </svg>
-       </span> <!-- /span -->
-       <span class="link-title">
-         Exit File
-       </span>
-    </a>
+    
+      <?php if($uri->getSegment(1) !== 'history'){ ?>
+        <a href="<?= base_url($patient_url) ?>">
+          <span class="icon">
+             <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+               <path d="M1 5H19M5 9L1 5L5 9ZM1 5L5 1L1 5Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+           </span> <!-- /span -->
+           <span class="link-title">
+             Exit File
+           </span>
+        </a>
+    
+      <?php }else { ?>
+        <a href="<?= base_url('patientfile/attend/'.$patient_file['id']) ?> ">
+          <span class="icon">
+             <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+               <path d="M1 5H19M5 9L1 5L5 9ZM1 5L5 1L1 5Z" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+           </span> <!-- /span -->
+           <span class="link-title">
+             Exit Patient History
+           </span>
+        </a>
+      <?php } ?>
   </div><!-- /file-exit -->
 
   </div><!-- file-nav-container -->
