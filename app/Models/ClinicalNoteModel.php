@@ -14,7 +14,7 @@ class ClinicalNoteModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id', 'main_complain', 'history_of_present', 'past_medical_history', 'family_social_history', 'review_complain', 'doctor','created_at', 'updated_at', 'treatment_ended'];
+    protected $allowedFields    = ['file_id', 'main_complain', 'history_of_present', 'past_medical_history', 'family_social_history', 'drug_allergy_history', 'review_complain', 'physical_examination', 'doctor','created_at', 'updated_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;
@@ -44,7 +44,7 @@ class ClinicalNoteModel extends Model
     //clinical notes
     public function getClinicalNotes($file_id, $start_date=null, $end_date=null){
         $builder = $this->db->table('clinicalnotes');
-        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.main_complain, clinicalnotes.history_of_present, clinicalnotes.past_medical_history, clinicalnotes.family_social_history, clinicalnotes.review_complain, user.first_name, user.last_name, clinicalnotes.doctor');
+        $builder->select('clinicalnotes.id, clinicalnotes.updated_at, clinicalnotes.main_complain, clinicalnotes.history_of_present, clinicalnotes.past_medical_history, clinicalnotes.family_social_history, clinicalnotes.drug_allergy_history, clinicalnotes.review_complain, clinicalnotes.physical_examination, user.first_name, user.last_name, clinicalnotes.doctor');
         $builder->orderBy('clinicalnotes.id', 'DESC');
         $builder->join('user', 'clinicalnotes.doctor = user.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');

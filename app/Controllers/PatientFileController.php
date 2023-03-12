@@ -187,7 +187,9 @@ class PatientFileController extends BaseController
                 'history_of_present' => $this->request->getVar('history_of_present'),
                 'past_medical_history' => $this->request->getVar('past_medical_history'),
                 'family_social_history' => $this->request->getVar('family_social_history'),
-                'review_complain' => $this->request->getVar('review_complain')
+                'drug_allergy_history' => $this->request->getVar('drug_allergy_history'),
+                'review_complain' => $this->request->getVar('review_complain'),
+                'physical_examination' => $this->request->getVar('physical_examination')
             ];
 
             if($this->request->getVar('id')){

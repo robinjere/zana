@@ -38,9 +38,17 @@
             <span>Family social history</span>
             <textarea name="family_social_history" x-model.debounce="notes[0].family_social_history" x-text="notes[0].family_social_history" @change="addCurrentNote()" class="form-control mb-2 pt-4" cols="30" rows="2"></textarea>
         </div> <!-- /family_social_history -->
+        <div class="note-section drug_allergy_history">  
+            <span>Drug and allergy history  </span>
+            <textarea name="drug_allergy_history"  x-model.debounce="notes[0].drug_allergy_history" x-text="notes[0].drug_allergy_history" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
+        </div> <!-- /family_social_history -->
         <div class="note-section review_complain">  
             <span>Review of other complain </span>
             <textarea name="review_complain" x-model.debounce="notes[0].review_complain" x-text="notes[0].review_complain" @change="addCurrentNote()" class="form-control mb-2 pt-4" cols="30" rows="2"></textarea>
+        </div> <!-- /review_complain -->
+        <div class="note-section physical_examination">  
+            <span>Physical Examination </span>
+            <textarea name="physical_examination"  x-model.debounce="notes[0].physical_examination" x-text="notes[0].physical_examination" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
         </div> <!-- /review_complain -->
       </div><!-- /clinical_note_container -->
   </form>
@@ -66,9 +74,18 @@
             <span>Family social history  <b style="text-transform:lowercase;" x-text="collection.family_social_history ? (' | written by '+collection.first_name+' '+collection.last_name) : '' "> </b> </span>
             <textarea name="family_social_history" :disabled="current_user_session != collection.doctor" @change="addCurrentNote(index)" x-model.debounce="collection.family_social_history" x-text="collection.family_social_history" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
         </div> <!-- /family_social_history -->
+
+        <div class="note-section drug_allergy_history">  
+            <span>Drug and allergy history  <b style="text-transform:lowercase;" x-text="collection.drug_allergy_history ? (' | written by '+collection.first_name+' '+collection.last_name) : '' "> </b> </span>
+            <textarea name="drug_allergy_history" :disabled="current_user_session != collection.doctor" @change="addCurrentNote(index)" x-model.debounce="collection.drug_allergy_history" x-text="collection.drug_allergy_history" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
+        </div> <!-- /family_social_history -->
         <div class="note-section review_complain">  
             <span>Review of other complain <b style="text-transform:lowercase;" x-text="collection.review_complain ? (' | written by '+collection.first_name+' '+collection.last_name) : '' "> </b> </span>
             <textarea name="review_complain" :disabled="current_user_session != collection.doctor" @change="addCurrentNote(index)" x-model.debounce="collection.review_complain" x-text="collection.review_complain" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
+        </div> <!-- /review_complain -->
+        <div class="note-section physical_examination">  
+            <span>Physical Examination <b style="text-transform:lowercase;" x-text="collection.physical_examination ? (' | written by '+collection.first_name+' '+collection.last_name) : '' "> </b> </span>
+            <textarea name="physical_examination" :disabled="current_user_session != collection.doctor" @change="addCurrentNote(index)" x-model.debounce="collection.physical_examination" x-text="collection.physical_examination" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
         </div> <!-- /review_complain -->
       </div><!-- /clinical_note_container -->
   </form>
@@ -91,7 +108,9 @@ document.addEventListener('alpine:init', () => {
         history_of_present: '',
         past_medical_history: '',
         family_social_history: '',
-        review_complain: ''
+        drug_allergy_history: '',
+        review_complain: '',
+        physical_examination: ''
       }
      ],
      success: false,
@@ -107,15 +126,17 @@ document.addEventListener('alpine:init', () => {
      },
      newNote(){
       let new_copy = [{
-          main_complain:"",
-          history_of_present:"",
-          past_medical_history:"",
-          family_social_history:"",
-          review_complain:"",
+          main_complain: '',
+          history_of_present: '',
+          past_medical_history: '',
+          family_social_history: '',
+          drug_allergy_history: '',
+          review_complain: '',
+          physical_examination: '',
           first_name:"",
           last_name:"",
-          doctor: <?= session()->get('id') ?>
-      }].contact(this.notes)
+          doctor: <?= session()->get('id') ?> 
+      }].concat(this.notes)
 
        this.notes = new_copy;
      },
@@ -152,7 +173,9 @@ document.addEventListener('alpine:init', () => {
             history_of_present: this.notes[_index].history_of_present,
             past_medical_history: this.notes[_index].past_medical_history,
             family_social_history: this.notes[_index].family_social_history,
-            review_complain:this.notes[_index].review_complain
+            drug_allergy_history: this.notes[_index].drug_allergy_history,
+            review_complain:this.notes[_index].review_complain,
+            physical_examination:this.notes[_index].physical_examination
           })
        }).then(res => res.json())
        .then(data => {
