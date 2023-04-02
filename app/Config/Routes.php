@@ -75,6 +75,7 @@ $routes->group('ward', function($routes){
      $routes->get('radiology/(:num)', 'PatientFileController::historyRadiology/$1', ['filter' => 'auth']);
      $routes->get('medicine/(:num)', 'PatientFileController::historyMedicine/$1', ['filter' => 'auth']);
      $routes->get('procedures/(:num)', 'PatientFileController::historyProcedures/$1', ['filter' => 'auth']);
+     $routes->get('outsider/(:num)', 'PatientFileController::outsiderHistory/$1', ['filter' => 'auth']);
  });
 
  $routes->group('generaterisit', function($routes){

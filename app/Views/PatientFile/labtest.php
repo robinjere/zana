@@ -198,16 +198,22 @@
               </div><!-- /d-flex -->
               <template x-if="!loading && labtestResult.id != ''">  
                
-               <form @submit.prevent="addLabTestResult()" method="post" enctype="multipart/form-data" >           
+               <form @submit.prevent="addLabTestResult($event.target)" method="post" enctype="multipart/form-data" >           
+               <!-- <form  method="post" enctype="multipart/form-data" >  -->
+                <!-- <input type="hidden" name="verified_by" value="<?= session()->get('id') ?>"/> -->
+                <!-- <input type="hidden" name="id" :value="labtestResult.id"/>          -->
                  <div class="mb-3">
                    <label for="result_" class="form-label">Result</label>                 
-                    <textarea class="form-control" x-model="labtestResult.result" id="result_" rows="3"></textarea>
+                    <textarea class="form-control" name="result" x-model="labtestResult.result" id="result_" rows="3"></textarea>
                  </div>
                  <div class="mb-3">
                    <label for="_ranges" class="form-label">Ranges</label>
-                   <select x-model="labtestResult.ranges"  class="form-control" name="" id="_ranges" placeholder="Ranges">
-                     <option value="62.00 - 115.00 (µmol/L)">62.00 - 115.00 (µmol/L)</option>
-                     <option value="44.20 - 107.00 (µmol/L)">44.20 - 107.00 (µmol/L)</option>
+                   <select x-model="labtestResult.ranges"  class="form-control" name="ranges" id="_ranges" placeholder="Ranges">
+                     <option value="">select range</option>
+                     <template x-for="(lab, index) in labRanges">
+                        <option :value="lab.range" :selected="labtestResult.ranges == lab.range" x-text="lab.range"> </option>
+                     </template>
+                     <!-- <option value="44.20 - 107.00 (µmol/L)">44.20 - 107.00 (µmol/L)</option> -->
                    </select>
                  </div>
                  <div class="mb-3">
@@ -216,7 +222,7 @@
                  </div>
                  <div class="mb-3">
                    <label for="_level" class="form-label">Level</label>
-                   <select x-model="labtestResult.level" class="form-control" id="_level" placeholder="Level" >
+                   <select x-model="labtestResult.level" name="level" class="form-control" id="_level" placeholder="Level" >
                      <option value="high"> High </option>
                      <option value="medium"> Medium </option>
                      <option value="low"> Low </option>
@@ -224,7 +230,7 @@
                  </div>
                  <div class="mb-3">
                   <label for="attachment_" class="form-label">Attachment</label>
-                  <input type="file" class="form-control" x-model="labtestResult.attachment" id="attachment_" placeholder="Attachment" aria-describedby="attachementHelp">
+                  <input type="file" class="form-control"  name="file" id="attachment_" placeholder="Attachment" aria-describedby="attachementHelp">
                   <div id="attachementHelp" class="form-text">upload file here</div>
                 </div>
                 </form> <!-- /form-post -->
@@ -232,7 +238,8 @@
             </div><!-- /modal-body -->
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               <button type="button" @click="addLabTestResult()" class="btn btn-primary">Verify Result</button>
+               <button type="button" @click="addLabTestResult($event.target)" class="btn btn-primary">Verify Result</button>
+               <!-- <button type="button" class="btn btn-primary">Verify Result</button> -->
             </div>
          </div>
       </div>
@@ -246,6 +253,13 @@
 
 <?= $this->section('script') ?>
 <script>
+
+   //attachment file
+   // Dropzone.autoDiscover = false
+   // let myDropzone = new Dropzone('input#attachment_', {url:"<?= base_url('patientFileController/ajax_addLabTestResult') ?>" });
+   // myDropzone.on('complete', function(param){
+   //    console.log(JSON.parse(param.xhr.response))
+   // })
 
   function labtestData(){
       return {
@@ -325,6 +339,7 @@
             level: '',
             attachment: '',
          },
+         labRanges: [],
          getLabTestResult(labtestId){
               this.success = false;
               this.loading = true;
@@ -340,8 +355,10 @@
                    labtest_id : labtestId
                 })
               }).then(res => res.json()).then(data => {
+                   console.log('result ----> data', data); 
+                       this.labRanges = data.ranges
                        data = data.result
-                     //   console.log('result ----> data', data); 
+                       
                        this.loading = false;
                        this.labtestResult.id = data.id 
                        this.labtestResult.result = data.result
@@ -352,27 +369,36 @@
                      //   console.log('labtest result after', data);
              })
          },
-         addLabTestResult(){
+         addLabTestResult(e){
               this.success = false;
               this.loading = true;
               let labResult = {};
+
+              const attachment = document.getElementById('attachment_').files[0];
+              const formData = new FormData()
+              formData.append('id', this.labtestResult.id)
+              formData.append('result', this.labtestResult.result)
+              formData.append('ranges', this.labtestResult.ranges)
+              formData.append('level', this.labtestResult.level)
+              formData.append('unit', this.labtestResult.unit)
+              formData.append('verified_by', <?= session()->get('id') ?>)
+              formData.append('attachment', attachment)
+              
+              //Create an object from the form data entries
+            //   let formDataObject = Object.fromEntries(formData.entries());
+              // Format the plain form data as JSON
+            //   let formDataJsonString = JSON.stringify(formDataObject);
+
             
               fetch('<?= base_url('patientFileController/ajax_addLabTestResult') ?>', {
                 method: 'post',
-                headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                  id:      this.labtestResult.id, 
-                  result:  this.labtestResult.result,
-                  ranges:  this.labtestResult.ranges,
-                  unit:    this.labtestResult.unit,
-                  level:   this.labtestResult.level,
-                  verified_by: <?= session()->get('id') ?>
-                })
-              }).then(res => res.json()).then(data => {
+               //  headers: {
+               //   'Content-Type': 'application/json'
+               //    Accept: 'application/json',
+               //   'X-Requested-With': 'XMLHttpRequest'
+               //  },
+                body: formData
+              }).then(res => { if(res.ok) { return res.text() }else {  throw new Error('Network response was not ok.'); } }).then(data => {
                      //   console.log('after added result ----> data', data); 
                      //   console.log('yaan ----> data', data); 
                        this.loading = false;
@@ -394,6 +420,8 @@
                        modal2.hide();
 
                      // console.log('labtest result after', data);
+             }).catch(error => {
+               console.log('error throw here', error)
              })
          },
          confirmPaymentLabTestResult(labtestId){
@@ -545,6 +573,9 @@
              }
           })
  }
+
+
+
 
  
 

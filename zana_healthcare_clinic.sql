@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2023 at 09:20 AM
+-- Generation Time: Mar 30, 2023 at 08:01 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -18,452 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `phpmyadmin`
---
-CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `phpmyadmin`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__bookmark`
---
-
-CREATE TABLE `pma__bookmark` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `dbase` varchar(255) NOT NULL DEFAULT '',
-  `user` varchar(255) NOT NULL DEFAULT '',
-  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `query` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__central_columns`
---
-
-CREATE TABLE `pma__central_columns` (
-  `db_name` varchar(64) NOT NULL,
-  `col_name` varchar(64) NOT NULL,
-  `col_type` varchar(64) NOT NULL,
-  `col_length` text DEFAULT NULL,
-  `col_collation` varchar(64) NOT NULL,
-  `col_isNull` tinyint(1) NOT NULL,
-  `col_extra` varchar(255) DEFAULT '',
-  `col_default` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__column_info`
---
-
-CREATE TABLE `pma__column_info` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `column_name` varchar(64) NOT NULL DEFAULT '',
-  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `mimetype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `transformation` varchar(255) NOT NULL DEFAULT '',
-  `transformation_options` varchar(255) NOT NULL DEFAULT '',
-  `input_transformation` varchar(255) NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__designer_settings`
---
-
-CREATE TABLE `pma__designer_settings` (
-  `username` varchar(64) NOT NULL,
-  `settings_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__export_templates`
---
-
-CREATE TABLE `pma__export_templates` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL,
-  `export_type` varchar(10) NOT NULL,
-  `template_name` varchar(64) NOT NULL,
-  `template_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__favorite`
---
-
-CREATE TABLE `pma__favorite` (
-  `username` varchar(64) NOT NULL,
-  `tables` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__history`
---
-
-CREATE TABLE `pma__history` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL DEFAULT '',
-  `db` varchar(64) NOT NULL DEFAULT '',
-  `table` varchar(64) NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
-  `sqlquery` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__navigationhiding`
---
-
-CREATE TABLE `pma__navigationhiding` (
-  `username` varchar(64) NOT NULL,
-  `item_name` varchar(64) NOT NULL,
-  `item_type` varchar(64) NOT NULL,
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__pdf_pages`
---
-
-CREATE TABLE `pma__pdf_pages` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `page_nr` int(10) UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__recent`
---
-
-CREATE TABLE `pma__recent` (
-  `username` varchar(64) NOT NULL,
-  `tables` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__relation`
---
-
-CREATE TABLE `pma__relation` (
-  `master_db` varchar(64) NOT NULL DEFAULT '',
-  `master_table` varchar(64) NOT NULL DEFAULT '',
-  `master_field` varchar(64) NOT NULL DEFAULT '',
-  `foreign_db` varchar(64) NOT NULL DEFAULT '',
-  `foreign_table` varchar(64) NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__savedsearches`
---
-
-CREATE TABLE `pma__savedsearches` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) NOT NULL DEFAULT '',
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `search_name` varchar(64) NOT NULL DEFAULT '',
-  `search_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_coords`
---
-
-CREATE TABLE `pma__table_coords` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
-  `x` float UNSIGNED NOT NULL DEFAULT 0,
-  `y` float UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_info`
---
-
-CREATE TABLE `pma__table_info` (
-  `db_name` varchar(64) NOT NULL DEFAULT '',
-  `table_name` varchar(64) NOT NULL DEFAULT '',
-  `display_field` varchar(64) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_uiprefs`
---
-
-CREATE TABLE `pma__table_uiprefs` (
-  `username` varchar(64) NOT NULL,
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL,
-  `prefs` text NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__tracking`
---
-
-CREATE TABLE `pma__tracking` (
-  `db_name` varchar(64) NOT NULL,
-  `table_name` varchar(64) NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `schema_snapshot` text NOT NULL,
-  `schema_sql` text DEFAULT NULL,
-  `data_sql` longtext DEFAULT NULL,
-  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') DEFAULT NULL,
-  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__userconfig`
---
-
-CREATE TABLE `pma__userconfig` (
-  `username` varchar(64) NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `config_data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
-
---
--- Dumping data for table `pma__userconfig`
---
-
-INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2023-02-26 19:13:34', '{\"Console\\/Mode\":\"collapse\"}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__usergroups`
---
-
-CREATE TABLE `pma__usergroups` (
-  `usergroup` varchar(64) NOT NULL,
-  `tab` varchar(64) NOT NULL,
-  `allowed` enum('Y','N') NOT NULL DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__users`
---
-
-CREATE TABLE `pma__users` (
-  `username` varchar(64) NOT NULL,
-  `usergroup` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- Indexes for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- Indexes for table `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- Indexes for table `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- Indexes for table `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- Indexes for table `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- Indexes for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- Indexes for table `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- Indexes for table `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- Indexes for table `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- Indexes for table `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- Indexes for table `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- Database: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
---
 -- Database: `zana_healthcare_clinic`
 --
-CREATE DATABASE IF NOT EXISTS `zana_healthcare_clinic` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_croatian_ci;
-USE `zana_healthcare_clinic`;
 
 -- --------------------------------------------------------
 
@@ -1401,7 +957,11 @@ INSERT INTO `assigneddiagnoses` (`id`, `diagnoses_id`, `diagnoses_type`, `diagno
 (962, 7, 'working', 'assign botulism', 31, 82, 1, '2023-02-16 16:25:16', '2023-03-07 05:41:14'),
 (963, 3687, 'working', '', 31, 1242, 0, '2023-02-26 19:44:45', '2023-02-26 19:44:45'),
 (964, 7, 'final', '', 31, 44, 0, '2023-03-04 05:57:01', '2023-03-04 05:57:01'),
-(965, 8, 'final', '', 31, 36, 0, '2023-03-04 06:29:47', '2023-03-04 06:29:47');
+(965, 8, 'final', '', 31, 36, 0, '2023-03-04 06:29:47', '2023-03-04 06:29:47'),
+(966, 7, 'working', 'hgg', 31, 1245, 0, '2023-03-19 17:16:39', '2023-03-19 17:16:39'),
+(967, 3687, 'working', '', 31, 1245, 0, '2023-03-19 17:16:58', '2023-03-19 17:16:58'),
+(968, 227, 'working', '', 31, 1246, 0, '2023-03-26 11:58:48', '2023-03-26 11:58:48'),
+(969, 723, 'final', '', 31, 1246, 0, '2023-03-26 11:58:57', '2023-03-26 11:58:57');
 
 -- --------------------------------------------------------
 
@@ -2796,7 +2356,11 @@ INSERT INTO `assignedmedicines` (`id`, `dosage`, `frequency`, `route`, `days`, `
 (1621, '', 1, '', 0, 2, '', 166, 82, 31, 85, '2023-02-26 23:25:33', '2023-03-07 05:41:14', 1, 0, 1),
 (1622, '', 1, '', 2, 2, '', 87, 1242, 31, 0, '2023-02-26 18:53:18', '2023-02-26 18:53:18', 0, 0, 0),
 (1623, '', 1, '', 0, 2, '', 41, 44, 31, 0, '2023-03-04 06:17:21', '2023-03-04 06:17:21', 0, 0, 0),
-(1624, '1X2', 1, '', 0, 2, 'Tabs azythromycin instruction to be appended..', 149, 36, 31, 0, '2023-03-04 06:31:33', '2023-03-04 06:31:33', 0, 0, 0);
+(1624, '1X2', 1, '', 0, 2, 'Tabs azythromycin instruction to be appended..', 149, 36, 31, 0, '2023-03-04 06:31:33', '2023-03-04 06:31:33', 0, 0, 0),
+(1625, '', 2, '', 10, 20, '', 68, 1245, 31, 85, '2023-03-19 17:19:08', '2023-03-19 17:21:27', 1, 0, 0),
+(1626, '1', 1, '', 0, 1, '', 121, 1246, 31, 85, '2023-03-26 11:59:48', '2023-03-26 12:04:49', 0, 0, 0),
+(1628, '1', 1, '', 1, 1, '', 80, 1246, 31, 85, '2023-03-26 12:00:51', '2023-03-26 12:04:49', 0, 0, 0),
+(1629, '1', 1, '', 2, 3, '', 76, 1246, 31, 85, '2023-03-26 13:27:19', '2023-03-26 13:29:34', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -4654,7 +4218,7 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (1898, 17, '3TROPH/200WBC', '', '', '', '', 2000, 89, '2022-12-17 19:47:52', '2022-12-17 19:47:52', 1214, 95, 92, 1, 0),
 (1899, 13, 'LEU3+\nASC1+', '', '', '', '', 2500, 89, '2022-12-17 19:48:01', '2022-12-17 19:48:01', 1214, 95, 92, 1, 0),
 (1900, 13, '', '', '', '', '', 2500, 89, '2022-12-17 19:56:04', '2022-12-17 19:56:04', 1216, 88, 0, 1, 0),
-(1901, 17, '', '', '', '', '', 2000, 89, '2022-12-17 19:56:10', '2022-12-17 19:56:10', 1216, 88, 0, 1, 0),
+(1901, 17, 'New labtest final updates!!', '', '20unit', 'low', 'partner16.jpg', 2000, 89, '2022-12-17 19:56:10', '2022-12-17 19:56:10', 1216, 88, 86, 1, 0),
 (1902, 13, '', '', '', '', '', 2500, 89, '2022-12-17 19:59:02', '2022-12-17 19:59:02', 1217, 88, 0, 1, 0),
 (1903, 17, '', '', '', '', '', 2000, 89, '2022-12-17 19:59:07', '2022-12-17 19:59:07', 1217, 88, 0, 1, 0),
 (1904, 17, '', '', '', '', '', 2000, 89, '2022-12-17 21:27:01', '2022-12-17 21:27:01', 1218, 88, 0, 1, 0),
@@ -4677,7 +4241,7 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (1923, 17, '3TROPH/200WBC', '', '', '', '', 2000, 89, '2022-12-18 10:02:17', '2022-12-18 10:02:17', 1225, 95, 92, 1, 0),
 (1924, 13, 'LEU2+\nURO1+\nPRO2+\nBIL1+\nASC1+', '', '', '', '', 2500, 89, '2022-12-18 10:02:35', '2022-12-18 10:02:35', 1225, 95, 92, 1, 0),
 (1925, 17, 'NPS\nNETROPHIL NOTED', '', '', '', '', 2000, 89, '2022-12-18 10:06:19', '2022-12-18 10:06:19', 1226, 95, 92, 1, 0),
-(1926, 9, '', '', '', '', '', 10000, 89, '2022-12-18 10:06:35', '2022-12-18 10:06:35', 1226, 95, 0, 1, 0),
+(1926, 9, 'New labtest result with file', '', '', 'medium', 'patients_file.pdf', 10000, 89, '2022-12-18 10:06:35', '2022-12-18 10:06:35', 1226, 95, 86, 1, 0),
 (1927, 13, 'LEU+_\nURO+_\nPRO+_\nKET+_\nBIL1+\nASC1+', '', '', '', '', 2500, 89, '2022-12-18 10:09:25', '2022-12-18 10:09:25', 1227, 95, 92, 1, 0),
 (1928, 17, 'NPS', '', '', '', '', 2000, 89, '2022-12-18 10:09:44', '2022-12-18 10:09:44', 1227, 95, 92, 1, 0),
 (1929, 29, 'NEGATIVE', '', '', '', '', 5000, 89, '2022-12-18 10:10:01', '2022-12-18 10:10:01', 1227, 95, 92, 1, 0),
@@ -4692,19 +4256,26 @@ INSERT INTO `assigned_labtests` (`id`, `labtest_id`, `result`, `ranges`, `unit`,
 (1938, 17, 'NPS\nNETROPHIL NOTED', '', '', '', '', 2000, 89, '2022-12-18 11:53:33', '2022-12-18 11:53:33', 1232, 95, 92, 1, 0),
 (1939, 17, 'NPS\nNETROPHIL NOTED', '', '', '', '', 2000, 89, '2022-12-18 11:54:13', '2022-12-18 11:54:13', 1233, 88, 92, 1, 0),
 (1940, 13, 'LEU+_', '', '', '', '', 2500, 89, '2022-12-18 11:54:23', '2022-12-18 11:54:23', 1233, 88, 92, 1, 0),
-(1941, 46, '', '', '', '', '', 3000, 89, '2022-12-18 12:30:02', '2022-12-18 12:30:02', 1234, 88, 0, 1, 0),
+(1941, 46, 'New Labtests Result Added UPDATE RESULT', '', '', 'low', 'clinical-lab-tests-reference-values-e.pdf', 3000, 89, '2022-12-18 12:30:02', '2022-12-18 12:30:02', 1234, 88, 86, 1, 0),
 (1942, 17, '', '', '', '', '', 2000, 89, '2022-12-18 12:46:54', '2022-12-18 12:46:54', 1236, 88, 0, 1, 0),
 (1943, 9, 'sdfwdd', '', '', '', '', 10000, 85, '2023-01-12 15:12:12', '2023-01-12 15:12:12', 1239, 31, 86, 1, 0),
 (1944, 34, 'fddf', '', '', '', '', 20000, 85, '2023-01-12 15:35:19', '2023-01-12 15:35:19', 1239, 31, 86, 1, 0),
 (1945, 14, '', '', '', '', '', 2500, 85, '2023-02-16 16:25:26', '2023-02-16 16:25:26', 82, 31, 0, 1, 1),
 (1946, 14, '', '', '', '', '', 2500, 0, '2023-02-26 07:52:30', '2023-02-26 07:52:30', 1242, 31, 0, 0, 0),
-(1947, 18, '', '', '', '', '', 2000, 0, '2023-02-26 07:52:43', '2023-02-26 07:52:43', 1242, 31, 0, 0, 0),
+(1947, 18, 'New labtests result for UPT  updated', '', '', 'medium', '', 2000, 85, '2023-02-26 07:52:43', '2023-02-26 07:52:43', 1242, 31, 86, 1, 0),
 (1948, 15, '', '', '', '', '', 5000, 0, '2023-03-03 18:56:08', '2023-03-03 18:56:08', 44, 31, 0, 0, 0),
 (1949, 12, '', '', '', '', '', 5000, 0, '2023-03-03 19:17:01', '2023-03-03 19:17:01', 44, 31, 0, 0, 0),
 (1950, 16, '', '', '', '', '', 5000, 0, '2023-03-03 19:17:55', '2023-03-03 19:17:55', 44, 31, 0, 0, 0),
 (1951, 20, 'new verification result stated as me', '', '', '', '', 20000, 85, '2023-03-03 19:25:39', '2023-03-03 19:25:39', 82, 31, 86, 1, 1),
 (1952, 11, '', '', '', '', '', 5000, 0, '2023-03-03 19:29:19', '2023-03-03 19:29:19', 36, 31, 0, 0, 0),
-(1953, 19, '', '', '', '', '', 20000, 0, '2023-03-03 19:30:07', '2023-03-03 19:30:07', 36, 31, 0, 0, 0);
+(1953, 19, '', '', '', '', '', 20000, 0, '2023-03-03 19:30:07', '2023-03-03 19:30:07', 36, 31, 0, 0, 0),
+(1955, 9, 'gfkkgh', '', '', '', '', 10000, 85, '2023-03-19 17:17:19', '2023-03-19 17:17:19', 1245, 31, 86, 1, 0),
+(1956, 13, 'hgfhgfb  hgfglfug;fgu liygfug;fug;fg', '', '', '', '', 2500, 85, '2023-03-19 17:17:27', '2023-03-19 17:17:27', 1245, 31, 86, 1, 0),
+(1957, 50, 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', '', '10', '', '', 4000, 85, '2023-03-26 01:59:08', '2023-03-26 01:59:08', 1246, 31, 86, 0, 0),
+(1958, 17, 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', '', '10', '', '', 2000, 85, '2023-03-26 01:59:15', '2023-03-26 01:59:15', 1246, 31, 86, 0, 0),
+(1959, 64, 'New result to patient should be examined in deep range updated confirmed', '20 - 40mq', '', 'medium', '', 90000, 85, '2023-03-26 06:31:57', '2023-03-26 06:31:57', 1242, 31, 86, 1, 0),
+(1960, 12, '', '', '', '', '', 5000, 0, '2023-03-28 13:29:56', '2023-03-28 13:29:56', 1247, 30, 0, 0, 0),
+(1961, 37, '', '', '', '', '', 10000, 0, '2023-03-28 13:30:04', '2023-03-28 13:30:04', 1247, 30, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -4783,7 +4354,10 @@ INSERT INTO `assigned_procedures` (`id`, `file_id`, `procedure_id`, `doctor`, `f
 (70, 1242, 2, 31, '', '', 5000, 0, 0, '2023-02-26 18:53:35', '2023-02-26 18:53:35', 0),
 (71, 1242, 2, 31, '', 'sample', 5000, 0, 0, '2023-02-26 18:54:01', '2023-02-26 18:54:01', 0),
 (72, 44, 2, 31, '', '', 5000, 0, 0, '2023-03-04 06:17:33', '2023-03-04 06:17:33', 0),
-(73, 36, 5, 31, '', 'Tooth extraction paediatric milk teeth ', 10000, 0, 0, '2023-03-04 06:32:13', '2023-03-04 06:32:13', 0);
+(73, 36, 5, 31, '', 'Tooth extraction paediatric milk teeth ', 10000, 0, 0, '2023-03-04 06:32:13', '2023-03-04 06:32:13', 0),
+(74, 82, 2, 31, '', 'wound dressing ', 5000, 0, 0, '2023-03-19 14:31:27', '2023-03-19 14:31:27', 0),
+(75, 1245, 2, 31, '', 'jvfdgfd fxffdf fxjfm', 5000, 85, 1, '2023-03-19 17:18:03', '2023-03-19 17:21:37', 0),
+(76, 1246, 1, 31, '', '', 10000, 85, 0, '2023-03-26 12:01:05', '2023-03-26 12:04:52', 0);
 
 -- --------------------------------------------------------
 
@@ -4889,7 +4463,7 @@ INSERT INTO `clinicalnotes` (`id`, `file_id`, `main_complain`, `history_of_prese
 (97, 78, 'seen the pt who present with hx of gradual onset of painful urination for 3days,accompanied with hx of GBM,but no hx of fever,LAP,N & V.\nROS-NAD\nPMHX-NAD\nO/E-Stable looking,BWT=110KG(Severe obese)', '', '', '', '', '', '', 95, '2022-10-16 18:59:52', '2022-11-06 18:39:45', 1),
 (98, 79, 'LNMP=17/9/2022,P4L4A0D0\nseen the pt who present with abdominal sharp pain on and off which is started gradual onset for 1month accompained with whitish PV discharge and offensive smell, loin pain and GBM,Headache, but no hx fever,AHB.\nROS-NAD\nPMHX-NAD\nOBGYHX-Had hx of used COC`s for 1month on 2018 then shift to inj.Depoprovera IM for 3months and stopped after being experienced massive persistance PV bleed.\nO/E-STABLE ', '', '', '', '', '', '', 95, '2022-10-16 19:18:04', '2022-10-16 19:19:20', 0),
 (99, 81, 'P1L1A1D0,LNMP=30/08/2022,G.A=6WKS,EDD=7/5/2023\nSeen the pt  who present with gradual onset of progressive on & off fever for 5days accampanied with hx of headache, flue, dry cough ,generalized bodyache,LOA,LAP,Loin pain but hx of AHB, vomiting,passage watery stool,and vaginal discharge.\nROS-NAD,PMHX-NAD\nO/E-Alert,not pale,weak looking. ', '', '', '', '', '', '', 95, '2022-10-16 21:48:24', '2022-10-16 21:48:24', 0),
-(100, 82, 'seen the pt who present with hx of painful bleeding wound Lt hand thumb last night for 1day,which is started gradual onset followed cut injury after being involved in fought at bar with he`s fellow friend,but no hx of LOC,headache,and AHB.\nROS-NAD\nO/E-Alert,visible cut injury Lt hand to the vental-lateral part surround by clotted blood,deep-irregular sharp margin ,length about 2cm,width=2.3cm,estimated blood loss=20mls', 'new present illness history', 'special medical history well written and presented', '', '', 'review of other complains..', '', 31, '2022-10-17 07:05:54', '2023-03-07 05:41:14', 1),
+(100, 82, 'seen the pt who present with hx of painful bleeding wound Lt hand thumb last night for 1day,which is started gradual onset followed cut injury after being involved in fought at bar with he`s fellow friend,but no hx of LOC,headache,and AHB.\nROS-NAD\nO/E-Alert,visible cut injury Lt hand to the vental-lateral part surround by clotted blood,deep-irregular sharp margin ,length about 2cm,width=2.3cm,estimated blood loss=20mls', 'new present illness history', 'special medical history well written and presented', 'redited history', '', 'review of other complains..', 'update examination ', 31, '2022-10-17 07:05:54', '2023-03-29 03:31:47', 1),
 (101, 83, 'Seen the pt who presented with ear discharge for 1 day which is pus like accompanied with fever.\nROS;NAD', '', '', '', '', '', '', 91, '2022-10-17 08:12:43', '2022-11-06 18:45:05', 1),
 (102, 85, 'Seen the pt who presented with fever for 2 days which started gradually,accompanied with headache,joint pains and nausea.pt also reports to have a generalized abdominal pain.\nROS;NAD', '', '', '', '', '', '', 91, '2022-10-17 09:07:41', '2022-10-17 09:07:41', 0),
 (103, 97, 'Seen the pt who presented with general body weakness for 3 days which started gradually,accompanied with fever,headache,joint pains.\npt reports to have diarrhoea and abdominal.\nROS;NAD', '', '', '', '', '', '', 91, '2022-10-17 18:20:06', '2022-10-17 18:20:06', 0),
@@ -5453,7 +5027,11 @@ INSERT INTO `clinicalnotes` (`id`, `file_id`, `main_complain`, `history_of_prese
 (662, 1242, 'country	latitude	longitude	name\nAD	42.546245	1.601554	Andorra\nAE	23.424076	53.847818	United Arab E', '', '', '', '', '', '', 31, '2023-02-26 19:44:10', '2023-02-26 19:44:10', 0),
 (663, 1239, 'new main complain', '', '', '', '', '', '', 31, '2023-03-03 22:48:38', '2023-03-03 22:49:38', 0),
 (664, 36, 'another ', 'no present illness', 'medical history', 'familly social history', '', 'review complain', '', 31, '2023-03-04 05:37:43', '2023-03-04 05:48:50', 1),
-(667, 1244, 'new test complain', 'another new history of illness for oga', 'Past medica history ', '', '', '', '', 31, '2023-03-07 05:29:50', '2023-03-07 05:31:03', 0);
+(667, 1244, 'new test complain', 'another new history of illness for oga', 'Past medica history ', '', '', '', '', 31, '2023-03-07 05:29:50', '2023-03-07 05:31:03', 0),
+(668, 1245, 'seen the pt with stomach pain', 'bb  hbhvhbchdlhbl', 'hgdf dhdvvdvbd', 'hfgydgygldy', 'hgfygfygfyg', 'hgfgfgfjhjfh hgdgddg', 'hgdgdfgdg', 31, '2023-03-19 15:12:00', '2023-03-19 15:14:05', 0),
+(669, 44, 'hhsgsgsh ytdt dfa ', 'hdhdgdhhd', 'hhjddjdjgd htdtd fdd new edite', 'hysbsgshsh', 'gdghdgdhd ffg', 'tgdfsffsfsfsfd sdfa daa dtinsa udbs', 'trrreggff css ibns', 31, '2023-03-19 15:31:18', '2023-03-19 15:48:45', 0),
+(670, 1245, 'hgffff', 'gfdddxx', 'hggffdd', 'frfggfff', 'hyfff', 'vfdrrh', 'hgffddd', 115, '2023-03-19 16:18:40', '2023-03-19 16:19:17', 0),
+(671, 1246, 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', 'notice · an announcement or intimation of something impending; warning: · a note, placard, or the like conveying information or a warning: · information or warning ...', '', 31, '2023-03-26 12:02:32', '2023-03-26 12:02:59', 0);
 
 -- --------------------------------------------------------
 
@@ -5519,7 +5097,12 @@ INSERT INTO `clinic_doctors` (`id`, `user_id`, `clinic_id`, `created_at`, `updat
 (22, 93, 0, '2022-10-13 23:37:26', '2022-10-13 23:37:26'),
 (24, 95, 1, '2022-10-14 21:11:15', '2022-10-14 21:11:15'),
 (25, 96, 4, '2022-10-17 18:44:35', '2022-10-17 18:44:35'),
-(26, 97, 0, '2023-02-26 19:13:02', '2023-02-26 19:13:02');
+(26, 97, 0, '2023-02-26 19:13:02', '2023-02-26 19:13:02'),
+(27, 0, 0, '2023-03-19 15:51:12', '2023-03-19 15:51:12'),
+(28, 0, 3, '2023-03-19 15:58:15', '2023-03-19 15:58:15'),
+(29, 114, 3, '2023-03-19 16:11:02', '2023-03-19 16:11:02'),
+(30, 115, 3, '2023-03-19 16:11:49', '2023-03-19 16:11:49'),
+(31, 116, 0, '2023-03-19 17:29:24', '2023-03-19 17:29:24');
 
 -- --------------------------------------------------------
 
@@ -6331,7 +5914,10 @@ INSERT INTO `consultation` (`id`, `file_id`, `doctor_id`, `payment`, `amount`, `
 (800, 36, 31, 'CASH', 3000, 30, 85, 31, '2023-03-04 05:44:56', '2023-03-04 05:51:42'),
 (801, 44, 31, 'CASH', 3000, 30, 85, 31, '2023-03-04 05:53:41', '2023-03-04 06:12:52'),
 (802, 1244, 31, 'CASH', 6000, 30, 85, 31, '2023-03-07 05:10:51', '2023-03-07 05:31:03'),
-(803, 82, 31, 'CASH', 3000, 30, 85, 31, '2023-03-07 05:42:11', '2023-03-07 05:43:32');
+(803, 82, 31, 'CASH', 3000, 30, 85, 31, '2023-03-07 05:42:11', '2023-03-07 05:43:32'),
+(804, 1245, 31, 'CASH', 6000, 30, 85, 31, '2023-03-19 15:10:19', '2023-03-19 15:14:05'),
+(805, 1246, 31, 'CASH', 6000, 30, 85, 31, '2023-03-26 11:57:17', '2023-03-26 11:58:24'),
+(806, 1248, 115, 'CASH', 12000, 30, 0, 0, '2023-03-29 00:11:11', '2023-03-29 00:11:11');
 
 -- --------------------------------------------------------
 
@@ -21274,7 +20860,8 @@ INSERT INTO `general_examination` (`id`, `pressure`, `temperature`, `pulse_rate`
 (168, '117/74', '37.4', '', '', '', '', '', '', '', '', '', 1231, 95, '2022-12-18 11:28:51', '2022-12-18 11:28:51', 0),
 (169, '', '', '', '', '', '', '', '', '', '', '', 1229, 95, '2022-12-18 11:50:29', '2022-12-18 11:50:29', 0),
 (170, '8', '7', '', '', '', '', '', '', '', '', '', 113, 31, '2023-02-16 17:22:52', '2023-02-16 17:22:52', 1),
-(171, '5', '10', '3', '4', '2', '9', '20', '200', '30', '50', 'new examination', 1239, 31, '2023-03-11 11:49:53', '2023-03-11 11:49:53', 0);
+(171, '5', '10', '3', '4', '2', '9', '20', '200', '30', '50', 'new examination', 1239, 31, '2023-03-11 11:49:53', '2023-03-11 11:49:53', 0),
+(172, '123', '28', '56', '70', '125', '55', '44', '4', '44', '4', '', 1245, 31, '2023-03-19 17:16:11', '2023-03-19 17:16:11', 0);
 
 -- --------------------------------------------------------
 
@@ -21348,16 +20935,16 @@ INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_
 (64, ' TABS NOR-T', 10, 78, 300, '2023-01-01 00:00:00', '', '', '2022-10-12 07:02:54', '2022-10-15 00:00:00', 25),
 (65, ' TABS VITAMIN B COMPLEX', 500, 10, 100, '2023-01-01 00:00:00', '', '', '2022-10-12 07:03:44', '2022-11-30 00:00:00', 25),
 (67, ' CAPS OMEPRAZOLE ', 4, 76, 200, '2023-01-01 00:00:00', '', '', '2022-10-12 07:05:08', '2022-10-15 00:00:00', 25),
-(68, ' TABS PROMETHAZINE ', 250, 1300, 100, '2023-01-01 00:00:00', '', '', '2022-10-12 07:06:16', '2022-10-15 00:00:00', 25),
+(68, ' TABS PROMETHAZINE ', 230, 1300, 100, '2023-01-01 00:00:00', '', '', '2022-10-12 07:06:16', '2022-10-15 00:00:00', 25),
 (69, ' TABS NEUROTON ', 4, 6000, 10000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:17:21', '2022-10-15 00:00:00', 25),
 (70, ' TABS NEUROBINE ', 5, 3000, 5000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:18:22', '2022-10-15 00:00:00', 25),
 (71, ' TABS ASCORBIC ACID', 1, 12, 3000, '2024-01-01 00:00:00', '', '', '2022-10-12 07:19:02', '2022-12-13 00:00:00', 25),
 (72, 'TABS BACLOFENAC ', 190, 12, 100, '2023-01-01 00:00:00', '', '', '2022-10-12 07:19:48', '2022-10-15 00:00:00', 25),
 (75, 'ARTEQUICK TABS', 13, 8600, 12000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:23:14', '2022-11-30 00:00:00', 25),
-(76, 'PANTOPRAZOLE INJECTION', 4, 7000, 11000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:24:20', '2022-10-15 00:00:00', 25),
+(76, 'PANTOPRAZOLE INJECTION', 1, 7000, 11000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:24:20', '2022-10-15 00:00:00', 25),
 (77, 'VOLIN GEL', 1, 2000, 3500, '2023-01-01 00:00:00', '', '', '2022-10-12 07:25:05', '2022-10-15 00:00:00', 25),
 (78, 'SONADERM CREAM', 0, 2500, 5000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:25:43', '2022-11-30 00:00:00', 25),
-(80, 'VITAMIN K INJECTION', 10, 380, 3000, '2024-01-01 00:00:00', '', '', '2022-10-12 07:28:20', '2022-11-02 00:00:00', 25),
+(80, 'VITAMIN K INJECTION', 9, 380, 3000, '2024-01-01 00:00:00', '', '', '2022-10-12 07:28:20', '2022-11-02 00:00:00', 25),
 (81, 'DNS', 1, 1000, 10000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:28:48', '2022-11-30 00:00:00', 25),
 (82, 'PPF INJECTION', 2, 800, 5000, '2023-01-01 00:00:00', '', '', '2022-10-12 07:29:33', '2022-10-15 00:00:00', 25),
 (85, 'ACCECLOFENAC TABS', 200, 4500, 100, '2023-01-01 00:00:00', '', '', '2022-10-12 07:35:30', '2022-10-15 00:00:00', 25),
@@ -21391,7 +20978,7 @@ INSERT INTO `items` (`id`, `name`, `qty`, `buying_price`, `selling_price`, `exp_
 (118, 'INJ.TRAMADOL 100MG', 2, 380, 5000, '2023-01-01 00:00:00', '', '', '2022-10-12 20:27:14', '2022-11-30 00:00:00', 25),
 (119, 'INJ.PANTOCID', 4, 7000, 11000, '2023-01-01 00:00:00', '', '', '2022-10-12 20:28:02', '2022-10-12 20:28:02', 25),
 (120, 'INJ.METOCROPAMIDE', 1, 380, 3000, '2023-01-01 00:00:00', '', '', '2022-10-12 20:38:53', '2022-10-12 20:38:53', 25),
-(121, 'INJ.ADRENALINE', 5, 400, 3000, '2022-01-01 00:00:00', '', '', '2022-10-12 20:40:36', '2022-10-12 20:40:36', 25),
+(121, 'INJ.ADRENALINE', 4, 400, 3000, '2022-01-01 00:00:00', '', '', '2022-10-12 20:40:36', '2022-10-12 20:40:36', 25),
 (122, 'INJ.DEXAMETHASONE', 10, 500, 3000, '2023-01-01 00:00:00', '', '', '2022-10-12 20:41:09', '2022-10-15 00:00:00', 25),
 (123, 'INJ.PPF', 0, 800, 5000, '2023-01-01 00:00:00', '', '', '2022-10-12 20:41:34', '2022-10-12 20:41:34', 25),
 (125, 'INJ.X PEN', 20, 700, 5000, '2022-11-02 00:00:00', '', '', '2022-10-12 20:42:37', '2022-11-02 00:00:00', 25),
@@ -21547,7 +21134,29 @@ INSERT INTO `labtests` (`id`, `name`, `description`, `price`, `created_at`, `upd
 (47, 'BLOOD PRESSURE', '', 10000, '2022-10-09 21:10:07', '2022-10-09 21:10:07', 0),
 (48, 'Speim analysis', '', 15000, '2022-10-31 17:53:48', '2022-10-31 17:53:48', 0),
 (49, 'Ovulation Test', '', 10000, '2022-10-31 17:53:48', '2022-10-31 17:53:48', 0),
-(50, 'HB', '', 4000, '2022-10-31 17:54:45', '2022-10-31 17:54:45', 0);
+(64, 'new labtest ', 'new labtest range', 90000, '2023-03-26 16:12:19', '2023-03-26 16:12:19', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab_ranges`
+--
+
+CREATE TABLE `lab_ranges` (
+  `id` int(11) NOT NULL,
+  `range` varchar(150) NOT NULL,
+  `labtest_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lab_ranges`
+--
+
+INSERT INTO `lab_ranges` (`id`, `range`, `labtest_id`, `created_at`, `updated_at`) VALUES
+(4, '20 - 40mq', 64, '2023-03-26 06:12:19', '2023-03-26 06:12:19'),
+(5, '30 - 50mq', 64, '2023-03-26 06:12:19', '2023-03-26 06:12:19');
 
 -- --------------------------------------------------------
 
@@ -22805,7 +22414,11 @@ INSERT INTO `patients` (`id`, `first_name`, `middle_name`, `sir_name`, `birth_da
 (1247, 'debi', 'debi_middle', 'deb_sir', '2010-01-10', 'Male', 'makongo', 7865423, 'tanzania', 'debi@gmail.com', 'deb nex kin', 'kin', 78843234, 'outpatient', '2023-02-26 23:46:16', '2023-02-26 23:46:16', 30),
 (1248, 'debi', 'debi_middle', 'debi_sir', '2003-01-26', 'Male', 'kinondoini', 785230326, 'tanzania', 'debi@gmail.com', 'deb nex kin', 'deb relationship', 78632341, 'outpatient', '2023-02-26 15:43:56', '2023-02-26 15:43:56', 30),
 (1249, 'musa', 'mvena', 'petre', '2023-02-10', 'Male', 'namanga', 765412311, 'Tunisia', '', 'deb nex kin', 'kaka', 654410352, 'outpatient', '2023-02-26 17:33:47', '2023-02-26 17:56:53', 30),
-(1250, 'oga', 'oga_middle', 'oga_sir', '2023-03-06', 'Male', 'mbezi', 785230326, 'Tanzania', 'oga@gmail.com', 'oga kin', 'oga relationship', 654410352, 'outpatient', '2023-03-07 05:08:53', '2023-03-07 05:08:53', 30);
+(1250, 'oga', 'oga_middle', 'oga_sir', '2023-03-06', 'Male', 'mbezi', 785230326, 'Tanzania', 'oga@gmail.com', 'oga kin', 'oga relationship', 654410352, 'outpatient', '2023-03-07 05:08:53', '2023-03-07 05:08:53', 30),
+(1251, 'ZAWADI', 'JUMA', 'AMIRI', '2000-02-03', 'Female', 'TEGETA', 762504356, 'Tanzania', 'zawad@gmail.com', 'NATAI', 'BABA', 762504358, 'outpatient', '2023-03-19 15:08:51', '2023-03-19 15:08:51', 30),
+(1252, 'zana', 'debi_middle', 'oga_sir', '2023-03-01', 'Male', 'kinondoini', 785230326, 'Tanzania', '', 'zaha', 'mama', 654410352, 'outpatient', '2023-03-26 11:57:06', '2023-03-26 11:57:06', 30),
+(1253, 'Teminiz', 'Teminiz_Middle', 'Teminiz_Sir', '1998-02-28', 'Male', 'chinaplaza', 785230326, 'Tanzania', 'teminiz@gmail.com', 'Teminiz_kin_name', 'Teminiz_relationship', 9748894, 'outsider', '2023-03-28 23:28:59', '2023-03-28 23:28:59', 30),
+(1254, 'Johnson', 'Johnson_middle', 'Johnson_sir', '1997-01-28', 'Male', 'namanga', 765412311, 'Tanzania', 'johson@gmail.com', 'johson_kin', 'johson_relation', 9748894, 'outpatient', '2023-03-29 00:10:57', '2023-03-29 00:10:57', 30);
 
 -- --------------------------------------------------------
 
@@ -24068,7 +23681,11 @@ INSERT INTO `patients_file` (`id`, `file_no`, `patient_id`, `clinic`, `payment_m
 (1240, 'MRNO/2023/1246', 1246, 0, '', '', '0000-00-00', '0000-00-00', '', 0, 'outpatient', '2023-01-12 15:57:20', '2023-01-12 15:57:20'),
 (1242, 'MRNO/2023/1248', 1248, 1, 'CASH', '', '2023-02-26', '0000-00-00', 'inTreatment', 0, 'outpatient', '2023-02-26 15:43:57', '2023-02-26 16:19:27'),
 (1243, 'MRNO/2023/1249', 1249, 0, '', '', '0000-00-00', '0000-00-00', '', 1, 'outpatient', '2023-02-26 17:33:47', '2023-02-26 17:56:53'),
-(1244, 'MRNO/2023/1250', 1250, 1, 'CASH', '', '2023-03-07', '0000-00-00', 'inTreatment', 0, 'outpatient', '2023-03-07 05:08:53', '2023-03-07 05:31:03');
+(1244, 'MRNO/2023/1250', 1250, 1, 'CASH', '', '2023-03-07', '0000-00-00', 'inTreatment', 0, 'outpatient', '2023-03-07 05:08:53', '2023-03-07 05:31:03'),
+(1245, 'MRNO/2023/1251', 1251, 1, 'CASH', '', '2023-03-19', '0000-00-00', 'inTreatment', 0, 'outpatient', '2023-03-19 15:08:52', '2023-03-19 15:14:05'),
+(1246, 'MRNO/2023/1252', 1252, 1, 'CASH', '', '2023-03-26', '0000-00-00', 'inTreatment', 0, 'outpatient', '2023-03-26 11:57:06', '2023-03-26 11:58:24'),
+(1247, 'MRNO/2023/1253', 1253, 0, 'CASH', '', '2023-03-28', '0000-00-00', 'inTreatment', 1, 'outsider', '2023-03-28 23:28:59', '2023-03-28 23:29:27'),
+(1248, 'MRNO/2023/1254', 1254, 3, 'CASH', '', '2023-03-29', '0000-00-00', 'consultation', 1, 'outpatient', '2023-03-29 00:10:57', '2023-03-29 00:11:11');
 
 -- --------------------------------------------------------
 
@@ -24464,7 +24081,12 @@ INSERT INTO `rad_results` (`id`, `rad_id`, `result`, `ranges`, `unit`, `level`, 
 (44, 3, '', '', '', '', '', 85, '2023-03-03 19:23:31', '2023-03-03 19:23:31', 82, 31, 1),
 (45, 4, 'new radiology result added by  me', '', '', '', '', 97, '2023-03-03 19:25:49', '2023-03-03 19:25:49', 82, 31, 1),
 (46, 2, '', '', '', '', '', 0, '2023-03-04 22:50:47', '2023-03-04 22:50:47', 82, 31, 0),
-(47, 3, '', '', '', '', '', 0, '2023-03-04 22:51:55', '2023-03-04 22:51:55', 1242, 31, 0);
+(47, 3, '', '', '', '', '', 0, '2023-03-04 22:51:55', '2023-03-04 22:51:55', 1242, 31, 0),
+(48, 5, '', '', '', '', '', 0, '2023-03-19 02:12:41', '2023-03-19 02:12:41', 44, 31, 0),
+(49, 1, 'ghgffgffgg', '', '', '', '', 116, '2023-03-19 17:17:37', '2023-03-19 17:17:37', 1245, 31, 1),
+(50, 2, 'ggghhhh edited', '', '', '', '', 116, '2023-03-19 17:17:43', '2023-03-19 17:17:43', 1245, 31, 1),
+(51, 2, '', '', '', '', '', 0, '2023-03-28 13:30:12', '2023-03-28 13:30:12', 1247, 30, 0),
+(52, 5, '', '', '', '', '', 0, '2023-03-28 13:30:22', '2023-03-28 13:30:22', 1247, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -24502,7 +24124,9 @@ INSERT INTO `reffers_form` (`id`, `hospital_reffers`, `patient`, `reasons_reffer
 (10, 0, 152, '', '', '', '', 31, '2023-01-11 23:54:07', '2023-01-11 23:54:07'),
 (11, 0, 1244, '', '', '', '', 31, '2023-01-12 01:13:07', '2023-01-12 01:13:07'),
 (12, 0, 1245, '', '', '', '', 31, '2023-01-12 15:43:44', '2023-01-12 15:43:44'),
-(13, 1, 89, '', '', '', '', 31, '2023-02-02 18:23:52', '2023-02-15 10:35:51');
+(13, 1, 89, '', '', '', '', 31, '2023-02-02 18:23:52', '2023-02-15 10:35:51'),
+(14, 1, 51, '', '', '', '', 31, '2023-03-19 12:13:09', '2023-03-19 12:13:14'),
+(15, 0, 89, '', '', '', '', 31, '2023-03-19 14:33:59', '2023-03-19 14:33:59');
 
 -- --------------------------------------------------------
 
@@ -24515,15 +24139,976 @@ CREATE TABLE `role` (
   `name` varchar(60) NOT NULL,
   `role_type` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
--- Error reading data for table zana_healthcare_clinic.role: #2006 - MySQL server has gone away
-<div class="alert alert-danger" role="alert"><h1>Error</h1><p><strong>SQL query:</strong>  <a href="#" class="copyQueryBtn" data-text="SET SQL_QUOTE_SHOW_CREATE = 1">Copy</a>
-<a href="index.php?route=/server/sql&sql_query=SET+SQL_QUOTE_SHOW_CREATE+%3D+1&show_query=1"><span class="text-nowrap"><img src="themes/dot.gif" title="Edit" alt="Edit" class="icon ic_b_edit">&nbsp;Edit</span></a>    </p>
-<p>
-<code class="sql"><pre>
-SET SQL_QUOTE_SHOW_CREATE = 1
-</pre></code>
-</p>
-<p>
-    <strong>MySQL said: </strong><a href="./url.php?url=https%3A%2F%2Fdev.mysql.com%2Fdoc%2Frefman%2F8.0%2Fen%2Fserver-error-reference.html" target="mysql_doc"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
-</p>
-<code>#2006 - MySQL server has gone away</code><br></div>
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`id`, `name`, `role_type`) VALUES
+(1, 'Administrator', 'admin'),
+(2, 'Receptionist', 'reception'),
+(4, 'Pharmacist', 'pharmacy'),
+(5, 'Superuser', 'superuser'),
+(7, 'Cashier', 'cashier'),
+(8, 'Doctor', 'doctor'),
+(9, 'Lab', 'lab'),
+(10, 'Radiology', 'radiology');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room_no`
+--
+
+CREATE TABLE `room_no` (
+  `id` int(11) NOT NULL,
+  `room_number` varchar(200) NOT NULL,
+  `ward` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `room_no`
+--
+
+INSERT INTO `room_no` (`id`, `room_number`, `ward`, `user`, `created_at`, `updated_at`) VALUES
+(4, '9', 3, 25, '2023-02-13 01:29:24', '2023-02-13 01:29:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `qty` int(8) NOT NULL,
+  `dose` varchar(60) NOT NULL,
+  `amount` double NOT NULL,
+  `discount` double NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `assigned_medicine_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `item_id`, `qty`, `dose`, `amount`, `discount`, `description`, `assigned_medicine_id`, `created_at`, `updated_at`, `user_id`) VALUES
+(61, 8, 20, '6', 2000, 0, '', 0, '2022-04-27 12:25:16', '2022-04-27 12:25:16', 19),
+(62, 9, 45, '6', 9000, 0, '', 0, '2022-04-27 12:35:47', '2022-04-27 12:35:47', 19),
+(63, 9, 5, '', 1000, 0, '', 0, '2022-04-27 12:39:59', '2022-04-27 12:39:59', 19),
+(64, 8, 10, '', 1000, 0, '', 0, '2022-04-27 12:40:18', '2022-04-27 12:40:18', 19),
+(65, 10, 10, '3', 1000, 0, '', 0, '2022-04-27 12:52:36', '2022-04-27 12:52:36', 19),
+(66, 11, 20, '6', 4000, 0, '', 0, '2022-04-27 12:52:54', '2022-04-27 12:52:54', 19),
+(67, 10, 35, '6', 3500, 0, '', 0, '2022-04-27 12:54:42', '2022-04-27 12:54:42', 19),
+(68, 11, 40, '6', 8000, 0, '', 0, '2022-04-27 12:54:59', '2022-04-27 12:54:59', 19),
+(69, 13, 48, '6', 144000, 0, '', 0, '2022-04-28 15:58:57', '2022-04-28 15:58:57', 19),
+(70, 13, 2, '3', 6000, 0, '', 0, '2022-04-28 16:00:14', '2022-04-28 16:00:14', 19),
+(72, 95, 1, '1x2', 15000, 0, '', 1620, '2023-02-21 01:53:13', '2023-02-21 01:53:13', 85),
+(73, 58, 2, '1x2', 4000, 0, '', 1619, '2023-02-21 01:53:31', '2023-02-21 01:53:31', 85),
+(74, 68, 20, '', 100, 0, '', 1625, '2023-03-19 17:21:27', '2023-03-19 17:21:27', 85),
+(75, 80, 1, '1', 3000, 0, '', 1628, '2023-03-26 02:04:49', '2023-03-26 02:04:49', 85),
+(76, 121, 1, '1', 3000, 0, '', 1626, '2023-03-26 02:04:50', '2023-03-26 02:04:50', 85),
+(77, 76, 3, '1', 11000, 0, '', 1629, '2023-03-26 03:29:35', '2023-03-26 03:29:35', 85);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(10) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `father_name` varchar(50) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `email` varchar(70) NOT NULL,
+  `phone_number` varchar(70) NOT NULL,
+  `address` varchar(225) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `is_info_confirmed` tinyint(1) NOT NULL,
+  `confirmed_by` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `father_name`, `sex`, `email`, `phone_number`, `address`, `password`, `is_active`, `is_info_confirmed`, `confirmed_by`, `user_id`) VALUES
+(25, 'john', 'doe', 'doe father', 'Male', 'johndoe@gmail.com', '0755323024', 'address Dar -es - salaam', '$2y$10$h0E5hUSRzh6e0u3I.URgnepNK136O3CmBRCbnRBcg6O7ivKRoSr.O', 1, 1, NULL, 0),
+(30, 'rec', 'rec last name', 'rec father name', 'Female', 'rec@gmail.com', '0754230326', 'address Dar -es - salaam', '$2y$10$XygOYzedk2iZDSsnexf.lODPfphlhjIIZ8CO9HMlmINYHUrQyOOO.', 1, 1, NULL, 0),
+(31, 'doc', 'doctor', 'doctor father', 'Male', 'doctor@gmail.com', '3201763925', 'mbezi, goba', '$2y$10$XtJXCv.sKz1JLo46mxaD/.18L505hFU5iGIJa4ocTXAUE/mJqhwp.', 1, 1, NULL, 0),
+(85, 'cashier', 'cash', 'cash', 'Female', 'cashier@gmail.com', '213234565', 'SALASALA', '$2y$10$AjPMuWfhxC0HOv/7qLKgo.wRjJemf11jnubLjywbYUaU1zjfodU2O', 1, 1, NULL, 0),
+(86, 'lab', 'lab', 'lab', 'Male', 'lab@gmail.com', '213254', 'SALASALA', '$2y$10$Mj6dgWtVuDu5R2v4XFbCTuaNOK8sjBGCuYe2TGYL82bq4jr5SYsyi', 1, 1, NULL, 0),
+(87, 'pharm', 'pharm', 'pharm', 'Female', 'pharm@gmail.com', 'pharm@gmail.com', 'SALASALA', '$2y$10$Rlu.FiS7Ee6JKiDpOSKFi.x2RvXekGqGYX4dM.rtgqHq89.Tzsb36', 1, 1, NULL, 0),
+(88, 'mushi', 'mushi', 'christina', 'Female', 'mushi@gmail.com', '0767512441', 'SALASALA', '$2y$10$g2CFDILsdTckK6rmnoBdQ.HXgv2qsViY1WMpXbVxsSl.EYGTxKjDy', 1, 1, NULL, 0),
+(89, 'VERONICA', 'nikodemasi', 'nikodemasi', 'Female', 'nikodemasi@gmail.com', '0789609765', 'SALASALA', '$2y$10$trMPYrcz91TyG6JytuojkucKcjygAP7/XHi8SFBEcOmCTFv7ut2b.', 1, 1, NULL, 0),
+(90, 'athanasia ', 'athanasia', 'athanasia', 'Female', 'athanasia@gmail.com', '0767512441', 'SALASALA', '$2y$10$DlmkX/YmIiDxXkQR8bjL3uS7dJvzbQ5oA/nmJxuVYXtqspcCYeOpu', 1, 1, NULL, 0),
+(91, 'VICTORIA', 'LEMA', 'ELIBARIKI', 'Female', 'victoria@gmail.com', '0759507610', 'SALASALA', '$2y$10$UG62.sCE3iw1lzHPx2lt6uFMHybpFIgpkCB6Hwoqp/0M5Tr9UhxQW', 1, 1, NULL, 0),
+(92, 'ROBERT ', 'MSUMBA', 'ENDWER', 'Male', 'rober@gmail.com', '0717029319', 'sala sala', '$2y$10$d1PymhVo1NrYOaNBvuZknOM2bOQi/kT8tcFCEy3sl5U181XGR0VVu', 1, 1, NULL, 0),
+(93, 'JAPHET', 'JUSTUS', 'JUSTUS', 'Male', 'japhet@gmail.com', '0717736014', 'sala sala', '$2y$10$df2xY4uaXz9cnpaUdZyvLeNRpwE/NAqHb7bLaStobLpEFMuzY282O', 1, 1, NULL, 0),
+(94, 'MUGA', 'NKINDA', 'DAUD', 'Male', 'nillannkinda@gmail.com', '0742352552', 'GOBA', '$2y$10$Y1oHb9.ouaSs79vcXAbx2.aFWnf2I1SXjdIrEj0czR0a5SXE4mm4a', 1, 1, NULL, 0),
+(95, 'BAKARI', 'JUMA', 'HAMADI', 'Male', 'bakarihamadi1993@gmail.com', '0785941038', 'salasala', '$2y$10$NZ2suXAzHLlyj0ERRaJNiemdkoc01cFAtrQxLxU0hoU4S429rCg6O', 1, 1, NULL, 0),
+(96, 'HELLEN ', 'MAKWANI', 'ROBERT', 'Female', 'makwanihellen@hotmail.com', '0715393203', 'SALASALA', '$2y$10$Sqwx0fIEbF7Yhfk6R.lpTeLUG6vXe4.chqm7ftoQ2yrOd1StxndKO', 1, 1, NULL, 0),
+(115, 'DANIEL', 'REMMY', 'KIWARIA', 'Male', 'remmy@gmail.com', '0718683818', 'TEGETA', '$2y$10$EA7nmJNLG6dPQsRClQN0bOrqZqbSLAx8a./JocEovWnQduQMTk8PO', 1, 1, NULL, 0),
+(116, 'RADIOLOGY', 'RAD', 'RADIO', 'Male', 'radi@gmail.com', '0718683818', 'TEGETA', '$2y$10$9eiztcDduwXBnBbTTNuBhutwKABhkokzWmMn2Ta/RociboaS13Lli', 1, 1, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_permission`
+--
+
+CREATE TABLE `user_permission` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_permission`
+--
+
+INSERT INTO `user_permission` (`id`, `user_id`, `permission_id`) VALUES
+(145, 25, 1),
+(146, 25, 2),
+(147, 25, 3),
+(148, 25, 4),
+(149, 25, 5),
+(150, 25, 6),
+(151, 25, 7),
+(152, 25, 8),
+(153, 25, 9),
+(154, 25, 10),
+(155, 25, 11),
+(156, 25, 12),
+(157, 25, 13),
+(158, 25, 14),
+(159, 25, 15),
+(160, 25, 16),
+(161, 25, 17),
+(162, 25, 18),
+(163, 25, 19),
+(164, 25, 20),
+(165, 25, 21),
+(166, 25, 22),
+(167, 25, 23),
+(168, 25, 24),
+(169, 25, 25),
+(170, 25, 26),
+(171, 25, 27),
+(172, 25, 28),
+(173, 25, 29),
+(174, 25, 30),
+(175, 25, 31),
+(176, 25, 32),
+(177, 25, 33),
+(178, 25, 34),
+(179, 25, 35),
+(180, 25, 36),
+(766, 45, 5),
+(767, 45, 6),
+(768, 45, 7),
+(769, 45, 8),
+(770, 45, 9),
+(771, 45, 16),
+(772, 45, 17),
+(773, 45, 18),
+(774, 45, 19),
+(775, 45, 20),
+(776, 45, 21),
+(777, 45, 22),
+(778, 45, 23),
+(779, 45, 24),
+(780, 45, 25),
+(781, 45, 26),
+(782, 45, 27),
+(783, 45, 28),
+(784, 45, 29),
+(785, 45, 30),
+(786, 45, 31),
+(787, 45, 32),
+(788, 45, 33),
+(789, 45, 34),
+(790, 45, 35),
+(791, 45, 36),
+(902, 30, 5),
+(903, 30, 6),
+(904, 30, 7),
+(905, 30, 8),
+(906, 30, 9),
+(907, 30, 13),
+(908, 30, 14),
+(909, 30, 22),
+(910, 30, 23),
+(911, 30, 24),
+(912, 30, 31),
+(913, 30, 32),
+(914, 30, 33),
+(915, 30, 34),
+(916, 30, 35),
+(917, 30, 36),
+(918, 66, 5),
+(919, 66, 6),
+(920, 66, 7),
+(921, 66, 8),
+(922, 66, 9),
+(923, 66, 13),
+(924, 66, 14),
+(925, 66, 22),
+(926, 66, 23),
+(927, 66, 24),
+(928, 66, 25),
+(929, 66, 26),
+(930, 66, 27),
+(931, 66, 34),
+(932, 66, 35),
+(933, 66, 36),
+(934, 31, 5),
+(935, 31, 6),
+(936, 31, 7),
+(937, 31, 8),
+(938, 31, 9),
+(939, 31, 16),
+(940, 31, 17),
+(941, 31, 18),
+(942, 31, 19),
+(943, 31, 20),
+(944, 31, 21),
+(945, 31, 22),
+(946, 31, 23),
+(947, 31, 24),
+(948, 31, 25),
+(949, 31, 26),
+(950, 31, 27),
+(951, 31, 28),
+(952, 31, 29),
+(953, 31, 30),
+(954, 31, 31),
+(955, 31, 32),
+(956, 31, 33),
+(957, 31, 34),
+(958, 31, 35),
+(959, 31, 36),
+(986, 67, 5),
+(987, 67, 6),
+(988, 67, 7),
+(989, 67, 8),
+(990, 67, 9),
+(991, 67, 13),
+(992, 67, 14),
+(993, 67, 22),
+(994, 67, 23),
+(995, 67, 24),
+(996, 67, 25),
+(997, 67, 26),
+(998, 67, 27),
+(999, 67, 34),
+(1000, 67, 35),
+(1001, 67, 36),
+(1002, 69, 5),
+(1003, 69, 6),
+(1004, 69, 7),
+(1005, 69, 8),
+(1006, 69, 9),
+(1007, 69, 22),
+(1008, 69, 23),
+(1009, 69, 24),
+(1026, 87, 5),
+(1027, 87, 6),
+(1028, 87, 7),
+(1029, 87, 8),
+(1030, 87, 9),
+(1031, 87, 22),
+(1032, 87, 23),
+(1033, 87, 24),
+(1081, 90, 5),
+(1082, 90, 6),
+(1083, 90, 7),
+(1084, 90, 8),
+(1085, 90, 9),
+(1086, 89, 5),
+(1087, 89, 6),
+(1088, 89, 7),
+(1089, 89, 8),
+(1090, 89, 9),
+(1091, 89, 13),
+(1092, 89, 14),
+(1093, 88, 5),
+(1094, 88, 6),
+(1095, 88, 7),
+(1096, 88, 8),
+(1097, 88, 9),
+(1098, 88, 13),
+(1099, 88, 14),
+(1100, 88, 22),
+(1101, 88, 23),
+(1102, 88, 24),
+(1103, 88, 31),
+(1104, 88, 32),
+(1105, 88, 33),
+(1106, 88, 34),
+(1107, 88, 35),
+(1108, 88, 36),
+(1109, 91, 5),
+(1110, 91, 6),
+(1111, 91, 7),
+(1112, 91, 8),
+(1113, 91, 9),
+(1114, 91, 16),
+(1115, 91, 17),
+(1116, 91, 18),
+(1117, 91, 19),
+(1118, 91, 20),
+(1119, 91, 21),
+(1120, 91, 22),
+(1121, 91, 23),
+(1122, 91, 24),
+(1123, 91, 25),
+(1124, 91, 26),
+(1125, 91, 27),
+(1126, 91, 28),
+(1127, 91, 29),
+(1128, 91, 30),
+(1129, 91, 31),
+(1130, 91, 32),
+(1131, 91, 33),
+(1132, 91, 34),
+(1133, 91, 35),
+(1134, 91, 36),
+(1135, 95, 5),
+(1136, 95, 6),
+(1137, 95, 7),
+(1138, 95, 8),
+(1139, 95, 9),
+(1140, 95, 16),
+(1141, 95, 17),
+(1142, 95, 18),
+(1143, 95, 19),
+(1144, 95, 20),
+(1145, 95, 21),
+(1146, 95, 22),
+(1147, 95, 23),
+(1148, 95, 24),
+(1149, 95, 25),
+(1150, 95, 26),
+(1151, 95, 27),
+(1152, 95, 28),
+(1153, 95, 29),
+(1154, 95, 30),
+(1155, 95, 31),
+(1156, 95, 32),
+(1157, 95, 33),
+(1158, 95, 34),
+(1159, 95, 35),
+(1160, 95, 36),
+(1161, 96, 5),
+(1162, 96, 6),
+(1163, 96, 7),
+(1164, 96, 8),
+(1165, 96, 9),
+(1166, 96, 16),
+(1167, 96, 17),
+(1168, 96, 18),
+(1169, 96, 19),
+(1170, 96, 20),
+(1171, 96, 21),
+(1172, 96, 22),
+(1173, 96, 23),
+(1174, 96, 24),
+(1175, 96, 25),
+(1176, 96, 26),
+(1177, 96, 27),
+(1178, 96, 28),
+(1179, 96, 29),
+(1180, 96, 30),
+(1181, 96, 31),
+(1182, 96, 32),
+(1183, 96, 33),
+(1184, 96, 34),
+(1185, 96, 35),
+(1186, 96, 36),
+(1266, 85, 5),
+(1267, 85, 6),
+(1268, 85, 7),
+(1269, 85, 8),
+(1270, 85, 9),
+(1271, 85, 25),
+(1272, 85, 26),
+(1273, 85, 27),
+(1274, 85, 10),
+(1275, 85, 11),
+(1276, 85, 13),
+(1277, 85, 14),
+(1307, 115, 5),
+(1308, 115, 6),
+(1309, 115, 7),
+(1310, 115, 8),
+(1311, 115, 9),
+(1312, 115, 16),
+(1313, 115, 17),
+(1314, 115, 18),
+(1315, 115, 19),
+(1316, 115, 20),
+(1317, 115, 21),
+(1318, 115, 22),
+(1319, 115, 23),
+(1320, 115, 24),
+(1321, 115, 25),
+(1322, 115, 26),
+(1323, 115, 27),
+(1324, 115, 28),
+(1325, 115, 29),
+(1326, 115, 30),
+(1327, 115, 31),
+(1328, 115, 32),
+(1329, 115, 33),
+(1330, 115, 34),
+(1331, 115, 35),
+(1332, 115, 36),
+(1333, 115, 40),
+(1334, 115, 41),
+(1335, 115, 42);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_role`
+--
+
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL,
+  `role_id` int(10) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_role`
+--
+
+INSERT INTO `user_role` (`id`, `role_id`, `user_id`) VALUES
+(24, 5, 25),
+(65, 8, 45),
+(71, 2, 30),
+(72, 7, 66),
+(73, 8, 31),
+(75, 7, 67),
+(76, 9, 68),
+(77, 4, 69),
+(78, 7, 85),
+(79, 9, 86),
+(80, 4, 87),
+(82, 7, 89),
+(83, 4, 90),
+(84, 2, 88),
+(85, 8, 91),
+(86, 9, 92),
+(87, 9, 93),
+(89, 8, 95),
+(91, 8, 96),
+(92, 9, 94),
+(93, 0, 0),
+(94, 8, 0),
+(116, 8, 115),
+(117, 10, 116);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ward`
+--
+
+CREATE TABLE `ward` (
+  `id` int(11) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `price` double NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ward`
+--
+
+INSERT INTO `ward` (`id`, `name`, `status`, `price`, `created_at`, `updated_at`) VALUES
+(3, 'PRIVATE', 'MALE', 50000, '2023-01-19 06:32:45', '2023-01-23 07:18:07'),
+(4, 'GENERAL', 'FEMALE', 42600, '2023-01-20 06:20:17', '2023-01-23 06:59:31'),
+(5, 'GENERAL', 'MALE', 6000, '2023-02-03 02:43:58', '2023-02-03 02:43:58');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `assigneddiagnoses`
+--
+ALTER TABLE `assigneddiagnoses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `diagnoses_id` (`diagnoses_id`),
+  ADD KEY `doctor` (`doctor`),
+  ADD KEY `file_id` (`file_id`);
+
+--
+-- Indexes for table `assignedmedicines`
+--
+ALTER TABLE `assignedmedicines`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `doctor` (`doctor`),
+  ADD KEY `drug_id` (`drug_id`),
+  ADD KEY `confirmed_by` (`confirmed_by`);
+
+--
+-- Indexes for table `assigned_labtests`
+--
+ALTER TABLE `assigned_labtests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `labtest_id` (`labtest_id`),
+  ADD KEY `confirmed_by` (`confirmed_by`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `doctor` (`doctor`);
+
+--
+-- Indexes for table `assigned_procedures`
+--
+ALTER TABLE `assigned_procedures`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `procedure_id` (`procedure_id`),
+  ADD KEY `doctor` (`doctor`),
+  ADD KEY `confirmed_by` (`confirmed_by`);
+
+--
+-- Indexes for table `assigned_to_ward`
+--
+ALTER TABLE `assigned_to_ward`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `room` (`room`),
+  ADD KEY `bed` (`bed`),
+  ADD KEY `ward` (`ward`);
+
+--
+-- Indexes for table `bed_no`
+--
+ALTER TABLE `bed_no`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ward` (`ward`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `clinicalnotes`
+--
+ALTER TABLE `clinicalnotes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `doctor` (`doctor`);
+
+--
+-- Indexes for table `clinics`
+--
+ALTER TABLE `clinics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `clinic_doctors`
+--
+ALTER TABLE `clinic_doctors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clinic_id` (`clinic_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `consultation`
+--
+ALTER TABLE `consultation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `doctor_id` (`doctor_id`),
+  ADD KEY `consulted_by` (`consulted_by`);
+
+--
+-- Indexes for table `consultation_fee`
+--
+ALTER TABLE `consultation_fee`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `role_id_2` (`role_id`),
+  ADD KEY `role_id` (`role_id`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `diagnoses`
+--
+ALTER TABLE `diagnoses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `fertility_assessment`
+--
+ALTER TABLE `fertility_assessment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `general_examination`
+--
+ALTER TABLE `general_examination`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_file` (`patient_file`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Indexes for table `hospital_reffers`
+--
+ALTER TABLE `hospital_reffers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `labtests`
+--
+ALTER TABLE `labtests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `added_by` (`added_by`);
+
+--
+-- Indexes for table `lab_ranges`
+--
+ALTER TABLE `lab_ranges`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `labtest_id` (`labtest_id`);
+
+--
+-- Indexes for table `patients`
+--
+ALTER TABLE `patients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `patients_file`
+--
+ALTER TABLE `patients_file`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `file_no` (`file_no`),
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `clinic` (`clinic`);
+
+--
+-- Indexes for table `patient_history`
+--
+ALTER TABLE `patient_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_id` (`file_id`),
+  ADD KEY `clinic` (`clinic`);
+
+--
+-- Indexes for table `procedures`
+--
+ALTER TABLE `procedures`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rad_investigation`
+--
+ALTER TABLE `rad_investigation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rad_results`
+--
+ALTER TABLE `rad_results`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reffers_form`
+--
+ALTER TABLE `reffers_form`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `room_no`
+--
+ALTER TABLE `room_no`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_permission`
+--
+ALTER TABLE `user_permission`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_role`
+--
+ALTER TABLE `user_role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ward`
+--
+ALTER TABLE `ward`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `assigneddiagnoses`
+--
+ALTER TABLE `assigneddiagnoses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=970;
+
+--
+-- AUTO_INCREMENT for table `assignedmedicines`
+--
+ALTER TABLE `assignedmedicines`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1630;
+
+--
+-- AUTO_INCREMENT for table `assigned_labtests`
+--
+ALTER TABLE `assigned_labtests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1962;
+
+--
+-- AUTO_INCREMENT for table `assigned_procedures`
+--
+ALTER TABLE `assigned_procedures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `assigned_to_ward`
+--
+ALTER TABLE `assigned_to_ward`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bed_no`
+--
+ALTER TABLE `bed_no`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `clinicalnotes`
+--
+ALTER TABLE `clinicalnotes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=672;
+
+--
+-- AUTO_INCREMENT for table `clinics`
+--
+ALTER TABLE `clinics`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `clinic_doctors`
+--
+ALTER TABLE `clinic_doctors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `consultation`
+--
+ALTER TABLE `consultation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=807;
+
+--
+-- AUTO_INCREMENT for table `consultation_fee`
+--
+ALTER TABLE `consultation_fee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
+--
+-- AUTO_INCREMENT for table `diagnoses`
+--
+ALTER TABLE `diagnoses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14274;
+
+--
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+
+--
+-- AUTO_INCREMENT for table `fertility_assessment`
+--
+ALTER TABLE `fertility_assessment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+
+--
+-- AUTO_INCREMENT for table `general_examination`
+--
+ALTER TABLE `general_examination`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
+
+--
+-- AUTO_INCREMENT for table `hospital_reffers`
+--
+ALTER TABLE `hospital_reffers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
+
+--
+-- AUTO_INCREMENT for table `labtests`
+--
+ALTER TABLE `labtests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT for table `lab_ranges`
+--
+ALTER TABLE `lab_ranges`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `patients`
+--
+ALTER TABLE `patients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1255;
+
+--
+-- AUTO_INCREMENT for table `patients_file`
+--
+ALTER TABLE `patients_file`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1249;
+
+--
+-- AUTO_INCREMENT for table `patient_history`
+--
+ALTER TABLE `patient_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+
+--
+-- AUTO_INCREMENT for table `procedures`
+--
+ALTER TABLE `procedures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `rad_investigation`
+--
+ALTER TABLE `rad_investigation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `rad_results`
+--
+ALTER TABLE `rad_results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `reffers_form`
+--
+ALTER TABLE `reffers_form`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `room_no`
+--
+ALTER TABLE `room_no`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+
+--
+-- AUTO_INCREMENT for table `user_permission`
+--
+ALTER TABLE `user_permission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1336;
+
+--
+-- AUTO_INCREMENT for table `user_role`
+--
+ALTER TABLE `user_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+
+--
+-- AUTO_INCREMENT for table `ward`
+--
+ALTER TABLE `ward`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

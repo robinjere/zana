@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="/animate.css/animate.min.css" />
     <?= $this->renderSection('module-css') ?>
-    <link rel="stylesheet" href="/dropzone@5/dropzone.min.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/dropzone@5/dropzone.min.css" type="text/css" /> -->
     <link rel="stylesheet" href="/paper.css" />
     <link rel="stylesheet" href="/style.css" />
 
@@ -27,7 +27,9 @@
     <script defer src="/DataTables/jquery.dataTables.min.js"> </script>
     <script src="/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 
-    <script defer src="/dropzone@5/dropzone.min.js"></script>
+    <!-- <script defer src="/dropzone@5/dropzone.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> -->
 
 
 </head>

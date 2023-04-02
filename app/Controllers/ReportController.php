@@ -142,6 +142,14 @@ class ReportController extends BaseController
             $data['doctor'] = $userModel->where('id', $doctor)->first();
         }
 
+        // echo '------ print doctor ------';
+        // print_r($doctor); 
+        // echo '<br> -- doctor --- <br/> ';
+        // print_r($data['doctor']);
+        // echo '<br> -- medicine --- <br/> ';
+        // print_r($data['medicines']);
+        // echo '<br/>';
+
         $store = new StoreController;
         $data['clinic_contacts'] = $store->get_clinic_info();
 
@@ -337,7 +345,7 @@ class ReportController extends BaseController
         // $medicine_data = $assignedMedicineModel->where('confirmed_by', $cashier_id)->where('DATE(updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"')->findAll();
         $medicine_data = $assignedMedicineModel->getPaidAssignedMedicine($cashier_id, $start_date, $end_date);
         foreach ($medicine_data as $key => $med) {
-            $data['total_medicine'] += $med->selling_price;
+            $data['total_medicine'] += ($med->selling_price*$med->qty);
         }
 
         //calculate assigned labtest

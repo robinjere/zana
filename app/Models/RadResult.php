@@ -55,18 +55,33 @@ class RadResult extends Model
         return $builder;
     }
 
-    public function getRadiologyResults($file_id, $start_date, $end_date){
+    public function getRadiologyResults($file_id, $start_date=null, $end_date=null){
         $builder = $this->db->table('rad_results');
-        $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_results.ranges, rad_results.unit, rad_results.level, rad_results.attachment, rad_results.printed');
+        $builder->select('rad_results.id, rad_results.updated_at, rad_investigation.test_name, rad_results.result, rad_results.ranges, rad_results.unit, rad_results.level, rad_results.attachment, rad_results.printed, user.first_name, user.last_name ');
         $builder->join('rad_investigation', 'rad_investigation.id = rad_results.rad_id');
-        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        $builder->join('user', 'rad_results.doctor = user.id');
         $builder->groupStart();
-        $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        if($start_date != null && $end_date != null){
+            $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
+        }
         $builder->where('rad_results.file_id', $file_id);
         $builder->where('rad_results.result !=', '');
         $builder->groupEnd();
        
         return $builder;
+    }
+
+    public function attachment(){
+        return function($row){
+            if($row['attachment'] != ''){
+                return '<a href="#">attachment</a>';
+            }
+        };
+    }
+    public function doctor(){
+        return function($row){
+            return '<span>'.$row['first_name']. ' ' . $row['last_name'] . '</span>';
+        };
     }
 
     public function radiologyDateFormat(){

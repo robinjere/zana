@@ -10,10 +10,11 @@
           </span> 
           <span> 
             Clinical Note
+       
           </span>  
      </h5>
      <?php if(!$patient_file['ishistory'] && in_array(session()->get('role'), ['doctor']) ){ ?>
-      <template x-if="user_allowed_to_add_clinicalnote()"> 
+      <template x-if="usercheck"> 
          <button class="btn btn-sm btn-success add-note" @click="newNote()"> Add clinical note </button>
      </template>
      <?php }; ?>
@@ -56,8 +57,13 @@
 
 
 <template x-for="(collection, index) in notes" :key="index"> 
-  <form x-cloak x-show=" current_note === true " @submit.prevent="addCurrentNote(index)">
-      <div  class="clinical_note_container p-3 mt-3">
+  <form x-cloak x-show=" Number(collection.doctor) == Number(current_user_session) || is_radiology == 'radiology'" @submit.prevent="addCurrentNote(index)">
+    <div  class="clinical_note_container p-3 mt-3">
+        <button class="btn btn-sm btn-danger clinicalnote-delete" x-show="Number(collection.doctor) === Number(<?= json_decode(session()->get('id')); ?>)" @click="deletePrevNote(collection.id)"> 
+          <span x-cloak x-show="!deleting"> delete </span> 
+          <span x-cloak x-show="deleting" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          <span x-cloak x-show="deleting"> deleting.. </span>
+        </button>
         <div class="note-section main_complain">
              <span>Main complain <b style="text-transform:lowercase;" x-text="collection.main_complain ? (' | written by '+collection.first_name+' '+collection.last_name) : '' "> </b> </span>
              <textarea name="main_complain" :disabled="current_user_session != collection.doctor" @change="addCurrentNote(index)" x-model.debounce="collection.main_complain" x-text="collection.main_complain" class="form-control mb-2 pt-4" cols="30" rows="3"></textarea>
@@ -99,9 +105,13 @@ document.addEventListener('alpine:init', () => {
    Alpine.store('notesData', {
      start_treatment: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
      end_treatment: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
+     edit: true,
+     saving: false,
+     deleting: false,
      addnote:false,
      current_note: false,
      current_user_session: <?= session()->get('id') ?>, 
+     is_radiology: <?= json_encode(session()->get('role')) ?>,
      notes: [
       {
         main_complain: '',
@@ -115,14 +125,21 @@ document.addEventListener('alpine:init', () => {
      ],
      success: false,
      message: '',
+     usercheck: false,
      user_allowed_to_add_clinicalnote(){
-      let usercheck = false;
+        this.usercheck = false;
+        console.log('called')
+        
         this.notes.forEach(element => {
-          if(element.hasOwnProperty('doctor')){
-            usercheck = element.doctor != this.current_user_session;
-          } 
+          this.usercheck = false;
+         
+          if(element.hasOwnProperty('doctor') && Number(element.doctor) == Number(this.current_user_session)){
+            return this.usercheck = false;
+          }else if(element.hasOwnProperty('doctor') && Number(element.doctor) != Number(this.current_user_session)){
+            return this.usercheck = true;
+          }
        });
-       return usercheck;
+   
      },
      newNote(){
       let new_copy = [{
@@ -150,14 +167,16 @@ document.addEventListener('alpine:init', () => {
              end_date: this.end_treatment})
         }).then(res => res.json())
         .then(data => {
-            console.log('checking formality of data', data);
+            // console.log('checking formality of data', data);
            if(data.empty){
             //  this.no_clinicalnote = data;
               this.current_note = false
            }else{
               this.current_note = true
               this.notes = data
+              this.user_allowed_to_add_clinicalnote()
            }
+          //  window.scrollTo(0,0)
          })
       },
       addCurrentNote(_index = 0){
@@ -183,15 +202,36 @@ document.addEventListener('alpine:init', () => {
             this.message = data.message
            if(data.success){
               this.getClinicalNotes()
-              if(_index == 0){
-                location.reload()
-              }
+              // if(_index == 0){
+              //   location.reload()
+              // }
               this.current_note = false 
            }
        }).catch(error => console.log(error))
 
       //  this.notes = custom_addnote(this.current_note)
      },
+     deletePrevNote(note_id){
+            // this.deleting = true
+            note_id = Number(note_id)
+            // console.log('NOTE TO DELETE => ', note_id)
+            return fetch("<?= base_url('patientFileController/ajax_deletenote') ?>", {
+               method: 'POST',
+               headers: {Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+               body: JSON.stringify({id: note_id })
+            }).then(res => res.json())
+               .then(data => {
+                  // console.log('DELETING SUCCESSFUL', data);
+                  if(data.success){
+                     this.getClinicalNotes()
+                     // return { deleting : false}
+                     return true
+                  }else{
+                     return false
+                  }
+                  this.clearMessage()
+               })
+        }
     }) 
   })
 </script>

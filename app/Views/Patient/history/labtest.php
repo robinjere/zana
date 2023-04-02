@@ -8,17 +8,19 @@
                <tr class="table-header">
                   <th scope="col">Date</th>
                   <th scope="col">Test</th>
-                  <th scope="col">Price</th> 
-                  <th scope="col">Status</th>
-                  <th scope="col" >Action</th>
+                  <th scope="col">Result</th> 
+                  <th scope="col">Ranges</th>
+                  <th scope="col" >Unit</th>
+                  <th scope="col" >Level</th>
+                  <th scope="col" >doctor</th>
                </tr>
             </thead>
-            <tfoot>
+            <!-- <tfoot>
                <tr>
                   <th colspan="2" style="text-align:right">Total:</th>
                   <th colspan="3"></th>
                </tr>
-           </tfoot>
+           </tfoot> -->
         </table>
     </div><!-- /labtest-table -->
     
@@ -45,7 +47,7 @@
           "serverSide": true,
           "ordering": false,
           "ajax": {
-            url: "<?= base_url('patientFileController/ajax_assignedlabtest') ?>",
+            url: "<?= base_url('patientFileController/ajax_assignedlabtestTable') ?>",
             type: "POST",
             data: {
               file_id: <?= $patient_file->id ?>,

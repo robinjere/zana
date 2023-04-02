@@ -17,6 +17,7 @@ use App\Models\RadResult;
 use App\Models\WardModel;
 use App\Models\RoomModel;
 use App\Models\BedModel;
+use App\Models\LabRangesModel;
 use App\Models\AssignedDiagnosesModel;
 use App\Models\GeneralExaminationModel;
 use App\Models\FertilityAssessmentModel;
@@ -78,6 +79,19 @@ class PatientFileController extends BaseController
         $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
 
         return view('patient/history/layout', $data);
+    }
+
+    /// outsiderHistory..
+    public function outsiderHistory(int $file_id){
+        session()->set('phistory', true);
+        
+        $clinicalModel = new ClinicModel;
+        $patientsFileModel = new PatientsFileModel;
+        $clinicalNoteModel = new ClinicalNoteModel;
+
+        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        $data['clinical_notes'] =  $clinicalNoteModel->getClinicalNotes($file_id); // 
+        return view('patient/history/clinical_note', $data);
     }
 
     public function historyClinicalNote(int $file_id){
@@ -336,6 +350,29 @@ class PatientFileController extends BaseController
         }
     }
 
+    public function ajax_assignedprocedureResult(){
+        $assignedProceduresModel =  new AssignedProceduresModel;
+        if($this->request->getMethod() == 'post'){
+
+           $file_id=$this->request->getVar('file_id');
+           $start_date=$this->request->getVar('start_date');
+           $end_date=$this->request->getVar('end_date');
+
+        // echo json_encode(['file_id' => $file_id, 'start_date' =>  $start_date, 'end_date' => $end_date]);
+        // exit;
+
+           $data_table = new TablesIgniter();
+           $data_table->setTable($assignedProceduresModel->getAssignedProcedures($file_id, $start_date, $end_date))
+                      ->setDefaultOrder('id', 'DESC')
+                    //   ->setSearch(['name'])
+                      ->setOrder(['created_at', 'name', 'procedure_note',  'doctor'])
+                      ->setOutput([$assignedProceduresModel->procedureDateFormat(), 'name', 'procedure_note', $assignedProceduresModel->procedureDoctor()]);
+   
+           return $data_table->getDatatable();
+
+        }
+    }
+
    public function ajax_searchdrug(){
        $itemModel = new ItemModel;
        if($this->request->getMethod() == 'post'){
@@ -451,6 +488,27 @@ class PatientFileController extends BaseController
         return $data_table->getDatatable();
        }
    }
+
+   public function ajax_assignedlabtestTable(){
+    $assignedLabtestModel = new AssignedLabtestModel;
+      if($this->request->getMethod() == 'post'){
+       $file_id=$this->request->getVar('file_id');
+       $start_treatment=$this->request->getVar('start_date');
+       $end_treatment=$this->request->getVar('end_date');
+
+       // print_r($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date));
+       // exit;
+
+       $data_table = new TablesIgniter();
+       $data_table->setTable($assignedLabtestModel->AssignedResultTable($file_id, $start_treatment, $end_treatment))
+                  ->setDefaultOrder('id', 'DESC')
+                //   ->setSearch(['name'])
+                  ->setOrder(['updated_at', 'name','result', 'ranges','unit','level'])
+                  ->setOutput([$assignedLabtestModel->labtestDateFormat(), 'name', 'result','ranges','unit','level', $assignedLabtestModel->doctor()]);
+
+       return $data_table->getDatatable();
+      }
+  }
 
    public function ajax_deleteAssginedLabtest(){
     $assignedLabtestModel = new AssignedLabtestModel;
@@ -679,6 +737,24 @@ class PatientFileController extends BaseController
        }
    }
 
+   public function ajax_assignedRadiologyResult(){
+    $radResultModel = new RadResult;
+    if($this->request->getMethod() == 'post'){
+        $file_id=$this->request->getVar('file_id');
+        $start_date=$this->request->getVar('start_date');
+        $end_date=$this->request->getVar('end_date');
+   
+        $data_table = new TablesIgniter();
+        $data_table->setTable($radResultModel->getRadiologyResults($file_id, $start_date, $end_date))
+                   ->setDefaultOrder('id', 'DESC')
+                 //   ->setSearch(['name'])
+                   ->setOrder(['updated_at','test_name','result',])
+                   ->setOutput([$radResultModel->radiologyDateFormat(), 'test_name', 'result', $radResultModel->attachment(), $radResultModel->doctor()]);
+   
+        return $data_table->getDatatable();
+       }
+   }
+
    public function ajax_labtestResults(){
     $assignedLabtestModel = new AssignedLabtestModel;
     if($this->request->getMethod() == 'post'){
@@ -691,7 +767,7 @@ class PatientFileController extends BaseController
                    ->setDefaultOrder('id', 'DESC')
                  //   ->setSearch(['name'])
                    ->setOrder(['updated_at'])
-                   ->setOutput(['name', 'result', 'ranges', 'unit', 'level', 'attachment',$assignedLabtestModel->labtestDateFormat(), $assignedLabtestModel->updateLabtestResult()]);
+                   ->setOutput(['name', 'result', 'ranges', 'unit', 'level', $assignedLabtestModel->Attachment(),$assignedLabtestModel->labtestDateFormat(), $assignedLabtestModel->updateLabtestResult()]);
    
         return $data_table->getDatatable();
        }
@@ -699,10 +775,16 @@ class PatientFileController extends BaseController
 
    public function ajax_getLabtestResult(){
     $labtestResult = new AssignedLabtestModel;
+    $labRangesModel = new LabRangesModel;
     if($this->request->getMethod() == 'post'){
        $labtest_id = $this->request->getVar('labtest_id');
        $result = $labtestResult->where('id', $labtest_id)->first();
-       echo json_encode(['result' => $result ]);
+       $ranges = $labRangesModel->where('labtest_id', $result['labtest_id'])->findAll();
+    //    print_r([ 'labtest_id' => $labtest_id]);
+    //    print_r('ranges <br/>');
+    //    print_r($ranges);
+    //    exit;
+       echo json_encode(['result' => $result, 'ranges' => $ranges ]);
     //    echo json_encode(['result' => $this->request->getVar('labtest_id') ]);
     }
    }
@@ -722,8 +804,29 @@ class PatientFileController extends BaseController
     if($this->request->getMethod() == 'post'){
     //   $labtest_id = $this->request->getVar('labtest_id');
     //   $result = $labtestResult->('labtest_id', $labtest_id)->first();
-      if($labtestResult->save($this->request->getVar())){
+    //    print_r($this->request->getVar());
+    //    exit;
+
+    $_result =  [
+        'id' => $this->request->getVar('id'),  
+        'result' => $this->request->getVar('result'),  
+        'ranges' => $this->request->getVar('ranges'),  
+        'level' => $this->request->getVar('level'),  
+        'unit' => $this->request->getVar('unit'),  
+        'verified_by' => $this->request->getVar('verified_by')
+    ];
+
+       $img = $this->request->getFile('attachment');
+       if($img->isValid()){
+           $img->move('./uploads');
+           $file_name =  $img->getName();
+           $_result['attachment'] = $file_name;
+       }
+
+      if($labtestResult->save($_result)){
           echo json_encode(['success'=> true, 'message' => 'successful lab test result added!']);
+        }else{
+          echo json_encode(['success'=> false, 'message' => 'Failed to update or add lab test result']);    
       }
     }
    }

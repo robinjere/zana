@@ -441,6 +441,7 @@ body{
 /* --------------- DASHBOARD ---------------  */
 
 /* -------------- clinics ----------  */
+
 .clinic-form{
   padding: 30px 0;
 }
@@ -814,9 +815,16 @@ th { white-space: nowrap !important; }
 }
 
 .clinical_note_container{
+  position: relative;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   background: #e9ecef;
+}
+.clinicalnote-delete{
+  position: absolute;
+  top: 0px;
+  right: -1px;
+  z-index: 1;
 }
 
 .clinical_note_container .note-section span{

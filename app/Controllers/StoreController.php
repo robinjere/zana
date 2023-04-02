@@ -9,6 +9,7 @@ use App\Models\SalesModel;
 use App\Models\LabtestModel;
 use App\Models\RadInvestigationModel;
 use App\Models\ProceduresModel;
+use App\Models\LabRangesModel;
 
 class StoreController extends BaseController
 {
@@ -55,14 +56,42 @@ class StoreController extends BaseController
     public function addLabtest(){
         helper('form');
         $labtestModel = new LabtestModel;
+        $labRangesModel = new LabRangesModel;
+
         $data = [];
         if($this->request->getMethod() == 'post'){
             $labtestDetails = $this->request->getVar();
+            // print_r($labtestDetails);
+            // exit;
+            // foreach ($labtestDetails['range'] as $key => $value) {
+            //     //remove empty ranges 
+            //     if($value != ''){
+            //         $labtestDetails['range'] = $value;
+            //     }
+            // }
             $labtestDetails['added_by'] = session()->get('id');
-            if($labtestModel->save($labtestDetails) == false){
+            if($labtestModel->save([
+                'name' => $labtestDetails['name'],
+                'price' =>  $labtestDetails['price'],
+                'description' =>  $labtestDetails['description']
+            ]) == false){
                 session()->setFlashdata('validation', $itemModel->errors());
             }else{
-                return redirect()->to('store/labtest')->with('success', 'Lab test successful added');
+                // print($labtestModel->getInsertID() );
+                // exit;
+                $multipleRanges = [];
+                foreach ($labtestDetails['range'] as $key => $value) {
+                    if($value != ''){
+                        $multipleRanges[]= [ 'range' => $value, 'labtest_id' => $labtestModel->getInsertID()];
+                    }
+                }
+                //insert ranges ..
+                if($labRangesModel->saveMultipleRange($multipleRanges)){
+                    return redirect()->to('store/labtest')->with('success', 'Lab test successful added');
+                }else{
+                    return redirect()->to('store/labtest')->with('error', 'Failed to save lab ranges');
+                }
+
             }
         }
         return view('store/add_labtest', $data);
@@ -170,16 +199,43 @@ class StoreController extends BaseController
     public function editlabtest(Int $labtestID){
         helper('form');
         $labtestModel = new LabtestModel;
+        $labRangesModel = new LabRangesModel;
         $data = [];
         $data['labtest'] = $labtestModel->where('id', $labtestID)->first();
+        $data['ranges'] = $labRangesModel->where('labtest_id', $labtestID)->findAll();
         if($this->request->getMethod() == 'post'){
             $labtestDetails = $this->request->getVar();
-            $labtestDetails['added_by'] = session()->get('id');
-            $labtestDetails['id'] = $labtestID;
-            if($labtestModel->save($labtestDetails) == false){
+            // print_r($labtestDetails);
+            // exit;
+            // $labtestDetails['added_by'] = session()->get('id');
+            // $labtestDetails['id'] = 
+            if($labtestModel->save([
+                'id' => $labtestID,
+                'name' => $labtestDetails['name'],
+                'price' => $labtestDetails['price'],
+                'description' => $labtestDetails['description'],
+                'added_by' => session()->get('id')
+            ]) == false){
                 session()->setFlashdata('validation', $itemModel->errors());
             }else{
-                return redirect()->to('store/labtest')->with('success', 'Lab test successful edited!');
+                $labRangesModel = new LabRangesModel;
+                if($labRangesModel->where('labtest_id', $labtestID)->delete()){
+                    $multipleRanges = [];
+                    foreach ($labtestDetails['range'] as $key => $value) {
+                        if($value != ''){
+                            $multipleRanges[]= [ 'range' => $value, 'labtest_id' => $labtestID];
+                        }
+                    }
+                    //insert ranges ..
+                    if($labRangesModel->saveMultipleRange($multipleRanges)){
+                        return redirect()->to('store/labtest')->with('success', 'Lab test successful edited');
+                    }else{
+                        return redirect()->to('store/labtest')->with('error', 'Failed to edit lab ranges');
+                    }
+                };
+
+
+                // return redirect()->to('store/labtest')->with('success', 'Lab test successful edited!');
             }
         }
         return view('store/edit_labtest', $data);
@@ -187,7 +243,9 @@ class StoreController extends BaseController
 
     public function deleteLabtest(Int $labtestID ){
         $labtestModel = new LabtestModel;
+        $labRangesModel = new LabRangesModel;
         $labtestModel->where('id', $labtestID)->delete();
+        $labRangesModel->where('labtest_id', $labtestID)->delete();
         return redirect()->to('store/labtest')->with('success', 'Lab test deleted!');
     }
 

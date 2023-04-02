@@ -54,7 +54,27 @@ class AssignedLabtestModel extends Model
        
         return $builder;
     }
-    
+
+    public function AssignedResultTable($file_id, $start_treatment=null, $end_treatment=null){
+        $builder = $this->db->table('assigned_labtests');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, user.first_name, user.last_name');
+        $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
+        $builder->join('user', 'assigned_labtests.verified_by = user.id');
+        $builder->groupStart();
+        $builder->where('assigned_labtests.file_id', $file_id);
+        if($start_treatment != null || $end_treatment != null){
+            $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_treatment)) .'" and "'. date('Y-m-d', strtotime($end_treatment)) .'"');
+        }
+        $builder->groupEnd();
+       
+        return $builder;
+    }
+
+    public function doctor(){
+        return function($row){
+            return '<span>'.$row['first_name']. ' '. $row['last_name'] . '</span>';;
+        };
+    }
     
     public function getAssignedResult($file_id, $start_treatment, $end_treatment){
         $builder = $this->db->table('assigned_labtests');
@@ -88,7 +108,7 @@ class AssignedLabtestModel extends Model
 
     public function getLabtestResult($file_id, $start_date, $end_date){
         $builder = $this->db->table('assigned_labtests');
-        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, assigned_labtests.attachment, assigned_labtests.printed');
+        $builder->select('assigned_labtests.id, assigned_labtests.updated_at, labtests.name, assigned_labtests.result, assigned_labtests.ranges, assigned_labtests.unit, assigned_labtests.level, assigned_labtests.attachment, assigned_labtests.confirmed_by, assigned_labtests.printed');
         $builder->join('labtests', 'assigned_labtests.labtest_id = labtests.id');
         // $builder->join('user', 'assigned_procedures.doctor = user.id');
         $builder->groupStart();
@@ -126,7 +146,7 @@ class AssignedLabtestModel extends Model
       
     public function updateLabtestResult(){
        return function ($row) {
-         return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> update result </button>';
+         return $row['confirmed_by'] != 0 ? '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="update-result badge badge-sm bg-success"> update result </button>': '';
        };
     }
 
@@ -135,7 +155,7 @@ class AssignedLabtestModel extends Model
             if(in_array(session()->get('role'), ['doctor', 'reception']) && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteAssignedLabtest('.$row['id'].')" class="badge badge-sm bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'lab' && $row['confirmed_by'] != 0 && !session()->has('phistory')){
+            if(session()->get('role') == 'lab' && $row['confirmed_by'] != 0 && !session()->has('phistory') && $row['result'] == ''){
                 return '<button data-bs-toggle="modal" data-bs-target="#addLabtestResult_" @click="getLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> add result </button>';
             }
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0 && !session()->has('phistory')){
@@ -145,6 +165,12 @@ class AssignedLabtestModel extends Model
                         return '<button @click="confirmPaymentLabTestResult('.$row['id'].')" class="badge badge-sm bg-success"> Confirm Payment </button>';
                     }
             }
+        };
+    }
+
+    public function Attachment(){
+        return function($row){
+          return $row['attachment'] != '' ? '<a class="badge bg-success" target="_blank" href="'.base_url('uploads/'.$row['attachment']).'">view </a>' : '';
         };
     }
 

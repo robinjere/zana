@@ -54,7 +54,7 @@ class ProceduresModel extends Model
 
     public function formatPrice(){
         return function ($row){
-            return number_format(floatval($row['price']));
+            return number_format(floatval($row['price'])).'/=';
         };
     }
 

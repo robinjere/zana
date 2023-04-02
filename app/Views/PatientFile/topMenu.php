@@ -134,7 +134,7 @@ $patient_file = [
                   <input type="hidden" name="patient_id" value="<?= $patient_file['patient_id'] ?>"/>
                   <input type="hidden" name="file_no" value="<?= $patient_file['file_no'] ?>"/>
                   <input type="hidden" name="file_id" value="<?= $patient_file['id'] ?>"/>
-                  <button type="submit" class="btn btn-success"> REFFERS </button>
+                  <button type="submit" class="btn btn-success"> REFERRAL </button>
                </form>
             
          <?php } ?>
@@ -146,9 +146,16 @@ $patient_file = [
             <!-- $patient_file['id'] -->
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
-         <?php if($uri->getSegment(1) !== 'history'){ ?> 
-           <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
-         <?php } ?>
+         <?php if($uri->getSegment(1) !== 'history'){ 
+            if($patient_file['patient_character'] == 'inpatient'){ ?>
+               
+               <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+               <?php   }else{  ?>
+                  
+                  <a href="<?= base_url('history/clinical-note/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
+              <?php }
+
+            } ?>
        
       </div>
    </div><!-- /d-flex> -->

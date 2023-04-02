@@ -61,7 +61,7 @@ class RadInvestigationModel extends Model
   
   public function formatPrice(){
     return function ($row){
-      return  number_format(floatval( $row['updated_at']));
+      return  number_format(floatval( $row['price'])).'/=';
     };
   }
 

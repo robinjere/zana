@@ -237,20 +237,26 @@ class PatientController extends BaseController
             $filter = 'name';
           }
            try {
-               //code...
+            //code...
             //    echo 'filter -> ';
             //    print_r($filter);
             //    echo '<br/>';
-
             //    print_r('Search term');
             //    print_r($searchterm);
             //    echo '<br/>';
 
               $data['patient_info'] = $patientModel->searchPatient($filter, $searchterm);
             //   $data['search_by'] = $filter;
+            // print_r($data['patient_info']);
+            // echo '<br/>';
 
               if(empty($data['patient_info'])){
-                   echo json_encode(['success' => false, 'errors' => 'Unfortunately, no patient were found!, Please adjust your filter criteria.']);
+                   $data['patient_info'] = $patientModel->searchPatientWithNoClinic($filter, $searchterm);
+                   if(empty($data['patient_info'])){
+                       echo json_encode(['success' => false, 'errors' => 'Unfortunately, no patient were found!, Please adjust your filter criteria.']);
+                   }else{
+                    echo json_encode(['success' => true, 'patient_info' => $data['patient_info']]);
+                   }
               }else{
                   /**
                    * Check if patient sent to consultation -> status === 'consultation'
@@ -287,7 +293,17 @@ class PatientController extends BaseController
               $data['search_by'] = 'name';
 
               if(empty($data['patient_info'])){
-                   session()->setFlashdata('errors', 'Unfortunately, no patient were found!, Please adjust your filter criteria.');
+                   $data['patient_info'] = $patientModel->searchPatientByIdWithNoClinic($patient_id);
+                   if(empty($data['patient_info'])){
+                       session()->setFlashdata('errors', 'Unfortunately, no patient were found!, Please adjust your filter criteria.');
+                   }else{
+                    $patientInfo = $data['patient_info'];
+                    $consultationModel = new ConsultationModel;
+                    
+                    if($patientInfo->status == 'consultation' && ($patientInfo->payment_method == 'CASH' || $patientInfo->payment_method == 'NHIF')){
+                       $data['consultation_payment'] = $consultationModel->checkConsultationPayment($patientInfo->file_id);
+                    }
+                   }
               }else{
                   /**
                    * Check if patient sent to consultation -> status === 'consultation'

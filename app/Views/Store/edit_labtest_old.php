@@ -39,53 +39,47 @@
      <li class="py-2 me-3 data-nav__active"> <a href="additem">Add Drug </a>  </li>
   </ul> -->
 
-  <?php $uri = service('uri'); ?>
-    
-  <ul class="data-nav d-flex">
-       <?php if(in_array('can_add_labtest', session()->get('permission'))){?>
-        <li class="py-2 me-3 <?= $uri->getSegment(2) === 'addlabtest' ? 'data-nav__active': null ?>"> <a href="addlabtest">LAB TEST FORM  </a>  </li>
-      <?php } ?> 
-  </ul>
+  <?= view_cell('\App\Libraries\StorePanel::storeNav') ?>
+  
 
-<div class="mb-3 registration-form"  x-data="labtestData()" x-init="labtestData()">
+<div class="mb-3 registration-form" >
  
   <div class="registration-form__heading">
-     <h2 style="padding: 0 57px;"> Add lab test </h2>
+     <h2 style="padding: 0 57px;"> Edit lab test </h2>
   </div > <!-- /registration-form__heading -->
    <div class="registration-form__form" style="padding: 25px 57px;">
-         <form method="post" action="addlabtest">
-           <!-- <div class="row registration-space-y">    -->
+         <form method="post" action="<?= base_url('store/editlabtest/'. $labtest['id'])?>">
+           <div class="row registration-space-y">   
            <div class="registration-space-y">
                <div class="row">
                     <div class="col">
-                        <input type="text"  required name="name" value="<?= set_value('name') ?>" class="form-control" placeholder="Test name" aria-describedby="Test name"/>
+                        <input type="text"  required name="name" value="<?= set_value('name', $labtest['name']) ?>" class="form-control" placeholder="Test name" aria-describedby="Test name">
                     </div>
                     <div class="col">
-                        <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('price')?>" class="form-control" placeholder="Price" aria-describedby="Price"/>
+                        <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('price', $labtest['price'])?>" class="form-control" placeholder="Price" aria-describedby="Price">
                     </div>
                </div><!-- /row -->
           </div><!-- /registration-space-y -->
 
-          <div class="row registration-space-y">  
+             <!-- <div class="col">
+               <input type="number" required  min="0" step="0.01" name="price" value="<?= set_value('buying_price')?>" class="form-control" placeholder="Buying Price" aria-describedby="Buying Price">
+              </div>
+             <div class="col">
+               <input type="number" required  min="0" step="0.01" name="selling_price" value="<?= set_value('selling_price')?>" class="form-control" placeholder="Selling Price" aria-describedby="Selling Price">
+              </div>
+           </div>/row -->
+           <!-- <div class="row registration-space-y">   
+             <div class="col">
+               <input type="number" required  name="qty" value="<?= set_value('qty')?>" class="form-control" placeholder="Quantity" aria-describedby="Quantity">
+              </div>
+             <div class="col">
+               <input type="date" required  name="exp_date" value="<?= set_value('exp_date')?>" class="form-control" title="Expire Date" placeholder="Expire Date" aria-describedby="Expire Date">
+              </div>
+          </div>/row -->
+
+          <div class="row registration-space-y">   
               <div class="col">
-                <template x-for="(labtest, index) in labtests" :key="index">
-                  <fieldset class="row mt-2 gx-0">
-                    <div class="col-11">
-                      <input type="text" x-model="labtest.range" required class="form-control" placeholder="add range" :value="labtest.range" :name="`range[${index}]`"/>
-                    </div>
-                    <div class="col-1">
-                      <template x-if="labtest.range !== ''">
-                        <input type="button" class="btn-sm btn-danger" style="margin-left:3px;" @click="$event.target.prevent; removeLabtest(index)" value="&minus;">
-                      </template>
-                    </div>
-                  </fieldset>
-                </template>
-                <div class="mt-2 d-flex justify-content-end">
-                   <input type="button" class="btn-sm btn-success" @click="$event.target.prevent; addLabtest()" value="&plus;"/> 
-                </div>
-              </div> 
-              <div class="col">
-                  <textarea name="description" row="2" col="4" value="<?= set_value('description') ?>" class="form-control" placeholder="Description"></textarea>
+                  <textarea name="description" row="2" col="4" value="<?= set_value('description', $labtest['description']) ?>" class="form-control" placeholder="Description"> <?= set_value('description', $labtest['description']) ?> </textarea>
               </div>
           </div><!-- /row -->
 
@@ -95,8 +89,8 @@
                    <a href="labtest" class="btn btn-warning btn-rounded"> Cancel </a>
               </div>
                <div class="col d-flex justify-content-end">
-                   <input type="submit" class="btn btn-primary btn-rounded" style="width: 8rem;" value="Save" />
-               </div>
+                   <button class="btn btn-primary btn-rounded" style="width: 8rem;"> Save edits </button>
+              </div>
           </div><!-- /row -->
        </form><!-- /form -->
    </div> <!-- /registration-form__form -->
@@ -110,28 +104,6 @@
   
 
 <?= $this->endSection() ?>
-
-<?= $this->section('script') ?>
-<script>
-   function labtestData(){
-       return {
-        labtests: [
-          { 
-            range: ''
-          }
-        ],
-        addLabtest(){
-          this.labtests.push({ 
-            range: ''
-          });
-        },
-        removeLabtest(id){
-            this.labtests = this.labtests.filter((lab, index) => index !== id)
-        }
-       }
-   }
-</script>
-<?= $this->endSection('script') ?>
 
 
 

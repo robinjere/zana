@@ -110,6 +110,17 @@
           <div class="col"><?= strtoupper($patient_info->payment_method) === '' ? 'NO PAYMENT METHOD' :  strtoupper($patient_info->payment_method); ?></div>
         </div>
 
+        <?php
+          if(isset($patient_info->name)){?>
+            <div class="row">
+              <div class="col">SENT TO CLINIC:</div>
+              <div class="col">
+                  <?= strtoupper($patient_info->name) ?>
+              </div>
+            </div>
+        <?php } ?>
+   
+
         <?php         
             if(isset($consultation_payment)){?>
                     <div class="row">
@@ -136,6 +147,7 @@
                              <a href="'.base_url('patient/send_to_consultation/'.$patient_info->id).'" class="btn btn-success btn-sm"> SEND TO DOCTOR </a> 
                             </div>';
 
+                            
          $ATTEND =   '<div class="col d-flex justify-content-end align-items-center"> 
                          <a href="'.base_url('patientfile/attend/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> ATTEND </a> 
                       </div>';
@@ -180,6 +192,7 @@
 
            case 'pharmacy' : 
               if ($patient_info->status == 'inTreatment') {
+               
                  echo $ATTEND;  
               }else{
                 echo $VIEWHISTORY;
@@ -236,10 +249,11 @@
                   if(isset($consultation_payment) && $patient_info->status == 'consultation' ){
                     // print_r($consultation_payment);
                     if( $consultation_payment->payment_confirmed_by != 0) {
-                      echo $CONSULT;
+                      echo  session()->get('clinic') == $patient_info->clinic ? $CONSULT : '';
                     }
                   }elseif ($patient_info->status == 'inTreatment' && $patient_info->patient_character !== 'outsider') {
-                    echo $ATTEND;
+                   
+                    echo  session()->get('clinic') == $patient_info->clinic ? $ATTEND : '';
                   }else{
                     echo $VIEWHISTORY;
                   }

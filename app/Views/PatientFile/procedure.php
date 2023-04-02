@@ -159,7 +159,7 @@ function proceduresData(){
         message: '',
         alertTime: '',
         filterProcedures(selectedProcedure){
-            console.log('this invoked!')
+            // console.log('this invoked!')
             this.procedure = this.availableProcedures.filter(procedure => Number(procedure.id) == Number(selectedProcedure))[0]
         },
         getProcedures(){

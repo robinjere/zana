@@ -88,14 +88,16 @@
             <th>PT.NAME</th>
             <th>PT.PHONE</th>
             <th>PT.REGISTRATION </th>
-            <th>PT.ADDRESS </th>
             <th>DRUG</th>
+            <th>QTY</th>
             <th>PRICE</th>
+            <th>STATUS</th>
             <th>DOCTOR</th>
           </tr>
         <?php
           $total = 0;
           $total_profit = 0;
+         
           if(!empty($medicines)) {
             foreach ($medicines as $key => $medicine) { 
              $total += $medicine->selling_price;
@@ -106,9 +108,10 @@
                   <td><?= $medicine->first_name . ' ' . $medicine->middle_name . ' ' . $medicine->sir_name ?> </td>
                   <td><?= $medicine->phone_no ?> </td>
                   <td><?= $medicine->file_no ?> </td>
-                  <td><?= $medicine->address ?> </td>
                   <td><?= strtoupper($medicine->name) ?> </td>
+                  <td><?= $medicine->qty ?> </td>
                   <td><?= (number_format(floatval($medicine->selling_price))) ?>/=  </td>
+                  <td><?= $medicine->taken == 0 ? 'not taken' : 'taken' ?> </td>
                   <td><?= $medicine->doctor_first_name . ' ' . $medicine->doctor_last_name  ?> </td>
               </tr>
           <?php }
@@ -120,7 +123,7 @@
           <td>
               <p align="right"> <b class="risit__title">Total Price: </b>  </p>
           </td>
-           <td colspan="2">
+           <td colspan="3">
               <p><b> <?= number_format(floatval($total)) ?>/= </b> </p>
            </td>
         </tr> 

@@ -8,21 +8,19 @@
                <tr class="table-header">
                   <th scope="col">Date</th>
                   <th scope="col">Test name</th>
-                  <!-- <th scope="col">Doctor Report</th> -->
-                  <th scope="col">Price</th> 
-                  <th scope="col">Status</th>
-               
-                     <th scope="col" >Action</th>
+                  <th scope="col">Result</th> 
+                  <th scope="col">Attachment</th> 
+                  <th scope="col">Doctor</th>
                  
                </tr>
             </thead>
-
+<!-- 
             <tfoot>
                <tr>
                   <th colspan="2" style="text-align:right">Total:</th>
                   <th colspan="3"></th>
                </tr>
-           </tfoot>
+           </tfoot> -->
         </table>
     </div><!-- /radiology-table -->
     
@@ -41,7 +39,7 @@
           "searching": false,
           "serverSide": true,
           "ajax": {
-            url: "<?= base_url('patientFileController/ajax_assignedRadiology') ?>",
+            url: "<?= base_url('patientFileController/ajax_assignedRadiologyResult') ?>",
             type: "POST",
             data: {
               file_id: <?= $patient_file->id ?>,

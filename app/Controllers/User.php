@@ -43,8 +43,15 @@ class User extends BaseController
                 $data['validation'] = $this->validator;
             }else{
                 $user = new UserModel();
+                $clinicDoctors = new ClinicDoctorsModel;
                 $LoginUser = $user->where('email', $this->request->getVar('email'))
                                   ->first();
+                $user_clinic = $clinicDoctors->where('user_id', $LoginUser['id'])->first();
+                $LoginUser['clinic'] = empty($user_clinic)? '' : $user_clinic['clinic_id'];
+
+                // print_r($LoginUser);
+                // exit;
+                    
                 $this->setUserSession($LoginUser);
 
                 // if($LoginUser['is_info_confirmed']){
@@ -92,7 +99,8 @@ class User extends BaseController
            'isLoggedIn' => TRUE,
            'isActive' => $LoginUser['is_active'],
            'isConfirmed' => $LoginUser['is_info_confirmed'],
-           'role' => $user_role->role_type
+           'role' => $user_role->role_type,
+           'clinic' => $LoginUser['clinic']
        ];
         
        $u_permission = $userPermission->get_permissions_by($LoginUser['id']); 
@@ -169,6 +177,9 @@ class User extends BaseController
                    
                    $clinicDoctorsModel->save(['user_id' => $user_id, 'clinic_id' => $this->request->getVar('clinic')]);
                }
+
+            //    print_r([ 'user_role_id' => $this->request->getVar('role'), 'user_id' => $user_id ]);
+            //    exit;
 
                 /**
                  * Assign user permission based on role.

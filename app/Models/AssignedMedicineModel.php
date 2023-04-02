@@ -63,14 +63,20 @@ class AssignedMedicineModel extends Model
     }
     public function formatAmount(){
         $column = function($row){
-            return number_format(floatval($row['qty']*$row['selling_price'])) . '/=';
+            // if(!session()->get('phistory')){
+                return number_format(floatval($row['qty']*$row['selling_price'])) . '/=';
+            // }
+            // return '';
         };
         return $column;
     }
 
     public function isPaid(){
         return function ($row){
-            return $row['confirmed_by'] == 0 ? '<span class="badge bg-success badge-sucesss"> not paid </span>' : '<span class="badge bg-success badge-sucesss" > paid </span> ';
+            // if(!session()->get('phistory')){
+                return $row['confirmed_by'] == 0 ? '<span class="badge bg-success badge-sucesss"> not paid </span>' : '<span class="badge bg-success badge-sucesss" > paid </span> ';
+            // }
+            // return '';
         };
     }
 
@@ -79,11 +85,12 @@ class AssignedMedicineModel extends Model
             if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteMedicine('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
             }
-            if(session()->get('role') == 'pharmacy' &&  $row['confirmed_by'] != 0 && !session()->has('phistory')){
+            if(in_array(session()->get('role'), ['pharmacy', 'doctor']) &&  $row['confirmed_by'] != 0 ){
+                $disabled = session()->has('phistory')? "disabled" : "" ;
                 if($row['taken'] == 0 ){
-                    return '<button @click="taken('.$row['id'].')" class="badge badge-sm bg-danger"> not taken </button>';
+                    return '<button '.$disabled.' @click="taken('.$row['id'].')" class="badge badge-sm bg-danger"> not taken </button>';
                 }else{
-                    return '<button @click="nottaken('.$row['id'].')" class="badge badge-sm bg-success"> taken </button>';
+                    return '<button '.$disabled.' @click="nottaken('.$row['id'].')" class="badge badge-sm bg-success"> taken </button>';
                 }
             }
             if(in_array(session()->get('role'), ['cashier']) && $row['printed'] == 0 && !session()->has('phistory')){
@@ -117,13 +124,14 @@ class AssignedMedicineModel extends Model
 
     public function medicineByDoctor($doctor = '', $start_date="", $end_date=""){
         $builder = $this->db->table('assignedmedicines');
-        $builder->select('user.first_name as doctor_first_name, user.last_name as doctor_last_name, patients.first_name, patients.middle_name, patients.sir_name, patients.phone_no, patients.address, assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.taken, patients_file.file_no, items.name, items.selling_price');
+        $builder->select('user.first_name as doctor_first_name, user.last_name as doctor_last_name, patients.first_name, patients.middle_name, patients.sir_name, patients.phone_no, patients.address, assignedmedicines.id, assignedmedicines.updated_at, assignedmedicines.qty, assignedmedicines.taken, patients_file.file_no, items.name, items.selling_price');
         $builder->join('items', 'assignedmedicines.drug_id = items.id');
         $builder->join('patients_file', 'assignedmedicines.file_id = patients_file.id');
         $builder->join('patients', 'patients_file.patient_id = patients.id');
         $builder->join('user', 'assignedmedicines.doctor = user.id');
         $builder->groupStart();
-        $builder->where('assignedmedicines.taken', 1);
+        // $builder->where('assignedmedicines.taken', 1);
+        $builder->where('assignedmedicines.confirmed_by !=', 0);
         if(!empty($doctor)){
             $builder->where('assignedmedicines.doctor', $doctor);
         }

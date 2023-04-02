@@ -10,21 +10,21 @@
                   <th scope="col">Date</th>
                   <th scope="col">Procedure</th>
                   <th scope="col">Procedure note</th>
-                  <th scope="col">Amount</th> 
-                  <th scope="col">Status</th> 
+                  <!-- <th scope="col">Amount</th>  -->
+                  <!-- <th scope="col">Status</th>  -->
                   <th scope="col">Doctor</th>
                  
-                     <th scope="col" >Action</th>
+                     <!-- <th scope="col" >Action</th> -->
                  
                   <!-- <th scope="col" >update</th> -->
                </tr>
             </thead>
-            <tfoot>
+            <!-- <tfoot>
                <tr>
                   <th colspan="3" style="text-align:right">Total:</th>
                   <th colspan="4"></th>
                </tr>
-           </tfoot>
+           </tfoot> -->
         </table>
       </div><!-- /procedure-table -->
     
@@ -44,7 +44,7 @@
           "searching": false,
           "serverSide": true,
           "ajax": {
-            url: "<?= base_url('patientFileController/ajax_assignedprocedure') ?>",
+            url: "<?= base_url('patientFileController/ajax_assignedprocedureResult') ?>",
             type: "POST",
             data: {
               file_id: <?= $patient_file->id ?>,

@@ -14,19 +14,24 @@
                   <th scope="col">Days</th>
                   <th scope="col">Qty</th>
                   <th scope="col">Instruction</th>
-                  <th scope="col">Paid</th>
-                  <th scope="col">Price/Qty</th>
-                  
+                  <?php
+                  //   if(!session()->get('phistory')){ ?>
+
+                        <th scope="col">Paid</th>
+                        <th scope="col">Price/Qty</th>
+
+                  <?php //}
+                  ?>
                       <th scope="col" >Action</th>
                    
                </tr>
             </thead>
-            <tfoot>
+            <!-- <tfoot>
                <tr>
                   <th colspan="9" style="text-align:right">Total:</th>
                   <th colspan="2"></th>
                </tr>
-           </tfoot>
+           </tfoot> -->
         </table>
     </div><!-- /medicine-table -->
     

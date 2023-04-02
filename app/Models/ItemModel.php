@@ -107,7 +107,7 @@ class ItemModel extends Model
             $edit = in_array('can_edit_drug', session()->get('permission')) ?  '<a href="/store/updateitem/'.$row['id'].'" class="badge bg-info"> Update</a>' : '';
             $delete = in_array('can_delete_drug', session()->get('permission')) ?  '<a href="/store/deleteitem/'.$row['id'].'" class="badge bg-danger"> Delete </a>' : '';
 
-             return $edit. ' ' . $delete;  
+            return $edit. ' ' . $delete;  
         };
         return $button;
     }
