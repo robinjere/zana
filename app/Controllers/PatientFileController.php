@@ -816,12 +816,33 @@ class PatientFileController extends BaseController
         'verified_by' => $this->request->getVar('verified_by')
     ];
 
-       $img = $this->request->getFile('attachment');
-       if($img->isValid()){
-           $img->move('./uploads');
-           $file_name =  $img->getName();
-           $_result['attachment'] = $file_name;
-       }
+    
+    // echo json_encode($_result);
+    // echo json_encode($this->request->isJSON());
+    // exit;
+
+        // if($this->request->isJSON() == false){
+            $img = $this->request->getFile('attachment');
+            if($img){
+                try{
+                    if($img->isValid()){
+                        $img->move('./uploads');
+                        $file_name =  $img->getName();
+                        $_result['attachment'] = $file_name;
+                    } 
+                } catch(\Exception $e){
+                    echo json_encode(['success' => false, 'message' => 'Failed to upload attachment. ' . $e->getMessage()]);
+                    return;
+                }
+            }
+            
+           
+        // }
+      
+      if(empty($_result['id'])){
+        echo json_encode(['success' => false, 'message' => 'Failed to update or add lab test result. ID is missing.']);
+        return;
+      }
 
       if($labtestResult->save($_result)){
           echo json_encode(['success'=> true, 'message' => 'successful lab test result added!']);

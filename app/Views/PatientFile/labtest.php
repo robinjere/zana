@@ -198,7 +198,7 @@
               </div><!-- /d-flex -->
               <template x-if="!loading && labtestResult.id != ''">  
                
-               <form @submit.prevent="addLabTestResult($event.target)" method="post" enctype="multipart/form-data" >           
+               <form @submit.prevent="addLabTestResult($event.target)" method="post" >           
                <!-- <form  method="post" enctype="multipart/form-data" >  -->
                 <!-- <input type="hidden" name="verified_by" value="<?= session()->get('id') ?>"/> -->
                 <!-- <input type="hidden" name="id" :value="labtestResult.id"/>          -->
@@ -374,7 +374,28 @@
               this.loading = true;
               let labResult = {};
 
-              const attachment = document.getElementById('attachment_').files[0];
+              const attachment = document.getElementById('attachment_')
+              
+              
+            //Create an object from the form data entries
+            //   let formDataObject = Object.fromEntries(formData.entries());
+            // Format the plain form data as JSON
+            //   let formDataJsonString = JSON.stringify(formDataObject);
+            //  let withImage = {
+            //     method: 'post',
+            //     headers: {
+            //      'Content-Type': 'application/json',
+            //       Accept: 'application/json',
+            //      'X-Requested-With': 'XMLHttpRequest'
+            //     },
+            //     body: formData
+            //   }
+
+            //   console.log('withImage values', withImage)
+
+              //determine if there is file or not
+              if(attachment.files.length > 0){
+               //send a file
               const formData = new FormData()
               formData.append('id', this.labtestResult.id)
               formData.append('result', this.labtestResult.result)
@@ -382,23 +403,9 @@
               formData.append('level', this.labtestResult.level)
               formData.append('unit', this.labtestResult.unit)
               formData.append('verified_by', <?= session()->get('id') ?>)
-              formData.append('attachment', attachment)
-              
-              //Create an object from the form data entries
-            //   let formDataObject = Object.fromEntries(formData.entries());
-              // Format the plain form data as JSON
-            //   let formDataJsonString = JSON.stringify(formDataObject);
+              formData.append('attachment', attachment.files[0])
 
-            
-              fetch('<?= base_url('patientFileController/ajax_addLabTestResult') ?>', {
-                method: 'post',
-               //  headers: {
-               //   'Content-Type': 'application/json'
-               //    Accept: 'application/json',
-               //   'X-Requested-With': 'XMLHttpRequest'
-               //  },
-                body: formData
-              }).then(res => { if(res.ok) { return res.text() }else {  throw new Error('Network response was not ok.'); } }).then(data => {
+               fetch("<?= base_url('patientFileController/ajax_addLabTestResult') ?>", { method: 'post', body: formData }).then(res => res.text()).then(data => {
                      //   console.log('after added result ----> data', data); 
                      //   console.log('yaan ----> data', data); 
                        this.loading = false;
@@ -423,6 +430,52 @@
              }).catch(error => {
                console.log('error throw here', error)
              })
+              }else{
+                //no file included 
+                fetch('<?= base_url('patientFileController/ajax_addLabTestResult') ?>', {
+                 method: 'post',
+                 headers: {
+                  'Content-Type': 'application/json',
+                   Accept: 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                 },
+                 body: JSON.stringify({
+                   'id': this.labtestResult.id,
+                   'result': this.labtestResult.result,
+                   'ranges': this.labtestResult.ranges,
+                   'level': this.labtestResult.level,
+                   'unit': this.labtestResult.unit,
+                   'verified_by': <?= session()->get('id') ?>,
+                   'attachment': ''
+                 })               
+               }).then(res => res.json()).then(data => {
+                       //   console.log('after added result ----> data', data); 
+                       //   console.log('yaan ----> data', data); 
+                         this.loading = false;
+  
+                         this.labtestResult.id = ''
+                         this.labtestResult.result = ''
+                         this.labtestResult.ranges = ''
+                         this.labtestResult.unit = ''
+                         this.labtestResult.level = ''
+                         this.labtestResult.attachment = ''
+  
+                         //call labtest result..
+                         let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('lab_Results')) // Returns a Bootstrap modal instance
+                         let modal2 = bootstrap.Modal.getOrCreateInstance(document.getElementById('addLabtestResult_')) // Returns a Bootstrap modal instance
+                         // Show or hide:
+  
+                         modal.show();
+                         labTestResults();
+                         modal2.hide();
+  
+                       // console.log('labtest result after', data);
+               }).catch(error => {
+                 console.log('error throw here', error)
+               })
+              }
+
+            
          },
          confirmPaymentLabTestResult(labtestId){
             fetch('<?= base_url('patientFileController/confirmPaymentLabTestResult') ?>',{
