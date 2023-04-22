@@ -38,16 +38,23 @@
                             <td><b>:</b> </td>
                             <td>Medicine Receipt</td>
                           </tr>
-                          <tr>
-                            <td><b> Full name </b> </td>
-                            <td><b>:</b> </td>
-                            <td><?= $full_name ?> </td>
-                          </tr>
-                          <tr>
-                            <td><b> File number </b> </td>
-                            <td><b>:</b> </td>
-                            <td><?= $file_no ?></td>
-                          </tr>
+                          <?php
+                            if( isset($full_name) ){ ?>
+                            <tr>
+                              <td><b> Full name </b> </td>
+                              <td><b>:</b> </td>
+                              <td><?= $full_name ?> </td>
+                            </tr>
+                          <?php  } ?>
+
+                          <?php if(isset($file_no)){ ?>
+                            <tr>
+                              <td><b> File number </b> </td>
+                              <td><b>:</b> </td>
+                              <td><?= $file_no ?></td>
+                            </tr>
+                          <?php } ?>
+
                         </tbody>
                       </table>
 

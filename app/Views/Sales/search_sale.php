@@ -139,7 +139,7 @@
    </div>
   <!-- current sales will be displayed here -->
 
-  <form action="<?= base_url('report/risit') ?>" method="post">
+  <form action="<?= base_url('report/risit') ?>" method="post" targe="_blank">
     <div class="d-flex mb-4 justify-content-end">
       <button type="submit" class="btn btn-info text-white" id="generate_risit">Generate Risit</button>
     </div>

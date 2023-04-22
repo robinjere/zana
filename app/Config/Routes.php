@@ -72,7 +72,9 @@ $routes->group('ward', function($routes){
      $routes->get('general-examination/(:num)', 'PatientFileController::historyGeneralExamination/$1', ['filter' => 'auth']);
      $routes->get('diagnosis/(:num)', 'PatientFileController::historyDiagnosis/$1', ['filter' => 'auth']);
      $routes->get('labtest/(:num)', 'PatientFileController::historyLabtest/$1', ['filter' => 'auth']);
+     $routes->get('outsider-labtest/(:num)', 'PatientFileController::outsiderHistoryLabtest/$1', ['filter' => 'auth']);
      $routes->get('radiology/(:num)', 'PatientFileController::historyRadiology/$1', ['filter' => 'auth']);
+     $routes->get('outsider-radiology/(:num)', 'PatientFileController::outsiderHistoryRadiology/$1', ['filter' => 'auth']);
      $routes->get('medicine/(:num)', 'PatientFileController::historyMedicine/$1', ['filter' => 'auth']);
      $routes->get('procedures/(:num)', 'PatientFileController::historyProcedures/$1', ['filter' => 'auth']);
      $routes->get('outsider/(:num)', 'PatientFileController::outsiderHistory/$1', ['filter' => 'auth']);

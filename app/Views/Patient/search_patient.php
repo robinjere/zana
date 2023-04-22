@@ -160,10 +160,17 @@
                          <a href="'.base_url('patientfile/consult/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> CONSULT  </a> 
                       </div>';
 
-         $VIEWHISTORY =   '<div class="col d-flex justify-content-end align-items-center"> 
-                         <a href="'.base_url('patientfile/history/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> VIEW HISTORY  </a> 
-                      </div>';
-                      
+         $VIEWHISTORY  = '';    
+        if($patient_info->patient_character == 'outsider'){
+            $VIEWHISTORY = '<div class="col d-flex justify-content-end align-items-center"> 
+                             <a href="'.base_url('history/outsider-labtest/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> VIEW HISTORY  </a> 
+                           </div>';
+        }else{
+            $VIEWHISTORY = '<div class="col d-flex justify-content-end align-items-center"> 
+                             <a href="'.base_url('history/clinical-note/'.$patient_info->file_id).'" class="btn btn-success btn-sm"> VIEW HISTORY  </a> 
+                         </div>';
+        }
+
         $CANCEL_CONSULTATION = '';
         $APPROVE_PAYMENT = '';
         $DIS_APPROVE = '';

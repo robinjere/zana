@@ -76,7 +76,10 @@
 
  <div>
    <p class="m-0"> Sales done by <b><i> <?= strtolower($cashier_name) ?> </i></b> </p>
-   <p class="m-0"> FROM <?= date_format(date_create($start_date), 'd, F Y') ?> TO  <?= date_format(date_create($end_date), 'd, F Y') ?> </p>
+   <?php
+     if(isset($start_date) && isset($end_date)){ ?>
+       <p class="m-0"> FROM <?= date_format(date_create($start_date), 'd, F Y') ?> TO  <?= date_format(date_create($end_date), 'd, F Y') ?> </p>
+   <?php  } ?>
  </div>
 
  

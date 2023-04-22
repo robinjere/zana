@@ -443,9 +443,11 @@ class ReportController extends BaseController
 
     public function sales_risit(){
         $salesModel = new SalesModel;
+        $userModel = new UserModel;
         $data = [];
         if($this->request->getMethod() == 'post'){
            $sales = $this->request->getVar('sales_id');
+
            if(empty($sales)){
                return redirect()->to('sales/searchsale')->with('error', 'No Item Sold');
            }
@@ -459,22 +461,33 @@ class ReportController extends BaseController
                # code...
                $item_sales [] = $salesModel->get_sale($sale);
            }
-           $data['sales'] = $item_sales;
+
+           $data['medicineList'] = $item_sales;
+
+            //cashier full name,
+            // if($cashier_id){
+                // $cashier = $userModel->where('id', session()->get('id'))->first();
+                // $data['full'] = $cashier['first_name'] .' '. $cashier['last_name'];
+            // }
+
         }
 
         $store = new StoreController;
 
         $data['clinic_contacts'] = $store->get_clinic_info();
-  
-        view('report/sales_risit', $data);
 
-        $dompdf = new \Dompdf\Dompdf(); 
-        $dompdf->loadHtml(view('report/sales_risit', $data));
+        // print_r($data);
+        // exit;
+  
+        return view('risit/medicine', $data);
+
+        // $dompdf = new \Dompdf\Dompdf(); 
+        // $dompdf->loadHtml(view('report/sales_risit', $data));
         // $dompdf->setPaper('A4', 'portait');
-        $customPaper = array(0,0,302.36220472, 1122.519685);
-        $dompdf->setPaper($customPaper);
-        $dompdf->render();
-        $dompdf->stream("drugs.pdf", array("Attachment"=>0));
+        // $customPaper = array(0,0,302.36220472, 1122.519685);
+        // $dompdf->setPaper($customPaper);
+        // $dompdf->render();
+        // $dompdf->stream("drugs.pdf", array("Attachment"=>0));
     }
     
 }

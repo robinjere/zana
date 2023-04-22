@@ -46,11 +46,19 @@ class AssignedDiagnosesModel extends Model
         $builder = $this->db->table('assigneddiagnoses');
         $builder->select('assigneddiagnoses.id, assigneddiagnoses.updated_at, assigneddiagnoses.diagnoses_type, assigneddiagnoses.diagnoses_note, diagnoses.diagnosis_code, diagnoses.diagnosis_description');
         $builder->join('diagnoses', 'diagnoses.id = assigneddiagnoses.diagnoses_id');
-        // $builder->join('user', 'assigned_procedures.doctor = user.id');
+        
+        if(session()->get('clinic')){
+            $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
+            $builder->join('user', 'assigneddiagnoses.doctor = user.id');
+            $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
+        }
+
         $builder->groupStart();
         if($start_date != null || $end_date != null){
             $builder->where('DATE(assigneddiagnoses.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
+        
+
         $builder->where('assigneddiagnoses.file_id', $file_id);
         $builder->where('assigneddiagnoses.diagnoses_type', $diagnoses_type);
         $builder->groupEnd();

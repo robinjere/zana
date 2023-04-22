@@ -49,6 +49,11 @@ class AssignedLabtestModel extends Model
         if($start_date != null || $end_date != null){
             $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
+        if(session()->get('clinic')){
+            $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
+            $builder->join('user', 'assigned_labtests.doctor = user.id');
+            $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
+        }
         $builder->where('assigned_labtests.file_id', $file_id);
         $builder->groupEnd();
        
@@ -65,6 +70,12 @@ class AssignedLabtestModel extends Model
         if($start_treatment != null || $end_treatment != null){
             $builder->where('DATE(assigned_labtests.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_treatment)) .'" and "'. date('Y-m-d', strtotime($end_treatment)) .'"');
         }
+        if(session()->get('clinic')){
+            $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
+            $builder->join('user', 'assigned_labtests.doctor = user.id');
+            $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
+        }
+        
         $builder->groupEnd();
        
         return $builder;

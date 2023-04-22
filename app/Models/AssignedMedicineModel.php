@@ -50,6 +50,11 @@ class AssignedMedicineModel extends Model
             if($start_date != null || $end_date != null){
                 $builder->where('DATE(assignedmedicines.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
             }
+            if(session()->get('clinic')){
+                $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
+                $builder->join('user', 'assignedmedicines.doctor = user.id');
+                $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
+            }
             $builder->where('assignedmedicines.file_id', $file_id);
             $builder->groupEnd();
             return $builder;

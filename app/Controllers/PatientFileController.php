@@ -82,17 +82,17 @@ class PatientFileController extends BaseController
     }
 
     /// outsiderHistory..
-    public function outsiderHistory(int $file_id){
-        session()->set('phistory', true);
+    // public function outsiderHistory(int $file_id){
+    //     session()->set('phistory', true);
         
-        $clinicalModel = new ClinicModel;
-        $patientsFileModel = new PatientsFileModel;
-        $clinicalNoteModel = new ClinicalNoteModel;
+    //     $clinicalModel = new ClinicModel;
+    //     $patientsFileModel = new PatientsFileModel;
+    //     $clinicalNoteModel = new ClinicalNoteModel;
 
-        $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
-        $data['clinical_notes'] =  $clinicalNoteModel->getClinicalNotes($file_id); // 
-        return view('patient/history/clinical_note', $data);
-    }
+    //     $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+    //     $data['clinical_notes'] =  $clinicalNoteModel->getClinicalNotes($file_id); // 
+    //     return view('patient/history/clinical_note', $data);
+    // }
 
     public function historyClinicalNote(int $file_id){
         //add session history
@@ -103,6 +103,7 @@ class PatientFileController extends BaseController
         $clinicalNoteModel = new ClinicalNoteModel;
 
         $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+
         $data['clinical_notes'] =  $clinicalNoteModel->getClinicalNotes($file_id);
 
         return view('patient/history/clinical_note', $data);
@@ -133,10 +134,26 @@ class PatientFileController extends BaseController
         return view('patient/history/labtest', $data);
     }
 
+
+    public function outsiderHistoryLabtest(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+
+        $data['patient_file'] =  $patientsFileModel->outsiderPatientFile($file_id);
+        // print_r($data['patient_file']); exit;
+
+        return view('patient/history/labtest', $data);
+    }
+ 
     public function historyRadiology(int $file_id){
         $patientsFileModel = new PatientsFileModel;
 
         $data['patient_file'] =  $patientsFileModel->patientFile($file_id);
+        return view('patient/history/radiology', $data);
+    }
+
+    public function outsiderHistoryRadiology(int $file_id){
+        $patientsFileModel = new PatientsFileModel;
+        $data['patient_file'] =  $patientsFileModel->outsiderPatientFile($file_id);
         return view('patient/history/radiology', $data);
     }
 
@@ -498,6 +515,9 @@ class PatientFileController extends BaseController
 
        // print_r($assignedMedicineModel->getAssignedMedicine($file_id, $start_date, $end_date));
        // exit;
+
+    //    print_r($assignedLabtestModel->AssignedResultTable($file_id, $start_treatment, $end_treatment));
+    //    exit;
 
        $data_table = new TablesIgniter();
        $data_table->setTable($assignedLabtestModel->AssignedResultTable($file_id, $start_treatment, $end_treatment))
