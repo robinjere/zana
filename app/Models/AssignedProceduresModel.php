@@ -14,7 +14,7 @@ class AssignedProceduresModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','procedure_note','amount','confirmed_by','created_at', 'treatment_ended'];
+    protected $allowedFields    = ['file_id','procedure_id','diagnosis','doctor','file','procedure_note', 'noteby', 'amount','confirmed_by','created_at', 'treatment_ended'];
 
     // Dates
     protected $useTimestamps = true;
@@ -49,7 +49,7 @@ class AssignedProceduresModel extends Model
         if($start_date != null || $end_date != null){
             $builder->where('DATE(assigned_procedures.created_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
-        if(session()->get('clinic')){
+        if(session()->get('clinic') && session()->get('phistory') != true){
             $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
             // $builder->join('user', 'assigned_procedures.doctor = user.id');
             $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
@@ -82,6 +82,10 @@ class AssignedProceduresModel extends Model
         return function($row){
             if(session()->get('role') == 'doctor' && $row['confirmed_by'] == 0 && !session()->has('phistory')){
                 return '<button onclick="deleteProcedure('.$row['id'].')" class="badge badge-sm  bg-danger"> delete </button>';
+            }
+            if(session()->get('role') == 'doctor' && $row['confirmed_by'] != 0 && !session()->has('phistory')){
+                $text = $row['procedure_note'] != '' ? 'Edit Procedure Note' : 'Add Procedure Note';
+                return '<button @click="selectedProcedure = '. $row['id'] .'; getProcedureById(); "  data-bs-toggle="modal" data-bs-target="#ProcedureModalNote"  type="button" class="btn btn-sm btn-success" > '. $text .'</button> ';
             }
             if(session()->get('role') == 'cashier' && $row['printed'] == 0 && !session()->has('phistory')){
                 if($row['confirmed_by'] != 0){

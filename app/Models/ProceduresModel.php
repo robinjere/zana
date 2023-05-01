@@ -46,6 +46,12 @@ class ProceduresModel extends Model
         return $builder;
     }
 
+    public function searchProcedure(String $search){
+        $builder = $this->db->table('procedures');
+        $builder->like('name', $search);
+        return $builder->get()->getResult();
+    }
+
     public function procedureDateFormat(){
         return function($row){
             return date_format(date_create($row['updated_at']), 'd-m-Y');

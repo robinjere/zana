@@ -266,11 +266,40 @@ class PatientFileController extends BaseController
             }
         }
     }
+
+    public function ajax_addProcedureNote(){
+        $assignedProceduresModel =  new AssignedProceduresModel;
+        if($this->request->getMethod() == 'post'){
+            if($assignedProceduresModel->save(['id'=> $this->request->getVar('procedure_id'), 'noteby' => $this->request->getVar('noteby'), 'procedure_note' => $this->request->getVar('procedure_note')])){
+                echo json_encode(['success' => true, 'message' => 'Procedure Note added!']);   
+            }else{
+                echo json_encode(['success' => false, 'message' => 'Failed to add procedure Note!']); 
+            }
+        }
+    }
+    public function ajax_getProcedureById(){
+        if($this->request->getMethod() == 'post'){
+            $assignedProceduresModel =  new AssignedProceduresModel;
+            $procedure = $assignedProceduresModel->where('id', $this->request->getVar('procedureId'))->first();
+            echo json_encode($procedure); 
+        }
+    }
     
     public function ajax_getprocedures(){
         $proceduresModel = new ProceduresModel;
         echo json_encode($proceduresModel->findAll());
     }
+    
+    public function ajax_searchprocedure(){
+        $proceduresModel = new ProceduresModel;
+        if($this->request->getMethod() == 'post'){
+            $result = $proceduresModel->searchProcedure($this->request->getVar('searchInput'));
+            echo json_encode($result);
+        }else{
+            echo json_encode(['success' => false, 'message' =>  'error occurs during search']);
+        }
+    }
+
     public function ajax_deleteprocedure(){
        $assignedProceduresModel =  new AssignedProceduresModel;
        if($this->request->getMethod() == 'post'){

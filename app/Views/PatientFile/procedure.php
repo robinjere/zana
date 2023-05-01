@@ -1,4 +1,4 @@
-<div id="procedure" class="procedures" x-data="proceduresData()" x-init="getProcedures()">
+<div id="procedure" class="procedures" x-data="proceduresData()" >
  
    <div class="d-flex justify-content-between align-items-center mb-2">
       <h5>
@@ -35,7 +35,7 @@
      <?php } ?>
       
       
-      <!-- Modal -->
+      <!-- Modal Assign procedure -->
       <div class="modal fade" id="ProcedureModalId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -43,34 +43,90 @@
                   <h5 class="modal-title">Assign Procedure</h5>
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
-               <form x-on:submit.prevent="assignProcedure()" >
-               <div class="modal-body">                       
+
+               <!-- <form x-on:submit.prevent="assignProcedure()" > -->
+               <div class="modal-body">  
+
+                           <div class="d-flex justify-content-center align-items-center">
+                              <input type="text" x-model="searchInput" @keyup="searchProcedure()" class="form-control" name="" id="" aria-describedby="helpId" placeholder=" Search procedure">
+                           </div><!-- /d-flex -->    
+                           
+                              <div class="d-flex justify-content-center align-items-center mt-2">
+                                 <div x-cloak x-show="loading" class="spinner-border" role="status">
+                                       <span class="visually-hidden">Loading...</span>
+                                 </div><!-- /spinner-border -->
+                              </div><!-- /d-flex -->
+
+                              <div class="d-flex justify-content-center align-items-center">
+                                 <template x-if="availableProcedures.length">
+                                    <ul class="list-group mt-1 w-100" style="overflow-y: scroll; max-height: 170px;">
+                                    <!-- <a href="#" class="list-group-item list-group-item-action active">Active item</a> -->
+                                    <template x-for="p in availableProcedures">
+                                       <li @click="selectedProcedure = p.id; assignProcedure(); " class="list-group-item list-group-item-action" x-text="`${p.name.toUpperCase()}` ">Active item</li>
+                                    </template>
+                                    </ul><!-- /ul -->
+                                 </template>
+                              </div><!-- /d-flex -->
       
-                           <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
+                           <!-- <select x-model="selectedProcedure" class="form-select" aria-label="Select procedure">
                            <option selected> select procedure</option>
                            <template x-for="p in availableProcedures" :key="p.id">
                               <option :value="p.id" x-text="p.name"></option>
-                           </template>
+                           </template> -->
                            <!-- <option value="2">Two</option>
                            <option value="3">Three</option> -->
-                           </select>
+                           <!-- </select> -->
                   
-                           <div class="mt-2">
+                           <!-- <div class="mt-2"> -->
                               <!-- <label for="" class="form-label"></label> -->
+                              <!-- <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
+                           </div> -->
+
+               </div><!-- /modal-body -->
+               <!-- <div class="modal-footer"> -->
+                  <!-- <button type="button" class="btn btn-secondary" >Close</button>
+                  <button type="button" class="btn btn-primary">Save</button> -->
+                  <!-- <button type="submit" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Submit Procedure</button> -->
+               <!-- </div> -->
+               <!-- </form>/form -->
+            </div>
+         </div>
+      </div>
+      <!-- /Modal Assign Procedure -->
+      
+      <!-- Modal Add procedure note -->
+      <div class="modal fade" id="ProcedureModalNote" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Add Procedure Note</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+
+               <form x-on:submit.prevent="addProcedureNote()" >
+               <div class="modal-body">  
+                           
+                              <div class="d-flex justify-content-center align-items-center ">
+                                 <div x-cloak x-show="loading" class="spinner-border" role="status">
+                                       <span class="visually-hidden">Loading...</span>
+                                 </div><!-- /spinner-border -->
+                              </div><!-- /d-flex -->
+                  
+                           <div>
+                              <label for="" class="form-label"></label>
                               <textarea class="form-control" x-model="procedureNote" placeholder="Add procedure note"></textarea>
                            </div>
 
                </div><!-- /modal-body -->
                <div class="modal-footer">
-                  <!-- <button type="button" class="btn btn-secondary" >Close</button>
-                  <button type="button" class="btn btn-primary">Save</button> -->
-                  <button type="submit" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Submit Procedure</button>
+                  <button type="button" class="btn btn-sm btn-secondary" >Close</button>
+                  <button type="submit" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Submit Note </button>
                </div>
-               </form><!-- /form -->
+               </form> <!-- /form -->
             </div>
          </div>
       </div>
-      <!-- /Modal -->
+      <!-- /Modal Add Procedure -->
       
       
 
@@ -147,6 +203,7 @@
 function proceduresData(){
      
      return {
+        loading: false,
         startDate: '<?= date('Y-m-d', strtotime($patient_file['start_treatment'])) ?>',
         endDate: '<?= date('Y-m-d', strtotime($patient_file['end_treatment'])) ?>', 
         isAssign: false,
@@ -154,13 +211,65 @@ function proceduresData(){
         procedure: {id: '', name:'', price:0 },
         selectedProcedure: 0,
         procedureNote: '',
-        availableProcedures: [{id: '', name:'', price:0 }],
+      //   availableProcedures: [{id: '', name:'', price:0 }],
+        availableProcedures: [],
         success: false, 
         message: '',
         alertTime: '',
+        searchInput: '',
         filterProcedures(selectedProcedure){
             // console.log('this invoked!')
             this.procedure = this.availableProcedures.filter(procedure => Number(procedure.id) == Number(selectedProcedure))[0]
+        },
+        getProcedureById(){
+         let procedureId = this.selectedProcedure;
+         fetch('<?= base_url('patientFileController/ajax_getProcedureById') ?>',{
+                  method: 'post',
+                  headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify({
+                     procedureId
+                  })
+               }).then(res => res.json()).then(data => {
+                  // this.loading = false;
+                  // if(data.success && data.success == true){
+                  //    console.log(data)
+                  //    return
+                  // }
+                  // this.availableProcedures = data;
+                  this.procedureNote = data.procedure_note;
+
+                  // console.log('procedure by id', data);
+               })
+        },
+        searchProcedure(){
+            if(this.searchInput !== ''){
+               this.loading = true;
+               fetch('<?= base_url('patientFileController/ajax_searchprocedure') ?>',{
+                  method: 'post',
+                  headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify({
+                     searchInput: this.searchInput
+                  })
+               }).then(res => res.json()).then(data => {
+                  this.loading = false;
+                  if(data.success && data.success == true){
+                     console.log(data)
+                     return
+                  }
+                  this.availableProcedures = data;
+               })
+            }else{
+               // this.availableProcedures = [{id: '', name:'', price:0 }]
+               this.availableProcedures = []
+            } 
         },
         getProcedures(){
            fetch('<?= base_url('patientFileController/ajax_getprocedures')?>', {
@@ -170,19 +279,21 @@ function proceduresData(){
              this.availableProcedures = data
            })
         },
-        assignProcedure(){
-          this.filterProcedures(this.selectedProcedure);
-          fetch('<?= base_url('patientFileController/ajax_assignprocedure') ?>', {
+        addProcedureNote(){
+         //  this.filterProcedures(this.selectedProcedure);
+          this.loading = true;
+         //  this.availableProcedures = []
+
+          fetch('<?= base_url('patientFileController/ajax_addProcedureNote') ?>', {
               method: 'POST',
               headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
               body: JSON.stringify({
-               file_id: <?= $patient_file['id'] ?>,
-               procedure_id: Number(this.procedure.id),
-               doctor: <?= session()->get('id') ?>,
-               procedure_note: this.procedureNote,
-               amount: this.procedure.price
+               procedure_id: Number(this.selectedProcedure),
+               noteby: <?= session()->get('id') ?>,
+               procedure_note: this.procedureNote
               })
            }).then(res => res.json()).then(data => {
+                this.loading = false;
                 this.success = data.success
                 this.message = data.message
                 this.selectedProcedure = 0
@@ -191,6 +302,38 @@ function proceduresData(){
                 this.isAssign = false
                 this.clearAlert()
                 proceduresTable()
+                let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('ProcedureModalNote')) 
+                modal.hide()
+           }).catch(error => console.log('error', error))
+        },
+        assignProcedure(){
+          this.filterProcedures(this.selectedProcedure);
+          this.loading = true;
+          this.availableProcedures = []
+
+          fetch('<?= base_url('patientFileController/ajax_assignprocedure') ?>', {
+              method: 'POST',
+              headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'},
+              body: JSON.stringify({
+               file_id: <?= $patient_file['id'] ?>,
+               procedure_id: Number(this.procedure.id),
+               doctor: <?= session()->get('id') ?>,
+               // procedure_note: this.procedureNote,
+               procedure_note: '',
+               amount: this.procedure.price
+              })
+           }).then(res => res.json()).then(data => {
+                this.loading = false;
+                this.success = data.success
+                this.message = data.message
+                this.selectedProcedure = 0
+                this.procedureNote= ''
+                this.showAssignBtn = true
+                this.isAssign = false
+                this.clearAlert()
+                proceduresTable()
+                let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('ProcedureModalId')) 
+                modal.hide()
            }).catch(error => console.log('error', error))
         },
         clearAlert(){

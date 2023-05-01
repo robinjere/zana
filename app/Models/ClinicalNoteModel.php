@@ -53,7 +53,7 @@ class ClinicalNoteModel extends Model
             $builder->where('DATE(clinicalnotes.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
         $builder->where('clinicalnotes.file_id', $file_id);
-        if(session()->get('clinic')){
+        if(session()->get('clinic') && session()->get('phistory') != true){
             $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
             $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
         }

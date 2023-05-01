@@ -147,7 +147,7 @@ $patient_file = [
              <a type="button" href="<?= base_url('patientfile/finish/'. $patient_file['id'])?>" class="btn btn-success"> FINISH TREATMENT </a>
          <?php } ?>
          <?php if($uri->getSegment(1) !== 'history'){ 
-            if($patient_file['patient_character'] == 'inpatient'){
+            if($patient_file['patient_character'] == 'inpatient' || $patient_file['patient_character'] == 'outpatient'){
                  if(session()->get('role') == 'pharmacy'){?>
                     <a href="<?= base_url('history/medicine/'.$patient_file['id']) ?>" class="btn btn-success"> PATIENT HISTORY </a>
                  <?php }else{ ?>

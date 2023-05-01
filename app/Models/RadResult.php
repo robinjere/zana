@@ -49,7 +49,7 @@ class RadResult extends Model
         if($start_date != null && $end_date != null){
             $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
-        if(session()->get('clinic')){
+        if(session()->get('clinic') && session()->get('phistory') != true){
             $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
             $builder->join('user', 'rad_results.doctor = user.id');
             $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
@@ -69,9 +69,9 @@ class RadResult extends Model
         if($start_date != null && $end_date != null){
             $builder->where('DATE(rad_results.updated_at) BETWEEN "'. date('Y-m-d', strtotime($start_date)) .'" and "'. date('Y-m-d', strtotime($end_date)) .'"');
         }
-        if(session()->get('clinic')){
+        if(session()->get('clinic') && session()->get('phistory') != true){
             $builder->where('clinic_doctors.clinic_id', session()->get('clinic'));
-            $builder->join('user', 'rad_results.doctor = user.id');
+            // $builder->join('user', 'rad_results.doctor = user.id');
             $builder->join('clinic_doctors', 'user.id = clinic_doctors.user_id');
         }
         $builder->where('rad_results.file_id', $file_id);
