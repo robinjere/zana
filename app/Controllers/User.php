@@ -22,70 +22,59 @@ class User extends BaseController
         return redirect()->to('/user/login');
     }
 
-    public function login(){
-        $data = [];
+    public function login()
+{
+    $data = [];
 
-        helper('form');
+    helper('form');
 
-        if($this->request->getMethod() == 'post'){
-            $rules = [
-                'email' => 'required|valid_email',
-                'password' => 'required|min_length[5]|validate_user[email,password]'
-            ];
+    if ($this->request->getMethod() == 'post') {
+        $rules = [
+            'email' => 'required|valid_email',
+            'password' => 'required|min_length[5]|validate_user[email,password]'
+        ];
 
-            $errors = [
-                'password' => [
-                    'validate_user' => 'Email or password don\'t match'
-                ]
-            ];
+        $errors = [
+            'password' => [
+                'validate_user' => 'Email or password don\'t match'
+            ]
+        ];
 
-            if(!$this->validate($rules, $errors)){
+        try {
+            if (!$this->validate($rules, $errors)) {
                 $data['validation'] = $this->validator;
-            }else{
+            } else {
                 $user = new UserModel();
-                $clinicDoctors = new ClinicDoctorsModel;
-                $LoginUser = $user->where('email', $this->request->getVar('email'))
-                                  ->first();
-                $user_clinic = $clinicDoctors->where('user_id', $LoginUser['id'])->first();
-                $LoginUser['clinic'] = empty($user_clinic)? '' : $user_clinic['clinic_id'];
-
-                // print_r($LoginUser);
-                // exit;
-                    
-                $this->setUserSession($LoginUser);
-
-                // if($LoginUser['is_info_confirmed']){
-                //     if($LoginUser['is_active'])
-                //         return redirect()->to('/dashboard/overview');
-                    
-                //     // return redirect()->to('/account/blocked');
-                // }else {
-                //     return redirect()->to('account/info');
-                //  }
-
-                //redirect based on session.
-                switch (session()->get('role')) {
-                    case 'admin':
-                        return redirect()->to('/store/items');
-                        break;
-
-                    case 'superuser':
-                        return redirect()->to('/store/items');
-                        break;
-                    
-                    default:
-                        return redirect()->to('/patient/search');
-                        break;
-                }
-
-                //  return redirect()->to('/store/items');
+                $clinicDoctors = new ClinicDoctorsModel();
+                $LoginUser = $user->where('email', $this->request->getVar('email'))->first();
                 
+                if (!empty($LoginUser)) {
+                    $user_clinic = $clinicDoctors->where('user_id', $LoginUser['id'])->first();
+                    $LoginUser['clinic'] = empty($user_clinic) ? '' : $user_clinic['clinic_id'];
+    
+                    $this->setUserSession($LoginUser);
+    
+                    switch (session()->get('role')) {
+                        case 'admin':
+                        case 'superuser':
+                            return redirect()->to('/store/items');
+    
+                        default:
+                            return redirect()->to('/patient/search');
+                    }
+                }
             }
+        } catch (\Exception $e) {
+            // Handle exceptions here
+            // You can log the exception or display an error message
         }
-        $clinic = new StoreController;
-        $data['clinic'] = $clinic->get_clinic_info();
-        return view('user/login', $data);
     }
+
+    $clinic = new StoreController();
+    $data['clinic'] = $clinic->get_clinic_info();
+    return view('user/login', $data);
+}
+
 
     private function setUserSession($LoginUser){
         $userPermission = new UserPermissionModel;
